@@ -39,7 +39,7 @@ public class PuuSolu extends TreeCell<Kohde> {
             if (ikkuna.annaRootSarjat().getValue().equals(item) || ikkuna.annaRootTuomarit().getValue().equals(item)) {
                 onJuuri = true;
             }
-
+System.out.println("pöö");
             if (!onJuuri) {
                 ContextMenu valikko = rakennaSolmuValikko(item);
                 setContextMenu(valikko);
