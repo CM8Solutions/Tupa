@@ -118,6 +118,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                     TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
                     parentSarjat.getChildren().clear();
                     parentTuomarit.getChildren().clear();
+                    tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                     nakyma.luoEtusivu();
                 }
 
@@ -205,7 +206,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                     }
                 }
 
-                tiedottaja.kirjoitaLoki("Tiedosto avattu.");
+                tiedottaja.kirjoitaLoki("Turnaus avattu.");
                 nakyma.luoEtusivu();
                 break;
             }
@@ -213,7 +214,7 @@ public class Valikko implements EventHandler<ActionEvent> {
             case "Tallenna": {
                 Tallennus tallenna = new Tallennus(ikkuna);
                 tallenna.suoritaTallennus();
-                tiedottaja.kirjoitaLoki("Tallennus onnistui.");
+                tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
                 break;
             }
                 

@@ -170,8 +170,8 @@ public class TuomariNakyma {
         Tuomari tuomari = (Tuomari) arvo.getValue();
 
         GridPane grid = new GridPane();
-        System.out.println("Tuomari: " + tuomari.toString());
-        System.out.println("Tuomarin turnaus: " + tuomari.annaTurnaus());
+       
+        
         //riville 1
         HBox painike = new HBox();
         painike.setSpacing(20);

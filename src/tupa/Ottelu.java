@@ -50,7 +50,7 @@ public class Ottelu implements Serializable {
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
     private transient StringProperty taulukkotulos = new SimpleStringProperty();
     private transient ObjectProperty<Date> taulukkopaiva = new SimpleObjectProperty();
-        private transient StringProperty taulukkopaivastring = new SimpleStringProperty();
+    private transient StringProperty taulukkopaivastring = new SimpleStringProperty();
     private transient StringProperty taulukkokello = new SimpleStringProperty();
     private transient StringProperty taulukkotunnit = new SimpleStringProperty();
     private transient StringProperty taulukkominuutit = new SimpleStringProperty();
@@ -63,7 +63,7 @@ public class Ottelu implements Serializable {
     private transient ObjectProperty<Joukkue> taulukkovierasjoukkue = new SimpleObjectProperty();
 
     Ottelu() {
-    
+
     }
 
     Ottelu(Sarja sarja) {
@@ -84,7 +84,7 @@ public class Ottelu implements Serializable {
     }
 
     public String toString() {
-           this.nimi = (this.kotijoukkue.toString() + " - " + this.vierasjoukkue.toString());
+        this.nimi = (this.kotijoukkue.toString() + " - " + this.vierasjoukkue.toString());
         return nimi;
     }
 
@@ -128,16 +128,16 @@ public class Ottelu implements Serializable {
         asetaTaulukkokello();
     }
 
-    public void asetaKotimaalit(int kotimaalit){
+    public void asetaKotimaalit(int kotimaalit) {
         this.kotimaalit = kotimaalit;
-        
+
     }
-    
-     public void asetaVierasmaalit(int vierasmaalit){
+
+    public void asetaVierasmaalit(int vierasmaalit) {
         this.vierasmaalit = vierasmaalit;
-        
+
     }
-    
+
     public void asetaTulos(int koti, int vieras) {
         kotimaalit = koti;
         vierasmaalit = vieras;
@@ -280,34 +280,32 @@ public class Ottelu implements Serializable {
         return kellominuutit;
     }
 
- 
     public ObjectProperty taulukkopaivaProperty() {
         return taulukkopaiva;
     }
 
     public void asetaTaulukkopaiva() {
-        
+
         this.taulukkopaiva = new SimpleObjectProperty(this.annaPaivaDate());
     }
 
     private LocalDate getDate() {
-            return paiva_date == null ? LocalDate.now() : paiva_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        }
-    
+        return paiva_date == null ? LocalDate.now() : paiva_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
     public Date annaPaivaDate() {
 
         return paiva_date;
     }
 
-    public void asetaTaulukkopaivastring(){
+    public void asetaTaulukkopaivastring() {
         this.taulukkopaivastring = new SimpleStringProperty(getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
     }
-    
-       public StringProperty taulukkopaivastringProperty() {
+
+    public StringProperty taulukkopaivastringProperty() {
         return taulukkopaivastring;
     }
-    
-    
+
     public void asetaPaivaDate(Date paiva) {
         this.paiva_date = paiva;
         asetaTaulukkopaiva();
@@ -421,25 +419,36 @@ public class Ottelu implements Serializable {
         return erotuomari;
     }
 
-    public void asetaErotuomari(Tuomari uusierotuomari) {
+    public void asetaErotuomari(Tuomari uusierotuomari, Tuomari vanhaerotuomari) {
+   
 
-        //poistetaan vanha
-        Tuomari erotuomari = new Tuomari();
-
+        TuomarinRooli rooli = new TuomarinRooli();
+        boolean on = false;
+        //katsotaanko onko ottelulla tuomarinrooleja, jotka liittyvät erotuomariin
         for (int i = 0; i < this.annaRoolit().size(); i++) {
 
             if (this.annaRoolit().get(i).annaRooli().equals("Erotuomari")) {
-                erotuomari = this.annaRoolit().get(i).annaTuomari();
+                rooli = this.annaRoolit().get(i);
+                on = true;
             }
         }
 
-        this.annaRoolit().remove(erotuomari);
+        // jos ko roolia ei ennestään löytynyt lisätään sellainen 
+        if (on) {
+            rooli.asetaTuomari(uusierotuomari);
+            if (vanhaerotuomari != null) {
+                vanhaerotuomari.annaTuomarinRoolit().remove(rooli);
+            }
 
-        TuomarinRooli erotuomariR = new TuomarinRooli(uusierotuomari, this);
-        erotuomariR.asetaRooli("Erotuomari");
+        } else {
+            rooli.asetaOttelu(this);
+            rooli.asetaTuomari(uusierotuomari);
+           rooli.asetaRooli("Erotuomari");
+            this.annaRoolit().add(rooli);
 
-        this.annaRoolit().add(erotuomariR);
-        uusierotuomari.annaTuomarinRoolit().add(erotuomariR);
+        }
+
+        uusierotuomari.annaTuomarinRoolit().add(rooli);
 
         this.asetaTaulukkotuomarit();
     }
@@ -453,30 +462,44 @@ public class Ottelu implements Serializable {
                 avustava = this.annaRoolit().get(i).annaTuomari();
             }
         }
+
         return avustava;
     }
 
-    public void asetaAvustava1(Tuomari uusiavustava) {
-
-        //poistetaan vanha
-        Tuomari avustava = new Tuomari();
-
+    public void asetaAvustava1(Tuomari uusiavustava, Tuomari vanha_avustava) {
+        
+                TuomarinRooli rooli = new TuomarinRooli();
+        boolean on = false;
+        //katsotaanko onko ottelulla tuomarinrooleja, jotka liittyvät erotuomariin
         for (int i = 0; i < this.annaRoolit().size(); i++) {
 
             if (this.annaRoolit().get(i).annaRooli().equals("1. Avustava erotuomari")) {
-                avustava = this.annaRoolit().get(i).annaTuomari();
+                rooli = this.annaRoolit().get(i);
+                on = true;
             }
         }
 
-        this.annaRoolit().remove(avustava);
+        // jos ko roolia ei ennestään löytynyt lisätään sellainen 
+        if (on) {
+            rooli.asetaTuomari(uusiavustava);
+            if (vanha_avustava != null) {
+                vanha_avustava.annaTuomarinRoolit().remove(rooli);
+            }
 
-        TuomarinRooli erotuomariR = new TuomarinRooli(uusiavustava, this);
-        erotuomariR.asetaRooli("1. Avustava erotuomari");
+        } else {
+            rooli.asetaOttelu(this);
+            rooli.asetaTuomari(uusiavustava);
+           rooli.asetaRooli("1. Avustava erotuomari");
+            this.annaRoolit().add(rooli);
 
-        this.annaRoolit().add(erotuomariR);
-        uusiavustava.annaTuomarinRoolit().add(erotuomariR);
+        }
+
+        uusiavustava.annaTuomarinRoolit().add(rooli);
 
         this.asetaTaulukkotuomarit();
+        
+
+  
     }
 
     public Tuomari annaAvustava2() {
@@ -491,25 +514,35 @@ public class Ottelu implements Serializable {
         return avustava;
     }
 
-    public void asetaAvustava2(Tuomari uusiavustava) {
+    public void asetaAvustava2(Tuomari uusiavustava, Tuomari vanha_avustava) {
 
-        //poistetaan vanha
-        Tuomari avustava = new Tuomari();
-
+                 TuomarinRooli rooli = new TuomarinRooli();
+        boolean on = false;
+        //katsotaanko onko ottelulla tuomarinrooleja, jotka liittyvät erotuomariin
         for (int i = 0; i < this.annaRoolit().size(); i++) {
 
             if (this.annaRoolit().get(i).annaRooli().equals("2. Avustava erotuomari")) {
-                avustava = this.annaRoolit().get(i).annaTuomari();
+                rooli = this.annaRoolit().get(i);
+                on = true;
             }
         }
 
-        this.annaRoolit().remove(avustava);
+        // jos ko roolia ei ennestään löytynyt lisätään sellainen 
+        if (on) {
+            rooli.asetaTuomari(uusiavustava);
+            if (vanha_avustava != null) {
+                vanha_avustava.annaTuomarinRoolit().remove(rooli);
+            }
 
-        TuomarinRooli erotuomariR = new TuomarinRooli(uusiavustava, this);
-        erotuomariR.asetaRooli("2. Avustava erotuomari");
+        } else {
+            rooli.asetaOttelu(this);
+            rooli.asetaTuomari(uusiavustava);
+           rooli.asetaRooli("2. Avustava erotuomari");
+            this.annaRoolit().add(rooli);
 
-        this.annaRoolit().add(erotuomariR);
-        uusiavustava.annaTuomarinRoolit().add(erotuomariR);
+        }
+
+        uusiavustava.annaTuomarinRoolit().add(rooli);
 
         this.asetaTaulukkotuomarit();
     }

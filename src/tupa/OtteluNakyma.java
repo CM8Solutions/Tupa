@@ -147,7 +147,7 @@ public class OtteluNakyma {
 
         rivi2.getChildren().addAll(nimi);
 
-        grid.add(painikkeet, 0, 0);
+//        grid.add(painikkeet, 0, 0);
         grid.add(rivi2, 0, 1);
 
         VBox rivi3 = new VBox();

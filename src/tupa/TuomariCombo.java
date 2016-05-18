@@ -67,14 +67,15 @@ private Sarja sarja;
     private void createComboBox() {
   ComboBox<Tuomari> tuomari = new ComboBox();
        List<Tuomari> tuomarilista1 = new ArrayList<Tuomari>();
-
+Tuomari valitse1 = new Tuomari("Valitse"+"");
+       tuomarilista1.add(valitse1);
         for (int i = 0; i < sarja.annaTurnaus().annaTuomarit().size(); i++) {
             tuomarilista1.add(sarja.annaTurnaus().annaTuomarit().get(i));
 
         }
         ObservableList tuomarit = FXCollections.observableList(tuomarilista1);
         tuomari.setItems(tuomarit);
-
+tuomari.getSelectionModel().selectFirst();
         comboBox = tuomari;
         comboBoxConverter(comboBox);
         

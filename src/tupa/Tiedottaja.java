@@ -49,7 +49,7 @@ public class Tiedottaja {
 
         alert.setContentText(msg);
 
-        alert.show();
+         alert.showAndWait();
 
     }
 }

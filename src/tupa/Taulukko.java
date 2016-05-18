@@ -144,7 +144,7 @@ public class Taulukko {
         avustava2.setMinWidth(150);
         tulos.setPrefWidth(50);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
-      
+
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(kello);
 
@@ -232,24 +232,24 @@ public class Taulukko {
 
         taulukko.getColumns().addAll(id, kierros, ottelu, ajankohta, paikka, tuomarit, col_action);
         taulukko.setItems(data);
-        
+
         id.setMinWidth(50);
         kierros.setMinWidth(50);
         paiva.setMinWidth(150);
         tunnit.setMinWidth(50);
         minuutit.setMinWidth(50);
-  
+
         paikka.setMinWidth(150);
-         koti.setMinWidth(150);
-          vieras.setMinWidth(150);
+        koti.setMinWidth(150);
+        vieras.setMinWidth(150);
         col_action.setMinWidth(50);
         erotuomari.setMinWidth(150);
-        
+
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
-          paiva.setMinWidth(70);
+        paiva.setMinWidth(70);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
-     
+
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(tunnit);
         taulukko.getSortOrder().add(minuutit);
@@ -356,10 +356,10 @@ public class Taulukko {
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
 
                 if (tarkistaja.erotuomariOK(t.getNewValue(), ottelu)) {
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).annaRoolit().remove(t.getOldValue());
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).asetaErotuomari(t.getNewValue());
+
+
+                    //lisätään uuden tuomarin luetteloon ko rooli
+                    ottelu.asetaErotuomari(t.getNewValue(), t.getOldValue());
                     ikkuna = nakyma.annaIkkuna();
                     ikkuna.asetaMuutos(true);
                 }
@@ -377,10 +377,9 @@ public class Taulukko {
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
 
                 if (tarkistaja.avustava1OK(t.getNewValue(), ottelu)) {
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).annaRoolit().remove(t.getOldValue());
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).asetaAvustava1(t.getNewValue());
+                   
+
+                    ottelu.asetaAvustava1(t.getNewValue(), t.getOldValue());
                     ikkuna = nakyma.annaIkkuna();
                     ikkuna.asetaMuutos(true);
                 }
@@ -397,10 +396,9 @@ public class Taulukko {
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
 
                 if (tarkistaja.avustava2OK(t.getNewValue(), ottelu)) {
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).annaRoolit().remove(t.getOldValue());
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).asetaAvustava2(t.getNewValue());
+
+                    ottelu.asetaAvustava2(t.getNewValue(), t.getOldValue());
+
                     ikkuna = nakyma.annaIkkuna();
                     ikkuna.asetaMuutos(true);
                 }
@@ -866,7 +864,7 @@ public class Taulukko {
         rooli.setMinWidth(120);
         sposti.setMinWidth(180);
         puh.setMinWidth(120);
- col_action.setMinWidth(70);
+        col_action.setMinWidth(70);
         taulukko.setFixedCellSize(25);
 
         if (taulukko.getItems().size() == 0) {
@@ -1117,7 +1115,7 @@ public class Taulukko {
         List<Ottelu> ottelut = new ArrayList<>();
 
         for (int i = 0; i < joukkue.annaOttelut().size(); i++) {
-          joukkue.annaOttelut().get(i).asetaTaulukkopaivastring();
+            joukkue.annaOttelut().get(i).asetaTaulukkopaivastring();
             joukkue.annaOttelut().get(i).asetaTaulukkokello();
             joukkue.annaOttelut().get(i).asetaTaulukkoid();
             joukkue.annaOttelut().get(i).asetaTaulukkonimi();
@@ -1150,7 +1148,7 @@ public class Taulukko {
         id.setCellValueFactory(new PropertyValueFactory<Ottelu, Integer>("taulukkoid"));
         kierros.setCellValueFactory(new PropertyValueFactory<Ottelu, Integer>("taulukkokierros"));
         ottelu.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkonimi"));
-      paiva.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaivastring"));
+        paiva.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaivastring"));
         kello.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkokello"));
         paikka.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaikka"));
         erotuomari.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkoerotuomari"));
@@ -1227,7 +1225,7 @@ public class Taulukko {
         id.setCellValueFactory(new PropertyValueFactory<Ottelu, Integer>("taulukkoid"));
         kierros.setCellValueFactory(new PropertyValueFactory<Ottelu, Integer>("taulukkokierros"));
         otteluc.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkonimi"));
-              paiva.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaivastring"));
+        paiva.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaivastring"));
         kello.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkokello"));
         paikka.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaikka"));
         erotuomari.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkoerotuomari"));
@@ -1409,7 +1407,7 @@ public class Taulukko {
             }
         }
         );
-             pelipaikka.setCellFactory(cellFactory);
+        pelipaikka.setCellFactory(cellFactory);
         pelipaikka.setOnEditCommit(
                 new EventHandler<TableColumn.CellEditEvent<Pelaaja, String>>() {
             @Override
@@ -1428,7 +1426,6 @@ public class Taulukko {
             }
         }
         );
-        
 
         pelinumero.setCellFactory(comboBoxCellFactory);
         pelinumero.setOnEditCommit(
@@ -1587,7 +1584,9 @@ public class Taulukko {
         List<Ottelu> ottelut = new ArrayList<>();
 
         for (int i = 0; i < tuomari.annaTuomarinRoolit().size(); i++) {
+            
             if (tuomari.annaTuomarinRoolit().get(i).annaTuomari().equals(tuomari)) {
+
                 tuomari.annaTuomarinRoolit().get(i).annaOttelu().asetaTaulukkoid();
                 tuomari.annaTuomarinRoolit().get(i).annaOttelu().asetaTaulukkopaikka();
                 tuomari.annaTuomarinRoolit().get(i).annaOttelu().asetaTaulukkonimi();
@@ -1619,7 +1618,7 @@ public class Taulukko {
 
         id.setCellValueFactory(new PropertyValueFactory<Ottelu, Integer>("taulukkoid"));
         ottelu.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkonimi"));
-          paiva.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaivastring"));
+        paiva.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaivastring"));
         kello.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkokello"));
         paikka.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkopaikka"));
         erotuomari.setCellValueFactory(new PropertyValueFactory<Ottelu, String>("taulukkoerotuomari"));
@@ -1629,15 +1628,15 @@ public class Taulukko {
         taulukko.getColumns().addAll(id, ottelu, ajankohta, paikka, tuomarit, tulos);
         taulukko.setItems(data);
 
-        id.setPrefWidth(50);
-
+//        id.setPrefWidth(50);
+// paiva.setMinWidth(70);
+//  kello.setMinWidth(70);
         ottelu.setMinWidth(200);
         paikka.setMinWidth(200);
         erotuomari.setMinWidth(150);
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
-        tulos.setPrefWidth(50);
-
+//        tulos.setPrefWidth(50);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(kello);
@@ -1647,12 +1646,12 @@ public class Taulukko {
             ottelunakyma.luoOttelusivu((Ottelu) newSelection);
         });
 
-        taulukko.setFixedCellSize(25);
+            taulukko.setFixedCellSize(25);
 
         if (taulukko.getItems().size() == 0) {
             taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(3)));
         } else {
-            taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(2)));
+            taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(2.1)));
         }
 
         taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
@@ -1808,7 +1807,8 @@ public class Taulukko {
         taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
         return taulukko;
     }
-     public TableView luoOttelunMaaliTaulukko(Ottelu ottelu) {
+
+    public TableView luoOttelunMaaliTaulukko(Ottelu ottelu) {
         taulukko.setPlaceholder(new Label(""));
         taulukko.setId("ei-klikattava");
 
@@ -1829,19 +1829,19 @@ public class Taulukko {
         TableColumn aika = new TableColumn("Min");
         TableColumn maalintekija = new TableColumn("Maalintekijä");
         TableColumn syottaja = new TableColumn("Syöttäjä");
-         TableColumn joukkue = new TableColumn("Joukkue");
-         
+        TableColumn joukkue = new TableColumn("Joukkue");
+
         aika.setCellValueFactory(new PropertyValueFactory<Maali, Integer>("taulukkoaika"));
         maalintekija.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkomaalintekija"));
         syottaja.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkosyottaja"));
-joukkue.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkojoukkue"));
+        joukkue.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkojoukkue"));
 
         taulukko.getColumns().addAll(aika, joukkue, maalintekija, syottaja);
         taulukko.setItems(data);
-        
-         maalintekija.setMinWidth(150);
-          syottaja.setMinWidth(150);
-           joukkue.setMinWidth(150);
+
+        maalintekija.setMinWidth(150);
+        syottaja.setMinWidth(150);
+        joukkue.setMinWidth(150);
         aika.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSortOrder().add(aika);
 
@@ -1855,8 +1855,6 @@ joukkue.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkojou
 
         taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
         taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
-
-   
 
         return taulukko;
     }
@@ -1884,21 +1882,20 @@ joukkue.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkojou
         TableColumn maalintekija = new TableColumn("Maalintekijä");
         TableColumn syottaja = new TableColumn("Syöttäjä");
         TableColumn col_action = new TableColumn<>("Poista");
-         TableColumn joukkue = new TableColumn("Joukkue");
+        TableColumn joukkue = new TableColumn("Joukkue");
         aika.setCellValueFactory(new PropertyValueFactory<Maali, Integer>("taulukkoaika"));
         maalintekija.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkomaalintekija"));
         syottaja.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkosyottaja"));
-joukkue.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkojoukkue"));
-        
-        
+        joukkue.setCellValueFactory(new PropertyValueFactory<Maali, String>("taulukkojoukkue"));
+
         taulukko.getColumns().addAll(aika, joukkue, maalintekija, syottaja, col_action);
         taulukko.setItems(data);
-        
+
         aika.setPrefWidth(70);
-   col_action.setPrefWidth(70);
-           maalintekija.setMinWidth(150);
-          syottaja.setMinWidth(150);
-           joukkue.setMinWidth(150);
+        col_action.setPrefWidth(70);
+        maalintekija.setMinWidth(150);
+        syottaja.setMinWidth(150);
+        joukkue.setMinWidth(150);
         aika.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSortOrder().add(aika);
 
