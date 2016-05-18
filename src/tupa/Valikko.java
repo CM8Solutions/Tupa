@@ -118,10 +118,10 @@ public class Valikko implements EventHandler<ActionEvent> {
                     TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
                     parentSarjat.getChildren().clear();
                     parentTuomarit.getChildren().clear();
-                    tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
+                    
                     nakyma.luoEtusivu();
                 }
-
+tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                 break;
             }
             case "Avaa": {
