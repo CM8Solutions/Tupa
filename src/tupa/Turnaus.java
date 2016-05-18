@@ -15,17 +15,23 @@ public class Turnaus extends Kohde{
     
     Turnaus(){
         super("Uusi turnaus");
+        turLaskuri++;
+        asetaID(turLaskuri);
     }
-    
-    public int annaMaara(){
-        return turLaskuri;
-    }
-    
+
     public List<Sarja> annaSarjat(){
         return sarjat;
     }
     
     public List<Tuomari> annaTuomarit(){
         return tuomarit;
+    }
+    
+    public int annaLaskuri(){
+        return turLaskuri;
+    }
+    
+    public void asetaLaskuri(int laskuri){
+        this.turLaskuri = laskuri;
     }
 }

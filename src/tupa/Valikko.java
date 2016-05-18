@@ -3,8 +3,11 @@ Yläpalkin valikon muodostava luokka
  */
 package tupa;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -90,14 +93,24 @@ public class Valikko implements EventHandler<ActionEvent> {
 
         if (lahde instanceof MenuItem) {
 
-            valikostaValittu(
-                    ((MenuItem) lahde).getText(), e);
+            try {
+                valikostaValittu(
+                        ((MenuItem) lahde).getText(), e);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return;
         }
 
     }
 
-    public void valikostaValittu(String teksti, ActionEvent e) {
+    public void valikostaValittu(String teksti, ActionEvent e) throws InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException {
 
         switch (teksti) {
             case "Uusi": {

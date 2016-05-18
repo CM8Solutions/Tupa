@@ -1,7 +1,10 @@
 package tupa;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -82,7 +85,15 @@ public class Varmistus {
 
                 Tallennus tallenna = new Tallennus(ikkuna);
 
-                tallenna.suoritaTallennus();
+                try {
+                    tallenna.suoritaTallennus();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 Platform.exit();
             }
         });
@@ -199,7 +210,15 @@ public class Varmistus {
 
                 Tallennus tallenna = new Tallennus(ikkuna);
 
-                tallenna.suoritaTallennus();
+                try {
+                    tallenna.suoritaTallennus();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 //tyhjennetään kaikki tiedot 
                 ikkuna.annaKohteet().clear();
 
@@ -273,8 +292,18 @@ public class Varmistus {
                 //tuodaan tallennetut kohteet
                 List<Kohde> kohdetk = new ArrayList<>();
                 Avaus avaaja = new Avaus();
-                kohdetk = avaaja.avaa();
-                //talletetaan muistiin, mitä oli ennen "istunnon" aloittamista -> tarviiko kysyä tallennusta, jos käyttäjä sulkee näytön
+                try {
+                    kohdetk = avaaja.avaa();
+                    //talletetaan muistiin, mitä oli ennen "istunnon" aloittamista -> tarviiko kysyä tallennusta, jos käyttäjä sulkee näytön
+                } catch (SQLException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 ikkuna.asetaKohteet(kohdetk);
 
@@ -317,7 +346,15 @@ public class Varmistus {
 
                 Tallennus tallenna = new Tallennus(ikkuna);
 
-                tallenna.suoritaTallennus();
+                try {
+                    tallenna.suoritaTallennus();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 //tyhjennetään kaikki tiedot 
                 ikkuna.annaKohteet().clear();
 
@@ -334,8 +371,18 @@ public class Varmistus {
                 List<Kohde> kohdetk_vanha = new ArrayList<>();
                 List<Kohde> kohdetk = new ArrayList<>();
                 Avaus avaaja = new Avaus();
-                kohdetk = avaaja.avaa();
-                //talletetaan muistiin, mitä oli ennen "istunnon" aloittamista -> tarviiko kysyä tallennusta, jos käyttäjä sulkee näytön
+                try {
+                    kohdetk = avaaja.avaa();
+                    //talletetaan muistiin, mitä oli ennen "istunnon" aloittamista -> tarviiko kysyä tallennusta, jos käyttäjä sulkee näytön
+                } catch (SQLException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(Varmistus.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 ikkuna.asetaKohteet(kohdetk);
 

@@ -4,6 +4,11 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,31 +25,42 @@ public class Avaus {
 
     }
 
-    public List<Kohde> avaa() {
-
-        Tallennus tallenna = new Tallennus();
-        String tiedosto = tallenna.annaTallennusTiedosto();
-        ObjectInputStream sisaan2 = null;
+    public List<Kohde> avaa() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+  String url = "jdbc:mysql://tite.work:3306/";
+        String dbName = "tupa";
+        String driver = "com.mysql.jdbc.Driver";
+        String userName = "root";
+        String password = "asdlol";
+        Connection conn = null;
+        Statement st = null;
+ 
 
         try {
-            sisaan2 = new ObjectInputStream(new FileInputStream(tiedosto));
-            while (true) {
-                kohdetk.add((Kohde) sisaan2.readObject());
+                Class.forName(driver).newInstance();
+            conn = DriverManager.getConnection(url + dbName, userName, password);
+            st = conn.createStatement();
+           ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
             }
-        } catch (EOFException e) {
-
-        } catch (ClassNotFoundException e) {
-
-            System.out.println("\n**********************************************************");
-            System.out.println("\nOngelmia kohteiden löytämisessä. ");
-            System.out.println("\n**********************************************************");
-
-        } catch (IOException e) {
-
-            System.out.println("\n**********************************************************");
-            System.out.println("\nOngelmia tiedoston avauksessa.");
-            System.out.println("\n**********************************************************");
-
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
         }
 
         return kohdetk;

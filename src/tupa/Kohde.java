@@ -10,18 +10,15 @@ public class Kohde implements Serializable {
 
     private String nimi;
     private int id;
-    private static int laskuri;
     
 
    Kohde (){
-        laskuri++;
-        id = laskuri;
+    
    }
     
     Kohde (String nimi) {
         this.nimi = nimi;
-        laskuri++;
-        id = laskuri;
+
 
     }
 
@@ -29,7 +26,7 @@ public class Kohde implements Serializable {
         return nimi;
     } 
     
-        public void asetaNimi(String nimi){
+    public void asetaNimi(String nimi){
         
         this.nimi = nimi;
     }
@@ -37,4 +34,9 @@ public class Kohde implements Serializable {
    public int annaID(){
        return id;
    }
+   
+   public void asetaID(int id){
+       this.id = id;
+   }
+   
 }
