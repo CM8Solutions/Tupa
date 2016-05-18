@@ -86,7 +86,6 @@ public class SarjaNakyma {
                     muuttaja.lisaaKohde(uusi);
                     nimi.clear();
                     ikkuna.asetaMuutos(true);
-                
 
                     luoSarjanLisaysSivu();
                 }
@@ -201,7 +200,7 @@ public class SarjaNakyma {
         Label otsikko1 = new Label("Otteluluettelo");
         otsikko1.setFont(Font.font("Papyrus", 18));
         Button ottelunappula = new Button();
-         ottelunappula.setId("button-ohje");
+        ottelunappula.setId("button-ohje");
         ottelunappula.setText("\u003F");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -223,7 +222,7 @@ public class SarjaNakyma {
         Label otsikko2 = new Label("Joukkueet");
         otsikko2.setFont(Font.font("Papyrus", 18));
         Button joukkuenappula = new Button();
-         joukkuenappula.setId("button-ohje");
+        joukkuenappula.setId("button-ohje");
         joukkuenappula.setText("\u003F");
         joukkuenappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -339,13 +338,13 @@ public class SarjaNakyma {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20, 10, 40, 10));
 
-           VBox rivi1 = new VBox();
+        VBox rivi1 = new VBox();
 
         Button paluunappula = new Button("<< Palaa sarjasivulle");
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
+
                 TreeItem<Kohde> mihin = new TreeItem<>(sarja);
                 luoSarjaSivu(mihin);
 
@@ -360,7 +359,6 @@ public class SarjaNakyma {
         rivi1.getChildren().addAll(painikkeet);
         grid.add(rivi1, 0, 0);
 
-        
         VBox rivi2 = new VBox();
         rivi2.setPadding(new Insets(20));
         rivi2.setAlignment(Pos.CENTER);
@@ -387,7 +385,7 @@ public class SarjaNakyma {
         Label otsikko1 = new Label("Otteluluettelo");
         otsikko1.setFont(Font.font("Papyrus", 18));
         Button ottelunappula = new Button();
-         ottelunappula.setId("button-ohje");
+        ottelunappula.setId("button-ohje");
         ottelunappula.setText("\u003F");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -420,15 +418,12 @@ public class SarjaNakyma {
         autonappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(sarja.annaOttelut().size() != 0){
-                     varmistaja.annaAutoVarmistus(sarja);
+                if (sarja.annaOttelut().size() != 0) {
+                    varmistaja.annaAutoVarmistus(sarja);
+                } else {
+                    muuttaja.suoritaAutoOtteluLista(sarja);
+                    luoOtteluLuetteloMuokkaus(sarja);
                 }
-               
-                else{
-                      muuttaja.suoritaAutoOtteluLista(sarja);
-                      luoOtteluLuetteloMuokkaus(sarja);
-                }
-                  
 
             }
         });
@@ -522,7 +517,7 @@ public class SarjaNakyma {
         HBox otsikkorivi1 = new HBox();
         otsikkorivi1.setSpacing(20);
         Button ottelunappula = new Button();
-         ottelunappula.setId("button-ohje");
+        ottelunappula.setId("button-ohje");
         ottelunappula.setText("\u003F");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -583,6 +578,10 @@ public class SarjaNakyma {
         vieras.setItems(joukkueet2);
         ohjevieras.getChildren().addAll(ohjev, vieras);
 
+        koti.setPromptText("Valitse");
+        
+        vieras.setPromptText("Valitse");
+                       
         VBox ohjeaika = new VBox();
 
         Label ohjea = new Label("Ajankohta");
@@ -665,6 +664,8 @@ public class SarjaNakyma {
         VBox ohjetuomari3 = new VBox();
 
         List<Tuomari> tuomarilista1 = new ArrayList<Tuomari>();
+        Tuomari valitse1 = new Tuomari();
+        tuomarilista1.add(valitse1);
 
         for (int i = 0; i < sarja.annaTurnaus().annaTuomarit().size(); i++) {
             tuomarilista1.add(sarja.annaTurnaus().annaTuomarit().get(i));
@@ -672,13 +673,15 @@ public class SarjaNakyma {
         }
 
         List<Tuomari> tuomarilista2 = new ArrayList<Tuomari>();
-
+        Tuomari valitse2 = new Tuomari();
+        tuomarilista2.add(valitse2);
         for (int i = 0; i < sarja.annaTurnaus().annaTuomarit().size(); i++) {
             tuomarilista2.add(sarja.annaTurnaus().annaTuomarit().get(i));
         }
 
         List<Tuomari> tuomarilista3 = new ArrayList<Tuomari>();
-
+        Tuomari valitse3 = new Tuomari();
+        tuomarilista3.add(valitse3);
         for (int i = 0; i < sarja.annaTurnaus().annaTuomarit().size(); i++) {
             tuomarilista3.add(sarja.annaTurnaus().annaTuomarit().get(i));
         }
@@ -690,12 +693,7 @@ public class SarjaNakyma {
         Label ohjet1 = new Label("Erotuomari");
         ComboBox<Tuomari> erotuomari = new ComboBox();
         erotuomari.setItems(erotuomarit);
-
-        erotuomari.setPromptText("Valitse");
-
-        vieras.setPromptText("Valitse");
-        koti.setPromptText("Valitse");
-
+ erotuomari.setPromptText("Valitse");
         Label ohjet2 = new Label("1. Avustava");
         ComboBox<Tuomari> avustava1 = new ComboBox();
         avustava1.setItems(avustavat1);
@@ -736,7 +734,7 @@ public class SarjaNakyma {
 
                 if (ok) {
                     muuttaja.lisaaOttelu(koti.getValue(), vieras.getValue(), ajankohta.getValue(), kellotunnit.getValue(), kellominuutit.getValue(), paikka.getText(), erotuomari.getValue(), avustava1.getValue(), avustava2.getValue(), sarja);
-                   tiedottaja.kirjoitaLoki("Otteluluetteloa muokattu.");
+                    tiedottaja.kirjoitaLoki("Otteluluetteloa muokattu.");
                     ikkuna.asetaMuutos(true);
                     luoOttelunLisaysSivu(sarja);
                 }
@@ -782,9 +780,6 @@ public class SarjaNakyma {
 
         VBox rivi1 = new VBox();
         rivi1.setAlignment(Pos.CENTER);
-
- 
-
 
         HBox rivi2 = new HBox();
         rivi2.setPadding(new Insets(20));
@@ -856,7 +851,7 @@ public class SarjaNakyma {
                     muuttaja.lisaaJoukkue(lisaaJoukkue.getText(), sarja);
 
                     lisaaJoukkue.clear();
-tiedottaja.kirjoitaLoki("Joukkueluetteloa muokattu.");
+                    tiedottaja.kirjoitaLoki("Joukkueluetteloa muokattu.");
                     luoJoukkueenLisaysSivu(sarja);
                 }
             }
@@ -864,8 +859,6 @@ tiedottaja.kirjoitaLoki("Joukkueluetteloa muokattu.");
 
         painikeboksi2.getChildren().addAll(lisaaJoukkue, lisaysnappula2);
         alle2.getChildren().addAll(painikeboksi2);
-
-
 
         osio2.getChildren().addAll(otsikkorivi2, joukkueet, alle2);
 

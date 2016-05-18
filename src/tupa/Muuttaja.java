@@ -658,11 +658,11 @@ public class Muuttaja {
                     }
 
                     if (!parillinen_maara && kotiottelut >= maara / 2) {
-                        System.out.println("Kotiyliin " + joukkueet[i] + ", kotiotteluiden määärä " + kotiottelut);
+                  
                         kotiyli.add(joukkueet[i]);
 
                     } else if (!parillinen_maara && vierasottelut >= maara / 2) {
-                        System.out.println("Kotialiin " + joukkueet[i] + ", vierasotteluiden määärä " + vierasottelut);
+                     
                         kotiali.add(joukkueet[i]);
 
                     }

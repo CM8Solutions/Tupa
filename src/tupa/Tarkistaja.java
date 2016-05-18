@@ -92,11 +92,8 @@ public class Tarkistaja {
     }
 
     public boolean erotuomariOK(Tuomari tuomari, Ottelu ottelu) {
-        if (tuomari == null) {
-            tiedottaja.annaVaroitus("Valitse sekä koti- että vierasjoukkue.");
-            return false;
-        }
-        else{
+      
+         if (tuomari != null){
             if(ottelu.annaAvustava1().equals(tuomari)){
                 tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
@@ -110,11 +107,8 @@ public class Tarkistaja {
     }
 
     public boolean avustava1OK(Tuomari tuomari, Ottelu ottelu) {
-             if (tuomari == null) {
-            tiedottaja.annaVaroitus("Valitse sekä koti- että vierasjoukkue.");
-            return false;
-        }
-        else{
+    
+         if (tuomari != null){
             if(ottelu.annaErotuomari().equals(tuomari)){
                 tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
@@ -128,11 +122,8 @@ public class Tarkistaja {
     }
 
     public boolean avustava2OK(Tuomari tuomari, Ottelu ottelu) {
-             if (tuomari == null) {
-            tiedottaja.annaVaroitus("Valitse sekä koti- että vierasjoukkue.");
-            return false;
-        }
-        else{
+        
+       if (tuomari != null){
             if(ottelu.annaErotuomari().equals(tuomari)){
                 tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;

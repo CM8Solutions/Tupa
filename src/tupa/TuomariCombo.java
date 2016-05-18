@@ -67,7 +67,7 @@ private Sarja sarja;
     private void createComboBox() {
   ComboBox<Tuomari> tuomari = new ComboBox();
        List<Tuomari> tuomarilista1 = new ArrayList<Tuomari>();
-Tuomari valitse1 = new Tuomari("Valitse"+"");
+Tuomari valitse1 = new Tuomari();
        tuomarilista1.add(valitse1);
         for (int i = 0; i < sarja.annaTurnaus().annaTuomarit().size(); i++) {
             tuomarilista1.add(sarja.annaTurnaus().annaTuomarit().get(i));
@@ -81,7 +81,7 @@ tuomari.getSelectionModel().selectFirst();
         
         
         //eka arvo valikossa on olemassa oleva arvo
-         System.out.println(getTyp());
+   
         comboBox.setValue(getItem());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
 

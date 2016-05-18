@@ -467,9 +467,6 @@ public class Varmistus {
 
                 List<Ottelu> poistettavat = (sarja.annaOttelut());
 
-                for (int i = 0; i < poistettavat.size(); i++) {
-                    System.out.println(poistettavat.get(i));
-                }
 
                 muuttaja.poistaKaikkiOttelut(poistettavat, sarja);
                 sarjanakyma = nakyma.annaSarjanakyma();

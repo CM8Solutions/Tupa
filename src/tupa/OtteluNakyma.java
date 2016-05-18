@@ -452,9 +452,7 @@ public class OtteluNakyma {
             @Override
             public void handle(ActionEvent e) {
 
-                for (int i = 0; i < roolitaulukko.length; i++) {
-                    System.out.println(roolitaulukko[i]);
-                }
+            
                 muuttaja.lisaaKokoonpano(pelaajataulukko, roolitaulukko, joukkue, ottelu);
                 ikkuna.asetaMuutos(true);
                 luoOttelusivu(ottelu);
