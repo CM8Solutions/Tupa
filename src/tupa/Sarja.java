@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tupa;
 
 import java.util.ArrayList;
@@ -10,44 +5,52 @@ import java.util.List;
 
 /**
  *
- * @author Omistaja
+ * @author Marianne
  */
 public class Sarja extends Kohde {
-    
+
+    //+kohteen attribuutit
     private static int saLaskuri;
-    private List<Ottelu> ottelut = new ArrayList<Ottelu>();
-    private List<Joukkue> joukkueet = new ArrayList<Joukkue>();
     private Turnaus turnaus;
 
-   Sarja (){
-       saLaskuri++;    
-   }
+    private List<Ottelu> ottelut = new ArrayList<Ottelu>();
+    private List<Joukkue> joukkueet = new ArrayList<Joukkue>();
 
-   Sarja(String nimi, Turnaus turnaus){
-            
-       super(nimi);
+    Sarja() {
         saLaskuri++;
+        asetaID(saLaskuri);
+    }
+
+    Sarja(String nimi, Turnaus turnaus) {
+
+        super(nimi);
+        saLaskuri++;
+        asetaID(saLaskuri);
         this.turnaus = turnaus;
-   }
-  
-    public int annaMaara(){
+    }
+
+    public int annaLaskuri() {
         return saLaskuri;
     }
 
-    public Turnaus annaTurnaus(){
+    public void asetaLaskuri(int laskuri) {
+        this.saLaskuri = laskuri;
+    }
+
+    public Turnaus annaTurnaus() {
         return turnaus;
     }
-    
-    public void asetaTurnaus(Turnaus turnaus){
+
+    public void asetaTurnaus(Turnaus turnaus) {
         this.turnaus = turnaus;
     }
-    
-    public List<Ottelu> annaOttelut(){
+
+    public List<Ottelu> annaOttelut() {
         return ottelut;
     }
-    
-    public List<Joukkue> annaJoukkueet(){
+
+    public List<Joukkue> annaJoukkueet() {
         return joukkueet;
     }
-    
+
 }

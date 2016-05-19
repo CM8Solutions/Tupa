@@ -1,13 +1,11 @@
 package tupa;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -19,17 +17,17 @@ import javafx.stage.Stage;
  *
  * @author Marianne
  */
-public class Ohjeistus{ 
-        
-        Ohjeistus(){
-            
-        }
-        
-     public void annaYleisOhje() {
+public class Ohjeistus {
+
+    Ohjeistus() {
+
+    }
+
+    public void annaYleisOhje() {
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
-stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString()));
+        stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString()));
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(30));
         vbox.setSpacing(10);
@@ -44,8 +42,7 @@ stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString(
         hbox2.setPadding(new Insets(60));
         hbox2.setSpacing(10);
         Button ok = new Button("Sulje");
-       
- 
+
         ok.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -53,7 +50,7 @@ stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString(
                 stage.close();
             }
         });
-      hbox2.setAlignment(Pos.CENTER);
+        hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().addAll(ok);
         vbox.getChildren().addAll(hbox1, hbox2);
         alue.setCenter(vbox);
@@ -64,30 +61,30 @@ stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString(
         stage.show();
 
     }
-    
-          public void annaTietoa() {
+
+    public void annaTietoa() {
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
-stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString()));
+        stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString()));
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(60);
 
         VBox vbox1 = new VBox();
         vbox1.setSpacing(20);
-        Text viesti1 = new  Text("TUPA - tulospalvelu v1.0");
-         Text viesti2 = new  Text("\u00A9 \t Marianne Sjöberg & Victor Slätis 2016");
-        
+        Text viesti1 = new Text("TUPA - tulospalvelu v1.0");
+        Text viesti2 = new Text("TUPA-ohjelma soveltuu erilaisten sarjamuotoisina järjestettävien turnausten hallintaan.");
+        Text viesti3 = new Text("\u00A9 \t Marianne Sjöberg & Victor Slätis 2016");
+
         vbox1.setAlignment(Pos.CENTER);
-        vbox1.getChildren().addAll(viesti1, viesti2);
+        vbox1.getChildren().addAll(viesti1, viesti2, viesti3);
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(10));
         hbox2.setSpacing(10);
         Button ok = new Button("Sulje");
-       
- 
+
         ok.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -106,5 +103,5 @@ stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString(
         stage.show();
 
     }
-    
+
 }

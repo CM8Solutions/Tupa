@@ -1,7 +1,6 @@
 package tupa;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,13 +13,13 @@ import java.util.List;
  */
 public class Tallennus {
 
-    public static void main(String[] args) {
-    }
-
-    private String tallennusTiedosto = "TUPA_tallennus";
     private Tupa ikkuna;
-
     private List<Kohde> kohdetk = new ArrayList<>();
+    private Connection con = null;
+    private Statement st = null;
+    private Yhteys yhteys = new Yhteys();
+    private int turnaus_id;
+    private String sql = "";
 
     Tallennus() {
 
@@ -34,18 +33,52 @@ public class Tallennus {
     public void suoritaTallennus() throws InstantiationException, SQLException, IllegalAccessException {
 
         kohdetk = ikkuna.annaKohteet();
-        String url = "jdbc:mysql://tite.work:3306/";
-        String dbName = "tupa";
-        String driver = "com.mysql.jdbc.Driver";
-        String userName = "root";
-        String password = "asdlol";
-        Connection conn = null;
-        Statement st = null;
-        try {
 
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url + dbName, userName, password);
-            st = conn.createStatement();
+        try {
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+
+            Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+            turnaus_id = turnaus.annaID();
+
+            String turnaus_nimi = turnaus.toString();
+
+            ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
+            boolean loyty = false;
+            while (turnaukset.next()) {
+
+                int tid = turnaukset.getInt("id");
+
+                if (tid == turnaus_id) {
+                    loyty = true;
+                    break;
+                }
+
+            }
+
+            //ei ollut kannassa ennestään
+            if (!loyty) {
+
+                st.executeUpdate("INSERT INTO turnaus (id, nimi) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "')");
+
+            } //oli jo kannassa, jolloin kaikki siihen liittyvät tiedot tyhjennetään ennen tallentamista
+            else {
+                st.executeUpdate("UPDATE turnaus SET nimi='" + turnaus_nimi + "' WHERE id='" + turnaus_id + "'");
+            //tyhjennetään tuomarit
+            sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
+            st.executeUpdate(sql);
+            //tyhjennetään sarjat
+            sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
+            st.executeUpdate(sql);
+            //MUIDEN TYHJENNYS!!
+            
+            
+            
+            }
+
+        
+
+            //ja täytetään se kohdetk:n mukaiseksi
             if (!kohdetk.isEmpty()) {
 
                 for (int i = 0; i < kohdetk.size(); i++) {
@@ -53,15 +86,28 @@ public class Tallennus {
                     Kohde tiedot = kohdetk.get(i);
 
                     if (tiedot instanceof Sarja) {
+                        
                         Sarja sarja = (Sarja) tiedot;
+                        
+                        int id = sarja.annaID();
+                        String nimi = sarja.toString();
+                        
+                        st.executeUpdate("INSERT INTO sarja (id, nimi, turnaus_id) VALUES('" + id + "', '" + nimi + "', '" + turnaus_id + "')");
 
+                        
+                        
                     } else if (tiedot instanceof Tuomari) {
 
                         Tuomari tuomari = (Tuomari) tiedot;
-                        int tuomari_id = tuomari.annaJulkinenId();
 
+                        int tuomari_id = tuomari.annaJulkinenId();
+                        int id = tuomari.annaID();
                         String etunimi = tuomari.annaEtuNimi();
                         String sukunimi = tuomari.annaSukuNimi();
+        
+                        st.executeUpdate("INSERT INTO tuomari (id, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + id + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
+
+                
 
                     } else if (tiedot instanceof Joukkue) {
 
@@ -69,46 +115,13 @@ public class Tallennus {
 
                     } else if (tiedot instanceof Pelaaja) {
 
-                        Pelaaja pelaaja = (Pelaaja) kohdetk.get(i);
+                        Pelaaja pelaaja = (Pelaaja) tiedot;
 
                     } else if (tiedot instanceof Toimihenkilo) {
 
                         Toimihenkilo toimari = (Toimihenkilo) tiedot;
 
-                    } else if (tiedot instanceof Turnaus) {
-
-                        Turnaus turnaus = (Turnaus) tiedot;
-
-                        String nimi = turnaus.toString();
-                        int id = turnaus.annaID();
-                    
-                        int laskuri = turnaus.annaLaskuri();
-                        ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
-                        boolean loyty = false;
-                        while (turnaukset.next()) {
-                           
-                            int tid = turnaukset.getInt("id");
-
-                            if (tid == id) {
-                                loyty = true;
-                                break;
-                            }
-                            
-                        }
-                        
-                        //ei ollut kannassa ennestään
-                        if (!loyty) {
-                        
-                              st.executeUpdate("INSERT INTO turnaus (id, nimi) VALUES('" + laskuri + "', '" + nimi + "')");
-                           
-                        }
-                        //oli jo kannassa
-                        else{
-                             st.executeUpdate("UPDATE turnaus SET nimi='" + nimi + "' WHERE id='" + id + "'");
-                        }
-                          
-
-                    }
+                    } 
 
                 }
 
@@ -124,13 +137,13 @@ public class Tallennus {
 
             try {
                 if (st != null) {
-                    conn.close();
+                    con.close();
                 }
             } catch (SQLException se) {
             }
             try {
-                if (conn != null) {
-                    conn.close();
+                if (con != null) {
+                    con.close();
                 }
             } catch (SQLException se) {
                 se.printStackTrace();
@@ -138,64 +151,7 @@ public class Tallennus {
         }
         //päivitetään tilanne, että tallennus on suoritettu
         ikkuna.asetaMuutos(false);
-//		  try {
-//		  Class.forName(driver).newInstance();
-//		  Connection conn = DriverManager.getConnection(url+dbName,userName,password);
-//		  Statement st = conn.createStatement();
-//		  ResultSet tuomarit = st.executeQuery("SELECT * FROM  tuomarit");
-//                  int laskin = 0;
-//		  while (tuomarit.next()) {
-//		  int tid = tuomarit.getInt("tuomari-ID");
-//                                   
-//		  String tEtu = tuomarit.getString("tuomariEtunimi");
-//		  String tSuku = tuomarit.getString("tuomariSukunimi");
-//                      
-//		  System.out.println("Loop-testi");
-//                  ++laskin;
-//		  System.out.println(tid + "\t" + tEtu + "\t" + tSuku);
-//		  }
-////                  ResultSet i = st.executeQuery("SELECT COUNT(*) AS idtulostaulu FROM tulostaulu");
-////                  
-////                  
-////                      String kysytietoja = JOptionPane.showInputDialog("Syötä rivitieto"); 
-////                      int  rivinum = 1 + laskin ;
-////                  
-////                  
-////                      
-////		  int val = st.executeUpdate("INSERT INTO `tulostaulu`(idtulostaulu, tulos) VALUE ("+rivinum+",'"+kysytietoja+"')");
-////		  if(val==1)
-////			  System.out.print("Lisättiin onnistuneesti arvot");
-////                  
-//		  
-//		//  System.out.println("sulku");
-//		//  conn.close();
-//		  } catch (Exception e) {
-//		  e.printStackTrace();
-//		  }
 
-//		  ResultSet tuomarit = st.executeQuery("SELECT * FROM  `tupa`.`tuomarit`");
-//                  int laskin = 4;
-//                  
-//                  System.out.println("Loop-testi");
-//		  while (tuomarit.next()) {
-//		  int tid = tuomarit.getInt("tuomari-ID");
-//                                   
-//		  String tEtu = tuomarit.getString("tuomariEtunimi");
-//		  String tSuku = tuomarit.getString("tuomariSukunimi");
-//                      
-//		  System.out.println("Loop-testi");
-//                  ++laskin;
-//		  System.out.println(tid + "\t" + tEtu + "\t" + tSuku);
-//		  }
-//        	ResultSet asd = st.executeQuery("SELECT * FROM  `tupa`.`tuomarit`");
-        // int v3 =  st.executeUpdate("insert into tuomarit (tuomari-ID) values ('"+laskin+"')");
     }
 
-    public String annaTallennusTiedosto() {
-        return tallennusTiedosto;
-    }
-
-    private String getCurrentTimeStamp() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
