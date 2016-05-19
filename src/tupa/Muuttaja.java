@@ -42,7 +42,10 @@ public class Muuttaja {
                 }
 
             }
+         
 
+       
+            
         } else if (arvo instanceof Tuomari) {
 
             // tallennetaan turnaus, johon kuuluu
@@ -52,11 +55,11 @@ public class Muuttaja {
 
                     Turnaus turnaus = (Turnaus) ikkuna.annaKohteet().get(i);
                     tuomari.asetaTurnaus(turnaus);
-                  
 
                 }
 
             }
+  
 
         }
 
@@ -658,11 +661,11 @@ public class Muuttaja {
                     }
 
                     if (!parillinen_maara && kotiottelut >= maara / 2) {
-                  
+
                         kotiyli.add(joukkueet[i]);
 
                     } else if (!parillinen_maara && vierasottelut >= maara / 2) {
-                     
+
                         kotiali.add(joukkueet[i]);
 
                     }

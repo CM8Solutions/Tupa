@@ -122,7 +122,9 @@ public class Valikko implements EventHandler<ActionEvent> {
                     //tyhjennetään kaikki tiedot 
                     ikkuna.annaKohteet().clear();
 
-                    Kohde uusiTurnaus = new Turnaus();
+                    Aloitus aloitus = new Aloitus();
+                    Turnaus turnaus = aloitus.luoAlkuTurnaus();
+                    Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
                     ikkuna.annaKohteet().add(uusiTurnaus);
 

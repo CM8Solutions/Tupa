@@ -72,6 +72,8 @@ public class Tupa extends Application {
 
         //luodaan turnaus, kun ohjelma käynnistyy
        
+        Aloitus aloitus = new Aloitus();
+        turnaus = aloitus.luoAlkuTurnaus();
         kohdetk.add(turnaus);
  
         BorderPane border = new BorderPane();

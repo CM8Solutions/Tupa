@@ -20,6 +20,7 @@ public class Tallennus {
     private Yhteys yhteys = new Yhteys();
     private int turnaus_id;
     private String sql = "";
+    private boolean poisto = true;
 
     Tallennus() {
 
@@ -38,93 +39,146 @@ public class Tallennus {
             con = yhteys.annaYhteys();
             st = con.createStatement();
 
-            Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
-            turnaus_id = turnaus.annaID();
+            if (poisto) {
 
-            String turnaus_nimi = turnaus.toString();
+                Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+                turnaus_id = turnaus.annaID();
 
-            ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
-            boolean loyty = false;
-            while (turnaukset.next()) {
+                String turnaus_nimi = turnaus.toString();
 
-                int tid = turnaukset.getInt("id");
+                ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
+                boolean loyty = false;
+                while (turnaukset.next()) {
 
-                if (tid == turnaus_id) {
-                    loyty = true;
-                    break;
+                    int tid = turnaukset.getInt("id");
+
+                    if (tid == turnaus_id) {
+                        loyty = true;
+                        break;
+                    }
+
                 }
 
-            }
+                //ei ollut kannassa ennestään
+                if (!loyty) {
 
-            //ei ollut kannassa ennestään
-            if (!loyty) {
+                    st.executeUpdate("INSERT INTO turnaus (id, nimi) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "')");
 
-                st.executeUpdate("INSERT INTO turnaus (id, nimi) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "')");
+                } //oli jo kannassa, jolloin kaikki siihen liittyvät tiedot tyhjennetään ennen tallentamista
+                else {
+                    st.executeUpdate("UPDATE turnaus SET nimi='" + turnaus_nimi + "' WHERE id='" + turnaus_id + "'");
 
-            } //oli jo kannassa, jolloin kaikki siihen liittyvät tiedot tyhjennetään ennen tallentamista
+                    if (poisto) {
+                        //tyhjennetään tuomarit
+                        sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
+                        st.executeUpdate(sql);
+                        //tyhjennetään sarjat
+                        sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
+                        st.executeUpdate(sql);
+                        //MUIDEN TYHJENNYS!!
+                    }
+
+                }
+
+                //ja täytetään se kohdetk:n mukaiseksi
+                if (!kohdetk.isEmpty()) {
+
+                    for (int i = 0; i < kohdetk.size(); i++) {
+
+                        Kohde tiedot = kohdetk.get(i);
+
+                        if (tiedot instanceof Sarja) {
+
+                            Sarja sarja = (Sarja) tiedot;
+
+                            int id = sarja.annaID();
+                            String nimi = sarja.toString();
+
+                            st.executeUpdate("INSERT INTO sarja (id, nimi, turnaus_id) VALUES('" + id + "', '" + nimi + "', '" + turnaus_id + "')");
+
+                        } else if (tiedot instanceof Tuomari) {
+
+                            Tuomari tuomari = (Tuomari) tiedot;
+
+                            int tuomari_id = tuomari.annaJulkinenId();
+                            int id = tuomari.annaID();
+                            String etunimi = tuomari.annaEtuNimi();
+                            String sukunimi = tuomari.annaSukuNimi();
+
+                            st.executeUpdate("INSERT INTO tuomari (id, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + id + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
+
+                        } else if (tiedot instanceof Joukkue) {
+
+                            Joukkue joukkue = (Joukkue) tiedot;
+
+                        } else if (tiedot instanceof Pelaaja) {
+
+                            Pelaaja pelaaja = (Pelaaja) tiedot;
+
+                        } else if (tiedot instanceof Toimihenkilo) {
+
+                            Toimihenkilo toimari = (Toimihenkilo) tiedot;
+
+                        }
+
+                    }
+
+                }
+            } //JOS POISTOA EI OLLA TEHTY, päivitetään ainostaan tiedot (tätä käytetään hakutoiminnon yhteydessä), tän voi tehdä vain niille, joita haetaan!
             else {
+
+                Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+                turnaus_id = turnaus.annaID();
+
+                String turnaus_nimi = turnaus.toString();
+
                 st.executeUpdate("UPDATE turnaus SET nimi='" + turnaus_nimi + "' WHERE id='" + turnaus_id + "'");
-            //tyhjennetään tuomarit
-            sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
-            st.executeUpdate(sql);
-            //tyhjennetään sarjat
-            sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
-            st.executeUpdate(sql);
-            //MUIDEN TYHJENNYS!!
-            
-            
-            
-            }
 
-        
+                //ja täytetään se kohdetk:n mukaiseksi
+                if (!kohdetk.isEmpty()) {
 
-            //ja täytetään se kohdetk:n mukaiseksi
-            if (!kohdetk.isEmpty()) {
+                    for (int i = 0; i < kohdetk.size(); i++) {
 
-                for (int i = 0; i < kohdetk.size(); i++) {
+                        Kohde tiedot = kohdetk.get(i);
 
-                    Kohde tiedot = kohdetk.get(i);
+                        if (tiedot instanceof Sarja) {
 
-                    if (tiedot instanceof Sarja) {
-                        
-                        Sarja sarja = (Sarja) tiedot;
-                        
-                        int id = sarja.annaID();
-                        String nimi = sarja.toString();
-                        
-                        st.executeUpdate("INSERT INTO sarja (id, nimi, turnaus_id) VALUES('" + id + "', '" + nimi + "', '" + turnaus_id + "')");
+                            Sarja sarja = (Sarja) tiedot;
 
-                        
-                        
-                    } else if (tiedot instanceof Tuomari) {
+                            int id = sarja.annaID();
+                            String nimi = sarja.toString();
 
-                        Tuomari tuomari = (Tuomari) tiedot;
+                            st.executeUpdate("UPDATE sarja SET nimi='" + nimi + "' WHERE id='" + id + "' AND turnaus_id='" + turnaus_id + "'");
 
-                        int tuomari_id = tuomari.annaJulkinenId();
-                        int id = tuomari.annaID();
-                        String etunimi = tuomari.annaEtuNimi();
-                        String sukunimi = tuomari.annaSukuNimi();
-        
-                        st.executeUpdate("INSERT INTO tuomari (id, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + id + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
+                        } else if (tiedot instanceof Tuomari) {
 
-                
+                            Tuomari tuomari = (Tuomari) tiedot;
 
-                    } else if (tiedot instanceof Joukkue) {
+                            int tuomari_id = tuomari.annaJulkinenId();
+                            int id = tuomari.annaID();
+                            String etunimi = tuomari.annaEtuNimi();
+                            String sukunimi = tuomari.annaSukuNimi();
 
-                        Joukkue joukkue = (Joukkue) tiedot;
+                            st.executeUpdate("UPDATE tuomari SET etunimi='" + etunimi + "' WHERE id='" + id + "' AND turnaus_id='" + turnaus_id + "'");
+                            st.executeUpdate("UPDATE tuomari SET sukunimi='" + sukunimi + "' WHERE id='" + id + "' AND turnaus_id='" + turnaus_id + "'");
 
-                    } else if (tiedot instanceof Pelaaja) {
+                        } else if (tiedot instanceof Joukkue) {
 
-                        Pelaaja pelaaja = (Pelaaja) tiedot;
+                            Joukkue joukkue = (Joukkue) tiedot;
 
-                    } else if (tiedot instanceof Toimihenkilo) {
+                        } else if (tiedot instanceof Pelaaja) {
 
-                        Toimihenkilo toimari = (Toimihenkilo) tiedot;
+                            Pelaaja pelaaja = (Pelaaja) tiedot;
 
-                    } 
+                        } else if (tiedot instanceof Toimihenkilo) {
+
+                            Toimihenkilo toimari = (Toimihenkilo) tiedot;
+
+                        }
+
+                    }
 
                 }
-
             }
 
         } catch (SQLException se) {
@@ -152,6 +206,10 @@ public class Tallennus {
         //päivitetään tilanne, että tallennus on suoritettu
         ikkuna.asetaMuutos(false);
 
+    }
+
+    public void asetaPoisto(boolean poisto) {
+        this.poisto = poisto;
     }
 
 }

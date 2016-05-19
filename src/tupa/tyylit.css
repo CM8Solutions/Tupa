@@ -1563,6 +1563,27 @@
  *                                                                             *
  ******************************************************************************/
 
+#my-list{
+     -fx-cursor: hand;
+      -fx-text-fill: blue;
+        
+      -fx-font: 15px "Papyrus";
+      
+}
+#my-list .list-cell {
+ 
+    -fx-text-fill: blue;
+  
+}
+
+
+#my-list2{
+   
+      -fx-text-fill: blue;
+      -fx-font: 15px "Papyrus";
+      
+}
+
 .list-view {
     -fx-background-color:  white;
     -fx-background-insets: 0, 1;
@@ -1630,11 +1651,22 @@
     -fx-text-fill: -fx-selection-bar-text;
 }
 
+#my-list .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:focused:selected {
+
+    -fx-text-fill: blue;
+}
+
+
 .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected, 
 .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
     -fx-background:  white;
     -fx-background-color: white;
     -fx-text-fill: -fx-selection-bar-text;
+}
+
+#my-list .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected, 
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+        -fx-text-fill: blue;
 }
 
 .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:focused:selected:hover {
@@ -1644,6 +1676,10 @@
     -fx-text-fill: -fx-selection-bar-text;
 }
 
+#my-list .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:focused:selected:hover {
+   -fx-text-fill: blue;
+}
+
 /* When the ListView is _not_ focused, we show alternate selection colors */
 .list-cell:filled:selected:focused,
 .list-cell:filled:selected,
@@ -1651,6 +1687,13 @@
     -fx-background-color: white;
     -fx-text-fill: -fx-selection-bar-text;
 }
+
+#my-list .list-cell:filled:selected:focused,
+.list-cell:filled:selected,
+.list-view:horizontal > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+   -fx-text-fill: blue;
+}
+
 
 .list-cell:filled:selected:focused:disabled, 
 .list-cell:filled:selected:disabled {
@@ -4666,3 +4709,16 @@ to the top and bottom -fx-padding values of the parent toolbar. */
     -fx-graphic: url("dialog-warning.png");
 }
 
+
+
+#my-list .list-cell:filled:hover {
+   -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+}
+
+#my-list .list-cell:filled:selected:focused,
+.list-cell:filled:selected,
+.list-view:horizontal > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: #0080ff;
+    -fx-text-fill: white;
+}

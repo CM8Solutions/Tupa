@@ -67,6 +67,9 @@ public class Avaus {
                 tuomari.asetaID(id);
                 tuomari.asetaTurnaus(turnaus);
                 tuomari.asetaJulkinenId(julkinen_id);
+                
+                turnaus.annaTuomarit().add(tuomari);
+                
                 kohdetk.add((Kohde) tuomari);
             }
 
@@ -83,6 +86,8 @@ public class Avaus {
                 Sarja sarja = new Sarja(nimi, turnaus);
                 sarja.asetaID(id);
 
+                turnaus.annaSarjat().add(sarja);
+                
                 kohdetk.add((Kohde) sarja);
             }
 

@@ -3,6 +3,9 @@ Luokka, joka muodostaa päänäkymät
  */
 package tupa;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -49,7 +52,7 @@ public class PaaNakyma {
     private PelaajaNakyma pelaajanakyma;
     private TuomariNakyma tuomarinakyma;
     private ToimariNakyma toimarinakyma;
-
+private VBox tulos = new VBox();
     PaaNakyma() {
 
     }
@@ -148,7 +151,7 @@ public class PaaNakyma {
 
     public void luoEtusivu() {
 
-        HBox osa = new HBox();
+   
 
         HBox nimipalkki = new HBox();
 
@@ -186,13 +189,13 @@ public class PaaNakyma {
         hakupalkki.setAlignment(Pos.CENTER);
 
         hakupalkki.setSpacing(20);
-        Label otsikko = new Label("Hae sarjaa/joukkuetta/tuomaria: ");
+        Label otsikko = new Label("Hae sarjaa/joukkuetta/pelaajaa/toimihenkilöä/tuomaria: ");
         otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 18));
         //hakutoiminto HBox
-        HBox haku = new HBox();
+        HBox hakuboxi = new HBox();
         Label hakuteksti = new Label("Hae: ");
         hakuteksti.setId("label-haku");
-        haku.setAlignment(Pos.CENTER);
+        hakuboxi.setAlignment(Pos.CENTER);
         TextField hakukentta = new TextField();
 
         //nappula
@@ -206,22 +209,23 @@ public class PaaNakyma {
         hakunappula.setGraphic(hakukuva);
         hakunappula.setId("button-haku");
 
-        haku.setPadding(new Insets(10));
-        haku.setSpacing(10);
-        haku.getChildren().addAll(hakuteksti, hakukentta, hakunappula);
+        hakuboxi.setPadding(new Insets(10));
+        hakuboxi.setSpacing(10);
+        hakuboxi.getChildren().addAll(hakuteksti, hakukentta, hakunappula);
 
-        VBox tulospalkki = new VBox();
+        StackPane tulospalkki = new StackPane();
         tulospalkki.setPadding(new Insets(10));
-        tulospalkki.setSpacing(10);
+     Label hotsikko = new Label();
         tulospalkki.setAlignment(Pos.CENTER);
+          Haku haku = new Haku((Turnaus)ikkuna.annaTurnaus(), this);
         hakunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                Haku haku = new Haku();
-                ListView tulos = haku.luoHakuTulos(hakukentta.getText());
-                tulospalkki.getChildren().add(tulos);
-                hakukentta.setText("");
+                try {
+                    luoHakutulossivu(hakukentta.getText());
+                } catch (SQLException ex) {
+                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         });
@@ -229,23 +233,106 @@ public class PaaNakyma {
         ScrollPane sb = new ScrollPane();
         sb.setStyle("-fx-background: #fff;");
 
-        hakupalkki.getChildren().addAll(otsikko, haku, tulospalkki);
+        hakupalkki.getChildren().addAll(otsikko, hakuboxi, hotsikko, tulospalkki);
 
         GridPane grid = new GridPane();
+        grid.setPadding(new Insets(0, 0,0,300));
         grid.add(muokkausnappula, 2, 1);
         grid.add(nimipalkki, 1, 1);
 
         grid.add(hakupalkki, 1, 2);
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(40);
-        osa.getChildren().addAll(grid);
-        osa.setAlignment(Pos.CENTER);
-        sb.setContent(osa);
 
-        StackPane uusisp = new StackPane();
-        uusisp = ikkuna.annaNaytto();
-        uusisp.setAlignment(sb, Pos.CENTER);
-        ikkuna.annaNaytto().getChildren().add(grid);
+        sb.setContent(grid);
+
+        ikkuna.annaNaytto().getChildren().add(sb);
+
+    }
+    
+     public void luoHakutulossivu(String hakusana) throws SQLException {
+
+   
+
+        HBox nimipalkki = new HBox();
+nimipalkki.setPadding(new Insets(20));
+        nimipalkki.setPadding(new Insets(0,20,20,400));
+        Label nimi = new Label(ikkuna.annaTurnaus().toString());
+        nimi.setFont(Font.font("Papyrus", FontWeight.BOLD, 36));
+        nimipalkki.setAlignment(Pos.CENTER);
+        nimipalkki.getChildren().addAll(nimi);
+        
+        VBox painike = new VBox();
+       painike.setPadding(new Insets(20));
+        
+        Button paluunappula = new Button("<< Palaa takaisin");
+      
+paluunappula.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                luoEtusivu();
+            }
+        });
+        painike.getChildren().add(paluunappula);
+        
+        VBox peitto = new VBox();
+        peitto.setStyle("-fx-background-color: white;");
+        ikkuna.annaNaytto().getChildren().add(peitto);
+
+
+        VBox hakupalkki = new VBox();
+        hakupalkki.setAlignment(Pos.CENTER);
+hakupalkki.setPadding(new Insets(0,20,40,400));
+        hakupalkki.setSpacing(20);
+        Label otsikko = new Label("Hakutulokset: ");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 18));
+        //hakutoiminto HBox
+       
+
+     
+          Haku haku = new Haku((Turnaus)ikkuna.annaTurnaus(), this);
+        
+                Tallennus tallennus = new Tallennus(ikkuna);
+                tallennus.asetaPoisto(false);
+                try {
+                    tallennus.suoritaTallennus();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                }
+              
+                
+     
+            
+                tulos = haku.luoHakuTulos(hakusana);
+      
+                        hakupalkki.getChildren().add(otsikko);
+                hakupalkki.getChildren().add(tulos);
+            
+
+         
+   
+        hakupalkki.setAlignment(Pos.CENTER);
+        ScrollPane sb = new ScrollPane();
+        sb.setStyle("-fx-background: #fff;");
+
+      
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(20));
+       grid.add(painike, 1, 0);
+        grid.add(nimipalkki, 1, 1);
+
+        grid.add(hakupalkki, 1, 2);
+        grid.setAlignment(Pos.CENTER);
+       
+
+        sb.setContent(grid);
+
+        ikkuna.annaNaytto().getChildren().add(sb);
 
     }
 
