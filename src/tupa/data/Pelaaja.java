@@ -13,12 +13,16 @@ import javafx.beans.property.StringProperty;
  */
 public class Pelaaja extends Henkilo {
 
+    //+henkilon ja kohteen attribuutit
     private static int peLaskuri;
     private int id_julkinen;
     private Joukkue joukkue;
-    // väliltä 1-99
     private int pelinumero;
     private String pelipaikka;
+
+    private List<Kokoonpano> kokoonpanot = new ArrayList<>();
+    private List<Maali> maalit = new ArrayList<>();
+
     private transient IntegerProperty taulukkonumero = new SimpleIntegerProperty();
     private transient IntegerProperty taulukko_ottelut = new SimpleIntegerProperty();
     private transient IntegerProperty taulukkomaalit = new SimpleIntegerProperty();
@@ -32,33 +36,41 @@ public class Pelaaja extends Henkilo {
     private transient StringProperty taulukkosukunimi = new SimpleStringProperty();
     private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
 
-    private List<Kokoonpano> kokoonpanot = new ArrayList<>();
-    private List<Maali> maalit = new ArrayList<>();
-
     public Pelaaja() {
 
         peLaskuri++;
+        id_julkinen = 85000 + peLaskuri;
+        asetaID(peLaskuri);
     }
 
     public Pelaaja(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
         peLaskuri++;
         id_julkinen = 85000 + peLaskuri;
-
+        asetaID(peLaskuri);
     }
 
     public List<Maali> annaMaaliLista() {
         return maalit;
     }
 
-    public int annaPelaajaMaara() {
+    public int annaLaskuri() {
         return peLaskuri;
     }
+    public void asetaLaskuri(int laskuri) {
+        this.peLaskuri = laskuri;
+    }
 
+    
     public int annaJulkinenID() {
         return id_julkinen;
     }
 
+    public void asetaJulkinenID(int id) {
+        this.id_julkinen = id;
+    }
+
+    
     public Joukkue annaJoukkue() {
         return joukkue;
     }

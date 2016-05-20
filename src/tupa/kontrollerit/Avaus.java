@@ -28,9 +28,13 @@ public class Avaus {
     private Connection con = null;
     private Statement st = null;
     private Statement st2 = null;
+    private Statement st3 = null;
+    private Statement st4 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
-     private String sql2 = "";
+    private String sql2 = "";
+    private String sql3 = "";
+    private String sql4 = "";
     private int turnaus_id;
     private Turnaus turnaus;
 
@@ -44,7 +48,9 @@ public class Avaus {
 
             con = yhteys.annaYhteys();
             st = con.createStatement();
-  st2 = con.createStatement();
+            st2 = con.createStatement();
+             st3 = con.createStatement();
+            st4 = con.createStatement();
             //haetaan turnaus
             sql = "SELECT * FROM turnaus WHERE id=1";
 
@@ -115,6 +121,64 @@ public class Avaus {
                     sarja.annaJoukkueet().add(joukkue);
 
                     kohdetk.add((Kohde) joukkue);
+
+                    //haetaan ko joukkueen pelaajat
+                    sql3 = "SELECT DISTINCT * FROM pelaaja WHERE joukkue_id='" + jid + "'";
+
+                    ResultSet pelaajat = st3.executeQuery(sql3);
+
+                    while (pelaajat.next()) {
+                        String etunimi = pelaajat.getString("etunimi");
+                        String sukunimi = pelaajat.getString("sukunimi");
+                        String pelipaikka = pelaajat.getString("pelipaikka");
+
+                        int pid = pelaajat.getInt("id");
+                        int pelinumero = pelaajat.getInt("pelinumero");
+                        int pelaaja_id = pelaajat.getInt("pelaaja_id");
+                      
+
+                        Pelaaja pelaaja = new Pelaaja(etunimi, sukunimi);
+                        pelaaja.asetaID(pid);
+                        pelaaja.asetaPelinumero(pelinumero);
+                        pelaaja.asetaJulkinenID(pelaaja_id);
+                        pelaaja.asetaPelipaikka(pelipaikka);
+                        pelaaja.asetaJoukkue(joukkue);
+
+                        joukkue.annaPelaajat().add(pelaaja);
+
+                        kohdetk.add((Kohde) pelaaja);
+
+                    }
+                    
+                         //haetaan ko joukkueen toimarit
+                    sql4 = "SELECT DISTINCT * FROM toimari WHERE joukkue_id='" + jid + "'";
+
+                    ResultSet toimarit = st4.executeQuery(sql4);
+
+                    while (toimarit.next()) {
+                        String etunimi = toimarit.getString("etunimi");
+                        String sukunimi = toimarit.getString("sukunimi");
+                        String rooli = toimarit.getString("rooli");
+                        String sposti = toimarit.getString("sposti");
+                        String puh = toimarit.getString("puh");
+                        
+                        int toid = toimarit.getInt("id");
+                                     
+
+                        Toimihenkilo toimari = new Toimihenkilo(etunimi, sukunimi);
+                        toimari.asetaID(toid);
+                        toimari.asetaSposti(sposti);
+                        toimari.asetaPuh(puh);
+                        toimari.asetaRooli(rooli);
+                        
+
+                        toimari.asetaJoukkue(joukkue);
+
+                        joukkue.annaToimarit().add(toimari);
+
+                        kohdetk.add((Kohde) toimari);
+
+                    }
 
                 }
 

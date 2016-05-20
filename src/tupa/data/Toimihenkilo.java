@@ -24,11 +24,13 @@ public class Toimihenkilo extends Henkilo {
 
     public Toimihenkilo() {
         toLaskuri++;
+        asetaID(toLaskuri);
     }
 
     public Toimihenkilo(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
         toLaskuri++;
+           asetaID(toLaskuri);
     }
 
     public int annaToimariMaara() {

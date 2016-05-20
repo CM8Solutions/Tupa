@@ -19,6 +19,7 @@ public class Sarja extends Kohde {
     public Sarja() {
         saLaskuri++;
         asetaID(saLaskuri);
+        
     }
 
     public Sarja(String nimi, Turnaus turnaus) {
@@ -26,6 +27,7 @@ public class Sarja extends Kohde {
         super(nimi);
         saLaskuri++;
         asetaID(saLaskuri);
+         
         this.turnaus = turnaus;
     }
 
