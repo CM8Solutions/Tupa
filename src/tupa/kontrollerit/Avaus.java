@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import tupa.data.Ottelu;
 import tupa.data.TuomarinRooli;
 import tupa.data.Kokoonpano;
@@ -30,6 +34,7 @@ public class Avaus {
     private Statement st2 = null;
     private Statement st3 = null;
     private Statement st4 = null;
+    private Statement st5 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
     private String sql2 = "";
@@ -49,8 +54,9 @@ public class Avaus {
             con = yhteys.annaYhteys();
             st = con.createStatement();
             st2 = con.createStatement();
-             st3 = con.createStatement();
+            st3 = con.createStatement();
             st4 = con.createStatement();
+            st5 = con.createStatement();
             //haetaan turnaus
             sql = "SELECT * FROM turnaus WHERE id=1";
 
@@ -135,7 +141,6 @@ public class Avaus {
                         int pid = pelaajat.getInt("id");
                         int pelinumero = pelaajat.getInt("pelinumero");
                         int pelaaja_id = pelaajat.getInt("pelaaja_id");
-                      
 
                         Pelaaja pelaaja = new Pelaaja(etunimi, sukunimi);
                         pelaaja.asetaID(pid);
@@ -149,8 +154,8 @@ public class Avaus {
                         kohdetk.add((Kohde) pelaaja);
 
                     }
-                    
-                         //haetaan ko joukkueen toimarit
+
+                    //haetaan ko joukkueen toimarit
                     sql4 = "SELECT DISTINCT * FROM toimari WHERE joukkue_id='" + jid + "'";
 
                     ResultSet toimarit = st4.executeQuery(sql4);
@@ -161,16 +166,14 @@ public class Avaus {
                         String rooli = toimarit.getString("rooli");
                         String sposti = toimarit.getString("sposti");
                         String puh = toimarit.getString("puh");
-                        
+
                         int toid = toimarit.getInt("id");
-                                     
 
                         Toimihenkilo toimari = new Toimihenkilo(etunimi, sukunimi);
                         toimari.asetaID(toid);
                         toimari.asetaSposti(sposti);
                         toimari.asetaPuh(puh);
                         toimari.asetaRooli(rooli);
-                        
 
                         toimari.asetaJoukkue(joukkue);
 
@@ -179,6 +182,58 @@ public class Avaus {
                         kohdetk.add((Kohde) toimari);
 
                     }
+
+                }
+
+                //haetaan ottelut
+                sql = "SELECT DISTINCT * FROM ottelu  WHERE sarja_id='" + sid + "'";
+                ResultSet ottelut = st5.executeQuery(sql);
+
+                while (ottelut.next()) {
+                    String nimi = ottelut.getString("nimi");
+
+                    String paikka = ottelut.getString("paikka");
+
+                    String kellotunnit = ottelut.getString("kellotunnit");
+                    String kellominuutit = ottelut.getString("kellominuutit");
+                    String paiva = ottelut.getString("paiva");
+                    int id = ottelut.getInt("id");
+                    int ottelu_id = ottelut.getInt("ottelu_id");
+                    int kierros = ottelut.getInt("kierros");
+                    int vierasmaalit = ottelut.getInt("vierasmaalit");
+                    int kotimaalit = ottelut.getInt("kotimaalit");
+
+                    int kotijoukkue_id = ottelut.getInt("kotijoukkue_id");
+                    int vierasjoukkue_id = ottelut.getInt("vierasjoukkue_id");
+
+                    Ottelu ottelu = new Ottelu(sarja);
+                    ottelu.asetaNimi(nimi);
+
+                    ottelu.asetaPaikka(paikka);
+                    ottelu.asetaTunnit(kellotunnit);
+                    ottelu.asetaMinuutit(kellominuutit);
+                    DateFormat muoto = new SimpleDateFormat("dd.mm.yyyy", Locale.ENGLISH);
+                    Date paiva_date = muoto.parse(paiva);
+
+                    ottelu.asetaPaivaDate(paiva_date);
+                    ottelu.asetaID(id);
+                    ottelu.asetaOttelunumero(ottelu_id);
+                    ottelu.asetaKierros(kierros);
+                    ottelu.asetaVierasmaalit(vierasmaalit);
+                    ottelu.asetaKotimaalit(kotimaalit);
+
+                    for (int k = 0; k < sarja.annaJoukkueet().size(); k++) {
+                        if (sarja.annaJoukkueet().get(k).annaID() == vierasjoukkue_id) {
+                            ottelu.asetaVierasjoukkue(sarja.annaJoukkueet().get(k));
+                            sarja.annaJoukkueet().get(k).annaOttelut().add(ottelu);
+                        } else if (sarja.annaJoukkueet().get(k).annaID() == kotijoukkue_id) {
+                            ottelu.asetaKotijoukkue(sarja.annaJoukkueet().get(k));
+                            sarja.annaJoukkueet().get(k).annaOttelut().add(ottelu);
+                        }
+
+                    }
+                    ottelu.asetaTulos(kotimaalit, vierasmaalit);
+                    sarja.annaOttelut().add(ottelu);
 
                 }
 

@@ -46,7 +46,6 @@ public class Joukkue extends Kohde {
         super(nimi);
         joLaskuri++;
         asetaID(joLaskuri);
-        
 
     }
 

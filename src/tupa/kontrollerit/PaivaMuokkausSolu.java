@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Locale;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
@@ -60,7 +61,7 @@ class PaivaMuokkausSolu extends TableCell<Ottelu, Date> {
 
     private void createDatePicker() {
         datePicker = new DatePicker(getDate());
-        datePicker.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
+        datePicker.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 4);
         datePicker.setOnAction((e) -> {
 
             commitEdit(Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -69,6 +70,8 @@ class PaivaMuokkausSolu extends TableCell<Ottelu, Date> {
     }
 
     private LocalDate getDate() {
+
         return getItem() == null ? LocalDate.now() : getItem().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    
     }
 }

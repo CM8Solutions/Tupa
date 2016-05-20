@@ -8,6 +8,7 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -35,14 +36,17 @@ public class Ottelu implements Serializable {
     private Date paiva_date;
     private String kello = "0 : 00";
     private LocalDate kalenteriaika;
-    private String paikka;
+    private String paikka = "";
+     private Kokoonpano koti_kokoonpano;
+    private Kokoonpano vieras_kokoonpano;
+      private String kellotunnit = "0";
+    private String kellominuutit = "00";
+    private int kierros;  
+    
     private List<Maali> maalit = new ArrayList<>();
     private List<TuomarinRooli> roolit = new ArrayList<>();
-    private Kokoonpano koti_kokoonpano;
-    private Kokoonpano vieras_kokoonpano;
-    private String kellotunnit = "0";
-    private String kellominuutit = "00";
-    private int kierros;
+   
+
 
     //taulukkoattribuutit   
     private transient IntegerProperty taulukkoid = new SimpleIntegerProperty();
@@ -62,9 +66,7 @@ public class Ottelu implements Serializable {
     private transient ObjectProperty<Joukkue> taulukkokotijoukkue = new SimpleObjectProperty();
     private transient ObjectProperty<Joukkue> taulukkovierasjoukkue = new SimpleObjectProperty();
 
-    public Ottelu() {
 
-    }
 
     public Ottelu(Sarja sarja) {
         this.sarja = sarja;
@@ -77,6 +79,10 @@ public class Ottelu implements Serializable {
 
     public void asetaID(int id) {
         this.id = id;
+    }
+    
+    public void asetaOttelunumero(int nro){
+        this.otteluNumero = nro;
     }
 
     public void asetaNimi(String nimi) {
@@ -128,6 +134,7 @@ public class Ottelu implements Serializable {
         asetaTaulukkokello();
     }
 
+   
     public void asetaKotimaalit(int kotimaalit) {
         this.kotimaalit = kotimaalit;
 
@@ -289,9 +296,11 @@ public class Ottelu implements Serializable {
         this.taulukkopaiva = new SimpleObjectProperty(this.annaPaivaDate());
     }
 
-    private LocalDate getDate() {
+   public LocalDate getDate() {
+    
         return paiva_date == null ? LocalDate.now() : paiva_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
+    
+   }
 
     public Date annaPaivaDate() {
 
@@ -311,6 +320,7 @@ public class Ottelu implements Serializable {
         asetaTaulukkopaiva();
     }
 
+  
     public StringProperty taulukkokelloProperty() {
         return taulukkokello;
     }
