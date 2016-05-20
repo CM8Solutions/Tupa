@@ -787,23 +787,39 @@ public class SarjaNakyma {
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(20, 10, 40, 300));
+        grid.setPadding(new Insets(20, 20, 60, 20));
 
+        
+          VBox rivi0 = new VBox();
+         rivi0.setPadding(new Insets(20));
+        
+               Button paluu = new Button("<< Palaa sarjasivulle");
+        paluu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                
+                TreeItem<Kohde> mihin = new TreeItem<>(sarja);
+                luoSarjaSivu(mihin);
+            }
+        });
+        
+        rivi0.getChildren().add(paluu);
+        
         VBox rivi1 = new VBox();
         rivi1.setAlignment(Pos.CENTER);
 
         HBox rivi2 = new HBox();
-        rivi2.setPadding(new Insets(20));
+        rivi2.setPadding(new Insets(20, 20, 20, 300));
         rivi2.setAlignment(Pos.CENTER);
         Label nimi = new Label("Lisää joukkueita sarjaan " + sarja.toString() + ":");
         nimi.setFont(Font.font("Papyrus", 32));
 
         rivi2.getChildren().addAll(nimi);
-
+ grid.add(rivi0, 0, 0);
         grid.add(rivi2, 0, 1);
 
         VBox osio2 = new VBox();
-        osio2.setPadding(new Insets(40, 0, 0, 0));
+        osio2.setPadding(new Insets(20, 0, 0, 0));
         osio2.setSpacing(20);
         osio2.setAlignment(Pos.CENTER);
 
@@ -871,10 +887,19 @@ public class SarjaNakyma {
         painikeboksi2.getChildren().addAll(lisaaJoukkue, lisaysnappula2);
         alle2.getChildren().addAll(painikeboksi2);
 
-        osio2.getChildren().addAll(otsikkorivi2, joukkueet, alle2);
+        
 
+        
+ 
+        
+        
+        osio2.getChildren().addAll(otsikkorivi2, joukkueet, alle2);
+        
+        
+        
+        
         HBox rivi6 = new HBox();
-        rivi6.setPadding(new Insets(0));
+        rivi6.setPadding(new Insets(10, 20, 20, 300));
 
         rivi6.getChildren().addAll(osio2);
 

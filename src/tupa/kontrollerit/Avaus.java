@@ -1,16 +1,22 @@
 package tupa.kontrollerit;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import tupa.data.Ottelu;
+import tupa.data.TuomarinRooli;
+import tupa.data.Kokoonpano;
+import tupa.data.Maali;
 import tupa.data.Kohde;
 import tupa.data.Turnaus;
-import tupa.data.Tuomari;
 import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
 
 /**
  *
@@ -21,11 +27,12 @@ public class Avaus {
     private List<Kohde> kohdetk = new ArrayList<>();
     private Connection con = null;
     private Statement st = null;
+    private Statement st2 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
+     private String sql2 = "";
     private int turnaus_id;
     private Turnaus turnaus;
-
 
     public Avaus() {
 
@@ -37,7 +44,7 @@ public class Avaus {
 
             con = yhteys.annaYhteys();
             st = con.createStatement();
-
+  st2 = con.createStatement();
             //haetaan turnaus
             sql = "SELECT * FROM turnaus WHERE id=1";
 
@@ -67,9 +74,9 @@ public class Avaus {
                 tuomari.asetaID(id);
                 tuomari.asetaTurnaus(turnaus);
                 tuomari.asetaJulkinenId(julkinen_id);
-                
+
                 turnaus.annaTuomarit().add(tuomari);
-                
+
                 kohdetk.add((Kohde) tuomari);
             }
 
@@ -79,16 +86,38 @@ public class Avaus {
             ResultSet sarjat = st.executeQuery(sql);
 
             while (sarjat.next()) {
-                String nimi = sarjat.getString("nimi");
+                String snimi = sarjat.getString("nimi");
 
-                int id = sarjat.getInt("id");
+                int sid = sarjat.getInt("id");
 
-                Sarja sarja = new Sarja(nimi, turnaus);
-                sarja.asetaID(id);
+                Sarja sarja = new Sarja(snimi, turnaus);
+                sarja.asetaID(sid);
 
                 turnaus.annaSarjat().add(sarja);
-                
+
                 kohdetk.add((Kohde) sarja);
+
+                //haetaan ko sarjan joukkueet
+                sql2 = "SELECT DISTINCT * FROM joukkue WHERE sarja_id='" + sid + "'";
+
+                ResultSet joukkueet = st2.executeQuery(sql2);
+
+                while (joukkueet.next()) {
+                    String jnimi = joukkueet.getString("nimi");
+
+                    int jid = joukkueet.getInt("id");
+
+                    Joukkue joukkue = new Joukkue(jnimi);
+                    joukkue.asetaID(jid);
+
+                    joukkue.asetaSarja(sarja);
+
+                    sarja.annaJoukkueet().add(joukkue);
+
+                    kohdetk.add((Kohde) joukkue);
+
+                }
+
             }
 
         } catch (SQLException se) {

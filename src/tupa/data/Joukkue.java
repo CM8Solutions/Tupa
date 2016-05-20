@@ -14,8 +14,7 @@ import javafx.beans.property.StringProperty;
 public class Joukkue extends Kohde {
 
     private static int joLaskuri;
-
-    private int julkinenID;
+    private Sarja sarja;
 
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
     private transient IntegerProperty taulukko_ottelut = new SimpleIntegerProperty();
@@ -26,9 +25,6 @@ public class Joukkue extends Kohde {
     private transient IntegerProperty taulukkosijoitus = new SimpleIntegerProperty();
     private transient StringProperty taulukkomaalisuhde = new SimpleStringProperty();
 
-    
-    
-    private Sarja sarja;
     private List<Ottelu> ottelut = new ArrayList<Ottelu>();
     private List<Toimihenkilo> toimarit = new ArrayList<Toimihenkilo>();
     private List<Pelaaja> pelaajat = new ArrayList<Pelaaja>();
@@ -37,29 +33,29 @@ public class Joukkue extends Kohde {
     private List<Integer> haviot = new ArrayList<Integer>();
     private List<Integer> tehdyt = new ArrayList<Integer>();
     private List<Integer> paastetyt = new ArrayList<Integer>();
-  
 
-   public Joukkue() {
+    public Joukkue() {
 
         joLaskuri++;
-        julkinenID = 201600 + joLaskuri;
+        asetaID(joLaskuri);
 
     }
 
-   public Joukkue(String nimi) {
+    public Joukkue(String nimi) {
 
         super(nimi);
         joLaskuri++;
-        julkinenID = 201600 + joLaskuri;
+        asetaID(joLaskuri);
+        
 
     }
 
-    public int annaJoukkueMaara() {
+    public int annaLaskuri() {
         return joLaskuri;
     }
 
-    public int annaJulkinenID() {
-        return julkinenID;
+    public void asetaLaskuri(int laskuri) {
+        this.joLaskuri = laskuri;
     }
 
     public StringProperty taulukkonimiProperty() {
@@ -82,7 +78,6 @@ public class Joukkue extends Kohde {
         this.taulukkonimi = new SimpleStringProperty(this.toString());
     }
 
-    
     public List<Toimihenkilo> annaToimarit() {
         return toimarit;
     }
@@ -91,21 +86,21 @@ public class Joukkue extends Kohde {
         return ottelut;
     }
 
-    public int annaPelatutOttelut(){
+    public int annaPelatutOttelut() {
         int maara = 0;
-      
-        for(int i=0; i<ottelut.size(); i++){
-            if(ottelut.get(i).annaTulos().equals("-")){
+
+        for (int i = 0; i < ottelut.size(); i++) {
+            if (ottelut.get(i).annaTulos().equals("-")) {
                 maara = maara;
-            }
-            else{
+            } else {
                 maara = maara + 1;
             }
-           
+
         }
-        
+
         return maara;
     }
+
     public IntegerProperty taulukko_ottelutProperty() {
         return taulukko_ottelut;
     }
@@ -177,51 +172,52 @@ public class Joukkue extends Kohde {
     public int annaPisteet() {
         return ((3 * voitot.size()) + (1 * tasapelit.size()));
     }
-    
-    public List<Integer> annaTehdyt(){
+
+    public List<Integer> annaTehdyt() {
         return tehdyt;
     }
-     public List<Integer> annaPaastetyt(){
+
+    public List<Integer> annaPaastetyt() {
         return paastetyt;
     }
-    
-    
-    public String annaMaalisuhde() {      
-      int tehdyt_maalit = 0;
-      
-      for(int i=0; i<tehdyt.size();i++){
-          tehdyt_maalit = tehdyt_maalit + tehdyt.get(i);
-      }
-      
-      int paastetyt_maalit = 0;
-      
-      for(int i=0; i<paastetyt.size();i++){
-          paastetyt_maalit = paastetyt_maalit + paastetyt.get(i);
-      }
-      
-      return tehdyt_maalit + " : " + paastetyt_maalit;
+
+    public String annaMaalisuhde() {
+        int tehdyt_maalit = 0;
+
+        for (int i = 0; i < tehdyt.size(); i++) {
+            tehdyt_maalit = tehdyt_maalit + tehdyt.get(i);
+        }
+
+        int paastetyt_maalit = 0;
+
+        for (int i = 0; i < paastetyt.size(); i++) {
+            paastetyt_maalit = paastetyt_maalit + paastetyt.get(i);
+        }
+
+        return tehdyt_maalit + " : " + paastetyt_maalit;
     }
-    
-    public int annaMaaliero() {      
-      int tehdyt_maalit = 0;
-      
-      for(int i=0; i<tehdyt.size();i++){
-          tehdyt_maalit = tehdyt_maalit + tehdyt.get(i);
-      }
-      
-      int paastetyt_maalit = 0;
-      
-      for(int i=0; i<paastetyt.size();i++){
-          paastetyt_maalit = paastetyt_maalit + paastetyt.get(i);
-      }
-      
-      return tehdyt_maalit - paastetyt_maalit;
+
+    public int annaMaaliero() {
+        int tehdyt_maalit = 0;
+
+        for (int i = 0; i < tehdyt.size(); i++) {
+            tehdyt_maalit = tehdyt_maalit + tehdyt.get(i);
+        }
+
+        int paastetyt_maalit = 0;
+
+        for (int i = 0; i < paastetyt.size(); i++) {
+            paastetyt_maalit = paastetyt_maalit + paastetyt.get(i);
+        }
+
+        return tehdyt_maalit - paastetyt_maalit;
     }
-   
-    public void asetaTehdyt(int tehdyt_maalit){
+
+    public void asetaTehdyt(int tehdyt_maalit) {
         this.tehdyt.add(tehdyt_maalit);
     }
-   public void asetaPaastetyt(int paastetyt_maalit){
+
+    public void asetaPaastetyt(int paastetyt_maalit) {
         this.paastetyt.add(paastetyt_maalit);
     }
 }

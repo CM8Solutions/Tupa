@@ -83,6 +83,40 @@ public class Tallennus {
                         //tyhjennetään sarjat
                         sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
                         st.executeUpdate(sql);
+
+                        //tyhjennetään joukkueet
+                        sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
+                        ResultSet joukkueet = st.executeQuery(sql);
+
+                        while (joukkueet.next()) {
+
+                            int id = joukkueet.getInt("jid");
+                            sql = "DELETE FROM joukkue WHERE id='" + id + "'";
+                            st.executeUpdate(sql);
+                        }
+                        
+                          //tyhjennetään pelaajat
+                        sql = "SELECT DISTINCT pelaaja.id as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id";
+                        ResultSet pelaajat = st.executeQuery(sql);
+
+                        while (pelaajat.next()) {
+
+                            int id = pelaajat.getInt("pid");
+                            sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
+                            st.executeUpdate(sql);
+                        }
+
+                            //tyhjennetään toimarit
+                        sql = "SELECT DISTINCT toimari.id as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id";
+                        ResultSet toimarit = st.executeQuery(sql);
+
+                        while (toimarit.next()) {
+
+                            int id = toimarit.getInt("tid");
+                            sql = "DELETE FROM toimari WHERE id='" + id + "'";
+                            st.executeUpdate(sql);
+                        }
+                        
                         //MUIDEN TYHJENNYS!!
                     }
 
@@ -98,26 +132,32 @@ public class Tallennus {
                         if (tiedot instanceof Sarja) {
 
                             Sarja sarja = (Sarja) tiedot;
+                            int sid = sarja.annaID();
+                            String snimi = sarja.toString();
 
-                            int id = sarja.annaID();
-                            String nimi = sarja.toString();
-
-                            st.executeUpdate("INSERT INTO sarja (id, nimi, turnaus_id) VALUES('" + id + "', '" + nimi + "', '" + turnaus_id + "')");
+                            st.executeUpdate("INSERT INTO sarja (id, nimi, turnaus_id) VALUES('" + sid + "', '" + snimi + "', '" + turnaus_id + "')");
 
                         } else if (tiedot instanceof Tuomari) {
 
                             Tuomari tuomari = (Tuomari) tiedot;
 
                             int tuomari_id = tuomari.annaJulkinenId();
-                            int id = tuomari.annaID();
+                            int tid = tuomari.annaID();
                             String etunimi = tuomari.annaEtuNimi();
                             String sukunimi = tuomari.annaSukuNimi();
 
-                            st.executeUpdate("INSERT INTO tuomari (id, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + id + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
+                            st.executeUpdate("INSERT INTO tuomari (id, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + tid + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
 
                         } else if (tiedot instanceof Joukkue) {
 
                             Joukkue joukkue = (Joukkue) tiedot;
+                            int jid = joukkue.annaID();
+                            int sarja_id = joukkue.annaSarja().annaID();
+                            String jnimi = joukkue.toString();
+                            
+                            
+                            st.executeUpdate("INSERT INTO joukkue (id, nimi, sarja_id) VALUES('" + jid + "', '" + jnimi + "', '" + sarja_id + "')");
+
 
                         } else if (tiedot instanceof Pelaaja) {
 
@@ -172,7 +212,12 @@ public class Tallennus {
 
                         } else if (tiedot instanceof Joukkue) {
 
-                            Joukkue joukkue = (Joukkue) tiedot;
+                             Joukkue joukkue = (Joukkue) tiedot;
+                            int id = joukkue.annaID();
+                            int sarja_id = joukkue.annaSarja().annaID();
+                            String nimi = joukkue.toString();
+                            
+                            st.executeUpdate("UPDATE joukkue SET nimi='" + nimi + "' WHERE id='" + id + "' AND sarja_id='" + sarja_id + "'");
 
                         } else if (tiedot instanceof Pelaaja) {
 
