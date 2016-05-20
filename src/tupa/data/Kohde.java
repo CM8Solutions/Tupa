@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 import java.io.Serializable;
 
@@ -12,11 +12,11 @@ public class Kohde implements Serializable {
     private int id;
     
 
-   Kohde (){
+   public Kohde (){
     
    }
     
-    Kohde (String nimi) {
+   public Kohde (String nimi) {
         this.nimi = nimi;
 
 

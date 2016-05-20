@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
+import tupa.data.Ottelu;
 
 /**
  *
@@ -16,8 +17,7 @@ import javafx.scene.control.TableCell;
  */
 public class KloCombo extends TableCell<Ottelu, String> {
 
- private ComboBox<String> comboBox;
-
+    private ComboBox<String> comboBox;
 
     public KloCombo() {
     }
@@ -36,7 +36,7 @@ public class KloCombo extends TableCell<Ottelu, String> {
     public void cancelEdit() {
         super.cancelEdit();
 
-      setText(getItem().toString());
+        setText(getItem().toString());
         setGraphic(null);
     }
 
@@ -51,7 +51,7 @@ public class KloCombo extends TableCell<Ottelu, String> {
             if (comboBox != null) {
                 comboBox.setValue(getString());
             }
-             setText(null);
+            setText(null);
             setGraphic(comboBox);
         } else {
             //näytetään voimassa oleva arvo
@@ -62,7 +62,7 @@ public class KloCombo extends TableCell<Ottelu, String> {
 
     private void createComboBox() {
 
-            ComboBox<String> kellotunnit = new ComboBox();
+        ComboBox<String> kellotunnit = new ComboBox();
         List<String> tuntilista = new ArrayList();
 
         for (int i = 0; i < 24; i++) {
@@ -74,8 +74,8 @@ public class KloCombo extends TableCell<Ottelu, String> {
         kellotunnit.getSelectionModel().selectFirst();
 
         comboBox = kellotunnit;
-        
-           ComboBox<String> kellominuutit = new ComboBox();
+
+        ComboBox<String> kellominuutit = new ComboBox();
         List<String> minuuttilista = new ArrayList();
 
         for (int i = 0; i < 10; i++) {
@@ -89,27 +89,26 @@ public class KloCombo extends TableCell<Ottelu, String> {
 
         ObservableList minuutit = FXCollections.observableList(minuuttilista);
         kellominuutit.setItems(minuutit);
-        
-        
+
         comboBoxConverter(comboBox);
         //eka arvo valikossa on olemassa oleva arvo
-        
+
         comboBox.setValue(getItem());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
 
-        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>(){
-                @Override
-                public void changed(ObservableValue<? extends Boolean> arg0, 
+        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0,
                     Boolean arg1, Boolean arg2) {
-                        if (!arg2) {
-                            commitEdit(comboBox.getSelectionModel().getSelectedItem());
-                        }
+                if (!arg2) {
+                    commitEdit(comboBox.getSelectionModel().getSelectedItem());
                 }
-            });
+            }
+        });
     }
-    
+
     private void comboBoxConverter(ComboBox<String> comboBox) {
-    
+
         comboBox.setCellFactory((c) -> {
             return new ListCell<String>() {
                 @Override

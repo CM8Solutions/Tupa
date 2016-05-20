@@ -1,9 +1,10 @@
-package tupa;
+package tupa.kontrollerit;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import tupa.Tupa;
 
 /**
  *
@@ -13,11 +14,11 @@ public class Opastus {
 
     private Tupa ikkuna;
 
-    Opastus() {
+    public Opastus() {
 
     }
 
-    Opastus(Tupa ikkuna) {
+    public Opastus(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
 
@@ -125,7 +126,7 @@ public class Opastus {
 
     }
 
-      public void annaOhjeMaalitilasto() {
+    public void annaOhjeMaalitilasto() {
 
         String msg = "Ottelun maalintekijäksi/syöttäjäksi voi merkitä vain sellaisen pelaajan, joka on merkitty ottelun kokoonpanoon.";
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -136,9 +137,8 @@ public class Opastus {
         alert.showAndWait();
 
     }
-      
-      
-      public void annaOhjeKokoonpano() {
+
+    public void annaOhjeKokoonpano() {
 
         String msg = "Ottelun kokoonpanoluettelossa on vain ne pelaajat, jotka on lisätty joukkueen pelaajaluetteloon.";
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -149,5 +149,5 @@ public class Opastus {
         alert.showAndWait();
 
     }
-    
+
 }

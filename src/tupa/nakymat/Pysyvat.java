@@ -1,7 +1,7 @@
 /*
 Luokka, joka rakentaa näkymien samanlaisena pysyvät osiot
  */
-package tupa;
+package tupa.nakymat;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +15,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import tupa.Tupa;
+import tupa.kontrollerit.LinkkiLabel;
+import tupa.data.Kohde;
 
 /**
  *
@@ -24,11 +27,11 @@ public class Pysyvat {
 
     private Tupa ikkuna;
 
-    Pysyvat() {
+    public Pysyvat() {
 
     }
 
-    Pysyvat(Tupa ikkuna) {
+    public Pysyvat(Tupa ikkuna) {
         this.ikkuna = ikkuna;
 
     }
@@ -38,13 +41,13 @@ public class Pysyvat {
 
         kuvaotsikko.setPrefWidth(400);
         ImageView selectedImage = new ImageView();
-        Image image1 = new Image(Tupa.class.getResourceAsStream("pallo.jpg"));
+        Image image1 = new Image("kuvat/pallo.jpg");
         selectedImage.setImage(image1);
         selectedImage.setFitHeight(20);
         selectedImage.setFitWidth(20);
 
         ImageView selectedImage2 = new ImageView();
-        Image image2 = new Image(Tupa.class.getResourceAsStream("pallo.jpg"));
+        Image image2 = new Image("kuvat/pallo.jpg");
         selectedImage2.setImage(image2);
         selectedImage2.setFitHeight(20);
         selectedImage2.setFitWidth(20);

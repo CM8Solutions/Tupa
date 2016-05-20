@@ -1,4 +1,4 @@
-package tupa;
+package tupa.nakymat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +23,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.util.StringConverter;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.kontrollerit.Taulukko;
+import tupa.kontrollerit.Opastus;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Kohde;
+import tupa.data.Joukkue;
+import tupa.data.Turnaus;
 
 /**
  *
@@ -51,11 +62,11 @@ public class SarjaNakyma {
 
     private PaaNakyma nakyma;
 
-    SarjaNakyma() {
+    public SarjaNakyma() {
 
     }
 
-    SarjaNakyma(Tupa ikkuna, PaaNakyma nakyma) {
+    public SarjaNakyma(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
         muuttaja = new Muuttaja(ikkuna, nakyma);
@@ -579,9 +590,9 @@ public class SarjaNakyma {
         ohjevieras.getChildren().addAll(ohjev, vieras);
 
         koti.setPromptText("Valitse");
-        
+
         vieras.setPromptText("Valitse");
-                       
+
         VBox ohjeaika = new VBox();
 
         Label ohjea = new Label("Ajankohta");
@@ -693,7 +704,7 @@ public class SarjaNakyma {
         Label ohjet1 = new Label("Erotuomari");
         ComboBox<Tuomari> erotuomari = new ComboBox();
         erotuomari.setItems(erotuomarit);
- erotuomari.setPromptText("Valitse");
+        erotuomari.setPromptText("Valitse");
         Label ohjet2 = new Label("1. Avustava");
         ComboBox<Tuomari> avustava1 = new ComboBox();
         avustava1.setItems(avustavat1);

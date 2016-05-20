@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +16,12 @@ public class Sarja extends Kohde {
     private List<Ottelu> ottelut = new ArrayList<Ottelu>();
     private List<Joukkue> joukkueet = new ArrayList<Joukkue>();
 
-    Sarja() {
+    public Sarja() {
         saLaskuri++;
         asetaID(saLaskuri);
     }
 
-    Sarja(String nimi, Turnaus turnaus) {
+    public Sarja(String nimi, Turnaus turnaus) {
 
         super(nimi);
         saLaskuri++;

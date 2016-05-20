@@ -1,4 +1,4 @@
-package tupa;
+package tupa.nakymat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +17,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.kontrollerit.Taulukko;
+import tupa.data.Joukkue;
+import tupa.data.Pelaaja;
 
 /**
  *
  * @author Marianne
  */
 public class PelaajaNakyma {
-        private Tupa ikkuna;
+
+    private Tupa ikkuna;
     private Muuttaja muuttaja;
     //uusien kohtien lisäystä varten
     private TextField nimi = new TextField();
@@ -56,12 +64,12 @@ public class PelaajaNakyma {
 
     private PaaNakyma nakyma;
     private JoukkueNakyma joukkuenakyma;
-    
-   PelaajaNakyma() {
+
+    public PelaajaNakyma() {
 
     }
 
-    PelaajaNakyma(Tupa ikkuna, PaaNakyma nakyma) {
+    public PelaajaNakyma(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
         joukkuenakyma = nakyma.annaJoukkuenakyma();
@@ -74,8 +82,8 @@ public class PelaajaNakyma {
         pakollinen4.setId("label-pakko");
 
     }
-    
-     public void luoPelaajaSivu(Pelaaja pelaaja) {
+
+    public void luoPelaajaSivu(Pelaaja pelaaja) {
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
@@ -84,7 +92,7 @@ public class PelaajaNakyma {
         //riville 1
         HBox painike = new HBox();
         painike.setSpacing(20);
-painike.setSpacing(100);
+        painike.setSpacing(100);
         Button muokkausnappula = new Button();
 
         muokkausnappula.setText("\uD83D\uDD89");
@@ -317,5 +325,3 @@ painike.setSpacing(100);
         ikkuna.annaNaytto().getChildren().add(grid);
     }
 }
-
-

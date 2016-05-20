@@ -20,6 +20,20 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.stage.WindowEvent;
 import static javafx.application.Application.launch;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
+import tupa.kontrollerit.Valikko;
+import tupa.kontrollerit.Aloitus;
+import tupa.kontrollerit.Puurakenne;
+import tupa.kontrollerit.PuuSoluTehdas;
+import tupa.kontrollerit.Varmistaja;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.Pysyvat;
 
 /**
  *
@@ -71,11 +85,10 @@ public class Tupa extends Application {
     public void start(Stage primaryStage) {
 
         //luodaan turnaus, kun ohjelma käynnistyy
-       
         Aloitus aloitus = new Aloitus();
         turnaus = aloitus.luoAlkuTurnaus();
         kohdetk.add(turnaus);
- 
+
         BorderPane border = new BorderPane();
 
         nakyma = new PaaNakyma(this);
@@ -95,7 +108,7 @@ public class Tupa extends Application {
 
         //alaosaan tulee toimintaloki
         Pysyvat osiot = new Pysyvat(this);
-      
+
         border.setBottom(osiot.rakennaAlaosa());
 
         //muodostetaan ensin sivupuu
@@ -107,23 +120,20 @@ public class Tupa extends Application {
         // juuri näkymättömäksi
         sivuPuu.setShowRoot(false);
 
-
         //jonka jälkeen rakennetaan ikkunan vasen puoli
         border.setLeft(osiot.rakennaVasensivu(sivuPuu));
 
-        
         //ylaosan "logo"
-        
         keski.getChildren().add(osiot.rakennaYlaosa());
         keski.getChildren().add(naytto);
-        
+
         border.setCenter(keski);
 
         Scene scene = new Scene(border, 940, 500);
         primaryStage.setTitle("TUPA \t - \t Tulospalvelu");
-        scene.getStylesheets().add(Tupa.class.getResource("tyylit.css").toExternalForm());
+        scene.getStylesheets().add("css/tyylit.css");
 
-        primaryStage.getIcons().add(new Image(Tupa.class.getResourceAsStream("icon.png")));
+        primaryStage.getIcons().add(new Image("kuvat/icon.png"));
         primaryStage.setScene(scene);
         Platform.setImplicitExit(false);
         primaryStage.show();
@@ -145,10 +155,10 @@ public class Tupa extends Application {
 
     }
 
-    public PaaNakyma annaPaaNakyma(){
+    public PaaNakyma annaPaaNakyma() {
         return nakyma;
     }
-    
+
     public boolean muutettu() {
 
         if (muutettu == true) {

@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,6 +18,21 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import tupa.data.Ottelu;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
+import tupa.Tupa;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.SarjaNakyma;
+import tupa.nakymat.JoukkueNakyma;
+import tupa.nakymat.PelaajaNakyma;
+import tupa.nakymat.ToimariNakyma;
+import tupa.nakymat.TuomariNakyma;
 
 /**
  *
@@ -35,18 +50,18 @@ public class Varmistaja {
     private ToimariNakyma toimarinakyma;
     private TuomariNakyma tuomarinakyma;
 
-    Varmistaja() {
+    public Varmistaja() {
 
     }
 
-    Varmistaja(List<Kohde> kohteet, Tupa ikkuna) {
+    public Varmistaja(List<Kohde> kohteet, Tupa ikkuna) {
         kohdetk = kohteet;
         this.ikkuna = ikkuna;
         sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
         joukkuenakyma = ikkuna.annaPaaNakyma().annaJoukkuenakyma();
     }
 
-    Varmistaja(Tupa ikkuna, PaaNakyma nakyma) {
+    public Varmistaja(Tupa ikkuna, PaaNakyma nakyma) {
         muuttaja = new Muuttaja(ikkuna, nakyma);
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
@@ -233,7 +248,7 @@ public class Varmistaja {
                 TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
                 parentSarjat.getChildren().clear();
                 parentTuomarit.getChildren().clear();
- ikkuna.annaPaaNakyma().luoEtusivu();
+                ikkuna.annaPaaNakyma().luoEtusivu();
                 stageV.close();
             }
         });
@@ -338,7 +353,7 @@ public class Varmistaja {
 
                     }
                 }
- ikkuna.annaPaaNakyma().luoEtusivu();
+                ikkuna.annaPaaNakyma().luoEtusivu();
                 stageV.close();
             }
         });
@@ -417,7 +432,7 @@ public class Varmistaja {
 
                     }
                 }
- ikkuna.annaPaaNakyma().luoEtusivu();
+                ikkuna.annaPaaNakyma().luoEtusivu();
                 stageV.close();
             }
         });
@@ -441,7 +456,7 @@ public class Varmistaja {
     }
 
     public void annaOtteluPoistoVarmistus(Ottelu ottelu) {
-        
+
         Sarja sarja = ottelu.annaSarja();
         Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
@@ -520,8 +535,6 @@ public class Varmistaja {
 
                 List<Ottelu> poistettavat = (sarja.annaOttelut());
 
-         
-
                 muuttaja.poistaKaikkiOttelut(poistettavat, sarja);
                 sarjanakyma = nakyma.annaSarjanakyma();
                 TreeItem<Kohde> mihin = new TreeItem<>(sarja);
@@ -577,7 +590,6 @@ public class Varmistaja {
 
                 muuttaja.suoritaAutoOtteluLista(sarja);
                 sarjanakyma = nakyma.annaSarjanakyma();
-             
 
                 sarjanakyma.luoOtteluLuetteloMuokkaus(sarja);
                 stageV.close();
@@ -711,7 +723,7 @@ public class Varmistaja {
 
     }
 
-        public void annaPelaajanPoistoVarmistus(Pelaaja pelaaja) {
+    public void annaPelaajanPoistoVarmistus(Pelaaja pelaaja) {
         Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
 
@@ -738,7 +750,7 @@ public class Varmistaja {
 
                 muuttaja.poistaPelaaja(pelaaja, pelaaja.annaJoukkue());
 
-               joukkuenakyma = nakyma.annaJoukkuenakyma();
+                joukkuenakyma = nakyma.annaJoukkuenakyma();
 
                 joukkuenakyma.luoJoukkueenPelaajaLisays(pelaaja.annaJoukkue());
                 stageV.close();
@@ -763,7 +775,7 @@ public class Varmistaja {
         stageV.show();
 
     }
-    
+
     public void annaKaikkienPelaajienPoistoVarmitus(Joukkue joukkue) {
         Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
@@ -868,8 +880,8 @@ public class Varmistaja {
         stageV.setScene(sceneV);
         stageV.show();
     }
-    
-       public void annaToimarinPoistoVarmistus(Toimihenkilo toimari) {
+
+    public void annaToimarinPoistoVarmistus(Toimihenkilo toimari) {
         Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
 
@@ -896,7 +908,7 @@ public class Varmistaja {
 
                 muuttaja.poistaToimari(toimari, toimari.annaJoukkue());
 
-               joukkuenakyma = nakyma.annaJoukkuenakyma();
+                joukkuenakyma = nakyma.annaJoukkuenakyma();
 
                 joukkuenakyma.luoJoukkueenToimariLisays(toimari.annaJoukkue());
                 stageV.close();

@@ -1,4 +1,4 @@
-package tupa;
+package tupa.nakymat;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,13 +14,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.data.Joukkue;
+import tupa.data.Toimihenkilo;
 
 /**
  *
  * @author Marianne
  */
 public class ToimariNakyma {
-        private Tupa ikkuna;
+
+    private Tupa ikkuna;
     private Muuttaja muuttaja;
     //uusien kohtien lisäystä varten
     private TextField nimi = new TextField();
@@ -53,12 +60,12 @@ public class ToimariNakyma {
 
     private PaaNakyma nakyma;
     private JoukkueNakyma joukkuenakyma;
-    
-    ToimariNakyma() {
+
+    public ToimariNakyma() {
 
     }
 
-    ToimariNakyma(Tupa ikkuna, PaaNakyma nakyma) {
+    public ToimariNakyma(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
         joukkuenakyma = nakyma.annaJoukkuenakyma();
@@ -71,8 +78,8 @@ public class ToimariNakyma {
         pakollinen4.setId("label-pakko");
 
     }
-    
-      public void luoToimariSivu(Toimihenkilo toimari) {
+
+    public void luoToimariSivu(Toimihenkilo toimari) {
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();

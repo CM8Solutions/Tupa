@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  */
 public class Ohjeistus {
 
-    Ohjeistus() {
+    public Ohjeistus() {
 
     }
 

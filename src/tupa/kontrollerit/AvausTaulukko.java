@@ -1,43 +1,41 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.scene.control.TableView;
-
+import tupa.Tupa;
 
 /**
  *
  * @author Marianne
  */
 public class AvausTaulukko {
-     private Tupa ikkuna;
+
+    private Tupa ikkuna;
     private Connection con = null;
     private Statement st = null;
     private Yhteys yhteys = new Yhteys();
     private int turnaus_id;
     private String sql = "";
-     private TableView taulukko = new TableView();
-    AvausTaulukko(){
-        
+    private TableView taulukko = new TableView();
+
+    public AvausTaulukko() {
+
     }
-    
-    AvausTaulukko(Tupa ikkuna){
+
+    public AvausTaulukko(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
- 
-   public TableView annaTurnausTaulukko(){
-    
-       
-       //avaa luettelon tietokannassa olevista turnauksista (NIMI + LUOMISPVM)
-       
-       //AUKEE UUTEEN IKKUNAAN
-       
-       try {
+
+    public TableView annaTurnausTaulukko() {
+
+        //avaa luettelon tietokannassa olevista turnauksista (NIMI + LUOMISPVM)
+        //AUKEE UUTEEN IKKUNAAN
+        try {
             con = yhteys.annaYhteys();
             st = con.createStatement();
-    }
-        catch (SQLException se) {
+        } catch (SQLException se) {
 
             se.printStackTrace();
         } catch (Exception e) {
@@ -59,7 +57,7 @@ public class AvausTaulukko {
                 se.printStackTrace();
             }
         }
-       return taulukko;
-       
-   }
+        return taulukko;
+
+    }
 }

@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,19 +9,24 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
+import tupa.data.Ottelu;
+import tupa.data.Joukkue;
+import tupa.data.Sarja;
 
 /**
  *
  * @author Marianne
  */
-public class JoukkueCombo extends TableCell<Ottelu, Joukkue>{
- private ComboBox<Joukkue> comboBox;
-private Sarja sarja;
+public class JoukkueCombo extends TableCell<Ottelu, Joukkue> {
+
+    private ComboBox<Joukkue> comboBox;
+    private Sarja sarja;
 
     public JoukkueCombo() {
     }
-      public JoukkueCombo(Sarja sarja) {
-          this.sarja = sarja;
+
+    public JoukkueCombo(Sarja sarja) {
+        this.sarja = sarja;
     }
 
     @Override
@@ -38,7 +43,7 @@ private Sarja sarja;
     public void cancelEdit() {
         super.cancelEdit();
 
-      setText(getItem().toString());
+        setText(getItem().toString());
         setGraphic(null);
     }
 
@@ -53,7 +58,7 @@ private Sarja sarja;
             if (comboBox != null) {
                 comboBox.setValue(item);
             }
-             setText(null);
+            setText(null);
             setGraphic(comboBox);
         } else {
             //näytetään voimassa oleva arvo
@@ -75,29 +80,26 @@ private Sarja sarja;
         joukkue.setItems(joukkueet1);
 
         comboBox = joukkue;
-        
-      
-        
-        
+
         comboBoxConverter(comboBox);
         //eka arvo valikossa on olemassa oleva arvo
-        
+
         comboBox.setValue(getItem());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
 
-        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>(){
-                @Override
-                public void changed(ObservableValue<? extends Boolean> arg0, 
+        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0,
                     Boolean arg1, Boolean arg2) {
-                        if (!arg2) {
-                            commitEdit(comboBox.getSelectionModel().getSelectedItem());
-                        }
+                if (!arg2) {
+                    commitEdit(comboBox.getSelectionModel().getSelectedItem());
                 }
-            });
+            }
+        });
     }
-    
+
     private void comboBoxConverter(ComboBox<Joukkue> comboBox) {
-    
+
         comboBox.setCellFactory((c) -> {
             return new ListCell<Joukkue>() {
                 @Override

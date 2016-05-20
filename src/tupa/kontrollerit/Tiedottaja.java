@@ -1,14 +1,14 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import tupa.Tupa;
 
 /**
  *
@@ -18,11 +18,11 @@ public class Tiedottaja {
 
     private Tupa ikkuna;
 
-    Tiedottaja() {
+    public Tiedottaja() {
 
     }
 
-    Tiedottaja(Tupa ikkuna) {
+    public Tiedottaja(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
 
@@ -49,7 +49,7 @@ public class Tiedottaja {
 
         alert.setContentText(msg);
 
-         alert.showAndWait();
+        alert.showAndWait();
 
     }
 }

@@ -1,7 +1,7 @@
 /*
 Tämä on assosiaatioluokka luokkien Tuomari ja Ottelu välillä
  */
-package tupa;
+package tupa.data;
 
 import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,11 +20,11 @@ public class TuomarinRooli implements Serializable {
     private transient StringProperty taulukkorooli = new SimpleStringProperty();
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
 
-    TuomarinRooli() {
+    public TuomarinRooli() {
 
     }
 
-    TuomarinRooli(Tuomari tuomari, Ottelu ottelu) {
+    public TuomarinRooli(Tuomari tuomari, Ottelu ottelu) {
         this.tuomari = tuomari;
         this.ottelu = ottelu;
     }

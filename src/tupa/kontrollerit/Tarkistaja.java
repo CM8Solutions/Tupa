@@ -1,4 +1,9 @@
-package tupa;
+package tupa.kontrollerit;
+
+import tupa.Tupa;
+import tupa.data.Tuomari;
+import tupa.data.Joukkue;
+import tupa.data.Ottelu;
 
 /**
  *
@@ -9,11 +14,11 @@ public class Tarkistaja {
     private Tupa ikkuna;
     private Tiedottaja tiedottaja;
 
-    Tarkistaja() {
+    public Tarkistaja() {
 
     }
 
-    Tarkistaja(Tupa ikkuna) {
+    public Tarkistaja(Tupa ikkuna) {
         this.ikkuna = ikkuna;
         this.tiedottaja = new Tiedottaja(ikkuna);
     }
@@ -92,46 +97,43 @@ public class Tarkistaja {
     }
 
     public boolean erotuomariOK(Tuomari tuomari, Ottelu ottelu) {
-      
-         if (tuomari != null){
-            if(ottelu.annaAvustava1().equals(tuomari)){
+
+        if (tuomari != null) {
+            if (ottelu.annaAvustava1().equals(tuomari)) {
+                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                return false;
+            } else if (ottelu.annaAvustava2().equals(tuomari)) {
                 tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             }
-            else if(ottelu.annaAvustava2().equals(tuomari)){
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
-                return false;
-            } 
         }
         return true;
     }
 
     public boolean avustava1OK(Tuomari tuomari, Ottelu ottelu) {
-    
-         if (tuomari != null){
-            if(ottelu.annaErotuomari().equals(tuomari)){
+
+        if (tuomari != null) {
+            if (ottelu.annaErotuomari().equals(tuomari)) {
+                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                return false;
+            } else if (ottelu.annaAvustava2().equals(tuomari)) {
                 tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             }
-            else if(ottelu.annaAvustava2().equals(tuomari)){
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
-                return false;
-            } 
         }
         return true;
     }
 
     public boolean avustava2OK(Tuomari tuomari, Ottelu ottelu) {
-        
-       if (tuomari != null){
-            if(ottelu.annaErotuomari().equals(tuomari)){
+
+        if (tuomari != null) {
+            if (ottelu.annaErotuomari().equals(tuomari)) {
+                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                return false;
+            } else if (ottelu.annaAvustava1().equals(tuomari)) {
                 tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             }
-            else if(ottelu.annaAvustava1().equals(tuomari)){
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
-                return false;
-            } 
         }
         return true;
     }

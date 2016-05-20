@@ -1,7 +1,7 @@
 /*
 Luokka, joka muodostaa päänäkymät
  */
-package tupa;
+package tupa.nakymat;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -12,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -25,6 +24,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.kontrollerit.Tallennus;
+import tupa.kontrollerit.Haku;
+import tupa.data.Turnaus;
+import tupa.data.Sarja;
+import tupa.data.Kohde;
+import tupa.data.Tuomari;
 
 /**
  *
@@ -52,12 +61,13 @@ public class PaaNakyma {
     private PelaajaNakyma pelaajanakyma;
     private TuomariNakyma tuomarinakyma;
     private ToimariNakyma toimarinakyma;
-private VBox tulos = new VBox();
-    PaaNakyma() {
+    private VBox tulos = new VBox();
+
+    public PaaNakyma() {
 
     }
 
-    PaaNakyma(Tupa ikkuna) {
+    public PaaNakyma(Tupa ikkuna) {
         this.ikkuna = ikkuna;
         muuttaja = new Muuttaja(ikkuna, this);
         tiedottaja = new Tiedottaja(ikkuna);
@@ -74,9 +84,11 @@ private VBox tulos = new VBox();
         toimarinakyma = new ToimariNakyma(ikkuna, this);
 
     }
-    public Tupa annaIkkuna(){
+
+    public Tupa annaIkkuna() {
         return ikkuna;
     }
+
     public SarjaNakyma annaSarjanakyma() {
         return sarjanakyma;
     }
@@ -88,18 +100,19 @@ private VBox tulos = new VBox();
     public TuomariNakyma annaTuomarinakyma() {
         return tuomarinakyma;
     }
-    
-       public OtteluNakyma annaOttelunakyma() {
+
+    public OtteluNakyma annaOttelunakyma() {
         return ottelunakyma;
     }
 
-        public PelaajaNakyma annaPelaajanakyma() {
+    public PelaajaNakyma annaPelaajanakyma() {
         return pelaajanakyma;
-    }   
-                public ToimariNakyma annaToimarinakyma() {
+    }
+
+    public ToimariNakyma annaToimarinakyma() {
         return toimarinakyma;
-    } 
-       
+    }
+
     public void luoOhje(String uusiohje, TreeItem<Kohde> arvo) {
 
         HBox ohjepalkki = new HBox();
@@ -115,8 +128,6 @@ private VBox tulos = new VBox();
         ikkuna.annaNaytto().getChildren().add(peitto);
 
         GridPane grid = new GridPane();
-     
-    
 
         grid.setHgap(40);
 
@@ -138,20 +149,18 @@ private VBox tulos = new VBox();
                 if (arvo.getValue() instanceof Sarja) {
                     sarjanakyma.luoSarjanLisaysSivu();
                 } else if (arvo.getValue() instanceof Tuomari) {
-                   tuomarinakyma.luoTuomarinLisaysSivu();
+                    tuomarinakyma.luoTuomarinLisaysSivu();
                 }
 
             }
         });
- grid.setAlignment(Pos. CENTER);
+        grid.setAlignment(Pos.CENTER);
         grid.add(uusi, 1, 1);
-    
+
         ikkuna.annaNaytto().getChildren().add(grid);
     }
 
     public void luoEtusivu() {
-
-   
 
         HBox nimipalkki = new HBox();
 
@@ -200,7 +209,7 @@ private VBox tulos = new VBox();
 
         //nappula
         ImageView hakukuva = new ImageView();
-        Image hkuva = new Image(getClass().getResourceAsStream("haku.png"));
+        Image hkuva = new Image("kuvat/haku.png");
         hakukuva.setImage(hkuva);
         hakukuva.setFitHeight(20);
         hakukuva.setFitWidth(20);
@@ -215,9 +224,9 @@ private VBox tulos = new VBox();
 
         StackPane tulospalkki = new StackPane();
         tulospalkki.setPadding(new Insets(10));
-     Label hotsikko = new Label();
+        Label hotsikko = new Label();
         tulospalkki.setAlignment(Pos.CENTER);
-          Haku haku = new Haku((Turnaus)ikkuna.annaTurnaus(), this);
+        Haku haku = new Haku((Turnaus) ikkuna.annaTurnaus(), this);
         hakunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -236,7 +245,7 @@ private VBox tulos = new VBox();
         hakupalkki.getChildren().addAll(otsikko, hakuboxi, hotsikko, tulospalkki);
 
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(0, 0,0,300));
+        grid.setPadding(new Insets(0, 0, 0, 300));
         grid.add(muokkausnappula, 2, 1);
         grid.add(nimipalkki, 1, 1);
 
@@ -249,86 +258,72 @@ private VBox tulos = new VBox();
         ikkuna.annaNaytto().getChildren().add(sb);
 
     }
-    
-     public void luoHakutulossivu(String hakusana) throws SQLException {
 
-   
+    public void luoHakutulossivu(String hakusana) throws SQLException {
 
         HBox nimipalkki = new HBox();
-nimipalkki.setPadding(new Insets(20));
-        nimipalkki.setPadding(new Insets(0,20,20,400));
+        nimipalkki.setPadding(new Insets(20));
+        nimipalkki.setPadding(new Insets(0, 20, 20, 400));
         Label nimi = new Label(ikkuna.annaTurnaus().toString());
         nimi.setFont(Font.font("Papyrus", FontWeight.BOLD, 36));
         nimipalkki.setAlignment(Pos.CENTER);
         nimipalkki.getChildren().addAll(nimi);
-        
+
         VBox painike = new VBox();
-       painike.setPadding(new Insets(20));
-        
+        painike.setPadding(new Insets(20));
+
         Button paluunappula = new Button("<< Palaa takaisin");
-      
-paluunappula.setOnAction(new EventHandler<ActionEvent>() {
+
+        paluunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 luoEtusivu();
             }
         });
         painike.getChildren().add(paluunappula);
-        
+
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
         ikkuna.annaNaytto().getChildren().add(peitto);
 
-
         VBox hakupalkki = new VBox();
         hakupalkki.setAlignment(Pos.CENTER);
-hakupalkki.setPadding(new Insets(0,20,40,400));
+        hakupalkki.setPadding(new Insets(0, 20, 40, 400));
         hakupalkki.setSpacing(20);
         Label otsikko = new Label("Hakutulokset: ");
         otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 18));
         //hakutoiminto HBox
-       
 
-     
-          Haku haku = new Haku((Turnaus)ikkuna.annaTurnaus(), this);
-        
-                Tallennus tallennus = new Tallennus(ikkuna);
-                tallennus.asetaPoisto(false);
-                try {
-                    tallennus.suoritaTallennus();
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
-                }
-              
-                
-     
-            
-                tulos = haku.luoHakuTulos(hakusana);
-      
-                        hakupalkki.getChildren().add(otsikko);
-                hakupalkki.getChildren().add(tulos);
-            
+        Haku haku = new Haku((Turnaus) ikkuna.annaTurnaus(), this);
 
-         
-   
+        Tallennus tallennus = new Tallennus(ikkuna);
+        tallennus.asetaPoisto(false);
+        try {
+            tallennus.suoritaTallennus();
+        } catch (InstantiationException ex) {
+            Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        tulos = haku.luoHakuTulos(hakusana);
+
+        hakupalkki.getChildren().add(otsikko);
+        hakupalkki.getChildren().add(tulos);
+
         hakupalkki.setAlignment(Pos.CENTER);
         ScrollPane sb = new ScrollPane();
         sb.setStyle("-fx-background: #fff;");
 
-      
-
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20));
-       grid.add(painike, 1, 0);
+        grid.add(painike, 1, 0);
         grid.add(nimipalkki, 1, 1);
 
         grid.add(hakupalkki, 1, 2);
         grid.setAlignment(Pos.CENTER);
-       
 
         sb.setContent(grid);
 

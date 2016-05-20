@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,31 +26,31 @@ public class Pelaaja extends Henkilo {
     private transient IntegerProperty taulukkopisteet = new SimpleIntegerProperty();
     private transient StringProperty taulukkopelipaikka = new SimpleStringProperty();
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
-        private transient StringProperty taulukkojoukkue = new SimpleStringProperty();
+    private transient StringProperty taulukkojoukkue = new SimpleStringProperty();
     private transient IntegerProperty taulukkosijoitus = new SimpleIntegerProperty();
     private transient StringProperty taulukkorooli = new SimpleStringProperty();
-        private transient StringProperty taulukkosukunimi = new SimpleStringProperty();
+    private transient StringProperty taulukkosukunimi = new SimpleStringProperty();
     private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
 
     private List<Kokoonpano> kokoonpanot = new ArrayList<>();
     private List<Maali> maalit = new ArrayList<>();
 
-    Pelaaja() {
+    public Pelaaja() {
 
         peLaskuri++;
     }
 
-    Pelaaja(String etunimi, String sukunimi) {
+    public Pelaaja(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
         peLaskuri++;
         id_julkinen = 85000 + peLaskuri;
 
     }
 
-    public List<Maali> annaMaaliLista(){
+    public List<Maali> annaMaaliLista() {
         return maalit;
     }
-    
+
     public int annaPelaajaMaara() {
         return peLaskuri;
     }
@@ -188,20 +188,19 @@ public class Pelaaja extends Henkilo {
     }
 
     public void asetaTaulukkoetunimi() {
-        
+
         this.taulukkoetunimi = new SimpleStringProperty(this.annaEtuNimi());
     }
-    
-       public StringProperty taulukkosukunimiProperty() {
+
+    public StringProperty taulukkosukunimiProperty() {
         return taulukkosukunimi;
     }
 
     public void asetaTaulukkosukunimi() {
-        
+
         this.taulukkosukunimi = new SimpleStringProperty(this.annaSukuNimi());
     }
-    
-    
+
     public StringProperty taulukkojoukkueProperty() {
         return taulukkojoukkue;
     }

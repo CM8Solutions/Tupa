@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 /**
  *
@@ -13,18 +13,18 @@ public class Henkilo extends Kohde {
     private static int heLaskuri;
 
     
-    Henkilo(){
+    public Henkilo(){
         heLaskuri++;      
     }
   
-    Henkilo(String etunimi, String sukunimi, String nimi){
+  public Henkilo(String etunimi, String sukunimi, String nimi){
         super(nimi);
         this.etunimi = etunimi;
        this.sukunimi = sukunimi;
       
    }
     
-    Henkilo(String nimi){
+    public Henkilo(String nimi){
         super(nimi);
    }
     

@@ -1,7 +1,7 @@
 /*
 Yläpalkin valikon muodostava luokka 
  */
-package tupa;
+package tupa.kontrollerit;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,6 +18,15 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
+import tupa.Tupa;
+import tupa.nakymat.PaaNakyma;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
 
 /**
  *
@@ -133,10 +142,10 @@ public class Valikko implements EventHandler<ActionEvent> {
                     TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
                     parentSarjat.getChildren().clear();
                     parentTuomarit.getChildren().clear();
-                    
+
                     nakyma.luoEtusivu();
                 }
-tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
+                tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                 break;
             }
             case "Avaa": {
@@ -148,8 +157,6 @@ tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                 } else {
                     //tyhjennetään kaikki tiedot 
                     ikkuna.annaKohteet().clear();
-
-           
 
                     //vielä pitää tyhjentää puu
                     TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
@@ -164,7 +171,7 @@ tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                     kohdetk = avaaja.avaa();
 
                     ikkuna.asetaKohteet(kohdetk);
- 
+
                     List<Sarja> sarjatk = new ArrayList<>();
 
                     List<Tuomari> tuomaritk = new ArrayList<>();
@@ -232,7 +239,6 @@ tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                 tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
                 break;
             }
-                
 
             case "Lopeta": {
 
@@ -255,10 +261,9 @@ tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
 
                 Ohjeistus ohje = new Ohjeistus();
                 ohje.annaTietoa();
-                 break;
+                break;
             }
 
-      
         }
     }
 }

@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +15,19 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import tupa.data.Turnaus;
+import tupa.data.Kohde;
+import tupa.data.Sarja;
+import tupa.data.Joukkue;
+import tupa.data.Pelaaja;
+import tupa.data.Tuomari;
+import tupa.data.Toimihenkilo;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.SarjaNakyma;
+import tupa.nakymat.JoukkueNakyma;
+import tupa.nakymat.PelaajaNakyma;
+import tupa.nakymat.ToimariNakyma;
+import tupa.nakymat.TuomariNakyma;
 
 /**
  *
@@ -33,13 +46,13 @@ public class Haku {
     private String sql = "";
     private PreparedStatement pst;
     private PaaNakyma paanakyma;
- private int ROW_HEIGHT = 60;
- 
-    Haku() {
+    private int ROW_HEIGHT = 60;
+
+    public Haku() {
 
     }
 
-    Haku(Turnaus turnaus, PaaNakyma paanakyma) {
+    public Haku(Turnaus turnaus, PaaNakyma paanakyma) {
         this.turnaus = turnaus;
         this.paanakyma = paanakyma;
     }
@@ -89,23 +102,21 @@ public class Haku {
                 sarjatL = FXCollections.observableArrayList(sarjalista);
                 sarjatulokset.setItems(sarjatL);
                 sarjatulokset.setId("my-list");
-               
+
                 sarjatulokset.setPrefHeight(sarjatL.size() * ROW_HEIGHT + 2);
-                     sarjatulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                  
-                         TreeItem<Kohde> mihin = new TreeItem<>((Sarja)newSelection);
-                       
-                         SarjaNakyma sarjanakyma = paanakyma.annaSarjanakyma();
-                         sarjanakyma.luoSarjaSivu(mihin);
-                
-                         
-                 });
-                
-                if(sarjaloyty){
-                     hakutulos.getChildren().add(sarja_otsikko);
-                hakutulos.getChildren().add(sarjatulokset);
+                sarjatulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+                    TreeItem<Kohde> mihin = new TreeItem<>((Sarja) newSelection);
+
+                    SarjaNakyma sarjanakyma = paanakyma.annaSarjanakyma();
+                    sarjanakyma.luoSarjaSivu(mihin);
+
+                });
+
+                if (sarjaloyty) {
+                    hakutulos.getChildren().add(sarja_otsikko);
+                    hakutulos.getChildren().add(sarjatulokset);
                 }
-               
 
                 //joukkueet
                 sql = "SELECT DISTINCT * FROM sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id) AND (joukkue.nimi LIKE ?))";
@@ -140,37 +151,34 @@ public class Haku {
                 }
 
                 joukkueetL = FXCollections.observableArrayList(joukkuelista);
-               joukkuetulokset.setItems(joukkueetL);
+                joukkuetulokset.setItems(joukkueetL);
                 joukkuetulokset.setId("my-list");
                 joukkuetulokset.setPrefHeight(joukkueetL.size() * ROW_HEIGHT + 2);
-    joukkuetulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-           
-                  JoukkueNakyma joukkuenakyma = paanakyma.annaJoukkuenakyma();
-                        joukkuenakyma.luoJoukkueSivu((Joukkue) newSelection);
-                 
-                         
-                 });
-                 if(joukkueloyty){
-                     hakutulos.getChildren().add(joukkue_otsikko);
-                hakutulos.getChildren().add(joukkuetulokset);
-                 }
-                
+                joukkuetulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+                    JoukkueNakyma joukkuenakyma = paanakyma.annaJoukkuenakyma();
+                    joukkuenakyma.luoJoukkueSivu((Joukkue) newSelection);
+
+                });
+                if (joukkueloyty) {
+                    hakutulos.getChildren().add(joukkue_otsikko);
+                    hakutulos.getChildren().add(joukkuetulokset);
+                }
 
                 //pelaajat
-                     sql = "SELECT DISTINCT * FROM pelaaja, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id) AND (pelaaja.etunimi LIKE ? OR pelaaja.sukunimi LIKE ?))";
+                sql = "SELECT DISTINCT * FROM pelaaja, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id) AND (pelaaja.etunimi LIKE ? OR pelaaja.sukunimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
- pst.setString(3, "%" + hakusana + "%");
- 
- 
+                pst.setString(3, "%" + hakusana + "%");
+
                 ResultSet palaajat = pst.executeQuery();
 
                 ListView pelaajatulokset = new ListView();
                 List<Kohde> pelaajalista = new ArrayList<>();
                 Label pelaaja_otsikko = new Label("Pelaajat: ");
                 pelaaja_otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
-                
+
                 ObservableList<Kohde> pelaajatL;
                 boolean pelaajaloyty = false;
                 while (sarjat.next()) {
@@ -194,25 +202,23 @@ public class Haku {
                 pelaajatulokset.setItems(pelaajatL);
                 pelaajatulokset.setId("my-list");
                 pelaajatulokset.setPrefHeight(pelaajatL.size() * ROW_HEIGHT + 2);
-     pelaajatulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                 PelaajaNakyma pelaajanakyma = paanakyma.annaPelaajanakyma();
-                        pelaajanakyma.luoPelaajaSivu((Pelaaja) newSelection);
-                   
-                         
-                 });
-                
-                if(pelaajaloyty){
-                     hakutulos.getChildren().add(pelaaja_otsikko);
-                hakutulos.getChildren().add(pelaajatulokset);
+                pelaajatulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                    PelaajaNakyma pelaajanakyma = paanakyma.annaPelaajanakyma();
+                    pelaajanakyma.luoPelaajaSivu((Pelaaja) newSelection);
+
+                });
+
+                if (pelaajaloyty) {
+                    hakutulos.getChildren().add(pelaaja_otsikko);
+                    hakutulos.getChildren().add(pelaajatulokset);
                 }
-               
 
                 //toimihenkilöt
                 sql = "SELECT DISTINCT * FROM toimari, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id) AND (toimari.etunimi LIKE ? OR toimari.sukunimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
-                 pst.setString(3, "%" + hakusana + "%");
+                pst.setString(3, "%" + hakusana + "%");
 
                 ResultSet toimarit = pst.executeQuery();
 
@@ -243,22 +249,19 @@ public class Haku {
                 toimaritL = FXCollections.observableArrayList(toimarilista);
                 toimaritulokset.setItems(toimaritL);
                 toimaritulokset.setId("my-list");
-toimaritulokset.setPrefHeight(toimaritL.size() * ROW_HEIGHT + 2);
-                     toimaritulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-               
-                 ToimariNakyma toimarinakyma = paanakyma.annaToimarinakyma();
-                        toimarinakyma.luoToimariSivu((Toimihenkilo) newSelection);
-                  
-                         
-                 });
-                
-                     if(toimariloyty){
-                         hakutulos.getChildren().add(toimari_otsikko);
-                hakutulos.getChildren().add(toimaritulokset);
-                     }
-                
+                toimaritulokset.setPrefHeight(toimaritL.size() * ROW_HEIGHT + 2);
+                toimaritulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 
-                
+                    ToimariNakyma toimarinakyma = paanakyma.annaToimarinakyma();
+                    toimarinakyma.luoToimariSivu((Toimihenkilo) newSelection);
+
+                });
+
+                if (toimariloyty) {
+                    hakutulos.getChildren().add(toimari_otsikko);
+                    hakutulos.getChildren().add(toimaritulokset);
+                }
+
                 //tuomarit
                 sql = "SELECT DISTINCT * FROM tuomari WHERE ((turnaus_id = ?) AND (tuomari.etunimi LIKE ? OR tuomari.sukunimi LIKE ?))";
 
@@ -275,7 +278,7 @@ toimaritulokset.setPrefHeight(toimaritL.size() * ROW_HEIGHT + 2);
                 tuomari_otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
 
                 ObservableList<Kohde> tuomaritL;
-                
+
                 boolean tuomariloyty = false;
                 while (tuomarit.next()) {
                     loyty = true;
@@ -294,27 +297,25 @@ toimaritulokset.setPrefHeight(toimaritL.size() * ROW_HEIGHT + 2);
                 tuomaritL = FXCollections.observableArrayList(tuomarilista);
                 tuomaritulokset.setItems(tuomaritL);
                 tuomaritulokset.setId("my-list");
-tuomaritulokset.setPrefHeight(tuomaritL.size() * ROW_HEIGHT + 2);
-                     tuomaritulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                    
-                       TuomariNakyma tuomarinakyma = paanakyma.annaTuomarinakyma();
-                        TreeItem<Kohde> mihin = new TreeItem<>((Tuomari)newSelection);
-                        tuomarinakyma.luoTuomariSivu(mihin);
-                   
-                         
-                 });
-                if(tuomariloyty){
-                     hakutulos.getChildren().add(tuomari_otsikko);
-                hakutulos.getChildren().add(tuomaritulokset);
+                tuomaritulokset.setPrefHeight(tuomaritL.size() * ROW_HEIGHT + 2);
+                tuomaritulokset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+                    TuomariNakyma tuomarinakyma = paanakyma.annaTuomarinakyma();
+                    TreeItem<Kohde> mihin = new TreeItem<>((Tuomari) newSelection);
+                    tuomarinakyma.luoTuomariSivu(mihin);
+
+                });
+                if (tuomariloyty) {
+                    hakutulos.getChildren().add(tuomari_otsikko);
+                    hakutulos.getChildren().add(tuomaritulokset);
                 }
-               
 
             }
 
             if (!loyty || hakusana.trim().isEmpty()) {
-               
+
                 Label eitulokset = new Label("Ei tuloksia.");
-                 eitulokset.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+                eitulokset.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
                 hakutulos.getChildren().add(eitulokset);
             }
 

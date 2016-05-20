@@ -1,16 +1,16 @@
-package tupa;
+package tupa.kontrollerit;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.data.Tuomari;
+import tupa.data.Sarja;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Avaus {
     private Turnaus turnaus;
 
 
-    Avaus() {
+    public Avaus() {
 
     }
 

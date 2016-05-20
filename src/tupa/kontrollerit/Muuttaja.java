@@ -1,12 +1,26 @@
 /*
 Luokka, joka lisää ja poistaa eri kohteita
  */
-package tupa;
+package tupa.kontrollerit;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TreeItem;
+import tupa.Tupa;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.SarjaNakyma;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
+import tupa.data.Ottelu;
+import tupa.data.Maali;
+import tupa.data.Kokoonpano;
+import tupa.data.TuomarinRooli;
 
 /**
  *
@@ -19,11 +33,11 @@ public class Muuttaja {
     private PaaNakyma nakyma;
     private SarjaNakyma sarjanakyma;
 
-    Muuttaja() {
+    public Muuttaja() {
 
     }
 
-    Muuttaja(Tupa ikkuna, PaaNakyma nakyma) {
+    public Muuttaja(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         tiedottaja = new Tiedottaja(ikkuna);
         this.nakyma = nakyma;
@@ -42,10 +56,7 @@ public class Muuttaja {
                 }
 
             }
-         
 
-       
-            
         } else if (arvo instanceof Tuomari) {
 
             // tallennetaan turnaus, johon kuuluu
@@ -59,7 +70,6 @@ public class Muuttaja {
                 }
 
             }
-  
 
         }
 

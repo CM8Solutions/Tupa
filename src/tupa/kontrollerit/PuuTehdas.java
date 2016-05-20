@@ -1,14 +1,18 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TreeItem;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.Tupa;
 
 /**
  *
  * @author Marianne
  */
-
 public class PuuTehdas {
 
     private List<Sarja> sarjatk;
@@ -24,9 +28,8 @@ public class PuuTehdas {
         this.tuomaritk = ikkuna.annaTuomaritk();
 
     }
-    
-    // metodi, joka luo ArrayList:n TreeItemsista (Sarjat)
 
+    // metodi, joka luo ArrayList:n TreeItemsista (Sarjat)
     public ArrayList<TreeItem<Kohde>> getSarjat() {
 
         ArrayList<TreeItem<Kohde>> sarjat = new ArrayList<TreeItem<Kohde>>();
@@ -62,6 +65,5 @@ public class PuuTehdas {
         }
         return tuomarit;
     }
-
 
 }

@@ -1,7 +1,7 @@
 /*
 Erilaisia taulukoita muodostava luokka
  */
-package tupa;
+package tupa.kontrollerit;
 
 import com.sun.prism.impl.Disposer.Record;
 import java.util.ArrayList;
@@ -24,6 +24,22 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.SarjaNakyma;
+import tupa.nakymat.JoukkueNakyma;
+import tupa.nakymat.PelaajaNakyma;
+import tupa.nakymat.TuomariNakyma;
+import tupa.nakymat.ToimariNakyma;
+import tupa.nakymat.OtteluNakyma;
+import tupa.Tupa;
+import tupa.data.Maali;
+import tupa.data.Ottelu;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
+import tupa.data.Kokoonpano;
 
 /**
  *
@@ -43,44 +59,44 @@ public class Taulukko {
     private Tarkistaja tarkistaja;
     private Tupa ikkuna;
 
-    Taulukko() {
+    public Taulukko() {
 
     }
 
-    Taulukko(PaaNakyma nakyma) {
+    public Taulukko(PaaNakyma nakyma) {
         this.nakyma = nakyma;
         tarkistaja = new Tarkistaja(nakyma.annaIkkuna());
         this.ikkuna = nakyma.annaIkkuna();
     }
 
-    Taulukko(PaaNakyma nakyma, Varmistaja varmistaja) {
+    public Taulukko(PaaNakyma nakyma, Varmistaja varmistaja) {
         this.nakyma = nakyma;
         this.varmistaja = varmistaja;
         tarkistaja = new Tarkistaja(nakyma.annaIkkuna());
     }
 
-    Taulukko(SarjaNakyma sarjanakyma, Varmistaja varmistaja) {
+    public Taulukko(SarjaNakyma sarjanakyma, Varmistaja varmistaja) {
         this.sarjanakyma = sarjanakyma;
         this.varmistaja = varmistaja;
     }
 
-    Taulukko(TuomariNakyma tuomarinakyma) {
+    public Taulukko(TuomariNakyma tuomarinakyma) {
         this.tuomarinakyma = tuomarinakyma;
     }
 
-    Taulukko(JoukkueNakyma joukkuenakyma) {
+    public Taulukko(JoukkueNakyma joukkuenakyma) {
         this.joukkuenakyma = joukkuenakyma;
     }
 
-    Taulukko(OtteluNakyma ottelunakyma) {
+    public Taulukko(OtteluNakyma ottelunakyma) {
         this.ottelunakyma = ottelunakyma;
     }
 
-    Taulukko(PelaajaNakyma pelaajanakyma) {
+    public Taulukko(PelaajaNakyma pelaajanakyma) {
         this.pelaajanakyma = pelaajanakyma;
     }
 
-    Taulukko(ToimariNakyma toimarinakyma) {
+    public Taulukko(ToimariNakyma toimarinakyma) {
         this.toimarinakyma = toimarinakyma;
     }
 
@@ -357,7 +373,6 @@ public class Taulukko {
 
                 if (tarkistaja.erotuomariOK(t.getNewValue(), ottelu)) {
 
-
                     //lisätään uuden tuomarin luetteloon ko rooli
                     ottelu.asetaErotuomari(t.getNewValue(), t.getOldValue());
                     ikkuna = nakyma.annaIkkuna();
@@ -377,7 +392,6 @@ public class Taulukko {
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
 
                 if (tarkistaja.avustava1OK(t.getNewValue(), ottelu)) {
-                   
 
                     ottelu.asetaAvustava1(t.getNewValue(), t.getOldValue());
                     ikkuna = nakyma.annaIkkuna();
@@ -1584,7 +1598,7 @@ public class Taulukko {
         List<Ottelu> ottelut = new ArrayList<>();
 
         for (int i = 0; i < tuomari.annaTuomarinRoolit().size(); i++) {
-            
+
             if (tuomari.annaTuomarinRoolit().get(i).annaTuomari().equals(tuomari)) {
 
                 tuomari.annaTuomarinRoolit().get(i).annaOttelu().asetaTaulukkoid();
@@ -1646,7 +1660,7 @@ public class Taulukko {
             ottelunakyma.luoOttelusivu((Ottelu) newSelection);
         });
 
-            taulukko.setFixedCellSize(25);
+        taulukko.setFixedCellSize(25);
 
         if (taulukko.getItems().size() == 0) {
             taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(3)));

@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,6 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import tupa.Tupa;
+import tupa.data.Kohde;
+import tupa.data.Turnaus;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Pelaaja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Joukkue;
 
 /**
  *
@@ -22,11 +30,11 @@ public class Tallennus {
     private String sql = "";
     private boolean poisto = true;
 
-    Tallennus() {
+    public Tallennus() {
 
     }
 
-    Tallennus(Tupa ikkuna) {
+    public Tallennus(Tupa ikkuna) {
 
         this.ikkuna = ikkuna;
     }

@@ -1,4 +1,4 @@
-package tupa;
+package tupa.nakymat;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +15,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.kontrollerit.Taulukko;
+import tupa.data.Turnaus;
+import tupa.data.Tuomari;
+import tupa.data.Kohde;
 
 /**
  *
@@ -43,11 +51,11 @@ public class TuomariNakyma {
 
     private PaaNakyma nakyma;
 
-    TuomariNakyma() {
+    public TuomariNakyma() {
 
     }
 
-    TuomariNakyma(Tupa ikkuna, PaaNakyma nakyma) {
+    public TuomariNakyma(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
         muuttaja = new Muuttaja(ikkuna, nakyma);
@@ -170,8 +178,7 @@ public class TuomariNakyma {
         Tuomari tuomari = (Tuomari) arvo.getValue();
 
         GridPane grid = new GridPane();
-       
-        
+
         //riville 1
         HBox painike = new HBox();
         painike.setSpacing(20);

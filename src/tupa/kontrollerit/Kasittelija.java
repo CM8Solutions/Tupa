@@ -1,6 +1,14 @@
-package tupa;
+package tupa.kontrollerit;
 
 import javafx.scene.control.TreeItem;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.SarjaNakyma;
+import tupa.nakymat.TuomariNakyma;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.Tupa;
+import tupa.data.Kohde;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
 
 /**
  *
@@ -14,11 +22,11 @@ public class Kasittelija {
     private SarjaNakyma sarjanakyma;
     private TuomariNakyma tuomarinakyma;
 
-    Kasittelija() {
+    public Kasittelija() {
 
     }
 
-    Kasittelija(Tupa ikkuna) {
+    public Kasittelija(Tupa ikkuna) {
         this.ikkuna = ikkuna;
         tiedottaja = new Tiedottaja(ikkuna);
         nakyma = new PaaNakyma(ikkuna);
@@ -48,12 +56,10 @@ public class Kasittelija {
     public void branchExpended(TreeItem.TreeModificationEvent<Kohde> event) {
         String nodeValue = event.getSource().getValue().toString();
 
-
     }
 
     public void branchCollapsed(TreeItem.TreeModificationEvent<Kohde> event) {
         String nodeValue = event.getSource().getValue().toString();
-      
 
     }
 

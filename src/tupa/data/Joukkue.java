@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +39,14 @@ public class Joukkue extends Kohde {
     private List<Integer> paastetyt = new ArrayList<Integer>();
   
 
-    Joukkue() {
+   public Joukkue() {
 
         joLaskuri++;
         julkinenID = 201600 + joLaskuri;
 
     }
 
-    Joukkue(String nimi) {
+   public Joukkue(String nimi) {
 
         super(nimi);
         joLaskuri++;

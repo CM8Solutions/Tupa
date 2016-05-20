@@ -1,4 +1,4 @@
-package tupa;
+package tupa.nakymat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.kontrollerit.Taulukko;
+import tupa.kontrollerit.Opastus;
+import tupa.data.Joukkue;
+import tupa.data.Kokoonpano;
+import tupa.data.Ottelu;
+import tupa.data.Kohde;
+
+import tupa.data.Pelaaja;
+
+import tupa.data.Joukkue;
 
 /**
  *
@@ -64,11 +78,11 @@ public class OtteluNakyma {
     private PaaNakyma nakyma;
     private SarjaNakyma sarjanakyma;
 
-    OtteluNakyma() {
+    public OtteluNakyma() {
 
     }
 
-    OtteluNakyma(Tupa ikkuna, PaaNakyma nakyma) {
+    public OtteluNakyma(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
         sarjanakyma = nakyma.annaSarjanakyma();
@@ -90,7 +104,6 @@ public class OtteluNakyma {
 
         VBox rivi1 = new VBox();
         rivi1.setAlignment(Pos.CENTER);
-       
 
         Button paluunappula = new Button("<< Palaa sarjasivulle");
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
@@ -187,7 +200,7 @@ public class OtteluNakyma {
         kotiosio.setPadding(new Insets(0, 0, 0, 40));
 
         HBox koko_otsake_koti = new HBox();
-         koko_otsake_koti.setPadding(new Insets(0, 0, 0, 20));
+        koko_otsake_koti.setPadding(new Insets(0, 0, 0, 20));
         koko_otsake_koti.setSpacing(20);
 
         Button otsikkonappula = new Button();
@@ -228,7 +241,7 @@ public class OtteluNakyma {
 
         HBox koko_otsake_vieras = new HBox();
         koko_otsake_vieras.setSpacing(20);
-  koko_otsake_vieras.setPadding(new Insets(0, 0, 0, 20));
+        koko_otsake_vieras.setPadding(new Insets(0, 0, 0, 20));
         Button otsikkonappula2 = new Button();
         otsikkonappula2.setId("button-ohje");
         otsikkonappula2.setText("\u003F");
@@ -314,7 +327,7 @@ public class OtteluNakyma {
         });
 
         HBox painikkeet = new HBox();
-     
+
         painikkeet.setSpacing(20);
         painikkeet.setAlignment(Pos.TOP_LEFT);
         painikkeet.getChildren().addAll(paluu);
@@ -452,7 +465,6 @@ public class OtteluNakyma {
             @Override
             public void handle(ActionEvent e) {
 
-            
                 muuttaja.lisaaKokoonpano(pelaajataulukko, roolitaulukko, joukkue, ottelu);
                 ikkuna.asetaMuutos(true);
                 luoOttelusivu(ottelu);

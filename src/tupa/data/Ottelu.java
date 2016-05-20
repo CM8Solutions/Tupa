@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -62,11 +62,11 @@ public class Ottelu implements Serializable {
     private transient ObjectProperty<Joukkue> taulukkokotijoukkue = new SimpleObjectProperty();
     private transient ObjectProperty<Joukkue> taulukkovierasjoukkue = new SimpleObjectProperty();
 
-    Ottelu() {
+    public Ottelu() {
 
     }
 
-    Ottelu(Sarja sarja) {
+    public Ottelu(Sarja sarja) {
         this.sarja = sarja;
         laskuri++;
         id = laskuri;
@@ -420,7 +420,6 @@ public class Ottelu implements Serializable {
     }
 
     public void asetaErotuomari(Tuomari uusierotuomari, Tuomari vanhaerotuomari) {
-   
 
         TuomarinRooli rooli = new TuomarinRooli();
         boolean on = false;
@@ -443,7 +442,7 @@ public class Ottelu implements Serializable {
         } else {
             rooli.asetaOttelu(this);
             rooli.asetaTuomari(uusierotuomari);
-           rooli.asetaRooli("Erotuomari");
+            rooli.asetaRooli("Erotuomari");
             this.annaRoolit().add(rooli);
 
         }
@@ -467,8 +466,8 @@ public class Ottelu implements Serializable {
     }
 
     public void asetaAvustava1(Tuomari uusiavustava, Tuomari vanha_avustava) {
-        
-                TuomarinRooli rooli = new TuomarinRooli();
+
+        TuomarinRooli rooli = new TuomarinRooli();
         boolean on = false;
         //katsotaanko onko ottelulla tuomarinrooleja, jotka liittyvät erotuomariin
         for (int i = 0; i < this.annaRoolit().size(); i++) {
@@ -489,7 +488,7 @@ public class Ottelu implements Serializable {
         } else {
             rooli.asetaOttelu(this);
             rooli.asetaTuomari(uusiavustava);
-           rooli.asetaRooli("1. Avustava erotuomari");
+            rooli.asetaRooli("1. Avustava erotuomari");
             this.annaRoolit().add(rooli);
 
         }
@@ -497,9 +496,7 @@ public class Ottelu implements Serializable {
         uusiavustava.annaTuomarinRoolit().add(rooli);
 
         this.asetaTaulukkotuomarit();
-        
 
-  
     }
 
     public Tuomari annaAvustava2() {
@@ -516,7 +513,7 @@ public class Ottelu implements Serializable {
 
     public void asetaAvustava2(Tuomari uusiavustava, Tuomari vanha_avustava) {
 
-                 TuomarinRooli rooli = new TuomarinRooli();
+        TuomarinRooli rooli = new TuomarinRooli();
         boolean on = false;
         //katsotaanko onko ottelulla tuomarinrooleja, jotka liittyvät erotuomariin
         for (int i = 0; i < this.annaRoolit().size(); i++) {
@@ -537,7 +534,7 @@ public class Ottelu implements Serializable {
         } else {
             rooli.asetaOttelu(this);
             rooli.asetaTuomari(uusiavustava);
-           rooli.asetaRooli("2. Avustava erotuomari");
+            rooli.asetaRooli("2. Avustava erotuomari");
             this.annaRoolit().add(rooli);
 
         }

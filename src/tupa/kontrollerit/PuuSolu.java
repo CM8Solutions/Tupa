@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 /**
  *
@@ -7,15 +7,20 @@ package tupa;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
-
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import tupa.data.Kohde;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.nakymat.SarjaNakyma;
+import tupa.nakymat.TuomariNakyma;
+import tupa.Tupa;
 
 public class PuuSolu extends TreeCell<Kohde> {
 
     private Tupa ikkuna;
 
-    PuuSolu(Tupa ikkuna) {
+    public PuuSolu(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
 
@@ -60,21 +65,20 @@ public class PuuSolu extends TreeCell<Kohde> {
         menu.getItems().add(item5);
 
         Varmistaja varmistaja = new Varmistaja(ikkuna, ikkuna.annaPaaNakyma());
-        
-        
-          item5.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    varmistaja.annaPoistoVarmistus(item);
 
-                }
-            });
+        item5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                varmistaja.annaPoistoVarmistus(item);
+
+            }
+        });
 
         if (item instanceof Sarja) {
             item2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    Sarja sarja =(Sarja) item;
+                    Sarja sarja = (Sarja) item;
                     SarjaNakyma sarjanakyma = new SarjaNakyma();
                     sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
                     sarjanakyma.luoSarjaMuokkaus(sarja);
@@ -82,21 +86,19 @@ public class PuuSolu extends TreeCell<Kohde> {
                 }
             });
         }
-          if (item instanceof Tuomari) {
+        if (item instanceof Tuomari) {
             item2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     Tuomari tuomari = (Tuomari) item;
-                          TuomariNakyma tuomarinakyma = new TuomariNakyma();
+                    TuomariNakyma tuomarinakyma = new TuomariNakyma();
                     tuomarinakyma = ikkuna.annaPaaNakyma().annaTuomarinakyma();
                     tuomarinakyma.luoTuomariMuokkaus(tuomari);
 
                 }
             });
         }
-        
-        
-        
+
         return menu;
     }
 

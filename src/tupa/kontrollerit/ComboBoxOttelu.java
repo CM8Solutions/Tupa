@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
+import tupa.data.Ottelu;
 
 /**
  *
@@ -17,7 +18,6 @@ import javafx.scene.control.TableCell;
 class ComboBoxOttelu extends TableCell<Ottelu, Integer> {
 
     private ComboBox<Integer> comboBox;
-
 
     public ComboBoxOttelu() {
     }
@@ -36,7 +36,7 @@ class ComboBoxOttelu extends TableCell<Ottelu, Integer> {
     public void cancelEdit() {
         super.cancelEdit();
 
-      setText(getTyp().toString());
+        setText(getTyp().toString());
         setGraphic(null);
     }
 
@@ -76,18 +76,18 @@ class ComboBoxOttelu extends TableCell<Ottelu, Integer> {
 
         comboBox.setValue(getItem());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
-         
-        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>(){
-                @Override
-                public void changed(ObservableValue<? extends Boolean> arg0, 
+
+        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0,
                     Boolean arg1, Boolean arg2) {
-                        if (!arg2) {
-                            commitEdit(comboBox.getSelectionModel().getSelectedItem());
-                        }
+                if (!arg2) {
+                    commitEdit(comboBox.getSelectionModel().getSelectedItem());
                 }
-            });
+            }
+        });
     }
-    
+
     private void comboBoxConverter(ComboBox<Integer> comboBox) {
 
         comboBox.setCellFactory((c) -> {

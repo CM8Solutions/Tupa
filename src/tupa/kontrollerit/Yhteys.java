@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +17,7 @@ public class Yhteys {
     private static String password = "asdlol";
     private static Connection yhteys;
 
-    Yhteys() {
+    public Yhteys() {
     }
 
     public static Connection annaYhteys() {

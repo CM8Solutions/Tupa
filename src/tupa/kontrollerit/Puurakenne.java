@@ -1,10 +1,18 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import tupa.Tupa;
+import tupa.data.Kohde;
+import tupa.data.Sarja;
+import tupa.data.Tuomari;
+import tupa.data.Turnaus;
+import tupa.nakymat.PaaNakyma;
+import tupa.nakymat.SarjaNakyma;
+import tupa.nakymat.TuomariNakyma;
 
 /**
  *
@@ -14,11 +22,11 @@ public class Puurakenne {
 
     private Tupa ikkuna;
 
-    Puurakenne() {
+    public Puurakenne() {
 
     }
 
-    Puurakenne(Tupa ikkuna) {
+    public Puurakenne(Tupa ikkuna) {
 
         this.ikkuna = ikkuna;
 

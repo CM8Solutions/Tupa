@@ -1,4 +1,4 @@
-package tupa;
+package tupa.kontrollerit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,23 +9,26 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
+import tupa.data.Ottelu;
+import tupa.data.Tuomari;
+import tupa.data.Sarja;
 
 /**
  *
  * @author Marianne
  */
-public class TuomariCombo extends TableCell<Ottelu, Tuomari>{
-    
-private ComboBox<Tuomari> comboBox;
-private Sarja sarja;
+public class TuomariCombo extends TableCell<Ottelu, Tuomari> {
+
+    private ComboBox<Tuomari> comboBox;
+    private Sarja sarja;
 
     public TuomariCombo() {
     }
-    
+
     public TuomariCombo(Sarja sarja) {
-    this.sarja = sarja;
+        this.sarja = sarja;
     }
-    
+
     @Override
     public void startEdit() {
         if (!isEmpty()) {
@@ -40,7 +43,7 @@ private Sarja sarja;
     public void cancelEdit() {
         super.cancelEdit();
 
-      setText(getTyp().toString());
+        setText(getTyp().toString());
         setGraphic(null);
     }
 
@@ -57,7 +60,7 @@ private Sarja sarja;
             }
             setText("www");
             setGraphic(comboBox);
-        } else if(item != null) {
+        } else if (item != null) {
             //näytetään voimassa oleva arvo
             setText(getTyp().toString());
             setGraphic(null);
@@ -65,40 +68,37 @@ private Sarja sarja;
     }
 
     private void createComboBox() {
-  ComboBox<Tuomari> tuomari = new ComboBox();
-       List<Tuomari> tuomarilista1 = new ArrayList<Tuomari>();
-Tuomari valitse1 = new Tuomari();
-       tuomarilista1.add(valitse1);
+        ComboBox<Tuomari> tuomari = new ComboBox();
+        List<Tuomari> tuomarilista1 = new ArrayList<Tuomari>();
+        Tuomari valitse1 = new Tuomari();
+        tuomarilista1.add(valitse1);
         for (int i = 0; i < sarja.annaTurnaus().annaTuomarit().size(); i++) {
             tuomarilista1.add(sarja.annaTurnaus().annaTuomarit().get(i));
 
         }
         ObservableList tuomarit = FXCollections.observableList(tuomarilista1);
         tuomari.setItems(tuomarit);
-tuomari.getSelectionModel().selectFirst();
+        tuomari.getSelectionModel().selectFirst();
         comboBox = tuomari;
         comboBoxConverter(comboBox);
-        
-        
+
         //eka arvo valikossa on olemassa oleva arvo
-   
         comboBox.setValue(getItem());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
 
-         
-        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>(){
-                @Override
-                public void changed(ObservableValue<? extends Boolean> arg0, 
+        comboBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0,
                     Boolean arg1, Boolean arg2) {
-                        if (!arg2) {
-                            commitEdit(comboBox.getSelectionModel().getSelectedItem());
-                        }
+                if (!arg2) {
+                    commitEdit(comboBox.getSelectionModel().getSelectedItem());
                 }
-            });
+            }
+        });
     }
-    
+
     private void comboBoxConverter(ComboBox<Tuomari> comboBox) {
-        
+
         comboBox.setCellFactory((c) -> {
             return new ListCell<Tuomari>() {
                 @Override

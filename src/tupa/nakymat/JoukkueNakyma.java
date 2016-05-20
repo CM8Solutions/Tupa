@@ -1,4 +1,4 @@
-package tupa;
+package tupa.nakymat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import tupa.Tupa;
+import tupa.kontrollerit.Muuttaja;
+import tupa.kontrollerit.Tiedottaja;
+import tupa.kontrollerit.Varmistaja;
+import tupa.kontrollerit.Taulukko;
+import tupa.kontrollerit.Opastus;
+import tupa.data.Joukkue;
+import tupa.data.Kohde;
 
 /**
  *
@@ -47,11 +55,11 @@ public class JoukkueNakyma {
     private PaaNakyma nakyma;
     private SarjaNakyma sarjanakyma;
 
-    JoukkueNakyma() {
+    public JoukkueNakyma() {
 
     }
 
-    JoukkueNakyma(Tupa ikkuna, PaaNakyma nakyma) {
+    public JoukkueNakyma(Tupa ikkuna, PaaNakyma nakyma) {
         this.ikkuna = ikkuna;
         this.nakyma = nakyma;
         sarjanakyma = nakyma.annaSarjanakyma();

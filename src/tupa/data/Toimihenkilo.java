@@ -1,4 +1,4 @@
-package tupa;
+package tupa.data;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -17,16 +17,16 @@ public class Toimihenkilo extends Henkilo {
 
     private transient StringProperty taulukkosposti = new SimpleStringProperty();
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
-     private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
-      private transient StringProperty taulukkosukunimi = new SimpleStringProperty();
+    private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
+    private transient StringProperty taulukkosukunimi = new SimpleStringProperty();
     private transient StringProperty taulukkopuh = new SimpleStringProperty();
     private transient StringProperty taulukkorooli = new SimpleStringProperty();
 
-    Toimihenkilo() {
+    public Toimihenkilo() {
         toLaskuri++;
     }
 
-    Toimihenkilo(String etunimi, String sukunimi) {
+    public Toimihenkilo(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
         toLaskuri++;
     }
@@ -76,24 +76,25 @@ public class Toimihenkilo extends Henkilo {
     public void asetaTaulukkonimi() {
         this.taulukkonimi = new SimpleStringProperty(this.annaKokoNimi());
     }
+
     public StringProperty taulukkoetunimiProperty() {
         return taulukkoetunimi;
     }
 
     public void asetaTaulukkoetunimi() {
-        
+
         this.taulukkoetunimi = new SimpleStringProperty(this.annaEtuNimi());
     }
-    
-       public StringProperty taulukkosukunimiProperty() {
+
+    public StringProperty taulukkosukunimiProperty() {
         return taulukkosukunimi;
     }
 
     public void asetaTaulukkosukunimi() {
-        
+
         this.taulukkosukunimi = new SimpleStringProperty(this.annaSukuNimi());
     }
-    
+
     public StringProperty taulukkorooliProperty() {
         return taulukkorooli;
     }
