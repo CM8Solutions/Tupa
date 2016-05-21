@@ -20,6 +20,7 @@ import tupa.data.Joukkue;
 import tupa.data.Ottelu;
 import tupa.data.Maali;
 import tupa.data.Kokoonpano;
+import tupa.data.TuomarinRooli;
 
 /**
  *
@@ -72,6 +73,8 @@ public class Tallennus {
                 Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
                 turnaus_id = turnaus.annaID();
 
+                
+                
                 String turnaus_nimi = turnaus.toString();
 
                 ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
@@ -122,38 +125,30 @@ public class Tallennus {
                             sql = "DELETE FROM toimari WHERE id='" + id + "'";
                             st.executeUpdate(sql);
                         }
-
-                        //tyhjennetään kokoonpanot
-                        sql = "SELECT DISTINCT kokoonpano.id as kid FROM sarja, joukkue, kokoonpano WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND kokoonpano.joukkue_id = joukkue.id";
-                        ResultSet kokoonpanot = st6.executeQuery(sql);
-
-                        while (kokoonpanot.next()) {
-
-                            int id =kokoonpanot.getInt("kid");
-                            sql = "DELETE FROM kokoonpano WHERE id='" + id + "'";
-                            st.executeUpdate(sql);
-                        
-                      
-                        
-                        
-                        }
-                        
-                        
-                        
-                               //tyhjennetään ottelut
+                    
+                        //tyhjennetään ottelut
                         sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
                         ResultSet ottelut = st4.executeQuery(sql);
 
                         while (ottelut.next()) {
-
                             int id = ottelut.getInt("oid");
+                            
+                            //tyhjennetään kokoonpanot
+                             sql = "DELETE FROM kokoonpano WHERE ottelu_id='" + id + "'";
+                            st.executeUpdate(sql);
+                            
+                           //tyhjennetään ensin maalit
+                           sql = "DELETE FROM maali WHERE ottelu_id='" + id + "'";
+                            st.executeUpdate(sql);
+                           //ja tuomarinroolit
+                           
+                           sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
+                            st.executeUpdate(sql);
+                           
                             sql = "DELETE FROM ottelu WHERE id='" + id + "'";
                             st.executeUpdate(sql);
                         }
-                        
-                        
-                        //MUIDEN TYHJENNYS!!
-                        
+
                              //tyhjennetään joukkueet
                         sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
                         ResultSet joukkueet = st5.executeQuery(sql);
@@ -164,21 +159,14 @@ public class Tallennus {
                             sql = "DELETE FROM joukkue WHERE id='" + id + "'";
                             st.executeUpdate(sql);
                         }
-                        
-                        
-                        
+                       
                           //tyhjennetään sarjat
                         sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
                         st.executeUpdate(sql);
-                        
-                        
-                        
-                        
+                                              
                         //tyhjennetään tuomarit
                         sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
-                        st.executeUpdate(sql);
-                        
-           
+                        st.executeUpdate(sql);      
 
                     }
 
@@ -202,7 +190,6 @@ public class Tallennus {
                         } else if (tiedot instanceof Tuomari) {
 
                             Tuomari tuomari = (Tuomari) tiedot;
-
                             int tuomari_id = tuomari.annaJulkinenId();
                             int tid = tuomari.annaID();
                             String etunimi = tuomari.annaEtuNimi();
@@ -272,7 +259,33 @@ public class Tallennus {
                                     st.executeUpdate("INSERT INTO kokoonpano (id, ottelu_id, joukkue_id) VALUES ('"+kotikokoonpano_id + "', '" + oid + "', '" + kotijoukkue_id +"')"); 
                                     st.executeUpdate("INSERT INTO kokoonpano (id, ottelu_id, joukkue_id) VALUES ('"+vieraskokoonpano_id + "', '" + oid + "', '" + vierasjoukkue_id +"')"); 
 
-
+                                    
+                                    //tallenetaan ko otteluun liittyvät maalitiedot
+                                    
+                                    for(int m=0; m<ottelu.annaMaalit().size(); m++){
+                                        Maali maali = ottelu.annaMaalit().get(m);
+                                        int maali_id = maali.annaID();
+                                        Pelaaja maalintekija = maali.annaMaalinTekija();
+                                        int maalintekija_id = maalintekija.annaID();
+                                        Pelaaja syottaja = maali.annaSyottaja();
+                                        int syottaja_id = syottaja.annaID();
+                                        int aika = maali.annaAika();
+                                        st.executeUpdate("INSERT INTO maali (id, maalintekija_id, syottaja_id, ottelu_id, aika) VALUES ('" + maali_id + "', '" + maalintekija_id + "', '" + syottaja_id + "', '" + oid + "', '" + aika+"')");
+                                     
+                                    }
+                                    
+                                     //tallenetaan ko otteluun liittyvät tuomaritiedot
+                                          for(int m=0; m<ottelu.annaRoolit().size(); m++){
+                                        TuomarinRooli tuomarinrooli = ottelu.annaRoolit().get(m);
+                                        int tuomarinrooli_id = tuomarinrooli.annaID();
+                                       
+                                        Tuomari tuomari = tuomarinrooli.annaTuomari();
+                                        int tuomari_id = tuomari.annaID();
+                                        String rooli = tuomarinrooli.annaRooli();
+                                        
+                                        st.executeUpdate("INSERT INTO tuomarinrooli (id, tuomari_id, rooli, ottelu_id) VALUES ('" + tuomarinrooli_id + "', '" + tuomari_id + "', '" + rooli + "', '" + oid + "')");
+                                     
+                                    }
                                 }
                            }
                            

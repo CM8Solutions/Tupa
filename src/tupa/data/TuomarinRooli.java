@@ -12,7 +12,9 @@ import javafx.beans.property.StringProperty;
  * @author Marianne
  */
 public class TuomarinRooli implements Serializable {
-
+    
+    private static int laskuri;
+    private int id;
     private String rooli;
     private Ottelu ottelu;
     private Tuomari tuomari;
@@ -22,13 +24,25 @@ public class TuomarinRooli implements Serializable {
 
     public TuomarinRooli() {
 
+        laskuri++;
+        id = laskuri;
     }
 
     public TuomarinRooli(Tuomari tuomari, Ottelu ottelu) {
+       laskuri++;
+       id = laskuri;
         this.tuomari = tuomari;
         this.ottelu = ottelu;
     }
 
+    public int annaID(){
+        return id;
+    }
+    
+    public void asetaID(int id){
+        this.id = id;
+    }
+    
     public String annaRooli() {
         return rooli;
     }

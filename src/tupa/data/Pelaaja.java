@@ -120,9 +120,12 @@ public class Pelaaja extends Henkilo {
         int maara = 0;
 
         for (int i = 0; i < maalit.size(); i++) {
-            if (maalit.get(i).annaMaalinTekija().equals(this)) {
+             if(maalit.get(i).annaMaalinTekija() != null){
+                    if (maalit.get(i).annaMaalinTekija().equals(this)) {
                 maara++;
             }
+             }
+         
         }
 
         return maara;
@@ -133,9 +136,12 @@ public class Pelaaja extends Henkilo {
         int maara = 0;
 
         for (int i = 0; i < maalit.size(); i++) {
-            if (maalit.get(i).annaSyottaja().equals(this)) {
+            if(maalit.get(i).annaSyottaja() != null){
+                   if (maalit.get(i).annaSyottaja().equals(this)) {
                 maara++;
+                }
             }
+         
 
         }
 

@@ -333,12 +333,8 @@ public class Muuttaja {
 
     public void poistaPelaaja(Pelaaja pelaaja, Joukkue joukkue) {
 
-  
-            
+        ikkuna.annaKohteet().remove((Kohde) pelaaja);
 
-                ikkuna.annaKohteet().remove((Kohde) pelaaja);
-
-  
         joukkue.annaPelaajat().remove(pelaaja);
         tiedottaja.kirjoitaLoki("Pelaaja " + pelaaja.toString() + " poistettu.");
         ikkuna.asetaMuutos(true);
@@ -346,7 +342,7 @@ public class Muuttaja {
 
     public void poistaToimari(Toimihenkilo toimari, Joukkue joukkue) {
 
-   ikkuna.annaKohteet().remove((Kohde) toimari);
+        ikkuna.annaKohteet().remove((Kohde) toimari);
         joukkue.annaToimarit().remove(toimari);
         tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu.");
         ikkuna.asetaMuutos(true);
@@ -355,16 +351,12 @@ public class Muuttaja {
     public void poistaJoukkue(Joukkue joukkue, Sarja sarja) {
 
         for (int j = 0; j < joukkue.annaPelaajat().size(); j++) {
-      
 
-                    ikkuna.annaKohteet().remove((Kohde)joukkue.annaPelaajat().get(j));
-
-        
+            ikkuna.annaKohteet().remove((Kohde) joukkue.annaPelaajat().get(j));
 
         }
 
-     
-         ikkuna.annaKohteet().remove(joukkue);
+        ikkuna.annaKohteet().remove(joukkue);
 
         sarja.annaJoukkueet().remove(joukkue);
         tiedottaja.kirjoitaLoki("Joukkue " + joukkue.toString() + " poistettu.");
@@ -445,10 +437,33 @@ public class Muuttaja {
 
     }
 
-    public void lisaaMaali(int aika, Pelaaja maalintekija, Pelaaja syottaja, Ottelu ottelu) {
+    public void lisaaMaali(int aika, Pelaaja maalintekija, Pelaaja syottaja, Ottelu ottelu, Joukkue joukkue) {
 
-        Maali maali = new Maali(ottelu);
-        maali.asetaTiedot(aika, maalintekija, syottaja);
+        if (!maalintekija.annaEtuNimi().equals("Valitse") && !syottaja.annaEtuNimi().equals("Valitse")) {
+            Maali maali = new Maali(ottelu);
+            if (maalintekija.annaEtuNimi().equals("Oma")) {
+
+                maalintekija.asetaJoukkue(joukkue);
+                ikkuna.annaKohteet().add(maalintekija);
+            }
+            if(syottaja.annaEtuNimi().equals("Ei")){
+                syottaja.asetaJoukkue(joukkue);
+                ikkuna.annaKohteet().add(syottaja);
+            }
+            maali.asetaTiedot(aika, maalintekija, syottaja);
+        } else if (!maalintekija.annaEtuNimi().equals("Valitse") && syottaja.annaEtuNimi().equals("Valitse")) {
+            Maali maali = new Maali(ottelu);
+            if (maalintekija.annaEtuNimi().equals("Oma")) {
+
+                maalintekija.asetaJoukkue(joukkue);
+ ikkuna.annaKohteet().add(maalintekija);
+            }
+            Pelaaja uusisyottaja = new Pelaaja("", "");
+            uusisyottaja.asetaJoukkue(joukkue);
+            ikkuna.annaKohteet().add(uusisyottaja);
+            maali.asetaTiedot(aika, maalintekija, uusisyottaja);
+        }
+
     }
 
     public void lisaaTulos(int kotimaalit, int vierasmaalit, Ottelu ottelu) {

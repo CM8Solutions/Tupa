@@ -592,7 +592,7 @@ public class OtteluNakyma {
         List<Pelaaja> kotipelaajalista1 = new ArrayList();
         Pelaaja ohjeistus3 = new Pelaaja("Valitse", " ");
         kotipelaajalista1.add(ohjeistus3);
-        Pelaaja oma1 = new Pelaaja("Oma ", "maali");
+        Pelaaja oma1 = new Pelaaja("Oma", " maali");
         kotipelaajalista1.add(oma1);
 
         for (int i = 0; i < ottelu.annaKotijoukkue().annaPelaajat().size(); i++) {
@@ -623,7 +623,7 @@ public class OtteluNakyma {
         List<Pelaaja> kotipelaajalista2 = new ArrayList();
         Pelaaja ohjeistus4 = new Pelaaja("Valitse", " ");
         kotipelaajalista2.add(ohjeistus4);
-        Pelaaja ohjeistus5 = new Pelaaja("Ei ", "syöttäjää");
+        Pelaaja ohjeistus5 = new Pelaaja("Ei", " syöttäjää");
         kotipelaajalista2.add(ohjeistus5);
         for (int i = 0; i < ottelu.annaKotijoukkue().annaPelaajat().size(); i++) {
             Kokoonpano koti = ottelu.annaKotiKokoonpano();
@@ -647,9 +647,12 @@ public class OtteluNakyma {
         int syotetyt_koti = 0;
 
         for (int i = 0; i < ottelu.annaMaalit().size(); i++) {
-            if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaKotijoukkue())) {
+            if(ottelu.annaMaalit().get(i).annaMaalinTekija() != null){
+                    if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaKotijoukkue())) {
                 syotetyt_koti++;
             }
+            }
+        
         }
 
         maalialle1.getChildren().addAll(alle7, alle8, alle9);
@@ -662,7 +665,10 @@ public class OtteluNakyma {
             @Override
             public void handle(ActionEvent e) {
 
-                muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu);
+                if(maalintekija1.getValue() != null && syottaja1.getValue() != null){
+                         muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
+                }
+           
                 ikkuna.asetaMuutos(true);
                 luoOttelusivu(ottelu);
             }
@@ -713,7 +719,7 @@ public class OtteluNakyma {
         List<Pelaaja> vieraspelaajalista1 = new ArrayList();
         Pelaaja ohjeistus32 = new Pelaaja("Valitse", " ");
         vieraspelaajalista1.add(ohjeistus32);
-        Pelaaja oma2 = new Pelaaja("Oma ", "maali");
+        Pelaaja oma2 = new Pelaaja("Oma", " maali");
         vieraspelaajalista1.add(oma2);
 
         for (int i = 0; i < ottelu.annaVierasjoukkue().annaPelaajat().size(); i++) {
@@ -744,7 +750,7 @@ public class OtteluNakyma {
         List<Pelaaja> vieraspelaajalista2 = new ArrayList();
         Pelaaja ohjeistus42 = new Pelaaja("Valitse", " ");
         vieraspelaajalista2.add(ohjeistus42);
-        Pelaaja ohjeistus52 = new Pelaaja("Ei ", "syöttäjää");
+        Pelaaja ohjeistus52 = new Pelaaja("Ei", " syöttäjää");
         vieraspelaajalista2.add(ohjeistus52);
         for (int i = 0; i < ottelu.annaVierasjoukkue().annaPelaajat().size(); i++) {
             Kokoonpano vieras = ottelu.annaVierasKokoonpano();
@@ -782,9 +788,12 @@ public class OtteluNakyma {
         int syotetyt_vieras = 0;
 
         for (int i = 0; i < ottelu.annaMaalit().size(); i++) {
-            if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaVierasjoukkue())) {
+            if(ottelu.annaMaalit().get(i).annaMaalinTekija() != null){
+                   if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaVierasjoukkue())) {
                 syotetyt_vieras++;
             }
+            }
+         
         }
 
         maalialle2.getChildren().addAll(alle72, alle82, alle92);
@@ -796,7 +805,7 @@ public class OtteluNakyma {
             @Override
             public void handle(ActionEvent e) {
 
-                muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu);
+                muuttaja.lisaaMaali(aika.getValue(), maalintekija2.getValue(), syottaja2.getValue(), ottelu, ottelu.annaVierasjoukkue());
                 ikkuna.asetaMuutos(true);
                 luoOttelusivu(ottelu);
             }

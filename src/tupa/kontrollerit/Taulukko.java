@@ -680,8 +680,11 @@ public class Taulukko {
             Joukkue joukkue = joukkueet.get(k);
 
             for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
+                 
                 Pelaaja joukkueen_pelaaja = joukkue.annaPelaajat().get(i);
+                 if(!joukkueen_pelaaja.annaEtuNimi().equals("") && !joukkueen_pelaaja.annaEtuNimi().equals("Oma") && !joukkueen_pelaaja.annaEtuNimi().equals("Ei") ){
                 joukkueiden_pelaajat.add(joukkueen_pelaaja);
+                 }
             }
         }
 
@@ -1277,11 +1280,12 @@ public class Taulukko {
         List<Pelaaja> pelaajat = new ArrayList<>();
 
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
+             if(!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")){
             joukkue.annaPelaajat().get(i).asetaTaulukkonimi();
             joukkue.annaPelaajat().get(i).asetaTaulukkonumero();
             joukkue.annaPelaajat().get(i).asetaTaulukkopelipaikka();
             pelaajat.add(joukkue.annaPelaajat().get(i));
-
+             }
         }
 
         ObservableList<Pelaaja> data
@@ -1328,12 +1332,13 @@ public class Taulukko {
         List<Pelaaja> pelaajat = new ArrayList<>();
 
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
+            if(!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")){
             joukkue.annaPelaajat().get(i).asetaTaulukkoetunimi();
             joukkue.annaPelaajat().get(i).asetaTaulukkosukunimi();
             joukkue.annaPelaajat().get(i).asetaTaulukkonumero();
             joukkue.annaPelaajat().get(i).asetaTaulukkopelipaikka();
             pelaajat.add(joukkue.annaPelaajat().get(i));
-
+            }
         }
 
         ObservableList<Pelaaja> data
@@ -1493,9 +1498,9 @@ public class Taulukko {
         //haetaan kaikki joukkueen pelaajat
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
             Pelaaja pelaaja = joukkue.annaPelaajat().get(i);
-
+        if(!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")){
             pelaajat.add(pelaaja);
-
+        }
         }
 
         // järjestetään pelaajat pisteiden mukaiseen järjestykseen
@@ -1938,7 +1943,9 @@ public class Taulukko {
 
             @Override
             public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
-                return new PoistoSoluMaali(data);
+                OtteluNakyma ottelunakyma = nakyma.annaOttelunakyma();
+                
+                return new PoistoSoluMaali(data, ottelunakyma);
             }
 
         });
@@ -1986,9 +1993,12 @@ public class Taulukko {
 
         for (int i = 0; i < koko; i++) {
 
+            
             Pelaaja haettu = joukkue.annaPelaajat().get(i);
 
-            Label nro = new Label("" + haettu.annaPelinumero() + "");
+            if(!haettu.annaEtuNimi().equals("Ei") && !haettu.annaEtuNimi().equals("Oma") && !haettu.annaEtuNimi().equals("")){
+               
+                  Label nro = new Label("" + haettu.annaPelinumero() + "");
             sarake1.getChildren().add(nro);
 
             Label nimi = new Label(haettu.toString());
@@ -2011,6 +2021,8 @@ public class Taulukko {
             Label opelipaikka = new Label(haettu.annaPelipaikka());
             sarake3.getChildren().add(opelipaikka);
             sarake4.getChildren().add(orooli);
+            }
+          
 
         }
 

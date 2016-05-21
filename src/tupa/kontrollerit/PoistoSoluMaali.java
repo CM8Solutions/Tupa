@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import tupa.data.Maali;
+import tupa.nakymat.OtteluNakyma;
 
 /**
  *
@@ -20,7 +21,7 @@ public class PoistoSoluMaali extends TableCell<Record, Boolean> {
 
     }
 
-    public PoistoSoluMaali(ObservableList<Maali> data) {
+    public PoistoSoluMaali(ObservableList<Maali> data, OtteluNakyma nakyma) {
 
         cellButton.setId("button-poisto");
         cellButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -29,11 +30,15 @@ public class PoistoSoluMaali extends TableCell<Record, Boolean> {
             public void handle(ActionEvent t) {
 
                 Maali maali = (Maali) PoistoSoluMaali.this.getTableView().getItems().get(PoistoSoluMaali.this.getIndex());
-
-                maali.annaMaalinTekija().annaMaaliLista().remove(maali);
-                maali.annaSyottaja().annaMaaliLista().remove(maali);
+ if(maali.annaMaalinTekija() != null){
+       maali.annaMaalinTekija().annaMaaliLista().remove(maali);
+ }
+     if(maali.annaSyottaja() != null){
+          maali.annaSyottaja().annaMaaliLista().remove(maali);
+     }          
+               
                 maali.annaOttelu().annaMaalit().remove(maali);
-
+                nakyma.luoOttelunMaalisivu(maali.annaOttelu());
             }
         });
     }

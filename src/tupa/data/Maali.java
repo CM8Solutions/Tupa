@@ -95,7 +95,7 @@ public class Maali implements Serializable {
     }
 
     public void asetaTaulukkomaalintekija() {
-
+        if(annaMaalinTekija() != null)
         this.taulukkomaalintekija = new SimpleStringProperty(this.annaMaalinTekija().toString());
     }
 
@@ -104,7 +104,10 @@ public class Maali implements Serializable {
     }
 
     public void asetaTaulukkosyottaja() {
-        this.taulukkosyottaja = new SimpleStringProperty(this.annaSyottaja().toString());
+        if(annaSyottaja() != null){
+                    this.taulukkosyottaja = new SimpleStringProperty(this.annaSyottaja().toString());
+        }
+
     }
 
     public StringProperty taulukkojoukkueProperty() {
@@ -112,11 +115,11 @@ public class Maali implements Serializable {
     }
 
     public void asetaTaulukkojoukkue() {
-        if (annaMaalinTekija().equals("Oma maali")) {
-            this.taulukkojoukkue = new SimpleStringProperty("-");
-        } else {
-            this.taulukkojoukkue = new SimpleStringProperty(this.annaMaalinTekija().annaJoukkue().toString());
-        }
+
+    if(annaMaalinTekija() != null)
+                this.taulukkojoukkue = new SimpleStringProperty(this.annaMaalinTekija().annaJoukkue().toString());
+            
+        
 
     }
 

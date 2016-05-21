@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import tupa.data.Ottelu;
-import tupa.data.TuomarinRooli;
 import tupa.data.Kokoonpano;
 import tupa.data.Maali;
 import tupa.data.Kohde;
@@ -21,7 +20,7 @@ import tupa.data.Tuomari;
 import tupa.data.Pelaaja;
 import tupa.data.Toimihenkilo;
 import tupa.data.Joukkue;
-
+import tupa.data.TuomarinRooli;
 /**
  *
  * @author Marianne
@@ -40,6 +39,7 @@ public class Avaus {
     private Statement st8 = null;
     private Statement st9 = null;
     private Statement st10 = null;
+        private Statement st11 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
     private String sql2 = "";
@@ -67,6 +67,7 @@ public class Avaus {
           st8 = con.createStatement();
             st9 = con.createStatement();
             st10 = con.createStatement();
+             st11 = con.createStatement();
             
 
             //haetaan turnaus
@@ -98,12 +99,12 @@ public class Avaus {
                 tuomari.asetaID(id);
                 tuomari.asetaTurnaus(turnaus);
                 tuomari.asetaJulkinenId(julkinen_id);
-
+             
                 turnaus.annaTuomarit().add(tuomari);
 
                 kohdetk.add((Kohde) tuomari);
             }
-
+         
             //haetaan sarjat
             sql = "SELECT * FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
 
@@ -304,7 +305,7 @@ public class Avaus {
                          int vieraskokoonpano_id = vieraskokoonpano.getInt("id");
                             Kokoonpano kokoonpano = ottelu.annaVierasKokoonpano();
                         kokoonpano.asetaID(vieraskokoonpano_id);
- //pelaajien kokoonpanotiedot
+                    //pelaajien kokoonpanotiedot
                         sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + vieraskokoonpano_id + "'";
 
                         ResultSet pelaajan_kokoonpanot = st9.executeQuery(sql4);
@@ -324,6 +325,82 @@ public class Avaus {
                             }
                         }
                     }
+                    
+                    
+                    //otteluun liittyvät maalit
+                   sql4 = "SELECT DISTINCT * FROM maali WHERE ottelu_id='" + id + "'";
+
+                    ResultSet maalit = st10.executeQuery(sql4);
+                 
+                    while (maalit.next()) {
+
+                        int maali_id = maalit.getInt("id");
+                        int maalintekija_id = maalit.getInt("maalintekija_id");
+                        int syottaja_id = maalit.getInt("syottaja_id");
+                        int aika = maalit.getInt("aika");
+                        
+                        
+                        Maali maali = new Maali(ottelu);
+                        maali.asetaID(maali_id);
+                        maali.asetaAika(aika);
+                        //kotijoukkueen pelaajat
+                        for(int p=0; p<ottelu.annaKotijoukkue().annaPelaajat().size(); p++){
+                            Pelaaja pelaaja = ottelu.annaKotijoukkue().annaPelaajat().get(p);
+                            if(maalintekija_id == pelaaja.annaID()){
+                                maali.asetaMaalinTekija(pelaaja);
+                            }
+                            else if(syottaja_id == pelaaja.annaID()){
+                                maali.asetaSyottaja(pelaaja);
+                            }
+                        }
+                        
+                          //vierasjoukkueen pelaajat
+                        for(int p=0; p<ottelu.annaVierasjoukkue().annaPelaajat().size(); p++){
+                            Pelaaja pelaaja = ottelu.annaVierasjoukkue().annaPelaajat().get(p);
+                            if(maalintekija_id == pelaaja.annaID()){
+                                maali.asetaMaalinTekija(pelaaja);
+                            }
+                            else if(syottaja_id == pelaaja.annaID()){
+                                maali.asetaSyottaja(pelaaja);
+                            }
+                        }
+                        
+                        ottelu.annaMaalit().add(maali);
+               
+                    }
+        
+                    
+                     //otteluun liittyvät tuomaritiedot
+                   sql4 = "SELECT DISTINCT * FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
+
+                    ResultSet tuomarinroolit = st11.executeQuery(sql4);
+                 
+                    while (tuomarinroolit.next()) {
+
+                        int tuomarinrooli_id = tuomarinroolit.getInt("id");
+                       int tuomari_id = tuomarinroolit.getInt("tuomari_id");
+                       String rooli = tuomarinroolit.getString("rooli"); 
+                   
+                       TuomarinRooli tuomarinrooli = new TuomarinRooli();
+                       Tuomari tuomari = new Tuomari();
+                       for(int t=0; t<turnaus.annaTuomarit().size(); t++){
+                           tuomari = turnaus.annaTuomarit().get(t);
+                      
+                           if(tuomari.annaID() == tuomari_id){
+                               tuomarinrooli = new TuomarinRooli(tuomari, ottelu); 
+                                 tuomari.annaTuomarinRoolit().add(tuomarinrooli);
+                              break;
+                           }
+                       }
+                       
+                    
+                       tuomarinrooli.asetaID(tuomarinrooli_id);
+                       tuomarinrooli.asetaRooli(rooli);
+                        
+                        ottelu.annaRoolit().add(tuomarinrooli);
+               
+                    }
+                    
 
                 }
 
