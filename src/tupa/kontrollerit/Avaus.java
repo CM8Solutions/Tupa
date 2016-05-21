@@ -35,6 +35,11 @@ public class Avaus {
     private Statement st3 = null;
     private Statement st4 = null;
     private Statement st5 = null;
+    private Statement st6 = null;
+    private Statement st7 = null;
+    private Statement st8 = null;
+    private Statement st9 = null;
+    private Statement st10 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
     private String sql2 = "";
@@ -57,6 +62,13 @@ public class Avaus {
             st3 = con.createStatement();
             st4 = con.createStatement();
             st5 = con.createStatement();
+            st6 = con.createStatement();
+            st7 = con.createStatement();
+          st8 = con.createStatement();
+            st9 = con.createStatement();
+            st10 = con.createStatement();
+            
+
             //haetaan turnaus
             sql = "SELECT * FROM turnaus WHERE id=1";
 
@@ -197,6 +209,8 @@ public class Avaus {
                     String kellotunnit = ottelut.getString("kellotunnit");
                     String kellominuutit = ottelut.getString("kellominuutit");
                     String paiva = ottelut.getString("paiva");
+                     String tulos = ottelut.getString("tulos");
+                  
                     int id = ottelut.getInt("id");
                     int ottelu_id = ottelut.getInt("ottelu_id");
                     int kierros = ottelut.getInt("kierros");
@@ -222,18 +236,94 @@ public class Avaus {
                     ottelu.asetaVierasmaalit(vierasmaalit);
                     ottelu.asetaKotimaalit(kotimaalit);
 
+                    Joukkue kotijoukkue = new Joukkue();
+                    Joukkue vierasjoukkue = new Joukkue();
+
                     for (int k = 0; k < sarja.annaJoukkueet().size(); k++) {
                         if (sarja.annaJoukkueet().get(k).annaID() == vierasjoukkue_id) {
-                            ottelu.asetaVierasjoukkue(sarja.annaJoukkueet().get(k));
-                            sarja.annaJoukkueet().get(k).annaOttelut().add(ottelu);
+                            vierasjoukkue = sarja.annaJoukkueet().get(k);
+                           
                         } else if (sarja.annaJoukkueet().get(k).annaID() == kotijoukkue_id) {
-                            ottelu.asetaKotijoukkue(sarja.annaJoukkueet().get(k));
-                            sarja.annaJoukkueet().get(k).annaOttelut().add(ottelu);
+                            kotijoukkue = sarja.annaJoukkueet().get(k);
+                          
                         }
 
                     }
-                    ottelu.asetaTulos(kotimaalit, vierasmaalit);
+
+                    ottelu.asetaJoukkueet(kotijoukkue, vierasjoukkue);
+                     if(tulos == null){
+                         ottelu.asetaTulosTyhja("-");
+                     }
+                     else{
+                          ottelu.asetaTulos(kotimaalit, vierasmaalit);
+                     }
+                   
                     sarja.annaOttelut().add(ottelu);
+
+                    //otteluun liittyvät kokoonpanot
+                    //kotijoukkue
+                    sql4 = "SELECT DISTINCT * FROM kokoonpano WHERE ottelu_id='" + id + "' AND joukkue_id = '" + kotijoukkue_id + "'";
+
+                    ResultSet kotikokoonpano = st6.executeQuery(sql4);
+                   
+                    while (kotikokoonpano.next()) {
+
+                       int kotikokoonpano_id = kotikokoonpano.getInt("id");
+                       
+                       Kokoonpano kokoonpano = ottelu.annaKotiKokoonpano();
+                        kokoonpano.asetaID(kotikokoonpano_id);
+
+                        //pelaajien kokoonpanotiedot
+                        sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + kotikokoonpano_id + "'";
+
+                        ResultSet pelaajan_kokoonpanot = st8.executeQuery(sql4);
+
+                        while (pelaajan_kokoonpanot.next()) {
+
+                            int pelaaja_id = pelaajan_kokoonpanot.getInt("pelaaja_id");
+
+                            for(int k=0; k<kotijoukkue.annaPelaajat().size(); k++){
+                         
+                                Pelaaja pelaaja = kotijoukkue.annaPelaajat().get(k);
+                                if(pelaaja.annaID() == pelaaja_id){
+                                        pelaaja.annaKokoonpanot().add(kokoonpano);
+                                kokoonpano.annaPelaajat().add(pelaaja);
+                                }
+                            
+                            }
+                        }
+
+                    }
+                    //vierasjoukkue
+                    sql4 = "SELECT DISTINCT * FROM kokoonpano WHERE ottelu_id='" + id + "' AND joukkue_id = '" + vierasjoukkue_id + "'";
+
+                    ResultSet vieraskokoonpano = st7.executeQuery(sql4);
+                 
+                    while (vieraskokoonpano.next()) {
+
+                         int vieraskokoonpano_id = vieraskokoonpano.getInt("id");
+                            Kokoonpano kokoonpano = ottelu.annaVierasKokoonpano();
+                        kokoonpano.asetaID(vieraskokoonpano_id);
+ //pelaajien kokoonpanotiedot
+                        sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + vieraskokoonpano_id + "'";
+
+                        ResultSet pelaajan_kokoonpanot = st9.executeQuery(sql4);
+
+                        while (pelaajan_kokoonpanot.next()) {
+
+                            int pelaaja_id = pelaajan_kokoonpanot.getInt("pelaaja_id");
+
+                            for(int k=0; k<vierasjoukkue.annaPelaajat().size(); k++){
+                         
+                                Pelaaja pelaaja = vierasjoukkue.annaPelaajat().get(k);
+                                if(pelaaja.annaID() == pelaaja_id){
+                                        pelaaja.annaKokoonpanot().add(kokoonpano);
+                                kokoonpano.annaPelaajat().add(pelaaja);
+                                }
+                            
+                            }
+                        }
+                    }
 
                 }
 

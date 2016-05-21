@@ -35,6 +35,9 @@ public class Tallennus {
     private Statement st3 = null;
     private Statement st4 = null;
      private Statement st5 = null;
+      private Statement st6 = null;
+       private Statement st7 = null;
+       private Statement st8 = null;
     private Yhteys yhteys = new Yhteys();
     private int turnaus_id;
     private String sql = "";
@@ -60,6 +63,9 @@ public class Tallennus {
               st3 = con.createStatement();
                st4 = con.createStatement();
                  st5 = con.createStatement();
+                         st6 = con.createStatement();
+               st7 = con.createStatement();
+                 st8 = con.createStatement();
 
             if (poisto) {
 
@@ -102,6 +108,8 @@ public class Tallennus {
                             int id = pelaajat.getInt("pid");
                             sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
                             st.executeUpdate(sql);
+                                  sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
+                            st.executeUpdate(sql);
                         }
 
                         //tyhjennetään toimarit
@@ -115,6 +123,23 @@ public class Tallennus {
                             st.executeUpdate(sql);
                         }
 
+                        //tyhjennetään kokoonpanot
+                        sql = "SELECT DISTINCT kokoonpano.id as kid FROM sarja, joukkue, kokoonpano WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND kokoonpano.joukkue_id = joukkue.id";
+                        ResultSet kokoonpanot = st6.executeQuery(sql);
+
+                        while (kokoonpanot.next()) {
+
+                            int id =kokoonpanot.getInt("kid");
+                            sql = "DELETE FROM kokoonpano WHERE id='" + id + "'";
+                            st.executeUpdate(sql);
+                        
+                      
+                        
+                        
+                        }
+                        
+                        
+                        
                                //tyhjennetään ottelut
                         sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
                         ResultSet ottelut = st4.executeQuery(sql);
@@ -194,6 +219,8 @@ public class Tallennus {
 
                            st.executeUpdate("INSERT INTO joukkue (id, nimi, sarja_id) VALUES('" + jid + "', '" + jnimi + "', '" + sarja_id + "')");
                           
+                           //kyseisen joukkueen ottelut
+                           
                            for(int j=0; j<joukkue.annaOttelut().size(); j++){
                                Ottelu ottelu = joukkue.annaOttelut().get(j);
                                int oid = ottelu.annaId();
@@ -211,28 +238,45 @@ public class Tallennus {
                                     
                                     int ottelu_id = ottelu.annaOtteluNumero();
                                     int kotijoukkue_id = ottelu.annaKotijoukkue().annaID();
-                                     int vierasjoukkue_id = ottelu.annaVierasjoukkue().annaID();
-                                      int kotimaalit = ottelu.annaKotimaalit();
-                                       int vierasmaalit = ottelu.annaVierasmaalit();
-                                      String tulos = ottelu.annaTulos();
-                                      String nimi = ottelu.toString();
-                                        String paiva = ottelu.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
-                                          String kello = ottelu.annaKello();
-                                          String kellotunnit = ottelu.annaKellotunnit();
-                                          String kellominuutit = ottelu.annaKellominuutit();
-                                          int kierros = ottelu.annaKierros();
-                                            String paikka = ottelu.annaPaikka();
+                                    int vierasjoukkue_id = ottelu.annaVierasjoukkue().annaID();
+                                    int kotimaalit = ottelu.annaKotimaalit();
+                                    int vierasmaalit = ottelu.annaVierasmaalit();
+                                    String tulos = ottelu.annaTulos();
+                                
+                                    String nimi = ottelu.toString();
+                                    String paiva = ottelu.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+                                    String kello = ottelu.annaKello();
+                                    String kellotunnit = ottelu.annaKellotunnit();
+                                    String kellominuutit = ottelu.annaKellominuutit();
+                                    int kierros = ottelu.annaKierros();
+                                    String paikka = ottelu.annaPaikka();
+                                    int kotikokoonpano_id = ottelu.annaKotiKokoonpano().annaID();
+                                     int vieraskokoonpano_id = ottelu.annaVierasKokoonpano().annaID();      
                               
-                                   
-st.executeUpdate("INSERT INTO ottelu (id, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, tulos, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('" + 
+                                       if(tulos.equals("-")){
+                                      st.executeUpdate("INSERT INTO ottelu (id, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('" + 
+        
+        oid + "', '" + nimi + "', '" + sarja_id + "', '" + kotijoukkue_id + "', '" + vierasjoukkue_id + "', '" + kotimaalit + "', '" + vierasmaalit + "', '" + paikka + "', '" +  kello + "', '" + paiva + "', '" + kellotunnit + "', '"+  kellominuutit + "', '" + ottelu_id + "', '" + kierros + "')");
+           
+                                    }
+                                       else{
+                                           st.executeUpdate("INSERT INTO ottelu (id, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, tulos, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('" + 
         
         oid + "', '" + nimi + "', '" + sarja_id + "', '" + kotijoukkue_id + "', '" + vierasjoukkue_id + "', '" + kotimaalit + "', '" + vierasmaalit + "', '" + tulos + "', '" + paikka + "', '" +  kello + "', '" + paiva + "', '" + kellotunnit + "', '"+  kellominuutit + "', '" + ottelu_id + "', '" + kierros + "')");
-                           
+           
+                                       }
+                                       
+                
+                                    //tallennetaan ko ottelun koti- ja vieraskokoonpanot
+                                                                        
+                                    st.executeUpdate("INSERT INTO kokoonpano (id, ottelu_id, joukkue_id) VALUES ('"+kotikokoonpano_id + "', '" + oid + "', '" + kotijoukkue_id +"')"); 
+                                    st.executeUpdate("INSERT INTO kokoonpano (id, ottelu_id, joukkue_id) VALUES ('"+vieraskokoonpano_id + "', '" + oid + "', '" + vierasjoukkue_id +"')"); 
+
+
                                 }
                            }
                            
-                       
-       
+                  
                            
                         } else if (tiedot instanceof Pelaaja) {
 
@@ -244,9 +288,23 @@ st.executeUpdate("INSERT INTO ottelu (id, nimi, sarja_id, kotijoukkue_id, vieras
                             String pelipaikka = pelaaja.annaPelipaikka();
                             int nro = pelaaja.annaPelinumero();
                             int joukkue_id = pelaaja.annaJoukkue().annaID();
- 
+                       
                             st.executeUpdate("INSERT INTO pelaaja (id, etunimi, sukunimi, pelipaikka, pelinumero, pelaaja_id, joukkue_id) VALUES('" + pid + "', '" + petunimi + "', '" + psukunimi + "', '" + pelipaikka + "', '" + nro + "', '" + pelaaja_id + "', '" + joukkue_id + "')");
 
+                            //tallennetaan ko pelaajan kokoonpanotiedot
+                            
+                            for(int p=0; p<pelaaja.annaKokoonpanot().size(); p++){
+                                
+                                Kokoonpano kokoonpano = pelaaja.annaKokoonpanot().get(p);
+                                
+                                int kokoonpano_id = kokoonpano.annaID();
+                                
+                                st.executeUpdate("INSERT INTO pelaajan_kokoonpano (pelaaja_id, kokoonpano_id) VALUES ('" + pid + "', '" + kokoonpano_id + "')");
+                                
+                                
+                            }
+                            
+                            
                         } else if (tiedot instanceof Toimihenkilo) {
 
                             Toimihenkilo toimari = (Toimihenkilo) tiedot;

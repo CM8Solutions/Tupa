@@ -34,7 +34,7 @@ public class Kokoonpano implements Serializable {
 
     public void asetaPelaaja(Pelaaja pelaaja) {
         this.pelaajat.add(pelaaja);
-        pelaaja.annaKokoonpanot().add(this);
+     
     }
 
     public Joukkue annaJoukkue() {
@@ -46,7 +46,12 @@ public class Kokoonpano implements Serializable {
     }
 
     public int annaID() {
+
         return id;
+    }
+
+    public void asetaID(int id) {
+        this.id = id;
     }
 
 }

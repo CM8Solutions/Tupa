@@ -333,27 +333,20 @@ public class Muuttaja {
 
     public void poistaPelaaja(Pelaaja pelaaja, Joukkue joukkue) {
 
-        for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
-            if (ikkuna.annaKohteet().get(i).annaID() == joukkue.annaID()) {
+  
+            
 
-                ikkuna.annaKohteet().remove(i);
+                ikkuna.annaKohteet().remove((Kohde) pelaaja);
 
-            }
-        }
-        joukkue.annaPelaajat().remove(joukkue);
+  
+        joukkue.annaPelaajat().remove(pelaaja);
         tiedottaja.kirjoitaLoki("Pelaaja " + pelaaja.toString() + " poistettu.");
         ikkuna.asetaMuutos(true);
     }
 
     public void poistaToimari(Toimihenkilo toimari, Joukkue joukkue) {
 
-        for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
-            if (ikkuna.annaKohteet().get(i).annaID() == toimari.annaID()) {
-
-                ikkuna.annaKohteet().remove(i);
-
-            }
-        }
+   ikkuna.annaKohteet().remove((Kohde) toimari);
         joukkue.annaToimarit().remove(toimari);
         tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu.");
         ikkuna.asetaMuutos(true);
@@ -362,25 +355,17 @@ public class Muuttaja {
     public void poistaJoukkue(Joukkue joukkue, Sarja sarja) {
 
         for (int j = 0; j < joukkue.annaPelaajat().size(); j++) {
-            for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
-                if (ikkuna.annaKohteet().get(i).annaID() == joukkue.annaPelaajat().get(j).annaID()) {
+      
 
-                    ikkuna.annaKohteet().remove(i);
+                    ikkuna.annaKohteet().remove((Kohde)joukkue.annaPelaajat().get(j));
 
-                }
-            }
+        
 
         }
 
-        joukkue.annaPelaajat().clear();
+     
+         ikkuna.annaKohteet().remove(joukkue);
 
-        for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
-            if (ikkuna.annaKohteet().get(i).annaID() == joukkue.annaID()) {
-
-                ikkuna.annaKohteet().remove(i);
-
-            }
-        }
         sarja.annaJoukkueet().remove(joukkue);
         tiedottaja.kirjoitaLoki("Joukkue " + joukkue.toString() + " poistettu.");
         ikkuna.asetaMuutos(true);
@@ -497,7 +482,7 @@ public class Muuttaja {
             }
 
         }
-        tiedottaja.kirjoitaLoki("Ottelun " + ottelu.toString() + " maalitilastoa päivitetty.");
+        tiedottaja.kirjoitaLoki("Ottelun " + ottelu.toString() + " kokoonpanoa päivitetty.");
     }
 
     public void suoritaAutoOtteluLista(Sarja sarja) {

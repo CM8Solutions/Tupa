@@ -170,6 +170,10 @@ public class Ottelu implements Serializable {
         tulos = (kotimaalit + " - " + vierasmaalit);
     }
 
+    public void asetaTulosTyhja(String tulos){
+        this.tulos = tulos;
+    }
+    
     public String annaTulos() {
         return tulos;
     }

@@ -100,7 +100,19 @@ public class Pelaaja extends Henkilo {
     }
 
     public int annaOttelut() {
-        return kokoonpanot.size();
+        
+        int maara = 0;
+        
+        for(int i=0; i<kokoonpanot.size(); i++){
+            if(kokoonpanot.get(i).annaOttelu().annaTulos().equals("-")){
+                maara = maara;
+            }
+            else{
+                  maara = maara + 1;
+            }
+              
+        }
+        return maara;
     }
 
     public int annaMaalit() {
