@@ -49,7 +49,7 @@ public class TurnausValitsin {
         
         ScrollPane sb = new ScrollPane();
         VBox vbox = new VBox();
-        vbox.setPadding(new Insets(30, 100, 10, 100));
+        vbox.setPadding(new Insets(30, 100, 30, 100));
         vbox.setSpacing(10);
  sb.setId("my-scrollpane");
         

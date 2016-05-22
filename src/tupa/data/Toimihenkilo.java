@@ -14,6 +14,9 @@ public class Toimihenkilo extends Henkilo {
     private String sposti;
     private String puh;
     private String rooli;
+    //o=ei hallintaoikeuksia, 1=hallintaoikeudet
+    private int hallinta;
+    private int hallinta_id;
 
     private transient StringProperty taulukkosposti = new SimpleStringProperty();
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
@@ -121,4 +124,18 @@ public class Toimihenkilo extends Henkilo {
         this.taulukkopuh = new SimpleStringProperty(this.annaPuh());
     }
 
+    public void asetaHallinta(int arvo){
+        this.hallinta = arvo;
+    }
+    
+    public int annaHallinta(){
+        return hallinta;
+    }
+       public void asetaHallintaID(int arvo){
+        this.hallinta_id = arvo;
+    }
+    
+    public int annaHallintaID(){
+        return hallinta_id;
+    }
 }

@@ -187,7 +187,8 @@ public class Avaus {
                         String rooli = toimarit.getString("rooli");
                         String sposti = toimarit.getString("sposti");
                         String puh = toimarit.getString("puh");
-
+                        int hallinta = toimarit.getInt("hallinta");
+ int hallinta_id = toimarit.getInt("hallinta_id");
                         int toid = toimarit.getInt("id");
 
                         Toimihenkilo toimari = new Toimihenkilo(etunimi, sukunimi);
@@ -195,7 +196,8 @@ public class Avaus {
                         toimari.asetaSposti(sposti);
                         toimari.asetaPuh(puh);
                         toimari.asetaRooli(rooli);
-
+                        toimari.asetaHallinta(hallinta);
+                        toimari.asetaHallintaID(hallinta_id);
                         toimari.asetaJoukkue(joukkue);
 
                         joukkue.annaToimarit().add(toimari);

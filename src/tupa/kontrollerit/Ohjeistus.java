@@ -68,7 +68,7 @@ public class Ohjeistus {
 
         stage.getIcons().add(new Image("kuvat/icon.png"));
         VBox vbox = new VBox();
-        vbox.setPadding(new Insets(10));
+        vbox.setPadding(new Insets(20, 0, 30, 0));
         vbox.setSpacing(60);
 
         VBox vbox1 = new VBox();
@@ -81,8 +81,7 @@ public class Ohjeistus {
         vbox1.getChildren().addAll(viesti1, viesti2, viesti3);
 
         HBox hbox2 = new HBox();
-        hbox2.setPadding(new Insets(10));
-        hbox2.setSpacing(10);
+     
         Button ok = new Button("Sulje");
 
         ok.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,7 +96,7 @@ public class Ohjeistus {
         vbox.getChildren().addAll(vbox1, hbox2);
         alue.setCenter(vbox);
 
-        Scene sceneV = new Scene(alue, 400, 400);
+        Scene sceneV = new Scene(alue, 700, 200);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
          stage.showAndWait();

@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tupa.Tupa;
+import tupa.nakymat.PaaNakyma;
 
 /**
  *
@@ -107,15 +109,17 @@ public class KayttajanKirjautuminen extends Stage {
                     ResultSet haetut_rivit = st.executeQuery(sql);
                     int laskuri = 0;
                     int taso = 0;
+                    int kayttaja_id = 0;
                     while (haetut_rivit.next()) {
                         laskuri++;
                         taso = haetut_rivit.getInt("taso");
-
+                        kayttaja_id = haetut_rivit.getInt("id");
                     }
                     
                     if(laskuri == 1){
-                     
+                   
                         ikkuna.asetaTaso(taso);
+                         ikkuna.asetaKayttajaID(kayttaja_id);
                           Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
                     tiedottaja.annaIlmoitus("Kirjautuminen onnistui!");
                     
@@ -158,8 +162,29 @@ public class KayttajanKirjautuminen extends Stage {
             }
         });
 
+          VBox hb2 = new VBox();
+        hb2.setPadding(new Insets(10, 20, 0, 30));
+        hb2.setSpacing(20);
+        
+         Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta rajoitetuimmilla oikeuksilla.");
+        text2.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
+        text2.setEffect(dropShadow);
+
+        
+        hb2.getChildren().add(text2);
+         Button nappula2 = new Button("Jatka kirjautumatta");
+         nappula2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                nakyma.luoEtusivuTyhja();
+                close();
+            }
+              });
+        hb2.getChildren().add(nappula2);
         alue.setTop(hb);
         alue.setCenter(gridPane);
+          alue.setBottom(hb2);
            Scene scene = new Scene(alue);
           scene.getStylesheets().add("css/tyylit.css");
            setScene(scene);

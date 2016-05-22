@@ -825,4 +825,58 @@ public class Varmistaja {
 
     }
 
+    public void annaToimarinOikeudenPoistoVarmistus(Toimihenkilo toimari){
+             Stage stageV = new Stage();
+        BorderPane alue = new BorderPane();
+
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        HBox hbox1 = new HBox();
+        Label viesti = new Label("Haluatko todella poistaa toimihenkilön " + toimari.toString() + " joukkueen "+toimari.annaJoukkue().toString() + " roolista?");
+
+        hbox1.setAlignment(Pos.CENTER);
+        hbox1.getChildren().add(viesti);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(10);
+        Button joo = new Button("Kyllä");
+
+        Button peruuta = new Button("Peruuta");
+
+        joo.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                muuttaja.poistaToimarinOikeus(toimari, toimari.annaJoukkue());
+
+                joukkuenakyma = nakyma.annaJoukkuenakyma();
+
+                joukkuenakyma.luoJoukkueenToimariLisays(toimari.annaJoukkue());
+                stageV.close();
+
+            }
+        });
+        peruuta.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                stageV.close();
+            }
+        });
+        hbox2.setAlignment(Pos.CENTER);
+        hbox2.getChildren().addAll(joo, peruuta);
+        vbox.getChildren().addAll(hbox1, hbox2);
+        alue.setCenter(vbox);
+
+        Scene sceneV = new Scene(alue, 300, 100);
+        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setScene(sceneV);
+        stageV.show();
+
+        
+    }
+    
 }

@@ -20,6 +20,7 @@ import tupa.kontrollerit.Tiedottaja;
 import tupa.kontrollerit.Varmistaja;
 import tupa.data.Joukkue;
 import tupa.data.Toimihenkilo;
+import tupa.kontrollerit.Kirjautuminen;
 
 /**
  *
@@ -80,6 +81,8 @@ public class ToimariNakyma {
     }
 
     public void luoToimariSivu(Toimihenkilo toimari) {
+        
+        int joukkue_id = toimari.annaJoukkue().annaID();
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
@@ -113,6 +116,33 @@ public class ToimariNakyma {
 
             }
         });
+        Button oikeusnappula = new Button();
+        
+        if(toimari.annaHallinta() == 0){
+                       oikeusnappula.setText("Poista joukkueen ylläpitäjän roolista");
+        oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               
+                varmistaja.annaToimarinOikeudenPoistoVarmistus(toimari);
+
+            }
+        }); 
+        }
+        else{
+             oikeusnappula.setText("Lisää joukkueen ylläpitäjäksi");
+        oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               
+                Kirjautuminen kirjautuja = new Kirjautuminen(ikkuna);
+                kirjautuja.luoHallintaLisays(toimari);
+
+            }
+        });  
+        }
+  
+        
 
         Button paluunappula = new Button("<< Palaa");
         paluunappula.setPadding(new Insets(0, 150, 0, 0));
@@ -126,10 +156,10 @@ public class ToimariNakyma {
             }
         });
         painike.setPadding(new Insets(20));
- if(ikkuna.annaTaso() == 3)
-        painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
+ if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
+        painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula, oikeusnappula);
  else
-     painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
+     painike.getChildren().addAll(paluunappula);
         grid.add(painike, 0, 0);
 
         //riville 2

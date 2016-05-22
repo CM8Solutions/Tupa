@@ -3,6 +3,9 @@ Luokka, joka lisää ja poistaa eri kohteita
  */
 package tupa.kontrollerit;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,11 @@ public class Muuttaja {
     private Tiedottaja tiedottaja;
     private PaaNakyma nakyma;
     private SarjaNakyma sarjanakyma;
+    private Connection con = null;
+    private Statement st = null;
+    private Yhteys yhteys = new Yhteys();
+  
+    private String sql = "";
 
     public Muuttaja() {
 
@@ -796,7 +804,7 @@ public class Muuttaja {
         ikkuna.asetaMuutos(true);
     }
 
-    void poistaKaikkiToimarit(List<Toimihenkilo> poistettavat, Joukkue joukkue) {
+    public void poistaKaikkiToimarit(List<Toimihenkilo> poistettavat, Joukkue joukkue) {
 
         while (!joukkue.annaToimarit().isEmpty()) {
             for (int i = 0; i < poistettavat.size(); i++) {
@@ -808,6 +816,39 @@ public class Muuttaja {
         tiedottaja.kirjoitaLoki("Kaikki toimihenkilöt poistettu joukkueesta " + joukkue.toString() + ".");
         ikkuna.asetaMuutos(true);
 
+    }
+    
+    public void poistaToimarinOikeus(Toimihenkilo toimari, Joukkue joukkue){
+        try {
+            int kayttaja_id = toimari.annaHallintaID();
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+            st.executeUpdate("DELETE FROM kayttaja WHERE id='" + kayttaja_id + "'");
+         st.executeUpdate("DELETE FROM kayttajan_turnaus WHERE kayttaja_id='" + kayttaja_id + "'");
+        }catch (SQLException se) {
+
+                            se.printStackTrace();
+                        } catch (Exception e) {
+
+                            e.printStackTrace();
+                        } finally {
+
+                            try {
+                                if (st != null) {
+                                    con.close();
+                                }
+                            } catch (SQLException se) {
+                            }
+                            try {
+                                if (con != null) {
+                                    con.close();
+                                }
+                            } catch (SQLException se) {
+                                se.printStackTrace();
+                            }
+                        }
+        toimari.asetaHallinta(0);
     }
 
 }

@@ -51,7 +51,7 @@ public class Valikko implements EventHandler<ActionEvent> {
         MenuItem uusi = new MenuItem("Uusi");
         uusi.setAccelerator(new KeyCharacterCombination("N", KeyCombination.SHORTCUT_DOWN));
         
-        if(!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2))
+        if(!(ikkuna.annaTaso() == 3))
              uusi.setDisable(true);
         
         MenuItem avaa = new MenuItem("Avaa");

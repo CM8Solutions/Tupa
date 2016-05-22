@@ -74,7 +74,10 @@ public class JoukkueNakyma {
     }
 
     public void luoJoukkueSivu(Joukkue joukkue) {
-
+        int joukkue_id = joukkue.annaID();
+        
+    
+        
         ScrollPane sb = new ScrollPane();
         sb.setHbarPolicy(AS_NEEDED);
         GridPane grid = new GridPane();
@@ -143,7 +146,7 @@ public class JoukkueNakyma {
         nimi.setFont(Font.font("Papyrus", 32));
 
         info.setAlignment(Pos.CENTER);
-            if(ikkuna.annaTaso() == 3)
+            if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
         info.getChildren().addAll(nimi, nappulat);
         else
                  info.getChildren().addAll(nimi);
@@ -258,7 +261,7 @@ public class JoukkueNakyma {
             }
         });
         
-        if(ikkuna.annaTaso() == 3)
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
         pelaajienalle.getChildren().addAll(plisaysnappula);
 
         HBox toimarienalle = new HBox();
@@ -274,7 +277,7 @@ public class JoukkueNakyma {
 
             }
         });
-   if(ikkuna.annaTaso() == 3)
+   if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
         toimarienalle.getChildren().addAll(tlisaysnappula);
 
         osio3.getChildren().addAll(otsikkorivi3, toimihenkilot, toimarienalle);

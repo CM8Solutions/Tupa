@@ -42,10 +42,15 @@ import tupa.nakymat.Pysyvat;
  */
 public class Tupa extends Application {
 
-    //käyttöoikeude 1 = vain turnauksen tietojen katselu, 2 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 3=turnauksen ylläpitäjä
-    
+    //käyttöoikeudet 1 = vain turnauksen tietojen katselu, 2 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 3=turnauksen ylläpitäjä
     private int taso = 0;
    
+    //käyttäjän id muistiin
+    private int kayttaja_id = 0;
+    
+    //käyttäjän hallinnoiman joukkueen id muistiin
+    private int joukkue_id = 0;
+    
     private boolean alotus = true;
    
     // turnaus, johon liittyy, tallennettu!
@@ -91,7 +96,7 @@ public class Tupa extends Application {
 
     public void start(Stage primaryStage) {
      
-             
+                nakyma = new PaaNakyma(this);
         Stage kirjautuja = new KayttajanKirjautuminen(primaryStage, this);
   
       
@@ -104,7 +109,7 @@ public class Tupa extends Application {
 
         BorderPane border = new BorderPane();
 
-        nakyma = new PaaNakyma(this);
+     
         //keskinäytön tyylittely
         naytto.setStyle("-fx-background-color: white;");
 
@@ -273,4 +278,21 @@ nakyma.luoEtusivuTyhja();
     public boolean annaAloitus(){
         return alotus;
     }
+    
+    public void asetaKayttajaID(int id){
+        this.kayttaja_id = id;
+    }
+    
+    public int annaKayttajaID(){
+        return kayttaja_id;
+    }
+    
+    public void asetaJoukkueID(int id){
+        this.joukkue_id = id;
+    }
+    
+    public int annaJoukkueID(){
+        return joukkue_id;
+    }
+    
 }

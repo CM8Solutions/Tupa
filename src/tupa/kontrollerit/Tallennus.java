@@ -329,8 +329,10 @@ public class Tallennus {
                             String rooli = toimari.annaRooli();
                             String sposti = toimari.annaSposti();
                             int tjoukkue_id = toimari.annaJoukkue().annaID();
+                            int hallinta = toimari.annaHallinta();
+                            int hallinta_id = toimari.annaHallintaID();
  
-                            st.executeUpdate("INSERT INTO toimari (id, etunimi, sukunimi, rooli, puh, sposti, joukkue_id) VALUES('" + toid + "', '" + tetunimi + "', '" + tsukunimi + "', '" + rooli + "', '" + puh + "', '" + sposti + "', '" + tjoukkue_id + "')");
+                            st.executeUpdate("INSERT INTO toimari (id, etunimi, sukunimi, rooli, puh, sposti, joukkue_id, hallinta, hallinta_id) VALUES('" + toid + "', '" + tetunimi + "', '" + tsukunimi + "', '" + rooli + "', '" + puh + "', '" + sposti + "', '" + tjoukkue_id + "', '" + hallinta +"', '" + hallinta_id +"')");
 
                         }
 

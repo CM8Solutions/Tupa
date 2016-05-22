@@ -84,6 +84,8 @@ public class PelaajaNakyma {
     }
 
     public void luoPelaajaSivu(Pelaaja pelaaja) {
+        
+        int joukkue_id = pelaaja.annaJoukkue().annaID();
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
@@ -132,7 +134,7 @@ public class PelaajaNakyma {
 
         painike.setPadding(new Insets(20));
 
-        if(ikkuna.annaTaso() == 3)
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
         painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
         else
                painike.getChildren().addAll(paluunappula); 
