@@ -220,8 +220,12 @@ public class TuomariNakyma {
         info.setAlignment(Pos.CENTER);
         info.getChildren().addAll(nimi, id);
 
+        if(ikkuna.annaTaso() == 3)
         rivi2.getChildren().addAll(info, painike);
 
+        else
+           rivi2.getChildren().addAll(info);
+        
         grid.add(rivi2, 0, 1);
 
         Taulukko taulukontekija1 = new Taulukko(nakyma, varmistaja);

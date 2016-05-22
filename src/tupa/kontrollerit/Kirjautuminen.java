@@ -70,10 +70,10 @@ public class Kirjautuminen {
         stage.getIcons().add(new Image("kuvat/icon.png"));
 
         HBox hb = new HBox();
-        hb.setPadding(new Insets(20, 20, 20, 30));
+        hb.setPadding(new Insets(20, 20, 0, 30));
 
         GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(20, 20, 20, 20));
+        gridPane.setPadding(new Insets(20, 20, 0, 20));
         gridPane.setHgap(5);
         gridPane.setVgap(10);
 
@@ -93,7 +93,7 @@ public class Kirjautuminen {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        Text text = new Text("Kirjaudu antamalla turnaukseen " + turnaus.toString() + " liittyvä salasana.");
+        Text text = new Text("Anna turnaukseen " + turnaus.toString() + " liittyvä salasana.");
         text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         text.setEffect(dropShadow);
 

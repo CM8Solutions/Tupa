@@ -286,7 +286,7 @@ public class PaaNakyma {
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(100, 0, 0, 100));
-        System.out.println(ikkuna.annaTaso());
+       
       
 
         grid.add(palkki, 1, 2);

@@ -65,7 +65,7 @@ public class Tiedottaja {
 
         alert.showAndWait();
     
-              ikkuna.annaPaaNakyma().luoEtusivuTyhja();
+             
     
     }
 }

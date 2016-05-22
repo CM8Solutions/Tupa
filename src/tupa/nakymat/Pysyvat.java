@@ -91,18 +91,37 @@ public class Pysyvat {
         //hakutoiminto HBox
         // Etusivu-linkki
         HBox etusivu = new HBox();
-        LinkkiLabel etusivuteksti = new LinkkiLabel(ikkuna);
-        etusivuteksti.setText("Etusivu");
+  
+            LinkkiLabel etusivuteksti = new LinkkiLabel(ikkuna); 
+                etusivuteksti.setText("Etusivu");
 
         etusivuteksti.linkkiaKlikattu();
-
-        etusivu.setPadding(new Insets(10));
+           etusivu.setPadding(new Insets(10));
         etusivu.setSpacing(10);
         etusivu.getChildren().addAll(etusivuteksti);
+ 
+  
+       
+
+
+     
 
         sivu.setPrefWidth(180);
         sivu.getChildren().addAll(etusivu, spuu);
         sivu.setVgrow(spuu, Priority.ALWAYS);
+
+        return sivu;
+    }
+    
+        public VBox rakennaVasensivuAlku() {
+        //sivulaitaan puurakenne, joka sisältää kohteet
+
+        VBox sivu = new VBox();
+        sivu.setStyle("-fx-background-color: linear-gradient(to right, #00b300, 	 #33ff33);");
+        sivu.setPadding(new Insets(70, 5, 0, 5));
+        sivu.setSpacing(10);
+  sivu.setMinWidth(180);
+  
 
         return sivu;
     }

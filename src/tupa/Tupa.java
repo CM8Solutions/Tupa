@@ -45,7 +45,9 @@ public class Tupa extends Application {
     //käyttöoikeude 1 = vain turnauksen tietojen katselu, 2 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 3=turnauksen ylläpitäjä
     
     private int taso = 0;
-    
+   
+    private boolean alotus = true;
+   
     // turnaus, johon liittyy, tallennettu!
     private Kohde turnaus = new Turnaus();
 
@@ -88,9 +90,13 @@ public class Tupa extends Application {
     @Override
 
     public void start(Stage primaryStage) {
-
+     
+             
+        Stage kirjautuja = new KayttajanKirjautuminen(primaryStage, this);
+  
       
-        
+       kirjautuja.sizeToScene();
+        kirjautuja.showAndWait();
         //luodaan turnaus, kun ohjelma käynnistyy
         Aloitus aloitus = new Aloitus();
         turnaus = aloitus.luoAlkuTurnaus();
@@ -104,7 +110,7 @@ public class Tupa extends Application {
 
         //aloitusnäkymä
  
-
+nakyma.luoEtusivuTyhja();
         //muodostaan ylävalikko
         MenuBar menuBar = new MenuBar();
         valikko = new Valikko(menuBar, this);
@@ -128,15 +134,17 @@ public class Tupa extends Application {
         sivuPuu.setShowRoot(false);
 
         //jonka jälkeen rakennetaan ikkunan vasen puoli
+     
         border.setLeft(osiot.rakennaVasensivu(sivuPuu));
-
+   
+            
         //ylaosan "logo"
         keski.getChildren().add(osiot.rakennaYlaosa());
         keski.getChildren().add(naytto);
 
         border.setCenter(keski);
 
-        Scene scene = new Scene(border);
+        Scene scene = new Scene(border, 800, 400);
         primaryStage.setTitle("TUPA \t - \t Tulospalvelu");
         scene.getStylesheets().add("css/tyylit.css");
 
@@ -160,12 +168,7 @@ public class Tupa extends Application {
             }
         });
       
-        
-        Stage kirjautuja = new KayttajanKirjautuminen(primaryStage, this);
-  
-      
-       kirjautuja.sizeToScene();
-        kirjautuja.show();
+   
   
     }
 
@@ -263,4 +266,11 @@ public class Tupa extends Application {
         return taso;
     }
     
+    public void asetaAloitus(boolean arvo){
+        this.alotus = arvo;
+    }
+    
+    public boolean annaAloitus(){
+        return alotus;
+    }
 }

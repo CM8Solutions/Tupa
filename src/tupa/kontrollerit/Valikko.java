@@ -51,7 +51,7 @@ public class Valikko implements EventHandler<ActionEvent> {
         MenuItem uusi = new MenuItem("Uusi");
         uusi.setAccelerator(new KeyCharacterCombination("N", KeyCombination.SHORTCUT_DOWN));
         
-        if(ikkuna.annaTaso() != 3 || ikkuna.annaTaso() != 2)
+        if(!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2))
              uusi.setDisable(true);
         
         MenuItem avaa = new MenuItem("Avaa");
@@ -59,7 +59,7 @@ public class Valikko implements EventHandler<ActionEvent> {
 
         MenuItem tallenna = new MenuItem("Tallenna");
         tallenna.setAccelerator(new KeyCharacterCombination("S", KeyCombination.SHORTCUT_DOWN));
-   if(ikkuna.annaTaso() != 3 || ikkuna.annaTaso() != 2)
+    if(!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2))
              tallenna.setDisable(true);
    
         MenuItem vie = new MenuItem("Vie");
@@ -147,6 +147,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                     nakyma.luoEtusivu();
                 }
                 tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
+                ikkuna.asetaAloitus(false);
                 break;
             }
             case "Avaa": {
@@ -171,6 +172,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                     valitsija.annaTurnausLuettelo();
 
                 }
+                 ikkuna.asetaAloitus(false);
                 break;
             }
 

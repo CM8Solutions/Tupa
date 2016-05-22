@@ -97,7 +97,7 @@ public class Ohjeistus {
         vbox.getChildren().addAll(vbox1, hbox2);
         alue.setCenter(vbox);
 
-        Scene sceneV = new Scene(alue, 400, 200);
+        Scene sceneV = new Scene(alue, 400, 400);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
          stage.showAndWait();

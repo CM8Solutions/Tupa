@@ -35,11 +35,8 @@ public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {
     public void handle(MouseEvent e) {
         nimi = this.getText();
 
-        if (nimi.equals("Etusivu")) {
-            if(ikkuna.annaTurnaus().equals("Uusi turnaus")){
-                 nakyma.luoEtusivuTyhja();
-            }
-            else
+        if (nimi.equals("Etusivu") && !ikkuna.annaAloitus() ) {
+   
             nakyma.luoEtusivu();
             return;
         }

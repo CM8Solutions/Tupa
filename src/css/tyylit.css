@@ -487,6 +487,13 @@
  -fx-cursor: hand;  
 }
 
+.linkkilabel:selected {
+ -fx-font: 15px "Papyrus";
+ -fx-cursor: hand;
+ -fx-text-fill: white;
+}
+
+
 .label:disabled {
     -fx-opacity: -fx-disabled-opacity;
 }
