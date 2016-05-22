@@ -170,6 +170,7 @@ public class OtteluNakyma {
         HBox painikkeet2 = new HBox();
         painikkeet2.setPadding(new Insets(20, 0, 0, 0));
         painikkeet2.setSpacing(40);
+           if(ikkuna.annaTaso() == 3)
         painikkeet2.getChildren().addAll(tulosnappula);
 
         Taulukko taulukontekija1 = new Taulukko(nakyma, varmistaja);
@@ -233,6 +234,7 @@ public class OtteluNakyma {
                 luoKokoonpanosivu(ottelu, koti);
             }
         });
+           if(ikkuna.annaTaso() == 3)
         kotialle.getChildren().add(lisayskoti);
         kotiosio.getChildren().add(kotialle);
 
@@ -273,6 +275,7 @@ public class OtteluNakyma {
                 luoKokoonpanosivu(ottelu, vieras);
             }
         });
+           if(ikkuna.annaTaso() == 3)
         vierasalle.getChildren().add(lisaysvieras);
         vierasosio.getChildren().add(vierasalle);
 
@@ -284,9 +287,12 @@ public class OtteluNakyma {
         painikkeet3.setPadding(new Insets(40, 0, 0, 0));
         painikkeet3.getChildren().addAll(maalinappula);
 
-        // kenelle oikeudet?!?
+           if(ikkuna.annaTaso() == 3)
         maaliosio.getChildren().addAll(maaliotsikko, maalit, painikkeet3);
-
+           else
+                 maaliosio.getChildren().addAll(maaliotsikko, maalit);
+           
+           
         HBox rivi4 = new HBox();
         rivi4.setPadding(new Insets(30));
 

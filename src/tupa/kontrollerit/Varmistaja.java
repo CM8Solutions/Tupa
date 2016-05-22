@@ -101,17 +101,8 @@ public class Varmistaja {
             @Override
             public void handle(ActionEvent event) {
 
-                Tallennus tallenna = new Tallennus(ikkuna);
-
-                try {
-                    tallenna.suoritaTallennus();
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+             tarkistaja.tarkistaTurnaustiedot();
                 Platform.exit();
             }
         });
@@ -226,17 +217,8 @@ public class Varmistaja {
             @Override
             public void handle(ActionEvent event) {
 
-                Tallennus tallenna = new Tallennus(ikkuna);
-
-                try {
-                    tallenna.suoritaTallennus();
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+             tarkistaja.tarkistaTurnaustiedot();
                 //tyhjennetään kaikki tiedot 
                 ikkuna.annaKohteet().clear();
 
@@ -307,53 +289,12 @@ public class Varmistaja {
                 parentTuomarit.getChildren().clear();
 
                 //sitten vasta avaukseen
-                //tuodaan tallennetut kohteet
-                List<Kohde> kohdetk = new ArrayList<>();
-                Avaus avaaja = new Avaus();
+                  TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
                 try {
-                    kohdetk = avaaja.avaa();
-                    //talletetaan muistiin, mitä oli ennen "istunnon" aloittamista -> tarviiko kysyä tallennusta, jos käyttäjä sulkee näytön
+                    valitsija.annaTurnausLuettelo();
                 } catch (SQLException ex) {
                     Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                ikkuna.asetaKohteet(kohdetk);
-
-                List<Sarja> sarjatk = new ArrayList<>();
-
-                List<Tuomari> tuomaritk = new ArrayList<>();
-
-                //viedään kohteet omiin listoihin
-                TreeItem<Kohde> parent = new TreeItem<>();
-                for (int i = 0; i < kohdetk.size(); i++) {
-
-                    if (kohdetk.get(i) instanceof Sarja) {
-
-                        sarjatk.add((Sarja) kohdetk.get(i));
-                        ikkuna.annaSarjatk().add((Sarja) kohdetk.get(i));
-                        parent = ikkuna.annaRootSarjat();
-                        TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
-                        parent.getChildren().add(newItem);
-
-                    } else if (kohdetk.get(i) instanceof Tuomari) {
-                        tuomaritk.add((Tuomari) kohdetk.get(i));
-                        ikkuna.annaTuomaritk().add((Tuomari) kohdetk.get(i));
-                        parent = ikkuna.annaRootTuomarit();
-                        TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
-                        parent.getChildren().add(newItem);
-                    } else if (kohdetk.get(i) instanceof Turnaus) {
-
-                        ikkuna.asetaTurnaus(kohdetk.get(i));
-
-                    }
-                }
-                ikkuna.annaPaaNakyma().luoEtusivu();
                 stageV.close();
             }
         });
@@ -362,17 +303,8 @@ public class Varmistaja {
             @Override
             public void handle(ActionEvent event) {
 
-                Tallennus tallenna = new Tallennus(ikkuna);
-
-                try {
-                    tallenna.suoritaTallennus();
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+             tarkistaja.tarkistaTurnaustiedot();
                 //tyhjennetään kaikki tiedot 
                 ikkuna.annaKohteet().clear();
 
@@ -385,54 +317,13 @@ public class Varmistaja {
                 parentSarjat.getChildren().clear();
                 parentTuomarit.getChildren().clear();
                 //sitten vasta avaukseen
-                //tuodaan tallennetut kohteet
-                List<Kohde> kohdetk_vanha = new ArrayList<>();
-                List<Kohde> kohdetk = new ArrayList<>();
-                Avaus avaaja = new Avaus();
+                   //sitten vasta avaukseen
+                  TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
                 try {
-                    kohdetk = avaaja.avaa();
-                    //talletetaan muistiin, mitä oli ennen "istunnon" aloittamista -> tarviiko kysyä tallennusta, jos käyttäjä sulkee näytön
+                    valitsija.annaTurnausLuettelo();
                 } catch (SQLException ex) {
                     Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                ikkuna.asetaKohteet(kohdetk);
-
-                List<Sarja> sarjatk = new ArrayList<>();
-
-                List<Tuomari> tuomaritk = new ArrayList<>();
-
-                //viedään kohteet omiin listoihin
-                TreeItem<Kohde> parent = new TreeItem<>();
-                for (int i = 0; i < kohdetk.size(); i++) {
-
-                    if (kohdetk.get(i) instanceof Sarja) {
-
-                        sarjatk.add((Sarja) kohdetk.get(i));
-                        ikkuna.annaSarjatk().add((Sarja) kohdetk.get(i));
-                        parent = ikkuna.annaRootSarjat();
-                        TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
-                        parent.getChildren().add(newItem);
-
-                    } else if (kohdetk.get(i) instanceof Tuomari) {
-                        tuomaritk.add((Tuomari) kohdetk.get(i));
-                        ikkuna.annaTuomaritk().add((Tuomari) kohdetk.get(i));
-                        parent = ikkuna.annaRootTuomarit();
-                        TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
-                        parent.getChildren().add(newItem);
-                    } else if (kohdetk.get(i) instanceof Turnaus) {
-
-                        ikkuna.asetaTurnaus(kohdetk.get(i));
-
-                    }
-                }
-                ikkuna.annaPaaNakyma().luoEtusivu();
                 stageV.close();
             }
         });

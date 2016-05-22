@@ -2,6 +2,8 @@ package tupa.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -12,7 +14,14 @@ public class Turnaus extends Kohde {
     private static int turLaskuri;
     private List<Sarja> sarjat = new ArrayList<>();
     private List<Tuomari> tuomarit = new ArrayList<>();
-
+    private String luomispvm = "";
+    //taulukkoattribuutit
+    
+    private transient StringProperty taulukkonimi = new SimpleStringProperty();
+    private transient StringProperty taulukkoluomispvm = new SimpleStringProperty();
+   
+    
+    
     public Turnaus() {
         super("Uusi turnaus");
         turLaskuri++;
@@ -34,4 +43,32 @@ public class Turnaus extends Kohde {
     public void asetaLaskuri(int laskuri) {
         this.turLaskuri = laskuri;
     }
+    
+    public void asetaLuomispvm(String luomispvm){
+        this.luomispvm = luomispvm;
+    }
+    
+    public String annaLuomispvm(){
+        return luomispvm;
+    }
+    
+    
+    public StringProperty taulukkonimiProperty() {
+        return taulukkonimi;
+    }
+
+    public void asetaTaulukkonimi() {
+
+        this.taulukkonimi = new SimpleStringProperty(this.toString());
+    }
+    
+    public StringProperty taulukkoluomispvmProperty() {
+        return taulukkoluomispvm;
+    }
+
+    public void asetaTaulukkoluomispvm() {
+
+        this.taulukkoluomispvm = new SimpleStringProperty(this.annaLuomispvm());
+    }
+
 }

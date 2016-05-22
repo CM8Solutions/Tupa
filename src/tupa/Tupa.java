@@ -29,6 +29,7 @@ import tupa.data.Toimihenkilo;
 import tupa.data.Joukkue;
 import tupa.kontrollerit.Valikko;
 import tupa.kontrollerit.Aloitus;
+import tupa.kontrollerit.KayttajanKirjautuminen;
 import tupa.kontrollerit.Puurakenne;
 import tupa.kontrollerit.PuuSoluTehdas;
 import tupa.kontrollerit.Varmistaja;
@@ -41,6 +42,10 @@ import tupa.nakymat.Pysyvat;
  */
 public class Tupa extends Application {
 
+    //käyttöoikeude 1 = vain turnauksen tietojen katselu, 2 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 3=turnauksen ylläpitäjä
+    
+    private int taso = 0;
+    
     // turnaus, johon liittyy, tallennettu!
     private Kohde turnaus = new Turnaus();
 
@@ -84,6 +89,8 @@ public class Tupa extends Application {
 
     public void start(Stage primaryStage) {
 
+      
+        
         //luodaan turnaus, kun ohjelma käynnistyy
         Aloitus aloitus = new Aloitus();
         turnaus = aloitus.luoAlkuTurnaus();
@@ -96,7 +103,7 @@ public class Tupa extends Application {
         naytto.setStyle("-fx-background-color: white;");
 
         //aloitusnäkymä
-        nakyma.luoEtusivu();
+ 
 
         //muodostaan ylävalikko
         MenuBar menuBar = new MenuBar();
@@ -129,7 +136,7 @@ public class Tupa extends Application {
 
         border.setCenter(keski);
 
-        Scene scene = new Scene(border, 940, 500);
+        Scene scene = new Scene(border);
         primaryStage.setTitle("TUPA \t - \t Tulospalvelu");
         scene.getStylesheets().add("css/tyylit.css");
 
@@ -152,7 +159,14 @@ public class Tupa extends Application {
 
             }
         });
-
+      
+        
+        Stage kirjautuja = new KayttajanKirjautuminen(primaryStage, this);
+  
+      
+       kirjautuja.sizeToScene();
+        kirjautuja.show();
+  
     }
 
     public PaaNakyma annaPaaNakyma() {
@@ -240,4 +254,13 @@ public class Tupa extends Application {
     public List<String> annaLokilista() {
         return lokilista;
     }
+    
+    public void asetaTaso(int taso){
+        this.taso = taso;
+    }
+    
+    public int annaTaso(){
+        return taso;
+    }
+    
 }

@@ -1,9 +1,14 @@
 package tupa.kontrollerit;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import tupa.Tupa;
 import tupa.data.Tuomari;
 import tupa.data.Joukkue;
 import tupa.data.Ottelu;
+import tupa.data.Turnaus;
 
 /**
  *
@@ -13,7 +18,12 @@ public class Tarkistaja {
 
     private Tupa ikkuna;
     private Tiedottaja tiedottaja;
-
+    private Turnaus turnaus;
+    private Yhteys yhteys = new Yhteys();
+    private Connection con = null;
+    private Statement st = null;
+    private String sql = "";
+    
     public Tarkistaja() {
 
     }
@@ -21,6 +31,12 @@ public class Tarkistaja {
     public Tarkistaja(Tupa ikkuna) {
         this.ikkuna = ikkuna;
         this.tiedottaja = new Tiedottaja(ikkuna);
+    }
+    
+     public Tarkistaja(Tupa ikkuna, Turnaus turnaus) {
+        this.ikkuna = ikkuna;
+        this.turnaus = turnaus;
+          this.tiedottaja = new Tiedottaja(ikkuna);
     }
 
     public boolean nimiOK(String nimi) {
@@ -136,5 +152,58 @@ public class Tarkistaja {
             }
         }
         return true;
+    }
+    
+    
+     public void tarkistaTurnaustiedot() {
+
+        int turnaus_id = turnaus.annaID();
+        try {
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+
+            sql = "SELECT DISTINCT * FROM turnaus WHERE id = '" + turnaus_id + "'";
+
+            ResultSet haetut_rivit = st.executeQuery(sql);
+            int laskuri = 0;
+            while (haetut_rivit.next()) {
+                laskuri++;
+
+            }
+
+            if (laskuri == 1) {
+                   Tallennus tallenna = new Tallennus(ikkuna);
+                tallenna.suoritaTallennus();
+                tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
+            }
+            else{
+                Kirjautuminen kirjautuja = new Kirjautuminen(turnaus, ikkuna);
+                kirjautuja.luoTurnauksenSalasananSyotto();
+            }
+               
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
     }
 }

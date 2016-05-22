@@ -155,6 +155,7 @@ public class PaaNakyma {
             }
         });
         grid.setAlignment(Pos.CENTER);
+        if(ikkuna.annaTaso() == 3)
         grid.add(uusi, 1, 1);
 
         ikkuna.annaNaytto().getChildren().add(grid);
@@ -246,6 +247,8 @@ public class PaaNakyma {
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(0, 0, 0, 300));
+       
+      if(ikkuna.annaTaso() == 3)
         grid.add(muokkausnappula, 2, 1);
         grid.add(nimipalkki, 1, 1);
 
@@ -259,6 +262,44 @@ public class PaaNakyma {
 
     }
 
+        public void luoEtusivuTyhja() {
+
+
+
+        VBox peitto = new VBox();
+        peitto.setStyle("-fx-background-color: white;");
+        ikkuna.annaNaytto().getChildren().add(peitto);
+
+
+
+
+        VBox palkki = new VBox();
+        palkki.setAlignment(Pos.CENTER);
+
+        palkki.setSpacing(20);
+        Label otsikko = new Label("Avaa yläpalkin valikosta haluamasi toiminto.");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 18));
+    
+
+
+       palkki.getChildren().addAll(otsikko);
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(100, 0, 0, 100));
+        System.out.println(ikkuna.annaTaso());
+      
+
+        grid.add(palkki, 1, 2);
+        grid.setAlignment(Pos.CENTER);
+    
+
+     
+
+        ikkuna.annaNaytto().getChildren().add(grid);
+
+    }
+    
+    
     public void luoHakutulossivu(String hakusana) throws SQLException {
 
         HBox nimipalkki = new HBox();

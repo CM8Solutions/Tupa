@@ -4,9 +4,15 @@ Erilaisia taulukoita muodostava luokka
 package tupa.kontrollerit;
 
 import com.sun.prism.impl.Disposer.Record;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -40,6 +46,7 @@ import tupa.data.Pelaaja;
 import tupa.data.Toimihenkilo;
 import tupa.data.Joukkue;
 import tupa.data.Kokoonpano;
+import tupa.data.Turnaus;
 
 /**
  *
@@ -58,11 +65,19 @@ public class Taulukko {
     private Varmistaja varmistaja;
     private Tarkistaja tarkistaja;
     private Tupa ikkuna;
-
+  private Connection con = null;
+    private Statement st = null;
+    private Yhteys yhteys = new Yhteys();
+    private String sql="";
+    
     public Taulukko() {
 
     }
 
+    public Taulukko(Tupa ikkuna){
+        this.ikkuna = ikkuna;
+    }
+    
     public Taulukko(PaaNakyma nakyma) {
         this.nakyma = nakyma;
         tarkistaja = new Tarkistaja(nakyma.annaIkkuna());
@@ -1301,6 +1316,7 @@ public class Taulukko {
         pelipaikka.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkopelipaikka"));
 
         pelipaikka.setPrefWidth(100);
+        
         taulukko.getColumns().addAll(pelinumero, pelaaja, pelipaikka);
         taulukko.setItems(data);
         pelinumero.setSortType(TableColumn.SortType.ASCENDING);
@@ -2030,4 +2046,89 @@ public class Taulukko {
         return kokoonpanoluettelo;
     }
 
+    public TableView luoTurnausTaulukko() throws SQLException {
+        
+       
+         
+        taulukko.setPlaceholder(new Label("Ei tallennettuja turnauksia"));
+        taulukko.setId("my-table");
+        List<Turnaus> turnauslista = new ArrayList<>();
+           try {
+      
+        con = yhteys.annaYhteys();
+      st = con.createStatement();
+      
+        sql = "SELECT * FROM turnaus";
+
+            ResultSet turnaukset = st.executeQuery(sql);
+
+            while (turnaukset.next()) {
+                String nimi = turnaukset.getString("nimi");
+                String luomispvm = turnaukset.getString("luomispvm");
+                int id = turnaukset.getInt("id");
+                
+                Turnaus turnaus = new Turnaus();
+                turnaus.asetaID(id);
+                turnaus.asetaNimi(nimi);
+                turnaus.asetaLuomispvm(luomispvm);
+                turnaus.asetaTaulukkonimi();
+                turnaus.asetaTaulukkoluomispvm();
+                
+                turnauslista.add(turnaus);
+            }
+      
+              ObservableList<Turnaus> data
+                = FXCollections.observableArrayList(turnauslista);
+
+        TableColumn nimi = new TableColumn("Turnaus");
+        TableColumn luomispvm = new TableColumn("Luomispvm ");
+        nimi.setMinWidth(180);
+        luomispvm.setMinWidth(150);
+        nimi.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkonimi"));  
+       luomispvm.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkoluomispvm"));  
+        
+        taulukko.getColumns().addAll(nimi, luomispvm);
+        taulukko.setItems(data);
+        luomispvm.setSortType(TableColumn.SortType.ASCENDING);
+        taulukko.getSortOrder().add(luomispvm);
+
+
+        taulukko.setFixedCellSize(25);
+
+        if (taulukko.getItems().size() == 0) {
+            taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(2)));
+        } else {
+            taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(1.1)));
+        }
+
+        taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
+        taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
+        
+           } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+       
+       
+        
+        return taulukko;
+    }
 }

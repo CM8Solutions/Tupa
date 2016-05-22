@@ -1419,6 +1419,42 @@
     -fx-opacity: -fx-disabled-opacity;
 }
 
+#my-scrollpane {
+    -fx-background-color: linear-gradient(to bottom, #00ff00, 	#ccffcc);
+      -fx-background: linear-gradient(to bottom, #00ff00, 	 #ccffcc);
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1.0;
+    -fx-border: none;
+}
+
+#my-scrollpane .scroll-pane:focused {
+     -fx-background: linear-gradient(to bottom, #00ff00, 	 #ccffcc);
+    -fx-background-color: linear-gradient(to bottom, #00ff00, 	 #ccffcc);
+    -fx-background-insets: -1.4, 0, 1;
+}
+
+#my-scrollpane .scroll-pane > * > .scroll-bar:horizontal {
+    -fx-background-insets: 0, 1 0 0 0;
+    -fx-padding: 0.0 0.0 0.0 0.0;
+}
+
+#my-scrollpane .scroll-pane > * > .scroll-bar:vertical {
+    -fx-background-insets: 0, 0 0 0 1;
+    -fx-padding: 0.0 0.0 0.0 0.0;
+}
+
+#my-scrollpane .scroll-pane > .corner {
+     -fx-background: linear-gradient(to bottom, #00ff00, 	 #ccffcc);
+    -fx-background-color: linear-gradient(to bottom, #00ff00, 	 #ccffcc);
+    -fx-background-insets: 0, 1 0 0 1;
+}
+
+#my-scrollpane .scroll-pane:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+
+
 /*******************************************************************************
  *                                                                             *
  * Separator                                                                   *
@@ -1834,6 +1870,9 @@
     
     
 }
+
+
+
 
 .table-view .column-header {
     -fx-background-color: #ccffcc;
@@ -4722,3 +4761,36 @@ to the top and bottom -fx-padding values of the parent toolbar. */
     -fx-background-color: #0080ff;
     -fx-text-fill: white;
 }
+
+
+#gp {
+
+ -fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc);
+ -fx-border-color: white;
+ -fx-border-radius: 20;
+ -fx-padding: 10 10 10 10;
+ -fx-background-radius: 20;
+}
+
+#bp {
+
+ -fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc);
+ 
+}
+
+#kirjaudu-nappula {
+
+    -fx-background-radius: 30, 30, 29, 28;
+
+    -fx-padding: 3px 10px 3px 10px;
+
+    -fx-background-color: linear-gradient(to bottom, #00ff00, 	#ccffcc);
+
+}
+
+
+#text {
+ -fx-fill:  black;
+
+}
+

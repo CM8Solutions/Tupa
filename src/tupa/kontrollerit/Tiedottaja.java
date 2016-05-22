@@ -52,4 +52,20 @@ public class Tiedottaja {
         alert.showAndWait();
 
     }
+    
+        public void annaIlmoitus(String msg) {
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+
+        alert.setTitle("TUPA - TULOSPALVELU");
+
+    alert.setHeaderText(null);
+
+        alert.setContentText(msg);
+
+        alert.showAndWait();
+    
+              ikkuna.annaPaaNakyma().luoEtusivuTyhja();
+    
+    }
 }

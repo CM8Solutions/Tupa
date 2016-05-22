@@ -27,7 +27,7 @@ public class Ohjeistus {
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
-        stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString()));
+        stage.getIcons().add(new Image("kuvat/icon.png"));
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(30));
         vbox.setSpacing(10);
@@ -58,7 +58,7 @@ public class Ohjeistus {
         Scene sceneV = new Scene(alue, 700, 200);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
-        stage.show();
+       stage.showAndWait();
 
     }
 
@@ -66,7 +66,7 @@ public class Ohjeistus {
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
-        stage.getIcons().add(new Image(this.getClass().getResource("icon.png").toString()));
+        stage.getIcons().add(new Image("kuvat/icon.png"));
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(60);
@@ -100,7 +100,7 @@ public class Ohjeistus {
         Scene sceneV = new Scene(alue, 400, 200);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
-        stage.show();
+         stage.showAndWait();
 
     }
 

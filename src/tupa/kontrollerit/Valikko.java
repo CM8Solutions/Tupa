@@ -4,8 +4,6 @@ Yläpalkin valikon muodostava luokka
 package tupa.kontrollerit;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -22,11 +20,7 @@ import tupa.Tupa;
 import tupa.nakymat.PaaNakyma;
 import tupa.data.Kohde;
 import tupa.data.Turnaus;
-import tupa.data.Sarja;
-import tupa.data.Tuomari;
-import tupa.data.Pelaaja;
-import tupa.data.Toimihenkilo;
-import tupa.data.Joukkue;
+
 
 /**
  *
@@ -56,19 +50,26 @@ public class Valikko implements EventHandler<ActionEvent> {
         Menu menuTiedosto = new Menu("Tiedosto");
         MenuItem uusi = new MenuItem("Uusi");
         uusi.setAccelerator(new KeyCharacterCombination("N", KeyCombination.SHORTCUT_DOWN));
-
+        
+        if(ikkuna.annaTaso() != 3 || ikkuna.annaTaso() != 2)
+             uusi.setDisable(true);
+        
         MenuItem avaa = new MenuItem("Avaa");
         avaa.setAccelerator(new KeyCharacterCombination("O", KeyCombination.SHORTCUT_DOWN));
 
         MenuItem tallenna = new MenuItem("Tallenna");
         tallenna.setAccelerator(new KeyCharacterCombination("S", KeyCombination.SHORTCUT_DOWN));
-
+   if(ikkuna.annaTaso() != 3 || ikkuna.annaTaso() != 2)
+             tallenna.setDisable(true);
+   
         MenuItem vie = new MenuItem("Vie");
         vie.setAccelerator(new KeyCharacterCombination("E", KeyCombination.SHORTCUT_DOWN));
-
+     if(ikkuna.annaTaso() != 3)
+             vie.setDisable(true);
         MenuItem tuo = new MenuItem("Tuo");
         tuo.setAccelerator(new KeyCharacterCombination("I", KeyCombination.SHORTCUT_DOWN));
-
+     if(ikkuna.annaTaso() != 3)
+             tuo.setDisable(true);
         MenuItem lopeta = new MenuItem("Lopeta");
         lopeta.setAccelerator(new KeyCharacterCombination("Q", KeyCombination.SHORTCUT_DOWN));
 
@@ -165,79 +166,18 @@ public class Valikko implements EventHandler<ActionEvent> {
                     parentTuomarit.getChildren().clear();
 
                     //sitten vasta avaukseen
-                    //tuodaan tallennetut kohteet
-                    List<Kohde> kohdetk = new ArrayList<>();
-                    Avaus avaaja = new Avaus();
-                    kohdetk = avaaja.avaa();
+                    
+                    TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
+                    valitsija.annaTurnausLuettelo();
 
-                    ikkuna.asetaKohteet(kohdetk);
-
-                    List<Sarja> sarjatk = new ArrayList<>();
-
-                    List<Tuomari> tuomaritk = new ArrayList<>();
-                    List<Joukkue> joukkuetk = new ArrayList<>();
-                    List<Pelaaja> pelaajatk = new ArrayList<>();
-                    List<Toimihenkilo> toimaritk = new ArrayList<>();
-                    //viedään kohteet omiin listoihin
-                    TreeItem<Kohde> parent = new TreeItem<>();
-                    for (int i = 0; i < kohdetk.size(); i++) {
-
-                        if (kohdetk.get(i) instanceof Sarja) {
-                            Sarja sarja = (Sarja) kohdetk.get(i);
-
-                            sarjatk.add(sarja);
-                            ikkuna.annaSarjatk().add(sarja);
-
-                            parent = ikkuna.annaRootSarjat();
-                            TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
-                            parent.getChildren().add(newItem);
-
-                        } else if (kohdetk.get(i) instanceof Tuomari) {
-                            Tuomari tuomari = (Tuomari) kohdetk.get(i);
-                            tuomaritk.add(tuomari);
-                            ikkuna.annaTuomaritk().add(tuomari);
-
-                            parent = ikkuna.annaRootTuomarit();
-                            TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>(kohdetk.get(i));
-                            parent.getChildren().add(uusiKohde);
-                        } else if (kohdetk.get(i) instanceof Joukkue) {
-                            Joukkue joukkue = (Joukkue) kohdetk.get(i);
-                            joukkuetk.add(joukkue);
-                            ikkuna.annaJoukkuetk().add(joukkue);
-
-                            joukkue.asetaTaulukkonimi();
-                        } else if (kohdetk.get(i) instanceof Pelaaja) {
-                            Pelaaja pelaaja = (Pelaaja) kohdetk.get(i);
-                            pelaajatk.add(pelaaja);
-                            ikkuna.annaPelaajatk().add(pelaaja);
-
-                        } else if (kohdetk.get(i) instanceof Toimihenkilo) {
-                            Toimihenkilo toimari = (Toimihenkilo) kohdetk.get(i);
-                            toimaritk.add(toimari);
-                            ikkuna.annaToimaritk().add(toimari);
-
-                            toimari.asetaTaulukkonimi();
-                            toimari.asetaTaulukkosposti();
-                            toimari.asetaTaulukkopuh();
-                            toimari.asetaTaulukkorooli();
-                        } else if (kohdetk.get(i) instanceof Turnaus) {
-
-                            ikkuna.asetaTurnaus(kohdetk.get(i));
-
-                        }
-                    }
                 }
-
-                tiedottaja.kirjoitaLoki("Turnaus avattu.");
-                nakyma.luoEtusivu();
                 break;
             }
 
             case "Tallenna": {
-                Tallennus tallenna = new Tallennus(ikkuna);
-                tallenna.suoritaTallennus();
-                tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
-                break;
+             Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+             tarkistaja.tarkistaTurnaustiedot();
+             break;
             }
 
             case "Lopeta": {

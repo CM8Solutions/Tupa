@@ -126,8 +126,10 @@ public class ToimariNakyma {
             }
         });
         painike.setPadding(new Insets(20));
-
+ if(ikkuna.annaTaso() == 3)
         painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
+ else
+     painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
         grid.add(painike, 0, 0);
 
         //riville 2

@@ -143,8 +143,12 @@ public class JoukkueNakyma {
         nimi.setFont(Font.font("Papyrus", 32));
 
         info.setAlignment(Pos.CENTER);
+            if(ikkuna.annaTaso() == 3)
         info.getChildren().addAll(nimi, nappulat);
-        grid.add(info, 0, 2);
+        else
+                 info.getChildren().addAll(nimi);
+                
+            grid.add(info, 0, 2);
 
         HBox rivi3 = new HBox();
         rivi3.setSpacing(40);
@@ -253,7 +257,8 @@ public class JoukkueNakyma {
 
             }
         });
-
+        
+        if(ikkuna.annaTaso() == 3)
         pelaajienalle.getChildren().addAll(plisaysnappula);
 
         HBox toimarienalle = new HBox();
@@ -269,7 +274,7 @@ public class JoukkueNakyma {
 
             }
         });
-
+   if(ikkuna.annaTaso() == 3)
         toimarienalle.getChildren().addAll(tlisaysnappula);
 
         osio3.getChildren().addAll(otsikkorivi3, toimihenkilot, toimarienalle);

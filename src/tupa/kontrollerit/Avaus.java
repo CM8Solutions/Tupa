@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import javafx.scene.control.TreeItem;
+import tupa.Tupa;
 import tupa.data.Ottelu;
 import tupa.data.Kokoonpano;
 import tupa.data.Maali;
@@ -21,6 +23,7 @@ import tupa.data.Pelaaja;
 import tupa.data.Toimihenkilo;
 import tupa.data.Joukkue;
 import tupa.data.TuomarinRooli;
+import tupa.nakymat.PaaNakyma;
 /**
  *
  * @author Marianne
@@ -47,12 +50,17 @@ public class Avaus {
     private String sql4 = "";
     private int turnaus_id;
     private Turnaus turnaus;
+    private Tupa ikkuna;
 
     public Avaus() {
 
     }
+    public Avaus(Turnaus turnaus, Tupa ikkuna) {
+        this.turnaus = turnaus;
+        this.ikkuna = ikkuna;
+    }
 
-    public List<Kohde> avaa() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void avaa() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         try {
 
@@ -69,9 +77,9 @@ public class Avaus {
             st10 = con.createStatement();
              st11 = con.createStatement();
             
-
+             turnaus_id = turnaus.annaID();
             //haetaan turnaus
-            sql = "SELECT * FROM turnaus WHERE id=1";
+            sql = "SELECT * FROM turnaus WHERE id = '" + turnaus_id +"'";
 
             ResultSet turnaukset = st.executeQuery(sql);
 
@@ -405,8 +413,75 @@ public class Avaus {
                 }
 
             }
+            
+                    ikkuna.asetaKohteet(kohdetk);
 
-        } catch (SQLException se) {
+                    List<Sarja> sarjatk = new ArrayList<>();
+
+                    List<Tuomari> tuomaritk = new ArrayList<>();
+                    List<Joukkue> joukkuetk = new ArrayList<>();
+                    List<Pelaaja> pelaajatk = new ArrayList<>();
+                    List<Toimihenkilo> toimaritk = new ArrayList<>();
+                    //viedään kohteet omiin listoihin
+                    TreeItem<Kohde> parent = new TreeItem<>();
+                    for (int i = 0; i < kohdetk.size(); i++) {
+
+                        if (kohdetk.get(i) instanceof Sarja) {
+                            Sarja sarja = (Sarja) kohdetk.get(i);
+
+                            sarjatk.add(sarja);
+                            ikkuna.annaSarjatk().add(sarja);
+
+                            parent = ikkuna.annaRootSarjat();
+                            TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
+                            parent.getChildren().add(newItem);
+
+                        } else if (kohdetk.get(i) instanceof Tuomari) {
+                            Tuomari tuomari = (Tuomari) kohdetk.get(i);
+                            tuomaritk.add(tuomari);
+                            ikkuna.annaTuomaritk().add(tuomari);
+
+                            parent = ikkuna.annaRootTuomarit();
+                            TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>(kohdetk.get(i));
+                            parent.getChildren().add(uusiKohde);
+                        } else if (kohdetk.get(i) instanceof Joukkue) {
+                            Joukkue joukkue = (Joukkue) kohdetk.get(i);
+                            joukkuetk.add(joukkue);
+                            ikkuna.annaJoukkuetk().add(joukkue);
+
+                            joukkue.asetaTaulukkonimi();
+                        } else if (kohdetk.get(i) instanceof Pelaaja) {
+                            Pelaaja pelaaja = (Pelaaja) kohdetk.get(i);
+                            pelaajatk.add(pelaaja);
+                            ikkuna.annaPelaajatk().add(pelaaja);
+
+                        } else if (kohdetk.get(i) instanceof Toimihenkilo) {
+                            Toimihenkilo toimari = (Toimihenkilo) kohdetk.get(i);
+                            toimaritk.add(toimari);
+                            ikkuna.annaToimaritk().add(toimari);
+
+                            toimari.asetaTaulukkonimi();
+                            toimari.asetaTaulukkosposti();
+                            toimari.asetaTaulukkopuh();
+                            toimari.asetaTaulukkorooli();
+                        } else if (kohdetk.get(i) instanceof Turnaus) {
+
+                            ikkuna.asetaTurnaus(kohdetk.get(i));
+
+                        }
+                    }
+                
+                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                tiedottaja.kirjoitaLoki("Turnaus avattu.");
+                
+                PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                nakyma.luoEtusivu(); 
+        
+        }
+                
+          
+     
+        catch (SQLException se) {
 
             se.printStackTrace();
         } catch (Exception e) {
@@ -429,7 +504,6 @@ public class Avaus {
             }
         }
 
-        return kohdetk;
     }
 
 }
