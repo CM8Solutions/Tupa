@@ -235,7 +235,7 @@ public class KayttajanKirjautuminen extends Stage {
         hb2.setPadding(new Insets(10, 20, 0, 30));
         hb2.setSpacing(20);
 
-        Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta rajoitetuimmilla oikeuksilla.");
+        Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta, jolloin käytössäsi ovat rajoitetuimmat oikeudet.");
         text2.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
         text2.setEffect(dropShadow);
 

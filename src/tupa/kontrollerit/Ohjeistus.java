@@ -68,17 +68,20 @@ public class Ohjeistus {
 
         stage.getIcons().add(new Image("kuvat/icon.png"));
         VBox vbox = new VBox();
-        vbox.setPadding(new Insets(20, 0, 30, 0));
-        vbox.setSpacing(60);
-
+        vbox.setPadding(new Insets(40));
+        vbox.setSpacing(30);
+ vbox.setAlignment(Pos.CENTER);
         VBox vbox1 = new VBox();
-        vbox1.setSpacing(20);
+      
         Text viesti1 = new Text("TUPA - tulospalvelu v1.0");
-        Text viesti2 = new Text("TUPA-ohjelma soveltuu erilaisten sarjamuotoisina järjestettävien turnausten hallintaan. Yhdellä lisenssillä voi muodostaa 5 kpl turnauksia. Lisenssejä voi tiedustella lähettämällä sähköpostia osoitteeseen u97506@student.uwasa.fi");
-        Text viesti3 = new Text("\u00A9 \t Marianne Sjöberg & Victor Slätis 2016");
+        Text viesti2 = new Text("TUPA-ohjelma soveltuu erilaisten sarjamuotoisina järjestettävien turnausten hallintaan.");
+               Text viesti3 = new Text("Yhdellä lisenssillä voi muodostaa 5 kpl turnauksia.");  
+            Text viesti4 = new Text(" Lisenssejä voi tiedustella lähettämällä sähköpostia osoitteeseen u97506@student.uwasa.fi");         
+               
+        Text viesti5 = new Text("\u00A9 \t Marianne Sjöberg & Victor Slätis 2016");
 
         vbox1.setAlignment(Pos.CENTER);
-        vbox1.getChildren().addAll(viesti1, viesti2, viesti3);
+        vbox1.getChildren().addAll( viesti2, viesti3, viesti4);
 
         HBox hbox2 = new HBox();
      
@@ -93,10 +96,11 @@ public class Ohjeistus {
         });
         hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().addAll(ok);
-        vbox.getChildren().addAll(vbox1, hbox2);
+        vbox.getChildren().addAll(viesti1, vbox1, viesti5, hbox2);
         alue.setCenter(vbox);
+       
 
-        Scene sceneV = new Scene(alue, 700, 200);
+        Scene sceneV = new Scene(alue);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
          stage.showAndWait();

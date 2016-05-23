@@ -11,8 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -2106,12 +2104,19 @@ public class Taulukko {
 
         TableColumn nimi = new TableColumn("Turnaus");
         TableColumn luomispvm = new TableColumn("Luomispvm ");
+         TableColumn col_action = new TableColumn<>("Poista");
         nimi.setMinWidth(180);
         luomispvm.setMinWidth(150);
         nimi.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkonimi"));  
        luomispvm.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkoluomispvm"));  
         
-        taulukko.getColumns().addAll(nimi, luomispvm);
+       if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2){
+            taulukko.getColumns().addAll(nimi, luomispvm, col_action);
+       }
+       else{
+            taulukko.getColumns().addAll(nimi, luomispvm);
+       }
+       
         taulukko.setItems(data);
         luomispvm.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSortOrder().add(luomispvm);
@@ -2125,6 +2130,31 @@ public class Taulukko {
             taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(1.1)));
         }
 
+        
+        col_action.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
+
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Record, Boolean> p) {
+                return new SimpleBooleanProperty(p.getValue() != null);
+            }
+        });
+
+        col_action.setCellFactory(
+                new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
+
+            @Override
+            public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
+                return new PoistoSoluTurnaus(data, ikkuna);
+            }
+
+        });
+        
+        
+        
+        
+        
+        
         taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
         taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
         

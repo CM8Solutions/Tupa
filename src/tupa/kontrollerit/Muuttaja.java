@@ -4,6 +4,7 @@ Luokka, joka lisää ja poistaa eri kohteita
 package tupa.kontrollerit;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -37,6 +38,11 @@ public class Muuttaja {
     private SarjaNakyma sarjanakyma;
     private Connection con = null;
     private Statement st = null;
+     private Statement st2 = null;
+      private Statement st3 = null;
+       private Statement st4 = null;
+        private Statement st5 = null;
+          
     private Yhteys yhteys = new Yhteys();
   
     private String sql = "";
@@ -849,6 +855,122 @@ public class Muuttaja {
                             }
                         }
         toimari.asetaHallinta(0);
+    }
+    
+    public void poistaTurnaus(Turnaus turnaus){
+         try {
+            int turnaus_id = turnaus.annaID();
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+            st2 = con.createStatement();
+            st3 = con.createStatement();
+            st4 = con.createStatement();
+            st5 = con.createStatement();
+            
+            
+          //tyhjennetään pelaajat
+                    sql = "SELECT DISTINCT pelaaja.id as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id";
+                    ResultSet pelaajat = st2.executeQuery(sql);
+
+                    while (pelaajat.next()) {
+
+                        int id = pelaajat.getInt("pid");
+                        sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
+                        st.executeUpdate(sql);
+                        sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
+
+                    //tyhjennetään toimarit
+                    sql = "SELECT DISTINCT toimari.id as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id";
+                    ResultSet toimarit = st3.executeQuery(sql);
+
+                    while (toimarit.next()) {
+
+                        int id = toimarit.getInt("tid");
+                        sql = "DELETE FROM toimari WHERE id='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
+
+                    //tyhjennetään ottelut
+                    sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
+                    ResultSet ottelut = st4.executeQuery(sql);
+
+                    while (ottelut.next()) {
+                        int id = ottelut.getInt("oid");
+
+                        //tyhjennetään kokoonpanot
+                        sql = "DELETE FROM kokoonpano WHERE ottelu_id='" + id + "'";
+                        st.executeUpdate(sql);
+
+                        //tyhjennetään ensin maalit
+                        sql = "DELETE FROM maali WHERE ottelu_id='" + id + "'";
+                        st.executeUpdate(sql);
+                        //ja tuomarinroolit
+
+                        sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
+                        st.executeUpdate(sql);
+
+                        sql = "DELETE FROM ottelu WHERE id='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
+
+                    //tyhjennetään joukkueet
+                    sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
+                    ResultSet joukkueet = st5.executeQuery(sql);
+
+                    while (joukkueet.next()) {
+
+                        int id = joukkueet.getInt("jid");
+                        sql = "DELETE FROM joukkue WHERE id='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
+
+                    //tyhjennetään sarjat
+                    sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+
+                    //tyhjennetään tuomarit
+                    sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+                    
+                     sql = "DELETE FROM turnauksen_salasana WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+                    
+                     sql = "DELETE FROM kayttajan_turnaus WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+                    
+                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                    tiedottaja.annaIlmoitus("Turnaus poistettu");
+                    ikkuna.asetaAloitus(true);
+                    
+
+        }catch (SQLException se) {
+
+                            se.printStackTrace();
+                        } catch (Exception e) {
+
+                            e.printStackTrace();
+                        } finally {
+
+                            try {
+                                if (st != null) {
+                                    con.close();
+                                }
+                            } catch (SQLException se) {
+                            }
+                            try {
+                                if (con != null) {
+                                    con.close();
+                                }
+                            } catch (SQLException se) {
+                                se.printStackTrace();
+                            }
+                        }
+ 
+        
+        
     }
 
 }
