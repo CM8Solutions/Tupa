@@ -173,7 +173,7 @@ public class Tarkistaja {
             }
 
             if (laskuri == 1) {
-                   Tallennus tallenna = new Tallennus(ikkuna);
+                Tallennus tallenna = new Tallennus(ikkuna);
                 tallenna.suoritaTallennus();
                 tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
             }
@@ -206,4 +206,55 @@ public class Tarkistaja {
         }
 
     }
+     
+    public boolean tarkistaTurnausMaara(){
+        boolean ok = false;
+         int kayttaja_id = ikkuna.annaKayttajaID();
+        try {
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+
+            sql = "SELECT DISTINCT * FROM kayttajan_turnaus WHERE kayttaja_id = '" + kayttaja_id + "'";
+
+            ResultSet haetut_rivit = st.executeQuery(sql);
+            int laskuri = 0;
+            while (haetut_rivit.next()) {
+                laskuri++;
+
+            }
+
+            if (laskuri < 5) {
+                  ok = true;
+            }
+            else{
+              ok = false;
+            }
+               
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+  
+        return ok;
+    } 
+     
 }

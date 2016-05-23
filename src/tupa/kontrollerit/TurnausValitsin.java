@@ -75,8 +75,12 @@ public class TurnausValitsin {
         
         
         turnaukset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            Kirjautuminen kirjautuja = new Kirjautuminen((Turnaus) newSelection, ikkuna);
+           
+          
+                     Kirjautuminen kirjautuja = new Kirjautuminen((Turnaus) newSelection, ikkuna);
            kirjautuja.luoKirjautuminen();
+       
+        
             
             stage.close();
         });

@@ -118,7 +118,7 @@ public class ToimariNakyma {
         });
         Button oikeusnappula = new Button();
         
-        if(toimari.annaHallinta() == 0){
+        if(toimari.annaHallinta() == 1){
                        oikeusnappula.setText("Poista joukkueen ylläpitäjän roolista");
         oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -136,7 +136,7 @@ public class ToimariNakyma {
             public void handle(ActionEvent event) {
                
                 Kirjautuminen kirjautuja = new Kirjautuminen(ikkuna);
-                kirjautuja.luoHallintaLisays(toimari);
+                kirjautuja.luoHallintaLisaysToimari(toimari);
 
             }
         });  
@@ -156,7 +156,7 @@ public class ToimariNakyma {
             }
         });
         painike.setPadding(new Insets(20));
- if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
+ if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
         painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula, oikeusnappula);
  else
      painike.getChildren().addAll(paluunappula);

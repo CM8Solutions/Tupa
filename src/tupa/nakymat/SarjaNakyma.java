@@ -184,7 +184,7 @@ public class SarjaNakyma {
         painikkeet.setPadding(new Insets(20, 20, 40, 80));
         painikkeet.setSpacing(20);
 
-        if(ikkuna.annaTaso() == 3)
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
         painikkeet.getChildren().addAll(muokkausnappula, poistonappula);
         rivi1.getChildren().addAll(painikkeet);
 
@@ -290,7 +290,7 @@ public class SarjaNakyma {
 
         HBox painikeboksi = new HBox();
         painikeboksi.setSpacing(40);
- if(ikkuna.annaTaso() == 3)
+ if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
         painikeboksi.getChildren().addAll(otteluluettelomuokkaus);
 
         ylialle.getChildren().addAll(painikeboksi);
@@ -307,7 +307,7 @@ public class SarjaNakyma {
 
             }
         });
- if(ikkuna.annaTaso() == 3)
+ if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
         alle2.getChildren().addAll(joukkuemuokkaus);
 
         osio1.getChildren().addAll(otsikkorivi1, ottelut, ylialle);

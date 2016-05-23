@@ -220,7 +220,7 @@ public class TuomariNakyma {
         info.setAlignment(Pos.CENTER);
         info.getChildren().addAll(nimi, id);
 
-        if(ikkuna.annaTaso() == 3)
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
         rivi2.getChildren().addAll(info, painike);
 
         else

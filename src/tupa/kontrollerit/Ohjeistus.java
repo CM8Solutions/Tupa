@@ -74,7 +74,7 @@ public class Ohjeistus {
         VBox vbox1 = new VBox();
         vbox1.setSpacing(20);
         Text viesti1 = new Text("TUPA - tulospalvelu v1.0");
-        Text viesti2 = new Text("TUPA-ohjelma soveltuu erilaisten sarjamuotoisina järjestettävien turnausten hallintaan.");
+        Text viesti2 = new Text("TUPA-ohjelma soveltuu erilaisten sarjamuotoisina järjestettävien turnausten hallintaan. Yhdellä lisenssillä voi muodostaa 5 kpl turnauksia. Lisenssejä voi tiedustella lähettämällä sähköpostia osoitteeseen u97506@student.uwasa.fi");
         Text viesti3 = new Text("\u00A9 \t Marianne Sjöberg & Victor Slätis 2016");
 
         vbox1.setAlignment(Pos.CENTER);

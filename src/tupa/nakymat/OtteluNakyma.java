@@ -174,7 +174,7 @@ public class OtteluNakyma {
         HBox painikkeet2 = new HBox();
         painikkeet2.setPadding(new Insets(20, 0, 0, 0));
         painikkeet2.setSpacing(40);
-           if(ikkuna.annaTaso() == 3)
+           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == kotijoukkue_id || ikkuna.annaJoukkueID() == vierasjoukkue_id)
         painikkeet2.getChildren().addAll(tulosnappula);
 
         Taulukko taulukontekija1 = new Taulukko(nakyma, varmistaja);
@@ -238,7 +238,7 @@ public class OtteluNakyma {
                 luoKokoonpanosivu(ottelu, koti);
             }
         });
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == kotijoukkue_id)
+           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == kotijoukkue_id)
         kotialle.getChildren().add(lisayskoti);
         kotiosio.getChildren().add(kotialle);
 
@@ -279,7 +279,7 @@ public class OtteluNakyma {
                 luoKokoonpanosivu(ottelu, vieras);
             }
         });
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == vierasjoukkue_id)
+           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == vierasjoukkue_id)
         vierasalle.getChildren().add(lisaysvieras);
         vierasosio.getChildren().add(vierasalle);
 
@@ -291,7 +291,7 @@ public class OtteluNakyma {
         painikkeet3.setPadding(new Insets(40, 0, 0, 0));
         painikkeet3.getChildren().addAll(maalinappula);
 
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == vierasjoukkue_id || ikkuna.annaJoukkueID() == kotijoukkue_id)
+           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == vierasjoukkue_id || ikkuna.annaJoukkueID() == kotijoukkue_id)
         maaliosio.getChildren().addAll(maaliotsikko, maalit, painikkeet3);
            else
                  maaliosio.getChildren().addAll(maaliotsikko, maalit);
@@ -832,7 +832,7 @@ public class OtteluNakyma {
             kotiboxi.getChildren().addAll(otsikkovieras, eimahd2);
         }
 
-        if(ikkuna.annaTaso() == 3){
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2){
           rivi5.getChildren().addAll(kotiboxi, vierasboxi);
         }
         else if (ikkuna.annaJoukkueID() == kotijoukkue_id){

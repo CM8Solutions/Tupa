@@ -60,12 +60,12 @@ public class PuuSolu extends TreeCell<Kohde> {
 
         MenuItem item2 = new MenuItem("Muokkaa");
         menu.getItems().add(item2);
-        if (ikkuna.annaTaso() != 3) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) ) {
             item2.setDisable(true);
         }
         MenuItem item5 = new MenuItem("Poista");
         menu.getItems().add(item5);
-        if (ikkuna.annaTaso() != 3) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
             item5.setDisable(true);
         }
         Varmistaja varmistaja = new Varmistaja(ikkuna, ikkuna.annaPaaNakyma());
@@ -111,19 +111,19 @@ public class PuuSolu extends TreeCell<Kohde> {
 
         MenuItem item1 = new MenuItem("Lisää");
         menu.getItems().add(item1);
-        if (ikkuna.annaTaso() != 3) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
             item1.setDisable(true);
         }
         //tiedostoon tallennus
         MenuItem item3 = new MenuItem("Vie");
         menu.getItems().add(item3);
-        if (ikkuna.annaTaso() != 3) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
             item3.setDisable(true);
         }
         //tiedostosta luku, VAIN PÄÄITEMIIN
         MenuItem item4 = new MenuItem("Tuo");
         menu.getItems().add(item4);
-        if (ikkuna.annaTaso() != 3) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
             item4.setDisable(true);
         }
 

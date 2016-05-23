@@ -42,7 +42,7 @@ import tupa.nakymat.Pysyvat;
  */
 public class Tupa extends Application {
 
-    //käyttöoikeudet 1 = vain turnauksen tietojen katselu, 2 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 3=turnauksen ylläpitäjä
+    //käyttöoikeudet 0 = vain turnauksen tietojen katselu, 1 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 2=lisenssin ostanut käyttäjä, joka voi luoda max 5 turnausta ja hallita niitä, 3=yleinen ylläpitäjä
     private int taso = 0;
    
     //käyttäjän id muistiin

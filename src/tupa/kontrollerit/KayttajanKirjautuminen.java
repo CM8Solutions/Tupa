@@ -25,33 +25,36 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import java.security.spec.KeySpec;
+import java.sql.PreparedStatement;
+import java.util.Base64;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import tupa.Tupa;
 import tupa.nakymat.PaaNakyma;
-
 /**
  *
  * @author Marianne
  */
 public class KayttajanKirjautuminen extends Stage {
-    
+
     private Yhteys yhteys = new Yhteys();
     private Connection con = null;
     private Statement st = null;
+    private Statement st2 = null;
     private String sql = "";
     private Tupa ikkuna;
-    
-    public KayttajanKirjautuminen(Stage owner, Tupa ikkuna){
-      
-     super();
-       this.ikkuna = ikkuna;
-        initOwner(owner);
-           setTitle("TUPA \t - \t Tulospalvelu");
- 
 
-       this.getIcons().add(new Image("kuvat/icon.png"));
+    public KayttajanKirjautuminen(Stage owner, Tupa ikkuna) {
+
+        super();
+        this.ikkuna = ikkuna;
+        initOwner(owner);
+        setTitle("TUPA \t - \t Tulospalvelu");
+
+        this.getIcons().add(new Image("kuvat/icon.png"));
         BorderPane alue = new BorderPane();
         alue.setPadding(new Insets(10, 50, 50, 50));
-      
 
         HBox hb = new HBox();
         hb.setPadding(new Insets(20, 20, 0, 30));
@@ -65,14 +68,14 @@ public class KayttajanKirjautuminen extends Stage {
         TextField ts = new TextField();
         Label salasana = new Label("Salasana");
         PasswordField ss = new PasswordField();
-        
+
         Button nappula = new Button("Kirjaudu");
 
         Label viesti = new Label();
 
         gridPane.add(tunnus, 0, 0);
         gridPane.add(ts, 1, 0);
-            gridPane.add(salasana, 0, 1);
+        gridPane.add(salasana, 0, 1);
         gridPane.add(ss, 1, 1);
         gridPane.add(nappula, 1, 2);
         gridPane.add(viesti, 1, 3);
@@ -94,47 +97,114 @@ public class KayttajanKirjautuminen extends Stage {
             public void handle(ActionEvent event) {
 
                 String syotetty_tunnus = ts.getText().toString();
-             String syotetty_salasana = ss.getText().toString();
-              
-                
-              
-                
+                String syotetty_salasana = ss.getText().toString();
+
                 try {
 
                     con = yhteys.annaYhteys();
                     st = con.createStatement();
+                    st2 = con.createStatement();
+    
+                    sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = ?";
 
-                    sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = '" + syotetty_tunnus + "' AND salasana = '" + syotetty_salasana + "'";
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    stmt.setString(1, syotetty_tunnus);
 
-                    ResultSet haetut_rivit = st.executeQuery(sql);
-                    int laskuri = 0;
-                    int taso = 0;
-                    int kayttaja_id = 0;
-                    while (haetut_rivit.next()) {
-                        laskuri++;
-                        taso = haetut_rivit.getInt("taso");
-                        kayttaja_id = haetut_rivit.getInt("id");
+                    ResultSet tunnukset = stmt.executeQuery();
+                    
+                    //haetaan ensin ko tunnuksen salt
+                    String salt = "";
+
+                    
+                    while (tunnukset.next()) {
+
+                        salt = tunnukset.getString("salt");
+
                     }
                     
-                    if(laskuri == 1){
-                   
-                        ikkuna.asetaTaso(taso);
-                         ikkuna.asetaKayttajaID(kayttaja_id);
-                          Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                    tiedottaja.annaIlmoitus("Kirjautuminen onnistui!");
                     
-                          close();
+                    if (salt != null) {
+                        //muutetaan tavuiksi
+                        byte[] salt_byte = salt.getBytes();
+
+                        //hashataan tällä syötetty salasana, jota verrataan tietokantaan tallennetuun häshii..
+                        KeySpec spec = new PBEKeySpec(syotetty_salasana.toCharArray(), salt_byte, 65536, 128);
+                        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+                        byte[] hash = f.generateSecret(spec).getEncoded();
+                        Base64.Encoder enc = Base64.getEncoder();
+                       
+                        sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = ? AND salasana = ?";
+
+                        PreparedStatement stmt2 = con.prepareStatement(sql);
+                        stmt2.setString(1, syotetty_tunnus);
+                        stmt2.setString(2, enc.encodeToString(hash));
+
+                        ResultSet haetut_rivit = stmt2.executeQuery();
+                        int laskuri = 0;
+                        int taso = 0;
+                        int kayttaja_id = 0;
+                        String tunnus="";
+                        while (haetut_rivit.next()) {
+                            laskuri++;
+                            taso = haetut_rivit.getInt("taso");
+                            kayttaja_id = haetut_rivit.getInt("id");
+                            tunnus = haetut_rivit.getString("tunnus");
+                        }
+
+                        if (laskuri == 1) {
+
+                            ikkuna.asetaTaso(taso);
+                            ikkuna.asetaKayttajaID(kayttaja_id);
+                            Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                            
+                            tiedottaja.kirjoitaLoki("Käyttäjä "+tunnus+ " kirjautui sisään.");
+
+                            close();
+                        } else {
+
+                            viesti.setText("Väärä tunnus tai salasana.");
+                            viesti.setTextFill(Color.RED);
+
+                        }
+
+                        ss.setText("");
+
                     }
-                  else {
+                    else{
+                        
+                        //Tällä hetkellä yleisen ylläpitäjän salasanaa ei ole häshätty
+                        sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = '" + syotetty_tunnus + "' AND salasana = '" +syotetty_salasana +"'";
+                         ResultSet haetut_rivit = st.executeQuery(sql);
+                        int laskuri = 0;
+                        int taso = 0;
+                        int kayttaja_id = 0;
+                        String tunnus ="";
+                        while (haetut_rivit.next()) {
+                            laskuri++;
+                            taso = haetut_rivit.getInt("taso");
+                            kayttaja_id = haetut_rivit.getInt("id");
+                            tunnus = haetut_rivit.getString("tunnus");
+                        }
 
-                        viesti.setText("Väärä tunnus tai salasana.");
-                        viesti.setTextFill(Color.RED);
+                        if (laskuri == 1) {
+
+                            ikkuna.asetaTaso(taso);
+                            ikkuna.asetaKayttajaID(kayttaja_id);
+                            Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                            tiedottaja.kirjoitaLoki("Käyttäjä "+tunnus+ " kirjautui sisään.");
+
+                            close();
+                        } else {
+
+                            viesti.setText("Väärä tunnus tai salasana.");
+                            viesti.setTextFill(Color.RED);
+
+                        }
+
+                        ss.setText("");
 
                     }
 
-                    ss.setText("");
-
-                
                 } catch (SQLException se) {
 
                     se.printStackTrace();
@@ -158,48 +228,44 @@ public class KayttajanKirjautuminen extends Stage {
                     }
                 }
 
-     
             }
         });
 
-          VBox hb2 = new VBox();
+        VBox hb2 = new VBox();
         hb2.setPadding(new Insets(10, 20, 0, 30));
         hb2.setSpacing(20);
-        
-         Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta rajoitetuimmilla oikeuksilla.");
+
+        Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta rajoitetuimmilla oikeuksilla.");
         text2.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
         text2.setEffect(dropShadow);
 
-        
         hb2.getChildren().add(text2);
-         Button nappula2 = new Button("Jatka kirjautumatta");
-         nappula2.setOnAction(new EventHandler<ActionEvent>() {
+        Button nappula2 = new Button("Jatka kirjautumatta");
+        nappula2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                 nakyma.luoEtusivuTyhja();
                 close();
             }
-              });
+        });
         hb2.getChildren().add(nappula2);
         alue.setTop(hb);
         alue.setCenter(gridPane);
-          alue.setBottom(hb2);
-           Scene scene = new Scene(alue);
-          scene.getStylesheets().add("css/tyylit.css");
-           setScene(scene);
-        
+        alue.setBottom(hb2);
+        Scene scene = new Scene(alue);
+        scene.getStylesheets().add("css/tyylit.css");
+        setScene(scene);
+
         this.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
             public void handle(WindowEvent we) {
 
-            
-                    Platform.exit();
-
+                Platform.exit();
 
             }
         });
-        
+
     }
-    
+
 }

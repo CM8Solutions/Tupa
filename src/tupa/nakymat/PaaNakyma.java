@@ -155,7 +155,7 @@ public class PaaNakyma {
             }
         });
         grid.setAlignment(Pos.CENTER);
-        if(ikkuna.annaTaso() == 3)
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
         grid.add(uusi, 1, 1);
 
         ikkuna.annaNaytto().getChildren().add(grid);
@@ -248,7 +248,7 @@ public class PaaNakyma {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(0, 0, 0, 300));
        
-      if(ikkuna.annaTaso() == 3)
+      if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
         grid.add(muokkausnappula, 2, 1);
         grid.add(nimipalkki, 1, 1);
 
@@ -337,8 +337,9 @@ public class PaaNakyma {
 
         Haku haku = new Haku((Turnaus) ikkuna.annaTurnaus(), this);
 
+        if(ikkuna.muutettu()){
         Tallennus tallennus = new Tallennus(ikkuna);
-        tallennus.asetaPoisto(false);
+      
         try {
             tallennus.suoritaTallennus();
         } catch (InstantiationException ex) {
@@ -348,7 +349,7 @@ public class PaaNakyma {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        }
         tulos = haku.luoHakuTulos(hakusana);
 
         hakupalkki.getChildren().add(otsikko);

@@ -209,7 +209,11 @@ public class Varmistaja {
                 parentSarjat.getChildren().clear();
                 parentTuomarit.getChildren().clear();
                 ikkuna.annaPaaNakyma().luoEtusivu();
+                Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                          tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
+                     ikkuna.asetaAloitus(false);        
                 stageV.close();
+
             }
         });
 

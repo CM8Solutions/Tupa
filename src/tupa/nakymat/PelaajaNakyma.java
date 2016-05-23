@@ -134,7 +134,7 @@ public class PelaajaNakyma {
 
         painike.setPadding(new Insets(20));
 
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaJoukkueID() == joukkue_id)
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
         painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
         else
                painike.getChildren().addAll(paluunappula); 

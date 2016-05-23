@@ -2047,9 +2047,7 @@ public class Taulukko {
     }
 
     public TableView luoTurnausTaulukko() throws SQLException {
-        
-       
-         
+      
         taulukko.setPlaceholder(new Label("Ei tallennettuja turnauksia"));
         taulukko.setId("my-table");
         List<Turnaus> turnauslista = new ArrayList<>();
@@ -2058,7 +2056,9 @@ public class Taulukko {
         con = yhteys.annaYhteys();
       st = con.createStatement();
       
-        sql = "SELECT * FROM turnaus";
+      //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
+      if(ikkuna.annaTaso() == 1 || ikkuna.annaTaso() == 2){
+                sql = "SELECT * FROM turnaus, kayttajan_turnaus WHERE turnaus.id = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + ikkuna.annaKayttajaID() + "'";
 
             ResultSet turnaukset = st.executeQuery(sql);
 
@@ -2076,6 +2076,30 @@ public class Taulukko {
                 
                 turnauslista.add(turnaus);
             }
+          
+      }
+      
+      //yleiselle ylläpitäjälle ja kirjautumattomille käyttäjille näytetään kaikki järjestelmässä olevat turnaukset
+      else{
+                sql = "SELECT * FROM turnaus";
+
+            ResultSet turnaukset = st.executeQuery(sql);
+
+            while (turnaukset.next()) {
+                String nimi = turnaukset.getString("nimi");
+                String luomispvm = turnaukset.getString("luomispvm");
+                int id = turnaukset.getInt("id");
+                
+                Turnaus turnaus = new Turnaus();
+                turnaus.asetaID(id);
+                turnaus.asetaNimi(nimi);
+                turnaus.asetaLuomispvm(luomispvm);
+                turnaus.asetaTaulukkonimi();
+                turnaus.asetaTaulukkoluomispvm();
+                
+                turnauslista.add(turnaus);
+            }
+      }
       
               ObservableList<Turnaus> data
                 = FXCollections.observableArrayList(turnauslista);
