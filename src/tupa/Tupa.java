@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.stage.WindowEvent;
 import static javafx.application.Application.launch;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import tupa.data.Kohde;
 import tupa.data.Turnaus;
 import tupa.data.Sarja;
@@ -149,13 +151,18 @@ nakyma.luoEtusivuTyhja();
 
         border.setCenter(keski);
 
-        Scene scene = new Scene(border, 800, 400);
+      
+        
+         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+     Scene scene = new Scene(border, screenBounds.getWidth(), screenBounds.getHeight());
+        
         primaryStage.setTitle("TUPA \t - \t Tulospalvelu");
         scene.getStylesheets().add("css/tyylit.css");
 
         primaryStage.getIcons().add(new Image("kuvat/icon.png"));
         primaryStage.setScene(scene);
         Platform.setImplicitExit(false);
+       
         primaryStage.show();
         Varmistaja varmista = new Varmistaja(kohdetk, this);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

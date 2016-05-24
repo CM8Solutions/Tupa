@@ -28,10 +28,13 @@ import javafx.stage.WindowEvent;
 import java.security.spec.KeySpec;
 import java.sql.PreparedStatement;
 import java.util.Base64;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import tupa.Tupa;
 import tupa.nakymat.PaaNakyma;
+
 /**
  *
  * @author Marianne
@@ -57,7 +60,7 @@ public class KayttajanKirjautuminen extends Stage {
         alue.setPadding(new Insets(10, 50, 50, 50));
 
         HBox hb = new HBox();
-        hb.setPadding(new Insets(20, 20, 0, 30));
+        hb.setPadding(new Insets(0, 20, 0, 10));
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20, 20, 0, 20));
@@ -84,11 +87,30 @@ public class KayttajanKirjautuminen extends Stage {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        Text text = new Text("Kirjaudu TUPA-ohjelmaan antamalla käyttäjätunnus ja salasana.");
+        HBox otsikkorivi = new HBox();
+        otsikkorivi.setSpacing(60);
+
+        HBox tekstiboxi = new HBox();
+        tekstiboxi.setAlignment(Pos.CENTER);
+        
+        HBox kuvaboxi = new HBox();
+        kuvaboxi.setAlignment(Pos. TOP_LEFT);
+        
+        ImageView selectedImage = new ImageView();
+        Image image1 = new Image("kuvat/login.png");
+        selectedImage.setImage(image1);
+        selectedImage.setFitHeight(150);
+        selectedImage.setFitWidth(150);
+     
+
+        Label text = new Label("Kirjaudu TUPA-ohjelmaan antamalla käyttäjätunnus ja salasana.");
         text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         text.setEffect(dropShadow);
 
-        hb.getChildren().add(text);
+         tekstiboxi.getChildren().addAll(text);
+          kuvaboxi.getChildren().addAll(selectedImage);
+        otsikkorivi.getChildren().addAll(tekstiboxi, kuvaboxi);
+        hb.getChildren().add(otsikkorivi);
 
         alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
 
@@ -104,25 +126,23 @@ public class KayttajanKirjautuminen extends Stage {
                     con = yhteys.annaYhteys();
                     st = con.createStatement();
                     st2 = con.createStatement();
-    
+
                     sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = ?";
 
                     PreparedStatement stmt = con.prepareStatement(sql);
                     stmt.setString(1, syotetty_tunnus);
 
                     ResultSet tunnukset = stmt.executeQuery();
-                    
+
                     //haetaan ensin ko tunnuksen salt
                     String salt = "";
 
-                    
                     while (tunnukset.next()) {
 
                         salt = tunnukset.getString("salt");
 
                     }
-                    
-                    
+
                     if (salt != null) {
                         //muutetaan tavuiksi
                         byte[] salt_byte = salt.getBytes();
@@ -132,7 +152,7 @@ public class KayttajanKirjautuminen extends Stage {
                         SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
                         byte[] hash = f.generateSecret(spec).getEncoded();
                         Base64.Encoder enc = Base64.getEncoder();
-                       
+
                         sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = ? AND salasana = ?";
 
                         PreparedStatement stmt2 = con.prepareStatement(sql);
@@ -143,7 +163,7 @@ public class KayttajanKirjautuminen extends Stage {
                         int laskuri = 0;
                         int taso = 0;
                         int kayttaja_id = 0;
-                        String tunnus="";
+                        String tunnus = "";
                         while (haetut_rivit.next()) {
                             laskuri++;
                             taso = haetut_rivit.getInt("taso");
@@ -156,8 +176,8 @@ public class KayttajanKirjautuminen extends Stage {
                             ikkuna.asetaTaso(taso);
                             ikkuna.asetaKayttajaID(kayttaja_id);
                             Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                            
-                            tiedottaja.kirjoitaLoki("Käyttäjä "+tunnus+ " kirjautui sisään.");
+
+                            tiedottaja.kirjoitaLoki("Käyttäjä " + tunnus + " kirjautui sisään.");
 
                             close();
                         } else {
@@ -169,16 +189,15 @@ public class KayttajanKirjautuminen extends Stage {
 
                         ss.setText("");
 
-                    }
-                    else{
-                        
+                    } else {
+
                         //Tällä hetkellä yleisen ylläpitäjän salasanaa ei ole häshätty
-                        sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = '" + syotetty_tunnus + "' AND salasana = '" +syotetty_salasana +"'";
-                         ResultSet haetut_rivit = st.executeQuery(sql);
+                        sql = "SELECT DISTINCT * FROM kayttaja WHERE tunnus = '" + syotetty_tunnus + "' AND salasana = '" + syotetty_salasana + "'";
+                        ResultSet haetut_rivit = st.executeQuery(sql);
                         int laskuri = 0;
                         int taso = 0;
                         int kayttaja_id = 0;
-                        String tunnus ="";
+                        String tunnus = "";
                         while (haetut_rivit.next()) {
                             laskuri++;
                             taso = haetut_rivit.getInt("taso");
@@ -191,7 +210,7 @@ public class KayttajanKirjautuminen extends Stage {
                             ikkuna.asetaTaso(taso);
                             ikkuna.asetaKayttajaID(kayttaja_id);
                             Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                            tiedottaja.kirjoitaLoki("Käyttäjä "+tunnus+ " kirjautui sisään.");
+                            tiedottaja.kirjoitaLoki("Käyttäjä " + tunnus + " kirjautui sisään.");
 
                             close();
                         } else {
@@ -236,7 +255,7 @@ public class KayttajanKirjautuminen extends Stage {
         hb2.setSpacing(20);
 
         Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta, jolloin käytössäsi ovat rajoitetuimmat oikeudet.");
-        text2.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
+        text2.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
         text2.setEffect(dropShadow);
 
         hb2.getChildren().add(text2);

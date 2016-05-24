@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -77,11 +79,11 @@ public class Kirjautuminen {
             con = yhteys.annaYhteys();
             st2 = con.createStatement();
 
-            if(ikkuna.annaTaso() !=0){
-                
+            if (ikkuna.annaTaso() != 0) {
+
                 //joukkueen ylläpitäjälle joukkueen tiedot
-                if(ikkuna.annaTaso() == 1){
-                      sql = "SELECT DISTINCT * FROM kayttajan_turnaus WHERE turnaus_id = '" + turnaus_id + "' AND kayttaja_id = '" + kayttaja_id + "'";
+                if (ikkuna.annaTaso() == 1) {
+                    sql = "SELECT DISTINCT * FROM kayttajan_turnaus WHERE turnaus_id = '" + turnaus_id + "' AND kayttaja_id = '" + kayttaja_id + "'";
 
                     ResultSet haetut_rivit = st2.executeQuery(sql);
                     int laskuri = 0;
@@ -91,7 +93,7 @@ public class Kirjautuminen {
                         joukkue_id = haetut_rivit.getInt("joukkue_id");
                     }
 
-                ikkuna.asetaJoukkueID(joukkue_id);
+                    ikkuna.asetaJoukkueID(joukkue_id);
                 }
 
                 Avaus avaaja = new Avaus(turnaus, ikkuna);
@@ -107,16 +109,14 @@ public class Kirjautuminen {
                     Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-            } 
-            
-            else {
+            } else {
                 Stage stage = new Stage();
                 BorderPane alue = new BorderPane();
                 alue.setPadding(new Insets(10, 50, 50, 50));
                 stage.getIcons().add(new Image("kuvat/icon.png"));
 
                 HBox hb = new HBox();
-                hb.setPadding(new Insets(20, 20, 0, 30));
+                hb.setPadding(new Insets(0, 20, 0, 10));
 
                 GridPane gridPane = new GridPane();
                 gridPane.setPadding(new Insets(20, 20, 0, 20));
@@ -139,11 +139,29 @@ public class Kirjautuminen {
                 dropShadow.setOffsetX(5);
                 dropShadow.setOffsetY(5);
 
+                HBox otsikkorivi = new HBox();
+                otsikkorivi.setSpacing(60);
+
+                HBox tekstiboxi = new HBox();
+                tekstiboxi.setAlignment(Pos.CENTER);
+
+                HBox kuvaboxi = new HBox();
+                kuvaboxi.setAlignment(Pos.TOP_LEFT);
+
+                ImageView selectedImage = new ImageView();
+                Image image1 = new Image("kuvat/password.png");
+                selectedImage.setImage(image1);
+                selectedImage.setFitHeight(60);
+                selectedImage.setFitWidth(60);
+
                 Text text = new Text("Anna turnaukseen " + turnaus.toString() + " liittyvä salasana.");
                 text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
                 text.setEffect(dropShadow);
 
-                hb.getChildren().add(text);
+                tekstiboxi.getChildren().addAll(text);
+                kuvaboxi.getChildren().addAll(selectedImage);
+                otsikkorivi.getChildren().addAll(tekstiboxi, kuvaboxi);
+                hb.getChildren().add(otsikkorivi);
 
                 alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
 
@@ -171,62 +189,57 @@ public class Kirjautuminen {
 
                             }
                             if (salt != null) {
-                        //muutetaan tavuiksi
-                                  byte[] salt_byte = salt.getBytes();
+                                //muutetaan tavuiksi
+                                byte[] salt_byte = salt.getBytes();
 
                                 //hashataan tällä syötetty salasana, jota verrataan tietokantaan tallennetuun häshii..
                                 KeySpec spec = new PBEKeySpec(syotetty_salasana.toCharArray(), salt_byte, 65536, 128);
                                 SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
                                 byte[] hash = f.generateSecret(spec).getEncoded();
                                 Base64.Encoder enc = Base64.getEncoder();
-                       
-                                 sql = "SELECT DISTINCT * FROM turnauksen_salasana WHERE turnaus_id = ? AND salasana = ?";
 
-                        PreparedStatement stmt2 = con.prepareStatement(sql);
-                        stmt2.setInt(1, turnaus_id);
-                        stmt2.setString(2, enc.encodeToString(hash));
+                                sql = "SELECT DISTINCT * FROM turnauksen_salasana WHERE turnaus_id = ? AND salasana = ?";
 
-                        ResultSet haetut_rivit = stmt2.executeQuery();
-                        int laskuri = 0;
-                       
-                        while (haetut_rivit.next()) {
-                            laskuri++;
-                          
-                        
-                        }
+                                PreparedStatement stmt2 = con.prepareStatement(sql);
+                                stmt2.setInt(1, turnaus_id);
+                                stmt2.setString(2, enc.encodeToString(hash));
 
-                        if (laskuri == 1) {
-                           
-                                Avaus avaaja = new Avaus(turnaus, ikkuna);
-                                try {
-                                    avaaja.avaa();
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (InstantiationException ex) {
-                                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (IllegalAccessException ex) {
-                                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                ResultSet haetut_rivit = stmt2.executeQuery();
+                                int laskuri = 0;
+
+                                while (haetut_rivit.next()) {
+                                    laskuri++;
+
                                 }
 
-                                stage.close();
+                                if (laskuri == 1) {
 
-                            } else {
+                                    Avaus avaaja = new Avaus(turnaus, ikkuna);
+                                    try {
+                                        avaaja.avaa();
+                                    } catch (SQLException ex) {
+                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (ClassNotFoundException ex) {
+                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (InstantiationException ex) {
+                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (IllegalAccessException ex) {
+                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
 
-                                viesti.setText("Väärä salasana.");
-                                viesti.setTextFill(Color.RED);
+                                    stage.close();
+
+                                } else {
+
+                                    viesti.setText("Väärä salasana.");
+                                    viesti.setTextFill(Color.RED);
+
+                                }
+
+                                ss.setText("");
 
                             }
 
-                            ss.setText("");
-
-
-                    }
-    
-                            
-                            
-                            
                         } catch (SQLException se) {
 
                             se.printStackTrace();
@@ -296,7 +309,7 @@ public class Kirjautuminen {
         stage.getIcons().add(new Image("kuvat/icon.png"));
 
         HBox hb = new HBox();
-        hb.setPadding(new Insets(20, 20, 20, 30));
+        hb.setPadding(new Insets(0, 20, 0, 10));
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20, 20, 20, 20));
@@ -323,11 +336,29 @@ public class Kirjautuminen {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        Text text = new Text("Syötä turnaukseen " + turnaus.toString() + " liittyvä salasana.");
+        HBox otsikkorivi = new HBox();
+        otsikkorivi.setSpacing(60);
+
+        HBox tekstiboxi = new HBox();
+        tekstiboxi.setAlignment(Pos.CENTER);
+
+        HBox kuvaboxi = new HBox();
+        kuvaboxi.setAlignment(Pos.TOP_LEFT);
+
+        ImageView selectedImage = new ImageView();
+        Image image1 = new Image("kuvat/password.png");
+        selectedImage.setImage(image1);
+        selectedImage.setFitHeight(120);
+        selectedImage.setFitWidth(120);
+
+        Text text = new Text("Valitse turnaukseen " + turnaus.toString() + " liittyvä salasana.");
         text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         text.setEffect(dropShadow);
 
-        hb.getChildren().add(text);
+        tekstiboxi.getChildren().addAll(text);
+        kuvaboxi.getChildren().addAll(selectedImage);
+        otsikkorivi.getChildren().addAll(tekstiboxi, kuvaboxi);
+        hb.getChildren().add(otsikkorivi);
 
         alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
 
@@ -394,8 +425,6 @@ public class Kirjautuminen {
                         //turnauksen luoja saa kaikki oikeudet
                         st.executeUpdate("INSERT INTO kayttajan_turnaus  (turnaus_id, kayttaja_id)  VALUES ('" + turnaus_id + "', '" + kayttaja_id + "')");
 
-                     
-                        
                         Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
                         tiedottaja.annaIlmoitus("Turnauksen " + turnaus.toString() + " salasana tallennettu!");
                         Tallennus tallenna = new Tallennus(ikkuna);
@@ -470,19 +499,19 @@ public class Kirjautuminen {
         PasswordField ss2 = new PasswordField();
 
         Button nappula = new Button("Tallenna");
-       Button peruuta = new Button("Peruuta");
-        
-               nappula.setOnAction(new EventHandler<ActionEvent>() {
+        Button peruuta = new Button("Peruuta");
+
+        nappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-              
+
                 PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                 nakyma.luoEtusivuTyhja();
-                
+
             }
-              
+
         });
-        
+
         Label viesti = new Label();
 
         gridPane.add(tunnus, 0, 0);
@@ -492,7 +521,7 @@ public class Kirjautuminen {
         gridPane.add(salasana2, 0, 2);
         gridPane.add(ss2, 1, 2);
         gridPane.add(nappula, 1, 3);
-          gridPane.add(peruuta, 2, 3);
+        gridPane.add(peruuta, 2, 3);
         gridPane.add(viesti, 1, 4);
 
         DropShadow dropShadow = new DropShadow();
@@ -682,19 +711,18 @@ public class Kirjautuminen {
 
         Button nappula = new Button("Tallenna");
         Button peruuta = new Button("Peruuta");
-        
-               nappula.setOnAction(new EventHandler<ActionEvent>() {
+
+        nappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-              
+
                 PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                 nakyma.luoEtusivuTyhja();
-                
+
             }
-              
+
         });
-        
-        
+
         Label viesti = new Label();
 
         gridPane.add(tunnus, 0, 0);
@@ -704,7 +732,7 @@ public class Kirjautuminen {
         gridPane.add(salasana2, 0, 2);
         gridPane.add(ss2, 1, 2);
         gridPane.add(nappula, 1, 3);
-         gridPane.add(peruuta, 2, 3);
+        gridPane.add(peruuta, 2, 3);
         gridPane.add(viesti, 1, 4);
 
         DropShadow dropShadow = new DropShadow();
@@ -794,8 +822,6 @@ public class Kirjautuminen {
                             stmt3.setString(1, enc.encodeToString(hash));
                             stmt3.setString(2, syotetty_tunnus);
                             stmt3.executeUpdate();
-
-                          
 
                             Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
                             tiedottaja.annaIlmoitus("Käyttäjä lisätty järjestelmään onnistuneesti.");
