@@ -65,12 +65,15 @@ public class Ottelu implements Serializable {
     private transient ObjectProperty<Joukkue> taulukkokotijoukkue = new SimpleObjectProperty();
     private transient ObjectProperty<Joukkue> taulukkovierasjoukkue = new SimpleObjectProperty();
 
+    public Ottelu(){
+        
+    }
 
 
     public Ottelu(Sarja sarja) {
         this.sarja = sarja;
-        laskuri++;
-        id = laskuri;
+
+        id = laskuri+1;
         otteluNumero = 88 + laskuri;
         tulos = "-";
 
@@ -92,7 +95,9 @@ public class Ottelu implements Serializable {
         this.nimi = (this.kotijoukkue.toString() + " - " + this.vierasjoukkue.toString());
         return nimi;
     }
-
+  public void vahennaLaskuria(){
+        laskuri--;
+    }
     public int annaKierros() {
         return kierros;
     }
@@ -113,10 +118,20 @@ public class Ottelu implements Serializable {
         return laskuri;
     }
 
+           public int annaLaskuri() {
+        return laskuri;
+    }
+
+    public void asetaLaskuri(int laskuri) {
+        this.laskuri = laskuri;
+    }
     public int annaId() {
         return id;
     }
-
+   public void kasvataLaskuria(){
+        laskuri++;
+    }
+    
     public int annaOtteluNumero() {
         return otteluNumero;
     }
@@ -185,7 +200,9 @@ public class Ottelu implements Serializable {
         vierasjoukkue.annaOttelut().add(this);
         this.nimi = (this.kotijoukkue.toString() + " - " + this.vierasjoukkue.toString());
         koti_kokoonpano = new Kokoonpano(this, this.kotijoukkue);
+        koti_kokoonpano.kasvataLaskuria();
         vieras_kokoonpano = new Kokoonpano(this, this.vierasjoukkue);
+          vieras_kokoonpano.kasvataLaskuria();
     }
 
     public Joukkue annaKotijoukkue() {
@@ -453,6 +470,7 @@ public class Ottelu implements Serializable {
             }
 
         } else {
+            rooli.kasvataLaskuria();
             rooli.asetaOttelu(this);
             rooli.asetaTuomari(uusierotuomari);
             rooli.asetaRooli("Erotuomari");
@@ -499,6 +517,7 @@ public class Ottelu implements Serializable {
             }
 
         } else {
+              rooli.kasvataLaskuria();
             rooli.asetaOttelu(this);
             rooli.asetaTuomari(uusiavustava);
             rooli.asetaRooli("1. Avustava erotuomari");
@@ -545,6 +564,7 @@ public class Ottelu implements Serializable {
             }
 
         } else {
+              rooli.kasvataLaskuria();
             rooli.asetaOttelu(this);
             rooli.asetaTuomari(uusiavustava);
             rooli.asetaRooli("2. Avustava erotuomari");

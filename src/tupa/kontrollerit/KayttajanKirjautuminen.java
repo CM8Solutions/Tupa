@@ -57,7 +57,7 @@ public class KayttajanKirjautuminen extends Stage {
 
         this.getIcons().add(new Image("kuvat/icon.png"));
         BorderPane alue = new BorderPane();
-        alue.setPadding(new Insets(10, 50, 50, 50));
+        alue.setPadding(new Insets(10, 30, 50, 30));
 
         HBox hb = new HBox();
         hb.setPadding(new Insets(0, 20, 0, 10));
@@ -99,11 +99,11 @@ public class KayttajanKirjautuminen extends Stage {
         ImageView selectedImage = new ImageView();
         Image image1 = new Image("kuvat/login.png");
         selectedImage.setImage(image1);
-        selectedImage.setFitHeight(150);
-        selectedImage.setFitWidth(150);
+        selectedImage.setFitHeight(120);
+        selectedImage.setFitWidth(120);
      
 
-        Label text = new Label("Kirjaudu TUPA-ohjelmaan antamalla käyttäjätunnus ja salasana.");
+        Label text = new Label("Kirjaudu TUPA-tulospalveluun antamalla käyttäjätunnus ja salasana.");
         text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         text.setEffect(dropShadow);
 

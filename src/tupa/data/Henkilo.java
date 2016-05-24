@@ -10,11 +10,11 @@ public class Henkilo extends Kohde {
     private String etunimi;
     // 1-64 kirjainta, vain isot ja pienet kirjaimet, yks tai useampi tavuviiva    
     private String sukunimi;  
-    private static int heLaskuri;
+   
 
     
     public Henkilo(){
-        heLaskuri++;      
+        
     }
   
   public Henkilo(String etunimi, String sukunimi, String nimi){
@@ -55,13 +55,7 @@ public class Henkilo extends Kohde {
         return sukunimi;
         
     }
-    
-      
-    public int annaHenkiloMaara(){
-        
-        return heLaskuri;
-        
-    }
+
     
    public String annaKokoNimi() {
         return (etunimi + " " + sukunimi);

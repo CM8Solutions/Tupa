@@ -35,26 +35,28 @@ public class Joukkue extends Kohde {
     private List<Integer> paastetyt = new ArrayList<Integer>();
 
     public Joukkue() {
-
-        joLaskuri++;
-        asetaID(joLaskuri);
-
+        asetaID(joLaskuri + 1);
     }
 
     public Joukkue(String nimi) {
-
         super(nimi);
-        joLaskuri++;
-        asetaID(joLaskuri);
-
+        asetaID(joLaskuri + 1);
     }
 
     public int annaLaskuri() {
         return joLaskuri;
     }
 
+    public void kasvataLaskuria() {
+        joLaskuri++;
+    }
+
     public void asetaLaskuri(int laskuri) {
         this.joLaskuri = laskuri;
+    }
+
+    public void vahennaLaskuria() {
+        joLaskuri--;
     }
 
     public StringProperty taulukkonimiProperty() {

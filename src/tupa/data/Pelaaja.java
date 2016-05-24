@@ -38,22 +38,24 @@ public class Pelaaja extends Henkilo {
 
     public Pelaaja() {
 
-        peLaskuri++;
         id_julkinen = 85000 + peLaskuri;
-        asetaID(peLaskuri);
+        asetaID(peLaskuri+1);
     }
 
     public Pelaaja(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
-        peLaskuri++;
+   
         id_julkinen = 85000 + peLaskuri;
-        asetaID(peLaskuri);
+        asetaID(peLaskuri+1);
     }
 
     public List<Maali> annaMaaliLista() {
         return maalit;
     }
-
+   public void kasvataLaskuria(){
+        peLaskuri++;
+    }
+    
     public int annaLaskuri() {
         return peLaskuri;
     }
@@ -70,7 +72,9 @@ public class Pelaaja extends Henkilo {
         this.id_julkinen = id;
     }
 
-    
+      public void vahennaLaskuria(){
+        peLaskuri--;
+    }
     public Joukkue annaJoukkue() {
         return joukkue;
     }

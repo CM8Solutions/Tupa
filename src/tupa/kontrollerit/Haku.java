@@ -119,7 +119,7 @@ public class Haku {
                 }
 
                 //joukkueet
-                sql = "SELECT DISTINCT * FROM sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id) AND (joukkue.nimi LIKE ?))";
+                sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id) AND (joukkue.nimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
@@ -134,19 +134,21 @@ public class Haku {
                 ObservableList<Kohde> joukkueetL;
                 boolean joukkueloyty = false;
                 while (joukkueet.next()) {
-//                    loyty = true;
-//                       joukkueloyty = true;
-//                    int sid = sarjat.getInt("id");
-//
-//                    for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
-//
-//                        if (turnaus.annaSarjat().get(i).annaID() == sid) {
-//                            Kohde joukkuet = turnaus.annaSarjat().get(i);
-//                            joukkuelista.add(joukkue);
-//
-//                        }
-//
-//                    }
+                    loyty = true;
+                    joukkueloyty = true;
+                    int jid = joukkueet.getInt("jid");
+                    for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
+                        Sarja sarja = turnaus.annaSarjat().get(i);
+                        for (int j = 0; j < sarja.annaJoukkueet().size(); j++) {
+                            if (sarja.annaJoukkueet().get(j).annaID() == jid) {
+                                Kohde joukkue = sarja.annaJoukkueet().get(j);
+                                joukkuelista.add(joukkue);
+
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -166,13 +168,13 @@ public class Haku {
                 }
 
                 //pelaajat
-                sql = "SELECT DISTINCT * FROM pelaaja, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id) AND (pelaaja.etunimi LIKE ? OR pelaaja.sukunimi LIKE ?))";
+                sql = "SELECT DISTINCT pelaaja.id as pid FROM pelaaja, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id) AND (pelaaja.etunimi LIKE ? OR pelaaja.sukunimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
                 pst.setString(3, "%" + hakusana + "%");
 
-                ResultSet palaajat = pst.executeQuery();
+                ResultSet pelaajat = pst.executeQuery();
 
                 ListView pelaajatulokset = new ListView();
                 List<Kohde> pelaajalista = new ArrayList<>();
@@ -181,21 +183,26 @@ public class Haku {
 
                 ObservableList<Kohde> pelaajatL;
                 boolean pelaajaloyty = false;
-                while (sarjat.next()) {
-//                    loyty = true;
-//                    pelaajaloyty = true;
-//                    int sid = sarjat.getInt("id");
-//
-//                    for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
-//
-//                        if (turnaus.annaSarjat().get(i).annaID() == sid) {
-//                            Kohde pelaaja = turnaus.annaSarjat().get(i);
-//                            pelaajalista.add(pelaaja);
-//
-//                        }
-//
-//                    }
+                while (pelaajat.next()) {
+                    loyty = true;
+                    pelaajaloyty = true;
+                    int pid = pelaajat.getInt("pid");
+                    for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
+                        Sarja sarja = turnaus.annaSarjat().get(i);
+                        for (int j = 0; j < sarja.annaJoukkueet().size(); j++) {
+                            Joukkue joukkue = sarja.annaJoukkueet().get(j);
 
+                            for (int k = 0; k < joukkue.annaPelaajat().size(); k++) {
+                                if (joukkue.annaPelaajat().get(k).annaID() == pid) {
+                                    Kohde pelaaja = joukkue.annaPelaajat().get(k);
+                                    pelaajalista.add(pelaaja);
+
+                                }
+                            }
+
+                        }
+
+                    }
                 }
 
                 pelaajatL = FXCollections.observableArrayList(pelaajalista);
@@ -214,7 +221,7 @@ public class Haku {
                 }
 
                 //toimihenkilöt
-                sql = "SELECT DISTINCT * FROM toimari, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id) AND (toimari.etunimi LIKE ? OR toimari.sukunimi LIKE ?))";
+                sql = "SELECT DISTINCT toimari.id as toid FROM toimari, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id) AND (toimari.etunimi LIKE ? OR toimari.sukunimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
@@ -229,22 +236,28 @@ public class Haku {
 
                 ObservableList<Kohde> toimaritL;
                 boolean toimariloyty = false;
-//                while (toimarit.next()) {
-//                    loyty = true;
-//                    toimariloyty = true;
-//                    int sid = sarjat.getInt("id");
-//
-//                    for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
-//
-//                        if (turnaus.annaSarjat().get(i).annaID() == sid) {
-//                            Kohde toimari = turnaus.annaSarjat().get(i);
-//                            toimarilista.add(toimari);
-//
-//                        }
-//
-//                    }
-//
-//                }
+                while (toimarit.next()) {
+                    loyty = true;
+                    toimariloyty = true;
+                 int toid = toimarit.getInt("toid");
+                    for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
+                        Sarja sarja = turnaus.annaSarjat().get(i);
+                        for (int j = 0; j < sarja.annaJoukkueet().size(); j++) {
+                            Joukkue joukkue = sarja.annaJoukkueet().get(j);
+
+                            for (int k = 0; k < joukkue.annaToimarit().size(); k++) {
+                                if (joukkue.annaToimarit().get(k).annaID() == toid) {
+                                    Kohde toimari = joukkue.annaToimarit().get(k);
+                                    toimarilista.add(toimari);
+
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
 
                 toimaritL = FXCollections.observableArrayList(toimarilista);
                 toimaritulokset.setItems(toimaritL);

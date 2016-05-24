@@ -26,14 +26,24 @@ public class Toimihenkilo extends Henkilo {
     private transient StringProperty taulukkorooli = new SimpleStringProperty();
 
     public Toimihenkilo() {
-        toLaskuri++;
-        asetaID(toLaskuri);
+
+        asetaID(toLaskuri+1);
     }
 
     public Toimihenkilo(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
-        toLaskuri++;
-           asetaID(toLaskuri);
+
+        asetaID(toLaskuri+1);
+    }
+
+    public int annaLaskuri() {
+        return toLaskuri;
+    }
+  public void vahennaLaskuria(){
+        toLaskuri--;
+    }
+    public void asetaLaskuri(int laskuri) {
+        this.toLaskuri = laskuri;
     }
 
     public int annaToimariMaara() {
@@ -44,7 +54,10 @@ public class Toimihenkilo extends Henkilo {
     public void asetaJoukkue(Joukkue joukkue) {
         this.joukkue = joukkue;
     }
-
+   public void kasvataLaskuria(){
+        toLaskuri++;
+    }
+    
     public Joukkue annaJoukkue() {
         return joukkue;
     }
@@ -124,18 +137,19 @@ public class Toimihenkilo extends Henkilo {
         this.taulukkopuh = new SimpleStringProperty(this.annaPuh());
     }
 
-    public void asetaHallinta(int arvo){
+    public void asetaHallinta(int arvo) {
         this.hallinta = arvo;
     }
-    
-    public int annaHallinta(){
+
+    public int annaHallinta() {
         return hallinta;
     }
-       public void asetaHallintaID(int arvo){
+
+    public void asetaHallintaID(int arvo) {
         this.hallinta_id = arvo;
     }
-    
-    public int annaHallintaID(){
+
+    public int annaHallintaID() {
         return hallinta_id;
     }
 }

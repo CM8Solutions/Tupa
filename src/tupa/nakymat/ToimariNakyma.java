@@ -86,7 +86,7 @@ public class ToimariNakyma {
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(20, 10, 40, 300));
+     
 
         //riville 1
         HBox painike = new HBox();
@@ -144,7 +144,7 @@ public class ToimariNakyma {
   
         
 
-        Button paluunappula = new Button("<< Palaa");
+        Button paluunappula = new Button("<< Toimihenkilön joukkuesivulle");
         paluunappula.setPadding(new Insets(0, 150, 0, 0));
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -155,23 +155,42 @@ public class ToimariNakyma {
 
             }
         });
-        painike.setPadding(new Insets(20));
- if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-        painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula, oikeusnappula);
- else
-     painike.getChildren().addAll(paluunappula);
-        grid.add(painike, 0, 0);
+     painike.setSpacing(20);
+        
+     
+        HBox rivi0 = new HBox();
+        rivi0.setPadding(new Insets(20));
+        rivi0.getChildren().addAll(paluunappula);
+     
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
+        painike.getChildren().addAll(muokkausnappula, poistonappula, oikeusnappula);
 
-        //riville 2
-        VBox info = new VBox();
-        info.setPadding(new Insets(10, 10, 20, 10));
+     
+         grid.add(rivi0, 0, 0);
+
+
+          
+          HBox nimirivi = new HBox();
+              nimirivi.setPadding(new Insets(10, 10, 20, 240));
+        nimirivi.setSpacing(80);
+          
+   
+        
         Label nimi = new Label(toimari.toString());
         nimi.setFont(Font.font("Papyrus", 32));
-        info.setAlignment(Pos.CENTER);
-        info.getChildren().addAll(nimi);
+       
+       
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
+           nimirivi.getChildren().addAll(nimi, painike);
 
+        else
+           nimirivi.getChildren().addAll(nimi);
+        
+        
         HBox tiedot = new HBox();
-        tiedot.setPadding(new Insets(10, 10, 40, 10));
+        
+        
+        tiedot.setPadding(new Insets(10, 10, 40, 240));
         tiedot.setSpacing(40);
 
         Label rooli = new Label("Rooli: " + toimari.annaRooli());
@@ -181,10 +200,10 @@ public class ToimariNakyma {
         Label puh = new Label("Puhelinnumero: " + toimari.annaPuh());
         puh.setFont(Font.font("Papyrus", 18));
 
-        info.setAlignment(Pos.CENTER);
+      
         tiedot.setAlignment(Pos.CENTER);
         tiedot.getChildren().addAll(rooli, sposti, puh);
-        grid.add(info, 0, 1);
+        grid.add(nimirivi, 0, 1);
         grid.add(tiedot, 0, 2);
 
         sb.setContent(grid);

@@ -38,13 +38,13 @@ public class Muuttaja {
     private SarjaNakyma sarjanakyma;
     private Connection con = null;
     private Statement st = null;
-     private Statement st2 = null;
-      private Statement st3 = null;
-       private Statement st4 = null;
-        private Statement st5 = null;
-          
+    private Statement st2 = null;
+    private Statement st3 = null;
+    private Statement st4 = null;
+    private Statement st5 = null;
+
     private Yhteys yhteys = new Yhteys();
-  
+
     private String sql = "";
 
     public Muuttaja() {
@@ -68,7 +68,7 @@ public class Muuttaja {
 
                     sarja.asetaTurnaus((Turnaus) ikkuna.annaKohteet().get(i));
                 }
-
+sarja.kasvataLaskuria();
             }
 
         } else if (arvo instanceof Tuomari) {
@@ -84,7 +84,7 @@ public class Muuttaja {
                 }
 
             }
-
+tuomari.kasvataLaskuria();
         }
 
         TreeItem<Kohde> parent = new TreeItem<>();
@@ -142,6 +142,7 @@ public class Muuttaja {
                 }
 
             }
+            sarja.vahennaLaskuria();
         } else if (arvo instanceof Tuomari) {
 
             Tuomari tuomari = (Tuomari) arvo;
@@ -152,6 +153,7 @@ public class Muuttaja {
                 }
 
             }
+            tuomari.vahennaLaskuria();
         }
 
         //poisto puusta
@@ -220,6 +222,11 @@ public class Muuttaja {
     public void poistaOttelu(Ottelu ottelu) {
 
         Sarja sarja = ottelu.annaSarja();
+ottelu.vahennaLaskuria();
+
+Kokoonpano koti = ottelu.annaKotiKokoonpano();
+koti.vahennaLaskuria();
+koti.vahennaLaskuria();
 
         Joukkue joukkue1 = ottelu.annaKotijoukkue();
         Joukkue joukkue2 = ottelu.annaVierasjoukkue();
@@ -229,6 +236,7 @@ public class Muuttaja {
                 Tuomari erotuomari = ottelu.annaRoolit().get(i).annaTuomari();
                 for (int j = 0; j < erotuomari.annaTuomarinRoolit().size(); j++) {
                     if (erotuomari.annaTuomarinRoolit().get(j).annaOttelu().equals(ottelu)) {
+                        erotuomari.annaTuomarinRoolit().get(j).vahennaLaskuria();
                         erotuomari.annaTuomarinRoolit().remove(erotuomari.annaTuomarinRoolit().get(j));
 
                     }
@@ -239,6 +247,7 @@ public class Muuttaja {
                 Tuomari avustava1 = ottelu.annaRoolit().get(i).annaTuomari();
                 for (int j = 0; j < avustava1.annaTuomarinRoolit().size(); j++) {
                     if (avustava1.annaTuomarinRoolit().get(j).annaOttelu().equals(ottelu)) {
+                        avustava1.annaTuomarinRoolit().get(j).vahennaLaskuria();
                         avustava1.annaTuomarinRoolit().remove(avustava1.annaTuomarinRoolit().get(j));
 
                     }
@@ -249,6 +258,7 @@ public class Muuttaja {
                 Tuomari avustava2 = ottelu.annaRoolit().get(i).annaTuomari();
                 for (int j = 0; j < avustava2.annaTuomarinRoolit().size(); j++) {
                     if (avustava2.annaTuomarinRoolit().get(j).annaOttelu().equals(ottelu)) {
+                        avustava2.annaTuomarinRoolit().get(j).vahennaLaskuria();
                         avustava2.annaTuomarinRoolit().remove(avustava2.annaTuomarinRoolit().get(j));
 
                     }
@@ -263,6 +273,7 @@ public class Muuttaja {
             for (int j = 0; j < pelaaja.annaMaaliLista().size(); j++) {
                 Maali maali = pelaaja.annaMaaliLista().get(j);
                 if (maali.annaOttelu().equals(ottelu)) {
+                    maali.vahennaLaskuria();
                     pelaaja.annaMaaliLista().remove(maali);
                 }
             }
@@ -273,6 +284,7 @@ public class Muuttaja {
             for (int j = 0; j < pelaaja.annaMaaliLista().size(); j++) {
                 Maali maali = pelaaja.annaMaaliLista().get(j);
                 if (maali.annaOttelu().equals(ottelu)) {
+                    maali.vahennaLaskuria();
                     pelaaja.annaMaaliLista().remove(maali);
                 }
             }
@@ -333,7 +345,7 @@ public class Muuttaja {
     public void lisaaJoukkue(String nimi, Sarja sarja) {
 
         Joukkue joukkue = new Joukkue(nimi);
-
+joukkue.kasvataLaskuria();
         sarja.annaJoukkueet().add(joukkue);
         ikkuna.annaJoukkuetk().add(joukkue);
 
@@ -346,7 +358,7 @@ public class Muuttaja {
     }
 
     public void poistaPelaaja(Pelaaja pelaaja, Joukkue joukkue) {
-
+pelaaja.vahennaLaskuria();
         ikkuna.annaKohteet().remove((Kohde) pelaaja);
 
         joukkue.annaPelaajat().remove(pelaaja);
@@ -355,7 +367,7 @@ public class Muuttaja {
     }
 
     public void poistaToimari(Toimihenkilo toimari, Joukkue joukkue) {
-
+toimari.vahennaLaskuria();
         ikkuna.annaKohteet().remove((Kohde) toimari);
         joukkue.annaToimarit().remove(toimari);
         tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu.");
@@ -363,7 +375,7 @@ public class Muuttaja {
     }
 
     public void poistaJoukkue(Joukkue joukkue, Sarja sarja) {
-
+joukkue.vahennaLaskuria();
         for (int j = 0; j < joukkue.annaPelaajat().size(); j++) {
 
             ikkuna.annaKohteet().remove((Kohde) joukkue.annaPelaajat().get(j));
@@ -381,6 +393,7 @@ public class Muuttaja {
     public void lisaaPelaaja(String etunimi, String sukunimi, String pelipaikka, int pelinumero, Joukkue joukkue) {
 
         Pelaaja pelaaja = new Pelaaja(etunimi, sukunimi);
+        pelaaja.kasvataLaskuria();
         pelaaja.asetaPelipaikka(pelipaikka);
         pelaaja.asetaPelinumero(pelinumero);
         pelaaja.asetaJoukkue(joukkue);
@@ -396,7 +409,7 @@ public class Muuttaja {
     public void lisaaOttelu(Joukkue koti, Joukkue vieras, LocalDate aika, String tunnit, String minuutit, String paikka, Tuomari erotuomari, Tuomari avustava1, Tuomari avustava2, Sarja sarja) {
 
         Ottelu ottelu = new Ottelu(sarja);
-
+ottelu.kasvataLaskuria();
         ottelu.asetaJoukkueet(koti, vieras);
         ottelu.asetaPaikka(paikka);
         ottelu.asetaAika(aika, tunnit, minuutit);
@@ -405,7 +418,7 @@ public class Muuttaja {
         if (erotuomari != null) {
             TuomarinRooli erotuomariR = new TuomarinRooli(erotuomari, ottelu);
             erotuomariR.asetaRooli("Erotuomari");
-
+erotuomariR.kasvataLaskuria();
             ottelu.annaRoolit().add(erotuomariR);
             erotuomari.annaTuomarinRoolit().add(erotuomariR);
         }
@@ -414,7 +427,7 @@ public class Muuttaja {
 
             TuomarinRooli avustava1R = new TuomarinRooli(avustava1, ottelu);
             avustava1R.asetaRooli("1. Avustava erotuomari");
-
+avustava1R.kasvataLaskuria();
             ottelu.annaRoolit().add(avustava1R);
             avustava1.annaTuomarinRoolit().add(avustava1R);
         }
@@ -422,7 +435,7 @@ public class Muuttaja {
         if (avustava2 != null) {
             TuomarinRooli avustava2R = new TuomarinRooli(avustava2, ottelu);
             avustava2R.asetaRooli("2. Avustava erotuomari");
-
+avustava2R.kasvataLaskuria();
             ottelu.annaRoolit().add(avustava2R);
             avustava2.annaTuomarinRoolit().add(avustava2R);
         }
@@ -435,7 +448,7 @@ public class Muuttaja {
     public void lisaaToimari(String etunimi, String sukunimi, String rooli, String sposti, String puh, Joukkue joukkue) {
 
         Toimihenkilo toimari = new Toimihenkilo(etunimi, sukunimi);
-
+toimari.kasvataLaskuria();
         toimari.asetaRooli(rooli);
         toimari.asetaSposti(sposti);
         toimari.asetaPuh(puh);
@@ -455,22 +468,24 @@ public class Muuttaja {
 
         if (!maalintekija.annaEtuNimi().equals("Valitse") && !syottaja.annaEtuNimi().equals("Valitse")) {
             Maali maali = new Maali(ottelu);
+            maali.kasvataLaskuria();
             if (maalintekija.annaEtuNimi().equals("Oma")) {
 
                 maalintekija.asetaJoukkue(joukkue);
                 ikkuna.annaKohteet().add(maalintekija);
             }
-            if(syottaja.annaEtuNimi().equals("Ei")){
+            if (syottaja.annaEtuNimi().equals("Ei")) {
                 syottaja.asetaJoukkue(joukkue);
                 ikkuna.annaKohteet().add(syottaja);
             }
             maali.asetaTiedot(aika, maalintekija, syottaja);
         } else if (!maalintekija.annaEtuNimi().equals("Valitse") && syottaja.annaEtuNimi().equals("Valitse")) {
             Maali maali = new Maali(ottelu);
+            maali.kasvataLaskuria();
             if (maalintekija.annaEtuNimi().equals("Oma")) {
 
                 maalintekija.asetaJoukkue(joukkue);
- ikkuna.annaKohteet().add(maalintekija);
+                ikkuna.annaKohteet().add(maalintekija);
             }
             Pelaaja uusisyottaja = new Pelaaja("", "");
             uusisyottaja.asetaJoukkue(joukkue);
@@ -492,6 +507,7 @@ public class Muuttaja {
                 //katsotaan onko koti- vai vierasjoukkue
                 if (joukkue.equals(ottelu.annaKotijoukkue())) {
                     Kokoonpano kotikokoonpano = ottelu.annaKotiKokoonpano();
+                   
                     kotikokoonpano.asetaPelaaja(pelaajat[i]);
                     pelaajat[i].annaKokoonpanot().add(kotikokoonpano);
                 } else if (joukkue.equals(ottelu.annaVierasjoukkue())) {
@@ -729,6 +745,7 @@ public class Muuttaja {
 
             if (!(ottelutaulu[i][0].equals(dummy) || ottelutaulu[i][1].equals(dummy))) {
                 Ottelu ottelu = new Ottelu(sarja);
+                ottelu.kasvataLaskuria();
                 Joukkue kotijoukkue = ottelutaulu[i][0];
                 Joukkue vierasjoukkue = ottelutaulu[i][1];
                 ottelu.asetaJoukkueet(kotijoukkue, vierasjoukkue);
@@ -823,42 +840,42 @@ public class Muuttaja {
         ikkuna.asetaMuutos(true);
 
     }
-    
-    public void poistaToimarinOikeus(Toimihenkilo toimari, Joukkue joukkue){
+
+    public void poistaToimarinOikeus(Toimihenkilo toimari, Joukkue joukkue) {
         try {
             int kayttaja_id = toimari.annaHallintaID();
 
             con = yhteys.annaYhteys();
             st = con.createStatement();
             st.executeUpdate("DELETE FROM kayttaja WHERE id='" + kayttaja_id + "'");
-         st.executeUpdate("DELETE FROM kayttajan_turnaus WHERE kayttaja_id='" + kayttaja_id + "'");
-        }catch (SQLException se) {
+            st.executeUpdate("DELETE FROM kayttajan_turnaus WHERE kayttaja_id='" + kayttaja_id + "'");
+        } catch (SQLException se) {
 
-                            se.printStackTrace();
-                        } catch (Exception e) {
+            se.printStackTrace();
+        } catch (Exception e) {
 
-                            e.printStackTrace();
-                        } finally {
+            e.printStackTrace();
+        } finally {
 
-                            try {
-                                if (st != null) {
-                                    con.close();
-                                }
-                            } catch (SQLException se) {
-                            }
-                            try {
-                                if (con != null) {
-                                    con.close();
-                                }
-                            } catch (SQLException se) {
-                                se.printStackTrace();
-                            }
-                        }
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
         toimari.asetaHallinta(0);
     }
-    
-    public void poistaTurnaus(Turnaus turnaus){
-         try {
+
+    public void poistaTurnaus(Turnaus turnaus) {
+        try {
             int turnaus_id = turnaus.annaID();
 
             con = yhteys.annaYhteys();
@@ -867,110 +884,106 @@ public class Muuttaja {
             st3 = con.createStatement();
             st4 = con.createStatement();
             st5 = con.createStatement();
-            
-            
-          //tyhjennetään pelaajat
-                    sql = "SELECT DISTINCT pelaaja.id as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id";
-                    ResultSet pelaajat = st2.executeQuery(sql);
 
-                    while (pelaajat.next()) {
+            //tyhjennetään pelaajat
+            sql = "SELECT DISTINCT pelaaja.id as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id";
+            ResultSet pelaajat = st2.executeQuery(sql);
 
-                        int id = pelaajat.getInt("pid");
-                        sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
-                        st.executeUpdate(sql);
-                        sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
-                        st.executeUpdate(sql);
-                    }
+            while (pelaajat.next()) {
 
-                    //tyhjennetään toimarit
-                    sql = "SELECT DISTINCT toimari.id as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id";
-                    ResultSet toimarit = st3.executeQuery(sql);
+                int id = pelaajat.getInt("pid");
+                sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
+                st.executeUpdate(sql);
+                sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
+                st.executeUpdate(sql);
+            }
 
-                    while (toimarit.next()) {
+            //tyhjennetään toimarit
+            sql = "SELECT DISTINCT toimari.id as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id";
+            ResultSet toimarit = st3.executeQuery(sql);
 
-                        int id = toimarit.getInt("tid");
-                        sql = "DELETE FROM toimari WHERE id='" + id + "'";
-                        st.executeUpdate(sql);
-                    }
+            while (toimarit.next()) {
 
-                    //tyhjennetään ottelut
-                    sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
-                    ResultSet ottelut = st4.executeQuery(sql);
+                int id = toimarit.getInt("tid");
+                sql = "DELETE FROM toimari WHERE id='" + id + "'";
+                st.executeUpdate(sql);
+            }
 
-                    while (ottelut.next()) {
-                        int id = ottelut.getInt("oid");
+            //tyhjennetään ottelut
+            sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
+            ResultSet ottelut = st4.executeQuery(sql);
 
-                        //tyhjennetään kokoonpanot
-                        sql = "DELETE FROM kokoonpano WHERE ottelu_id='" + id + "'";
-                        st.executeUpdate(sql);
+            while (ottelut.next()) {
+                int id = ottelut.getInt("oid");
 
-                        //tyhjennetään ensin maalit
-                        sql = "DELETE FROM maali WHERE ottelu_id='" + id + "'";
-                        st.executeUpdate(sql);
-                        //ja tuomarinroolit
+                //tyhjennetään kokoonpanot
+                sql = "DELETE FROM kokoonpano WHERE ottelu_id='" + id + "'";
+                st.executeUpdate(sql);
 
-                        sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
-                        st.executeUpdate(sql);
+                //tyhjennetään ensin maalit
+                sql = "DELETE FROM maali WHERE ottelu_id='" + id + "'";
+                st.executeUpdate(sql);
+                //ja tuomarinroolit
 
-                        sql = "DELETE FROM ottelu WHERE id='" + id + "'";
-                        st.executeUpdate(sql);
-                    }
+                sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
+                st.executeUpdate(sql);
 
-                    //tyhjennetään joukkueet
-                    sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
-                    ResultSet joukkueet = st5.executeQuery(sql);
+                sql = "DELETE FROM ottelu WHERE id='" + id + "'";
+                st.executeUpdate(sql);
+            }
 
-                    while (joukkueet.next()) {
+            //tyhjennetään joukkueet
+            sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
+            ResultSet joukkueet = st5.executeQuery(sql);
 
-                        int id = joukkueet.getInt("jid");
-                        sql = "DELETE FROM joukkue WHERE id='" + id + "'";
-                        st.executeUpdate(sql);
-                    }
+            while (joukkueet.next()) {
 
-                    //tyhjennetään sarjat
-                    sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
-                    st.executeUpdate(sql);
+                int id = joukkueet.getInt("jid");
+                sql = "DELETE FROM joukkue WHERE id='" + id + "'";
+                st.executeUpdate(sql);
+            }
 
-                    //tyhjennetään tuomarit
-                    sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
-                    st.executeUpdate(sql);
-                    
-                     sql = "DELETE FROM turnauksen_salasana WHERE turnaus_id='" + turnaus_id + "'";
-                    st.executeUpdate(sql);
-                    
-                     sql = "DELETE FROM kayttajan_turnaus WHERE turnaus_id='" + turnaus_id + "'";
-                    st.executeUpdate(sql);
-                    
-                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                    tiedottaja.annaIlmoitus("Turnaus poistettu");
-                    ikkuna.asetaAloitus(true);
-                    
+            //tyhjennetään sarjat
+            sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
+            st.executeUpdate(sql);
 
-        }catch (SQLException se) {
+            //tyhjennetään tuomarit
+            sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
+            st.executeUpdate(sql);
 
-                            se.printStackTrace();
-                        } catch (Exception e) {
+            sql = "DELETE FROM turnauksen_salasana WHERE turnaus_id='" + turnaus_id + "'";
+            st.executeUpdate(sql);
 
-                            e.printStackTrace();
-                        } finally {
+            sql = "DELETE FROM kayttajan_turnaus WHERE turnaus_id='" + turnaus_id + "'";
+            st.executeUpdate(sql);
 
-                            try {
-                                if (st != null) {
-                                    con.close();
-                                }
-                            } catch (SQLException se) {
-                            }
-                            try {
-                                if (con != null) {
-                                    con.close();
-                                }
-                            } catch (SQLException se) {
-                                se.printStackTrace();
-                            }
-                        }
- 
-        
-        
+            Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+            tiedottaja.annaIlmoitus("Turnaus poistettu");
+            ikkuna.asetaAloitus(true);
+
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
     }
 
 }

@@ -89,12 +89,13 @@ public class PelaajaNakyma {
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(20, 10, 40, 550));
-
+      
+   
+        
         //riville 1
         HBox painike = new HBox();
         painike.setSpacing(20);
-        painike.setSpacing(100);
+
         Button muokkausnappula = new Button();
 
         muokkausnappula.setText("\uD83D\uDD89");
@@ -120,7 +121,7 @@ public class PelaajaNakyma {
             }
         });
 
-        Button paluunappula = new Button("<< Palaa takaisin");
+        Button paluunappula = new Button("<< Pelaajan joukkuesivulle");
         paluunappula.setPadding(new Insets(0, 400, 0, 0));
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -132,30 +133,45 @@ public class PelaajaNakyma {
             }
         });
 
-        painike.setPadding(new Insets(20));
-
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-        painike.getChildren().addAll(paluunappula, muokkausnappula, poistonappula);
-        else
-               painike.getChildren().addAll(paluunappula); 
         
-        grid.add(painike, 0, 0);
+painike.getChildren().addAll(muokkausnappula, poistonappula);
+   
 
+ 
+        
+
+             HBox rivi0 = new HBox();
+        rivi0.setPadding(new Insets(20));
+        rivi0.getChildren().addAll(paluunappula);
+        
+        grid.add(rivi0, 0,0);
+        
+   
         //riville 2
         VBox info = new VBox();
         info.setSpacing(10);
-        info.setPadding(new Insets(10, 10, 20, 10));
+        info.setPadding(new Insets(10, 10, 20, 240));
+        
+        HBox nimirivi = new HBox();
+        nimirivi.setSpacing(80);
+        
         Label nimi = new Label(pelaaja.toString());
         nimi.setFont(Font.font("Papyrus", 32));
         info.setAlignment(Pos.CENTER);
+       
+        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
+           nimirivi.getChildren().addAll(nimi, painike);
 
+        else
+           nimirivi.getChildren().addAll(nimi);
+       
         HBox tiedot = new HBox();
-        tiedot.setPadding(new Insets(10, 10, 40, 10));
+        tiedot.setPadding(new Insets(10, 10, 40, 240));
         tiedot.setSpacing(40);
 
         Label id = new Label("PelaajaID: " + pelaaja.annaJulkinenID());
         id.setFont(Font.font("Papyrus", 14));
-        info.getChildren().addAll(nimi, id);
+        info.getChildren().addAll(nimirivi, id);
 
         Label pelipaikka = new Label("Pelipaikka: " + pelaaja.annaPelipaikka());
         pelipaikka.setFont(Font.font("Papyrus", 14));
@@ -177,6 +193,7 @@ public class PelaajaNakyma {
 
         //riville 3
         VBox osio1 = new VBox();
+        osio1.setPadding(new Insets(0, 10, 40, 240));
         osio1.setSpacing(20);
         osio1.setAlignment(Pos.CENTER);
         Label otsikko1 = new Label("Pelaajan pistetilasto:");

@@ -24,15 +24,23 @@ public class TuomarinRooli implements Serializable {
 
     public TuomarinRooli() {
 
-        laskuri++;
-        id = laskuri;
+        id = laskuri+1;
     }
 
     public TuomarinRooli(Tuomari tuomari, Ottelu ottelu) {
-       laskuri++;
-       id = laskuri;
+      
+       id = laskuri+1;
         this.tuomari = tuomari;
         this.ottelu = ottelu;
+    }
+           public int annaLaskuri() {
+        return laskuri;
+    }
+  public void vahennaLaskuria(){
+        laskuri--;
+    }
+    public void asetaLaskuri(int laskuri) {
+        this.laskuri = laskuri;
     }
 
     public int annaID(){
@@ -50,7 +58,10 @@ public class TuomarinRooli implements Serializable {
     public void asetaRooli(String rooli) {
         this.rooli = rooli;
     }
-
+   public void kasvataLaskuria(){
+        laskuri++;
+    }
+    
     public void asetaOttelu(Ottelu ottelu) {
 
         this.ottelu = ottelu;

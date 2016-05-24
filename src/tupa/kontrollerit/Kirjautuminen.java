@@ -426,10 +426,10 @@ public class Kirjautuminen {
                         st.executeUpdate("INSERT INTO kayttajan_turnaus  (turnaus_id, kayttaja_id)  VALUES ('" + turnaus_id + "', '" + kayttaja_id + "')");
 
                         Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                        tiedottaja.annaIlmoitus("Turnauksen " + turnaus.toString() + " salasana tallennettu!");
+                        tiedottaja.annaIlmoitus("Turnauksen " + turnaus.toString() + " salasana tallmariaennettu!");
                         Tallennus tallenna = new Tallennus(ikkuna);
                         tallenna.suoritaTallennus();
-                        tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
+                        tiedottaja.kirjoitaLoki("Turnaus "+turnaus.toString() + " tallennettu.");
                         stage.close();
 
                     } catch (SQLException se) {

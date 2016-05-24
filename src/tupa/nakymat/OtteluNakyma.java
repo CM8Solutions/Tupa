@@ -107,9 +107,9 @@ public class OtteluNakyma {
         grid.setPadding(new Insets(20, 10, 40, 10));
 
         VBox rivi1 = new VBox();
-        rivi1.setAlignment(Pos.CENTER);
+   
 
-        Button paluunappula = new Button("<< Palaa sarjasivulle");
+        Button paluunappula = new Button("<< Ottelun sarjasivulle");
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -150,8 +150,7 @@ public class OtteluNakyma {
         });
 
         HBox painikkeet = new HBox();
-        painikkeet.setPadding(new Insets(30));
-        painikkeet.setSpacing(20);
+  painikkeet.setPadding(new Insets(0,0,0,20)); 
         painikkeet.setAlignment(Pos.TOP_LEFT);
         painikkeet.getChildren().addAll(paluunappula);
         rivi1.getChildren().addAll(painikkeet);
@@ -164,7 +163,7 @@ public class OtteluNakyma {
 
         rivi2.getChildren().addAll(nimi);
 
-//        grid.add(painikkeet, 0, 0);
+        grid.add(rivi1, 0, 0);
         grid.add(rivi2, 0, 1);
 
         VBox rivi3 = new VBox();
@@ -339,7 +338,7 @@ public class OtteluNakyma {
         HBox painikkeet = new HBox();
 
         painikkeet.setSpacing(20);
-        painikkeet.setAlignment(Pos.TOP_LEFT);
+      
         painikkeet.getChildren().addAll(paluu);
         rivi1.getChildren().addAll(painikkeet);
 
@@ -557,11 +556,11 @@ public class OtteluNakyma {
 
         VBox kotiboxi = new VBox();
         kotiboxi.setPadding(new Insets(20, 0, 0, 0));
-        kotiboxi.setSpacing(20);
+        kotiboxi.setSpacing(10);
 
         HBox maalialle1 = new HBox();
         maalialle1.setSpacing(20);
-        maalialle1.setPadding(new Insets(20, 0, 0, 0));
+        maalialle1.setPadding(new Insets(10, 0, 0, 0));
 
         VBox alle7 = new VBox();
 
@@ -671,10 +670,24 @@ public class OtteluNakyma {
 
         maalialle1.getChildren().addAll(alle7, alle8, alle9);
 
-        HBox painikeboksi3 = new HBox();
-        painikeboksi3.setPadding(new Insets(30, 0, 0, 0));
+        VBox painikeboksi3 = new VBox();
+        painikeboksi3.setPadding(new Insets(10, 0, 0, 0));
+        painikeboksi3.setSpacing(20);
+        Button lisaysnappula3 = new Button("Lisää");
+        lisaysnappula3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
 
-        Button lisaysnappula3 = new Button("Tallenna");
+                if(maalintekija1.getValue() != null && syottaja1.getValue() != null){
+                         muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
+                }
+           
+                ikkuna.asetaMuutos(true);
+                luoOttelunMaalisivu(ottelu);
+            }
+        });
+
+            Button tallenna = new Button("Tallenna");
         lisaysnappula3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -687,8 +700,8 @@ public class OtteluNakyma {
                 luoOttelusivu(ottelu);
             }
         });
-
-        painikeboksi3.getChildren().addAll(lisaysnappula3);
+        
+        painikeboksi3.getChildren().addAll(lisaysnappula3, tallenna);
 
         rivi4.getChildren().addAll(maalitaulu);
         if (syotetyt_koti < ottelu.annaKotimaalit()) {
@@ -699,11 +712,11 @@ public class OtteluNakyma {
 
         VBox vierasboxi = new VBox();
         vierasboxi.setPadding(new Insets(20, 0, 0, 0));
-        vierasboxi.setSpacing(20);
+        vierasboxi.setSpacing(10);
 
         HBox maalialle2 = new HBox();
         maalialle2.setSpacing(20);
-        maalialle2.setPadding(new Insets(20, 0, 0, 0));
+        maalialle2.setPadding(new Insets(10, 0, 0, 0));
 
         VBox alle82 = new VBox();
 
@@ -829,7 +842,7 @@ public class OtteluNakyma {
         if (syotetyt_vieras < ottelu.annaVierasmaalit()) {
             vierasboxi.getChildren().addAll(otsikkovieras_koko, maalialle2, painikeboksi32);
         } else {
-            kotiboxi.getChildren().addAll(otsikkovieras, eimahd2);
+            vierasboxi.getChildren().addAll(otsikkovieras_koko, eimahd2);
         }
 
         if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2){

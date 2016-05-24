@@ -24,7 +24,7 @@ public class Turnaus extends Kohde {
     
     public Turnaus() {
         super("Uusi turnaus");
-        turLaskuri++;
+     
         asetaID(turLaskuri);
     }
 
@@ -36,6 +36,14 @@ public class Turnaus extends Kohde {
         return tuomarit;
     }
 
+    public void kasvataLaskuria(){
+        turLaskuri++;
+    }
+    
+    public void vahennaLaskuria(){
+        turLaskuri--;
+    }
+    
     public int annaLaskuri() {
         return turLaskuri;
     }

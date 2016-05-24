@@ -17,17 +17,17 @@ public class Tuomari extends Henkilo {
     private List<TuomarinRooli> roolit = new ArrayList<>();
 
     public Tuomari() {
-        tuLaskuri++;
+       
         id_julkinen = 88 + tuLaskuri;
-        asetaID(tuLaskuri);
+        asetaID(tuLaskuri+1);
 
     }
 
     public Tuomari(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
-        tuLaskuri++;
+       
         id_julkinen = 88 + tuLaskuri;
-        asetaID(tuLaskuri);
+        asetaID(tuLaskuri+1);
 
     }
 
@@ -35,10 +35,15 @@ public class Tuomari extends Henkilo {
         super(nimi);
         tuLaskuri++;
         id_julkinen = 88 + tuLaskuri;
-        asetaID(tuLaskuri);
+        asetaID(tuLaskuri+1);
 
     }
-
+   public void kasvataLaskuria(){
+        tuLaskuri++;
+    }
+      public void vahennaLaskuria(){
+        tuLaskuri--;
+    }
     public int annaLaskuri() {
         return tuLaskuri;
     }

@@ -17,19 +17,23 @@ public class Sarja extends Kohde {
     private List<Joukkue> joukkueet = new ArrayList<Joukkue>();
 
     public Sarja() {
-        saLaskuri++;
-        asetaID(saLaskuri);
+      
+        asetaID(saLaskuri+1);
         
     }
 
     public Sarja(String nimi, Turnaus turnaus) {
 
         super(nimi);
-        saLaskuri++;
-        asetaID(saLaskuri);
+        
+        asetaID(saLaskuri+1);
          
         this.turnaus = turnaus;
     }
+       public void kasvataLaskuria(){
+        saLaskuri++;
+    }
+    
 
     public int annaLaskuri() {
         return saLaskuri;
@@ -42,7 +46,9 @@ public class Sarja extends Kohde {
     public Turnaus annaTurnaus() {
         return turnaus;
     }
-
+  public void vahennaLaskuria(){
+        saLaskuri--;
+    }
     public void asetaTurnaus(Turnaus turnaus) {
         this.turnaus = turnaus;
     }

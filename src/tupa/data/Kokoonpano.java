@@ -17,13 +17,13 @@ public class Kokoonpano implements Serializable {
     private Ottelu ottelu;
 
     public Kokoonpano() {
-        laskuri++;
-        id = laskuri;
+
+        id = laskuri+1;
     }
 
     public Kokoonpano(Ottelu ottelu, Joukkue joukkue) {
-        laskuri++;
-        id = laskuri;
+
+        id = laskuri+1;
         this.ottelu = ottelu;
         this.joukkue = joukkue;
     }
@@ -34,13 +34,15 @@ public class Kokoonpano implements Serializable {
 
     public void asetaPelaaja(Pelaaja pelaaja) {
         this.pelaajat.add(pelaaja);
-     
+
     }
 
     public Joukkue annaJoukkue() {
         return joukkue;
     }
-
+  public void vahennaLaskuria(){
+        laskuri--;
+    }
     public Ottelu annaOttelu() {
         return ottelu;
     }
@@ -54,4 +56,15 @@ public class Kokoonpano implements Serializable {
         this.id = id;
     }
 
+    public int annaLaskuri() {
+        return laskuri;
+    }
+
+    public void asetaLaskuri(int laskuri) {
+        this.laskuri = laskuri;
+    }
+   public void kasvataLaskuria(){
+        laskuri++;
+    }
+    
 }

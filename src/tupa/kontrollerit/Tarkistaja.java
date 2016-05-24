@@ -175,7 +175,7 @@ public class Tarkistaja {
             if (laskuri == 1) {
                 Tallennus tallenna = new Tallennus(ikkuna);
                 tallenna.suoritaTallennus();
-                tiedottaja.kirjoitaLoki("Turnaus tallennettu.");
+                tiedottaja.kirjoitaLoki("Turnaus "+turnaus.toString() + " tallennettu.");
             }
             else{
                 Kirjautuminen kirjautuja = new Kirjautuminen(turnaus, ikkuna);

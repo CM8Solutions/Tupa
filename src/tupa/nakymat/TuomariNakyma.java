@@ -226,7 +226,7 @@ public class TuomariNakyma {
         else
            rivi2.getChildren().addAll(info);
         
-        grid.add(rivi2, 0, 1);
+        grid.add(rivi2, 0, 0);
 
         Taulukko taulukontekija1 = new Taulukko(nakyma, varmistaja);
 
@@ -236,14 +236,16 @@ public class TuomariNakyma {
         //riville 3
         VBox osio1 = new VBox();
         osio1.setSpacing(20);
-        osio1.setPadding(new Insets(20));
+        osio1.setPadding(new Insets(10,20, 200, 10));
         osio1.setAlignment(Pos.CENTER);
         Label otsikko1 = new Label("Ottelut:");
         otsikko1.setFont(Font.font("Papyrus", 18));
         osio1.getChildren().addAll(otsikko1, ottelut);
         grid.setPadding(new Insets(20));
-        grid.add(osio1, 0, 2);
+        grid.add(osio1, 0, 1);
         sb.setContent(grid);
+        
+
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
         ikkuna.annaNaytto().getChildren().add(peitto);

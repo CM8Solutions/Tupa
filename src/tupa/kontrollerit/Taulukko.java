@@ -383,7 +383,8 @@ public class Taulukko {
             public void handle(TableColumn.CellEditEvent<Ottelu, Tuomari> t) {
 
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-
+        
+                
                 if (tarkistaja.erotuomariOK(t.getNewValue(), ottelu)) {
 
                     //lisätään uuden tuomarin luetteloon ko rooli
@@ -2118,7 +2119,7 @@ public class Taulukko {
        }
        
         taulukko.setItems(data);
-        luomispvm.setSortType(TableColumn.SortType.ASCENDING);
+        luomispvm.setSortType(TableColumn.SortType.DESCENDING);
         taulukko.getSortOrder().add(luomispvm);
 
 
