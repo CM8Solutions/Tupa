@@ -18,7 +18,7 @@ public class Pelaaja extends Henkilo {
     private int id_julkinen;
     private Joukkue joukkue;
     private int pelinumero;
-    private String pelipaikka;
+    private String pelipaikka="";
 
     private List<Kokoonpano> kokoonpanot = new ArrayList<>();
     private List<Maali> maalit = new ArrayList<>();
@@ -37,16 +37,10 @@ public class Pelaaja extends Henkilo {
     private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
 
     public Pelaaja() {
-
-        id_julkinen = 85000 + peLaskuri;
-        asetaID(peLaskuri+1);
     }
 
     public Pelaaja(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
-   
-        id_julkinen = 85000 + peLaskuri;
-        asetaID(peLaskuri+1);
     }
 
     public List<Maali> annaMaaliLista() {

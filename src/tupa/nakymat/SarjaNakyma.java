@@ -89,14 +89,26 @@ public class SarjaNakyma {
 
                     tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
                 } else {
-
                     Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
-                    Kohde uusi = new Sarja(nimi.getText(), turnaus);
+                    boolean onjo = false;
+                    for(int i=0; i<turnaus.annaSarjat().size(); i++){
+                        if(turnaus.annaSarjat().get(i).toString().equals(nimi.getText())){
+                            onjo = true;
+                        }
+                    }
+                    if(onjo){
+                         tiedottaja.annaVaroitus("Tämänniminen sarja on jo olemassa.");
+                    }
+                    else{
+                         Kohde uusi = new Sarja(nimi.getText(), turnaus);
                     turnaus.annaSarjat().add((Sarja) uusi);
 
                     muuttaja.lisaaKohde(uusi);
                     nimi.clear();
-                    ikkuna.asetaMuutos(true);
+                    ikkuna.asetaMuutos(true);     
+                            }
+                    
+                  
 
                     luoSarjanLisaysSivu();
                 }

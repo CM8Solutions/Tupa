@@ -3,6 +3,7 @@ Pääohjelmaluokka
  */
 package tupa;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -34,6 +35,7 @@ import tupa.kontrollerit.Aloitus;
 import tupa.kontrollerit.KayttajanKirjautuminen;
 import tupa.kontrollerit.Puurakenne;
 import tupa.kontrollerit.PuuSoluTehdas;
+import tupa.kontrollerit.TurnausValitsin;
 import tupa.kontrollerit.Varmistaja;
 import tupa.nakymat.PaaNakyma;
 import tupa.nakymat.Pysyvat;
@@ -96,9 +98,9 @@ public class Tupa extends Application {
 
     @Override
 
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws SQLException {
      
-                nakyma = new PaaNakyma(this);
+        nakyma = new PaaNakyma(this);
         Stage kirjautuja = new KayttajanKirjautuminen(primaryStage, this);
   
       
@@ -180,7 +182,11 @@ nakyma.luoEtusivuTyhja();
             }
         });
       
-   
+        if(annaTaso() == 1){
+             TurnausValitsin valitsija = new TurnausValitsin(this);
+                    valitsija.annaTurnausLuettelo();        
+        }
+    
   
     }
 

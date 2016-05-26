@@ -11,9 +11,9 @@ public class Toimihenkilo extends Henkilo {
 
     private static int toLaskuri;
     private Joukkue joukkue;
-    private String sposti;
-    private String puh;
-    private String rooli;
+    private String sposti = "";
+    private String puh = "";
+    private String rooli = "";
     //o=ei hallintaoikeuksia, 1=hallintaoikeudet
     private int hallinta;
     private int hallinta_id;
@@ -27,21 +27,20 @@ public class Toimihenkilo extends Henkilo {
 
     public Toimihenkilo() {
 
-        asetaID(toLaskuri+1);
     }
 
     public Toimihenkilo(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
-
-        asetaID(toLaskuri+1);
     }
 
     public int annaLaskuri() {
         return toLaskuri;
     }
-  public void vahennaLaskuria(){
+
+    public void vahennaLaskuria() {
         toLaskuri--;
     }
+
     public void asetaLaskuri(int laskuri) {
         this.toLaskuri = laskuri;
     }
@@ -54,10 +53,11 @@ public class Toimihenkilo extends Henkilo {
     public void asetaJoukkue(Joukkue joukkue) {
         this.joukkue = joukkue;
     }
-   public void kasvataLaskuria(){
+
+    public void kasvataLaskuria() {
         toLaskuri++;
     }
-    
+
     public Joukkue annaJoukkue() {
         return joukkue;
     }

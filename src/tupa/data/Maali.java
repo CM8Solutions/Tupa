@@ -26,14 +26,11 @@ public class Maali implements Serializable {
     private transient StringProperty taulukkojoukkue = new SimpleStringProperty();
 
     public Maali() {
-       
-        id = laskuri+1;
+      
     }
 
     public Maali(Ottelu ottelu) {
         this.ottelu = ottelu;
-        
-        id = laskuri+1;
     }
 
     public void asetaID(int id) {

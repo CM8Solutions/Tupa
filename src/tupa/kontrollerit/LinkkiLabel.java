@@ -4,6 +4,10 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import tupa.Tupa;
+import tupa.data.Joukkue;
+import tupa.data.Sarja;
+import tupa.data.Turnaus;
+import tupa.nakymat.JoukkueNakyma;
 import tupa.nakymat.PaaNakyma;
 
 /**
@@ -38,6 +42,24 @@ public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {
         if (nimi.equals("Etusivu") && !ikkuna.annaAloitus() ) {
    
             nakyma.luoEtusivu();
+            return;
+        }
+        else if (nimi.equals("Oma joukkue") && !ikkuna.annaAloitus() ) {
+            
+            Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+            Joukkue joukkue = new Joukkue();
+            for(int i=0; i<turnaus.annaSarjat().size(); i++){
+                Sarja sarja = turnaus.annaSarjat().get(i);
+                
+                for(int j=0; j<sarja.annaJoukkueet().size(); j++){
+                    if(sarja.annaJoukkueet().get(j).annaID() == ikkuna.annaJoukkueID()){
+                        joukkue = sarja.annaJoukkueet().get(j);
+                    }
+                }
+            }
+     
+            JoukkueNakyma joukkuenakyma = nakyma.annaJoukkuenakyma();
+            joukkuenakyma.luoJoukkueSivu(joukkue);
             return;
         }
 

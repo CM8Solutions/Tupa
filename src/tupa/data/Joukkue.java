@@ -35,12 +35,10 @@ public class Joukkue extends Kohde {
     private List<Integer> paastetyt = new ArrayList<Integer>();
 
     public Joukkue() {
-        asetaID(joLaskuri + 1);
     }
 
     public Joukkue(String nimi) {
         super(nimi);
-        asetaID(joLaskuri + 1);
     }
 
     public int annaLaskuri() {

@@ -2057,18 +2057,19 @@ public class Taulukko {
       
       //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
       if(ikkuna.annaTaso() == 1 || ikkuna.annaTaso() == 2){
-                sql = "SELECT * FROM turnaus, kayttajan_turnaus WHERE turnaus.id = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + ikkuna.annaKayttajaID() + "'";
+                sql = "SELECT * FROM turnaus, kayttajan_turnaus WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + ikkuna.annaKayttajaID() + "'";
 
             ResultSet turnaukset = st.executeQuery(sql);
 
             while (turnaukset.next()) {
                 String nimi = turnaukset.getString("nimi");
                 String luomispvm = turnaukset.getString("luomispvm");
-                int id = turnaukset.getInt("id");
+                int id = turnaukset.getInt("tupaid");
                 
                 Turnaus turnaus = new Turnaus();
                 turnaus.asetaID(id);
                 turnaus.asetaNimi(nimi);
+                  
                 turnaus.asetaLuomispvm(luomispvm);
                 turnaus.asetaTaulukkonimi();
                 turnaus.asetaTaulukkoluomispvm();
@@ -2087,11 +2088,14 @@ public class Taulukko {
             while (turnaukset.next()) {
                 String nimi = turnaukset.getString("nimi");
                 String luomispvm = turnaukset.getString("luomispvm");
-                int id = turnaukset.getInt("id");
+                int id = turnaukset.getInt("tupaid");
                 
                 Turnaus turnaus = new Turnaus();
                 turnaus.asetaID(id);
+              
                 turnaus.asetaNimi(nimi);
+              
+             
                 turnaus.asetaLuomispvm(luomispvm);
                 turnaus.asetaTaulukkonimi();
                 turnaus.asetaTaulukkoluomispvm();

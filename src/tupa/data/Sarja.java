@@ -17,17 +17,12 @@ public class Sarja extends Kohde {
     private List<Joukkue> joukkueet = new ArrayList<Joukkue>();
 
     public Sarja() {
-      
-        asetaID(saLaskuri+1);
         
     }
 
     public Sarja(String nimi, Turnaus turnaus) {
 
         super(nimi);
-        
-        asetaID(saLaskuri+1);
-         
         this.turnaus = turnaus;
     }
        public void kasvataLaskuria(){

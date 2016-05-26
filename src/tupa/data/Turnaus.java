@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
  */
 public class Turnaus extends Kohde {
 
-    private static int turLaskuri;
+    private int turLaskuri;
     private List<Sarja> sarjat = new ArrayList<>();
     private List<Tuomari> tuomarit = new ArrayList<>();
     private String luomispvm = "";
@@ -19,13 +19,9 @@ public class Turnaus extends Kohde {
     
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
     private transient StringProperty taulukkoluomispvm = new SimpleStringProperty();
-   
-    
     
     public Turnaus() {
-        super("Uusi turnaus");
-     
-        asetaID(turLaskuri);
+   
     }
 
     public List<Sarja> annaSarjat() {

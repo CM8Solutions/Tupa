@@ -67,9 +67,13 @@ public class Muuttaja {
                 if (ikkuna.annaKohteet().get(i) instanceof Turnaus) {
 
                     sarja.asetaTurnaus((Turnaus) ikkuna.annaKohteet().get(i));
+                    break;
                 }
-sarja.kasvataLaskuria();
+             
             }
+               sarja.kasvataLaskuria();
+               
+              sarja.asetaID(sarja.annaLaskuri());
 
         } else if (arvo instanceof Tuomari) {
 
@@ -80,11 +84,13 @@ sarja.kasvataLaskuria();
 
                     Turnaus turnaus = (Turnaus) ikkuna.annaKohteet().get(i);
                     tuomari.asetaTurnaus(turnaus);
-
+                    break;
                 }
 
             }
-tuomari.kasvataLaskuria();
+            tuomari.kasvataLaskuria();
+            tuomari.asetaID(tuomari.annaLaskuri());
+            tuomari.asetaJulkinenId(tuomari.annaLaskuri() + 88);
         }
 
         TreeItem<Kohde> parent = new TreeItem<>();
@@ -95,16 +101,7 @@ tuomari.kasvataLaskuria();
             parent = ikkuna.annaRootTuomarit();
         }
 
-        for (TreeItem<Kohde> child : parent.getChildren()) {
-            if (child.getValue().toString().equals(arvo.toString())) {
-
-                if (arvo instanceof Sarja) {
-                    tiedottaja.kirjoitaLoki("Tämänniminen sarja on jo olemassa ");
-                }
-
-                return;
-            }
-        }
+ 
 
         TreeItem<Kohde> newItem = new TreeItem<Kohde>(arvo);
         parent.getChildren().add(newItem);
@@ -171,13 +168,10 @@ tuomari.kasvataLaskuria();
 
         } else if (arvo instanceof Tuomari) {
             parent = ikkuna.annaRootTuomarit();
-
             for (int i = 0; i < parent.getChildren().size(); i++) {
-
                 if (parent.getChildren().get(i).getValue().equals(arvo)) {
                     parent.getChildren().remove(i);
                 }
-
             }
         }
 
@@ -222,21 +216,32 @@ tuomari.kasvataLaskuria();
     public void poistaOttelu(Ottelu ottelu) {
 
         Sarja sarja = ottelu.annaSarja();
-ottelu.vahennaLaskuria();
 
-Kokoonpano koti = ottelu.annaKotiKokoonpano();
-koti.vahennaLaskuria();
-koti.vahennaLaskuria();
+        // ottelulaskurin päivitys
+        ottelu.vahennaLaskuria();
+
+        //kokoonpanolaskurin päivitys
+        Kokoonpano koti = ottelu.annaKotiKokoonpano();
+        koti.vahennaLaskuria();
+        Kokoonpano vieras = ottelu.annaVierasKokoonpano();
+        vieras.vahennaLaskuria();
+
+        //tuomarinroolilaskurin päivitys
+        for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
+            TuomarinRooli tuomarinrooli = ottelu.annaRoolit().get(i);
+            tuomarinrooli.vahennaLaskuria();
+        }
 
         Joukkue joukkue1 = ottelu.annaKotijoukkue();
         Joukkue joukkue2 = ottelu.annaVierasjoukkue();
 
+        //poistetaan tuomareiden roolilistasta ko ottelun roolit
         for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
             if (ottelu.annaRoolit().get(i).annaRooli().equals("Erotuomari")) {
                 Tuomari erotuomari = ottelu.annaRoolit().get(i).annaTuomari();
                 for (int j = 0; j < erotuomari.annaTuomarinRoolit().size(); j++) {
                     if (erotuomari.annaTuomarinRoolit().get(j).annaOttelu().equals(ottelu)) {
-                        erotuomari.annaTuomarinRoolit().get(j).vahennaLaskuria();
+
                         erotuomari.annaTuomarinRoolit().remove(erotuomari.annaTuomarinRoolit().get(j));
 
                     }
@@ -247,7 +252,7 @@ koti.vahennaLaskuria();
                 Tuomari avustava1 = ottelu.annaRoolit().get(i).annaTuomari();
                 for (int j = 0; j < avustava1.annaTuomarinRoolit().size(); j++) {
                     if (avustava1.annaTuomarinRoolit().get(j).annaOttelu().equals(ottelu)) {
-                        avustava1.annaTuomarinRoolit().get(j).vahennaLaskuria();
+
                         avustava1.annaTuomarinRoolit().remove(avustava1.annaTuomarinRoolit().get(j));
 
                     }
@@ -258,7 +263,7 @@ koti.vahennaLaskuria();
                 Tuomari avustava2 = ottelu.annaRoolit().get(i).annaTuomari();
                 for (int j = 0; j < avustava2.annaTuomarinRoolit().size(); j++) {
                     if (avustava2.annaTuomarinRoolit().get(j).annaOttelu().equals(ottelu)) {
-                        avustava2.annaTuomarinRoolit().get(j).vahennaLaskuria();
+
                         avustava2.annaTuomarinRoolit().remove(avustava2.annaTuomarinRoolit().get(j));
 
                     }
@@ -267,6 +272,8 @@ koti.vahennaLaskuria();
             }
         }
 
+        //päivitetään maalilaskuria, poistetaan ko ottelun maalit pelaajien maalitilastoista (ei ehkä välttämätön..)
+        //kotijoukkue
         for (int i = 0; i < joukkue1.annaPelaajat().size(); i++) {
             Pelaaja pelaaja = joukkue1.annaPelaajat().get(i);
 
@@ -278,6 +285,8 @@ koti.vahennaLaskuria();
                 }
             }
         }
+
+        //vierasjoukkue
         for (int i = 0; i < joukkue2.annaPelaajat().size(); i++) {
             Pelaaja pelaaja = joukkue2.annaPelaajat().get(i);
 
@@ -290,6 +299,8 @@ koti.vahennaLaskuria();
             }
         }
 
+        //poistetaan ko ottelun kokoonpano-olio pelaajien kokoonpanolistasta
+        //kotijoukkue
         for (int i = 0; i < joukkue1.annaPelaajat().size(); i++) {
             Pelaaja pelaaja = joukkue1.annaPelaajat().get(i);
 
@@ -300,6 +311,8 @@ koti.vahennaLaskuria();
                 }
             }
         }
+
+        //vierasjoukkue
         for (int i = 0; i < joukkue2.annaPelaajat().size(); i++) {
             Pelaaja pelaaja = joukkue2.annaPelaajat().get(i);
 
@@ -311,6 +324,7 @@ koti.vahennaLaskuria();
             }
         }
 
+        //päivitetään koti- ja vierasjoukkueen maali- ja ottelutiedot
         if (!ottelu.annaTulos().equals("-")) {
             //kotijoukkue voittanut
             if (ottelu.annaKotimaalit() > ottelu.annaVierasmaalit()) {
@@ -334,6 +348,7 @@ koti.vahennaLaskuria();
             joukkue2.annaPaastetyt().add(ottelu.annaKotimaalit() * (-1));
         }
 
+        //poistetaan ko ottelu sekä joukkueiden että sarjan ottelulistasta
         joukkue1.annaOttelut().remove(ottelu);
         joukkue2.annaOttelut().remove(ottelu);
         sarja.annaOttelut().remove(ottelu);
@@ -345,7 +360,8 @@ koti.vahennaLaskuria();
     public void lisaaJoukkue(String nimi, Sarja sarja) {
 
         Joukkue joukkue = new Joukkue(nimi);
-joukkue.kasvataLaskuria();
+        joukkue.kasvataLaskuria();
+        joukkue.asetaID(joukkue.annaLaskuri());
         sarja.annaJoukkueet().add(joukkue);
         ikkuna.annaJoukkuetk().add(joukkue);
 
@@ -358,7 +374,7 @@ joukkue.kasvataLaskuria();
     }
 
     public void poistaPelaaja(Pelaaja pelaaja, Joukkue joukkue) {
-pelaaja.vahennaLaskuria();
+        pelaaja.vahennaLaskuria();
         ikkuna.annaKohteet().remove((Kohde) pelaaja);
 
         joukkue.annaPelaajat().remove(pelaaja);
@@ -367,7 +383,7 @@ pelaaja.vahennaLaskuria();
     }
 
     public void poistaToimari(Toimihenkilo toimari, Joukkue joukkue) {
-toimari.vahennaLaskuria();
+        toimari.vahennaLaskuria();
         ikkuna.annaKohteet().remove((Kohde) toimari);
         joukkue.annaToimarit().remove(toimari);
         tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu.");
@@ -375,7 +391,7 @@ toimari.vahennaLaskuria();
     }
 
     public void poistaJoukkue(Joukkue joukkue, Sarja sarja) {
-joukkue.vahennaLaskuria();
+        joukkue.vahennaLaskuria();
         for (int j = 0; j < joukkue.annaPelaajat().size(); j++) {
 
             ikkuna.annaKohteet().remove((Kohde) joukkue.annaPelaajat().get(j));
@@ -394,6 +410,8 @@ joukkue.vahennaLaskuria();
 
         Pelaaja pelaaja = new Pelaaja(etunimi, sukunimi);
         pelaaja.kasvataLaskuria();
+        pelaaja.asetaID(pelaaja.annaLaskuri());
+        pelaaja.asetaJulkinenID(pelaaja.annaLaskuri() + 100);
         pelaaja.asetaPelipaikka(pelipaikka);
         pelaaja.asetaPelinumero(pelinumero);
         pelaaja.asetaJoukkue(joukkue);
@@ -409,35 +427,75 @@ joukkue.vahennaLaskuria();
     public void lisaaOttelu(Joukkue koti, Joukkue vieras, LocalDate aika, String tunnit, String minuutit, String paikka, Tuomari erotuomari, Tuomari avustava1, Tuomari avustava2, Sarja sarja) {
 
         Ottelu ottelu = new Ottelu(sarja);
-ottelu.kasvataLaskuria();
+        ottelu.kasvataLaskuria();
+        ottelu.asetaID(ottelu.annaLaskuri());
+        ottelu.asetaOttelunumero(ottelu.annaLaskuri() + 990);
         ottelu.asetaJoukkueet(koti, vieras);
         ottelu.asetaPaikka(paikka);
         ottelu.asetaAika(aika, tunnit, minuutit);
 
-        //tuomarit kohdilleen 
+        //lisätään kokoonpanot
+        Kokoonpano koti_kokoonpano = new Kokoonpano(ottelu, koti);
+        koti_kokoonpano.kasvataLaskuria();
+        koti_kokoonpano.asetaID(koti_kokoonpano.annaLaskuri());
+        ottelu.asetaKotiKokoonpano(koti_kokoonpano);
+
+        Kokoonpano vieras_kokoonpano = new Kokoonpano(ottelu, vieras);
+        vieras_kokoonpano.kasvataLaskuria();
+        vieras_kokoonpano.asetaID(vieras_kokoonpano.annaLaskuri());
+        ottelu.asetaVierasKokoonpano(vieras_kokoonpano);
+
+        //lisätään tuomarinrooli
+        TuomarinRooli rooli_erotuomari = new TuomarinRooli("Erotuomari", ottelu);
+        rooli_erotuomari.kasvataLaskuria();
+        ottelu.annaRoolit().add(rooli_erotuomari);
+
+        TuomarinRooli rooli_avustava1 = new TuomarinRooli("1. Avustava erotuomari", ottelu);
+        rooli_avustava1.kasvataLaskuria();
+        ottelu.annaRoolit().add(rooli_avustava1);
+
+        TuomarinRooli rooli_avustava2 = new TuomarinRooli("2. Avustava erotuomari", ottelu);
+        rooli_avustava2.kasvataLaskuria();
+        ottelu.annaRoolit().add(rooli_avustava2);
+
+        //tuomarit kohdilleen (jos annettu)
         if (erotuomari != null) {
-            TuomarinRooli erotuomariR = new TuomarinRooli(erotuomari, ottelu);
-            erotuomariR.asetaRooli("Erotuomari");
-erotuomariR.kasvataLaskuria();
-            ottelu.annaRoolit().add(erotuomariR);
-            erotuomari.annaTuomarinRoolit().add(erotuomariR);
+
+            for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
+
+                if (ottelu.annaRoolit().get(i).annaRooli().equals("Erotuomari")) {
+                    TuomarinRooli erotuomariR = ottelu.annaRoolit().get(i);
+                    erotuomariR.asetaTuomari(erotuomari);
+                    erotuomari.annaTuomarinRoolit().add(erotuomariR);
+                    break;
+                }
+            }
+
         }
 
         if (avustava1 != null) {
 
-            TuomarinRooli avustava1R = new TuomarinRooli(avustava1, ottelu);
-            avustava1R.asetaRooli("1. Avustava erotuomari");
-avustava1R.kasvataLaskuria();
-            ottelu.annaRoolit().add(avustava1R);
-            avustava1.annaTuomarinRoolit().add(avustava1R);
+                for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
+
+                if (ottelu.annaRoolit().get(i).annaRooli().equals("1. Avustava erotuomari")) {
+                    TuomarinRooli avustava1R = ottelu.annaRoolit().get(i);
+                    avustava1R.asetaTuomari(avustava1);
+                    avustava1.annaTuomarinRoolit().add(avustava1R);
+                    break;
+                }
+            }
         }
 
         if (avustava2 != null) {
-            TuomarinRooli avustava2R = new TuomarinRooli(avustava2, ottelu);
-            avustava2R.asetaRooli("2. Avustava erotuomari");
-avustava2R.kasvataLaskuria();
-            ottelu.annaRoolit().add(avustava2R);
-            avustava2.annaTuomarinRoolit().add(avustava2R);
+                      for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
+
+                if (ottelu.annaRoolit().get(i).annaRooli().equals("2. Avustava erotuomari")) {
+                    TuomarinRooli avustava2R = ottelu.annaRoolit().get(i);
+                    avustava2R.asetaTuomari(avustava2);
+                    avustava2.annaTuomarinRoolit().add(avustava2R);
+                    break;
+                }
+            }
         }
         tiedottaja.kirjoitaLoki("Ottelu " + ottelu.toString() + " lisätty.");
         sarja.annaOttelut().add(ottelu);
@@ -448,7 +506,8 @@ avustava2R.kasvataLaskuria();
     public void lisaaToimari(String etunimi, String sukunimi, String rooli, String sposti, String puh, Joukkue joukkue) {
 
         Toimihenkilo toimari = new Toimihenkilo(etunimi, sukunimi);
-toimari.kasvataLaskuria();
+        toimari.kasvataLaskuria();
+        toimari.asetaID(toimari.annaLaskuri());
         toimari.asetaRooli(rooli);
         toimari.asetaSposti(sposti);
         toimari.asetaPuh(puh);
@@ -469,6 +528,7 @@ toimari.kasvataLaskuria();
         if (!maalintekija.annaEtuNimi().equals("Valitse") && !syottaja.annaEtuNimi().equals("Valitse")) {
             Maali maali = new Maali(ottelu);
             maali.kasvataLaskuria();
+            maali.asetaID(maali.annaLaskuri());
             if (maalintekija.annaEtuNimi().equals("Oma")) {
 
                 maalintekija.asetaJoukkue(joukkue);
@@ -482,6 +542,7 @@ toimari.kasvataLaskuria();
         } else if (!maalintekija.annaEtuNimi().equals("Valitse") && syottaja.annaEtuNimi().equals("Valitse")) {
             Maali maali = new Maali(ottelu);
             maali.kasvataLaskuria();
+            maali.asetaID(maali.annaLaskuri());
             if (maalintekija.annaEtuNimi().equals("Oma")) {
 
                 maalintekija.asetaJoukkue(joukkue);
@@ -507,7 +568,7 @@ toimari.kasvataLaskuria();
                 //katsotaan onko koti- vai vierasjoukkue
                 if (joukkue.equals(ottelu.annaKotijoukkue())) {
                     Kokoonpano kotikokoonpano = ottelu.annaKotiKokoonpano();
-                   
+
                     kotikokoonpano.asetaPelaaja(pelaajat[i]);
                     pelaajat[i].annaKokoonpanot().add(kotikokoonpano);
                 } else if (joukkue.equals(ottelu.annaVierasjoukkue())) {
@@ -746,9 +807,35 @@ toimari.kasvataLaskuria();
             if (!(ottelutaulu[i][0].equals(dummy) || ottelutaulu[i][1].equals(dummy))) {
                 Ottelu ottelu = new Ottelu(sarja);
                 ottelu.kasvataLaskuria();
+                ottelu.asetaID(ottelu.annaLaskuri());
+        ottelu.asetaOttelunumero(ottelu.annaLaskuri() + 990);
+        
                 Joukkue kotijoukkue = ottelutaulu[i][0];
-                Joukkue vierasjoukkue = ottelutaulu[i][1];
+                Joukkue vierasjoukkue = ottelutaulu[i][1];               
                 ottelu.asetaJoukkueet(kotijoukkue, vierasjoukkue);
+                    //lisätään kokoonpanot
+        Kokoonpano koti_kokoonpano = new Kokoonpano(ottelu, kotijoukkue);
+        koti_kokoonpano.kasvataLaskuria();
+        koti_kokoonpano.asetaID(koti_kokoonpano.annaLaskuri());
+        ottelu.asetaKotiKokoonpano(koti_kokoonpano);
+
+        Kokoonpano vieras_kokoonpano = new Kokoonpano(ottelu, vierasjoukkue);
+        vieras_kokoonpano.kasvataLaskuria();
+        vieras_kokoonpano.asetaID(vieras_kokoonpano.annaLaskuri());
+        ottelu.asetaVierasKokoonpano(vieras_kokoonpano);
+                
+                //lisätään tuomarinrooli
+        TuomarinRooli rooli_erotuomari = new TuomarinRooli("Erotuomari", ottelu);
+        rooli_erotuomari.kasvataLaskuria();
+        ottelu.annaRoolit().add(rooli_erotuomari);
+
+        TuomarinRooli rooli_avustava1 = new TuomarinRooli("1. Avustava erotuomari", ottelu);
+        rooli_avustava1.kasvataLaskuria();
+        ottelu.annaRoolit().add(rooli_avustava1);
+
+        TuomarinRooli rooli_avustava2 = new TuomarinRooli("2. Avustava erotuomari", ottelu);
+        rooli_avustava2.kasvataLaskuria();
+        ottelu.annaRoolit().add(rooli_avustava2);        
                 sarja.annaOttelut().add(ottelu);
 
             }
@@ -877,7 +964,7 @@ toimari.kasvataLaskuria();
     public void poistaTurnaus(Turnaus turnaus) {
         try {
             int turnaus_id = turnaus.annaID();
-
+            turnaus.vahennaLaskuria();
             con = yhteys.annaYhteys();
             st = con.createStatement();
             st2 = con.createStatement();
@@ -886,31 +973,31 @@ toimari.kasvataLaskuria();
             st5 = con.createStatement();
 
             //tyhjennetään pelaajat
-            sql = "SELECT DISTINCT pelaaja.id as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id";
+            sql = "SELECT DISTINCT pelaaja.tupaid as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND pelaaja.joukkue_id = joukkue.tupaid";
             ResultSet pelaajat = st2.executeQuery(sql);
 
             while (pelaajat.next()) {
 
                 int id = pelaajat.getInt("pid");
-                sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
+                sql = "DELETE FROM pelaaja WHERE tupaid='" + id + "'";
                 st.executeUpdate(sql);
                 sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
                 st.executeUpdate(sql);
             }
 
             //tyhjennetään toimarit
-            sql = "SELECT DISTINCT toimari.id as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id";
+            sql = "SELECT DISTINCT toimari.tupaid as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND toimari.joukkue_id = joukkue.tupaid";
             ResultSet toimarit = st3.executeQuery(sql);
 
             while (toimarit.next()) {
 
                 int id = toimarit.getInt("tid");
-                sql = "DELETE FROM toimari WHERE id='" + id + "'";
+                sql = "DELETE FROM toimari WHERE tupaid='" + id + "'";
                 st.executeUpdate(sql);
             }
 
             //tyhjennetään ottelut
-            sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
+            sql = "SELECT DISTINCT ottelu.tupaid as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND (ottelu.kotijoukkue_id = joukkue.tupaid OR ottelu.vierasjoukkue_id = joukkue.tupaid)";
             ResultSet ottelut = st4.executeQuery(sql);
 
             while (ottelut.next()) {
@@ -928,18 +1015,18 @@ toimari.kasvataLaskuria();
                 sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
                 st.executeUpdate(sql);
 
-                sql = "DELETE FROM ottelu WHERE id='" + id + "'";
+                sql = "DELETE FROM ottelu WHERE tupaid='" + id + "'";
                 st.executeUpdate(sql);
             }
 
             //tyhjennetään joukkueet
-            sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
+            sql = "SELECT DISTINCT joukkue.tupaid as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid";
             ResultSet joukkueet = st5.executeQuery(sql);
 
             while (joukkueet.next()) {
 
                 int id = joukkueet.getInt("jid");
-                sql = "DELETE FROM joukkue WHERE id='" + id + "'";
+                sql = "DELETE FROM joukkue WHERE tupaid='" + id + "'";
                 st.executeUpdate(sql);
             }
 

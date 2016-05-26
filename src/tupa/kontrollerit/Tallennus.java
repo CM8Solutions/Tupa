@@ -76,7 +76,7 @@ public class Tallennus {
             boolean loyty = false;
             while (turnaukset.next()) {
 
-                int tid = turnaukset.getInt("id");
+                int tid = turnaukset.getInt("tupaid");
 
                 if (tid == turnaus_id) {
                     loyty = true;
@@ -88,40 +88,40 @@ public class Tallennus {
             //ei ollut kannassa ennestään
             if (!loyty) {
 
-                st.executeUpdate("INSERT INTO turnaus (id, nimi) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "')");
+                st.executeUpdate("INSERT INTO turnaus (tupaid, nimi) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "')");
 
             } //oli jo kannassa, jolloin kaikki siihen liittyvät tiedot tyhjennetään ennen tallentamista
             else {
-                st.executeUpdate("UPDATE turnaus SET nimi='" + turnaus_nimi + "' WHERE id='" + turnaus_id + "'");
+                st.executeUpdate("UPDATE turnaus SET nimi='" + turnaus_nimi + "' WHERE tupaid='" + turnaus_id + "'");
 
                 if (poisto) {
 
                     //tyhjennetään pelaajat
-                    sql = "SELECT DISTINCT pelaaja.id as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id";
+                    sql = "SELECT DISTINCT pelaaja.tupaid as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND pelaaja.joukkue_id = joukkue.tupaid";
                     ResultSet pelaajat = st2.executeQuery(sql);
 
                     while (pelaajat.next()) {
 
                         int id = pelaajat.getInt("pid");
-                        sql = "DELETE FROM pelaaja WHERE id='" + id + "'";
+                        sql = "DELETE FROM pelaaja WHERE tupaid='" + id + "'";
                         st.executeUpdate(sql);
                         sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
                         st.executeUpdate(sql);
                     }
 
                     //tyhjennetään toimarit
-                    sql = "SELECT DISTINCT toimari.id as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id";
+                    sql = "SELECT DISTINCT toimari.tupaid as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND toimari.joukkue_id = joukkue.tupaid";
                     ResultSet toimarit = st3.executeQuery(sql);
 
                     while (toimarit.next()) {
 
                         int id = toimarit.getInt("tid");
-                        sql = "DELETE FROM toimari WHERE id='" + id + "'";
+                        sql = "DELETE FROM toimari WHERE tupaid='" + id + "'";
                         st.executeUpdate(sql);
                     }
 
                     //tyhjennetään ottelut
-                    sql = "SELECT DISTINCT ottelu.id as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id AND (ottelu.kotijoukkue_id = joukkue.id OR ottelu.vierasjoukkue_id = joukkue.id)";
+                    sql = "SELECT DISTINCT ottelu.tupaid as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND (ottelu.kotijoukkue_id = joukkue.tupaid OR ottelu.vierasjoukkue_id = joukkue.tupaid)";
                     ResultSet ottelut = st4.executeQuery(sql);
 
                     while (ottelut.next()) {
@@ -139,18 +139,18 @@ public class Tallennus {
                         sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
                         st.executeUpdate(sql);
 
-                        sql = "DELETE FROM ottelu WHERE id='" + id + "'";
+                        sql = "DELETE FROM ottelu WHERE tupaid='" + id + "'";
                         st.executeUpdate(sql);
                     }
 
                     //tyhjennetään joukkueet
-                    sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.id";
+                    sql = "SELECT DISTINCT joukkue.tupaid as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid";
                     ResultSet joukkueet = st5.executeQuery(sql);
 
                     while (joukkueet.next()) {
 
                         int id = joukkueet.getInt("jid");
-                        sql = "DELETE FROM joukkue WHERE id='" + id + "'";
+                        sql = "DELETE FROM joukkue WHERE tupaid='" + id + "'";
                         st.executeUpdate(sql);
                     }
 
@@ -179,7 +179,7 @@ public class Tallennus {
                         int sid = sarja.annaID();
                         String snimi = sarja.toString();
 
-                        st.executeUpdate("INSERT INTO sarja (id, nimi, turnaus_id) VALUES('" + sid + "', '" + snimi + "', '" + turnaus_id + "')");
+                        st.executeUpdate("INSERT INTO sarja (tupaid, nimi, turnaus_id) VALUES('" + sid + "', '" + snimi + "', '" + turnaus_id + "')");
 
                     } else if (tiedot instanceof Tuomari) {
 
@@ -189,7 +189,7 @@ public class Tallennus {
                         String etunimi = tuomari.annaEtuNimi();
                         String sukunimi = tuomari.annaSukuNimi();
 
-                        st.executeUpdate("INSERT INTO tuomari (id, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + tid + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
+                        st.executeUpdate("INSERT INTO tuomari (tupaid, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + tid + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
 
                     } else if (tiedot instanceof Joukkue) {
 
@@ -198,7 +198,7 @@ public class Tallennus {
                         int sarja_id = joukkue.annaSarja().annaID();
                         String jnimi = joukkue.toString();
 
-                        st.executeUpdate("INSERT INTO joukkue (id, nimi, sarja_id) VALUES('" + jid + "', '" + jnimi + "', '" + sarja_id + "')");
+                        st.executeUpdate("INSERT INTO joukkue (tupaid, nimi, sarja_id) VALUES('" + jid + "', '" + jnimi + "', '" + sarja_id + "')");
 
                         //kyseisen joukkueen ottelut
                         for (int j = 0; j < joukkue.annaOttelut().size(); j++) {
@@ -206,7 +206,7 @@ public class Tallennus {
                             int oid = ottelu.annaId();
                             //tarkistetaan ettei oo jo laitettu
                             int ottelulaskuri = 0;
-                            sql = "SELECT DISTINCT * FROM ottelu WHERE sarja_id = '" + sarja_id + "' AND id = '" + oid + "'";
+                            sql = "SELECT DISTINCT * FROM ottelu WHERE sarja_id = '" + sarja_id + "' AND tupaid = '" + oid + "'";
                             ResultSet ottelut = st5.executeQuery(sql);
 
                             while (ottelut.next()) {
@@ -234,18 +234,18 @@ public class Tallennus {
                                 int vieraskokoonpano_id = ottelu.annaVierasKokoonpano().annaID();
 
                                 if (tulos.equals("-")) {
-                                    st.executeUpdate("INSERT INTO ottelu (id, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('"
+                                    st.executeUpdate("INSERT INTO ottelu (tupaid, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('"
                                             + oid + "', '" + nimi + "', '" + sarja_id + "', '" + kotijoukkue_id + "', '" + vierasjoukkue_id + "', '" + kotimaalit + "', '" + vierasmaalit + "', '" + paikka + "', '" + kello + "', '" + paiva + "', '" + kellotunnit + "', '" + kellominuutit + "', '" + ottelu_id + "', '" + kierros + "')");
 
                                 } else {
-                                    st.executeUpdate("INSERT INTO ottelu (id, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, tulos, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('"
+                                    st.executeUpdate("INSERT INTO ottelu (tupaid, nimi, sarja_id, kotijoukkue_id, vierasjoukkue_id, kotimaalit, vierasmaalit, tulos, paikka, kello, paiva, kellotunnit, kellominuutit, ottelu_id, kierros) VALUES('"
                                             + oid + "', '" + nimi + "', '" + sarja_id + "', '" + kotijoukkue_id + "', '" + vierasjoukkue_id + "', '" + kotimaalit + "', '" + vierasmaalit + "', '" + tulos + "', '" + paikka + "', '" + kello + "', '" + paiva + "', '" + kellotunnit + "', '" + kellominuutit + "', '" + ottelu_id + "', '" + kierros + "')");
 
                                 }
 
                                 //tallennetaan ko ottelun koti- ja vieraskokoonpanot
-                                st.executeUpdate("INSERT INTO kokoonpano (id, ottelu_id, joukkue_id) VALUES ('" + kotikokoonpano_id + "', '" + oid + "', '" + kotijoukkue_id + "')");
-                                st.executeUpdate("INSERT INTO kokoonpano (id, ottelu_id, joukkue_id) VALUES ('" + vieraskokoonpano_id + "', '" + oid + "', '" + vierasjoukkue_id + "')");
+                                st.executeUpdate("INSERT INTO kokoonpano (tupaid, ottelu_id, joukkue_id) VALUES ('" + kotikokoonpano_id + "', '" + oid + "', '" + kotijoukkue_id + "')");
+                                st.executeUpdate("INSERT INTO kokoonpano (tupaid, ottelu_id, joukkue_id) VALUES ('" + vieraskokoonpano_id + "', '" + oid + "', '" + vierasjoukkue_id + "')");
 
                                 //tallenetaan ko otteluun liittyvät maalitiedot
                                 for (int m = 0; m < ottelu.annaMaalit().size(); m++) {
@@ -256,7 +256,7 @@ public class Tallennus {
                                     Pelaaja syottaja = maali.annaSyottaja();
                                     int syottaja_id = syottaja.annaID();
                                     int aika = maali.annaAika();
-                                    st.executeUpdate("INSERT INTO maali (id, maalintekija_id, syottaja_id, ottelu_id, aika) VALUES ('" + maali_id + "', '" + maalintekija_id + "', '" + syottaja_id + "', '" + oid + "', '" + aika + "')");
+                                    st.executeUpdate("INSERT INTO maali (tupaid, maalintekija_id, syottaja_id, ottelu_id, aika) VALUES ('" + maali_id + "', '" + maalintekija_id + "', '" + syottaja_id + "', '" + oid + "', '" + aika + "')");
 
                                 }
 
@@ -269,7 +269,7 @@ public class Tallennus {
                                     int tuomari_id = tuomari.annaID();
                                     String rooli = tuomarinrooli.annaRooli();
 
-                                    st.executeUpdate("INSERT INTO tuomarinrooli (id, tuomari_id, rooli, ottelu_id) VALUES ('" + tuomarinrooli_id + "', '" + tuomari_id + "', '" + rooli + "', '" + oid + "')");
+                                    st.executeUpdate("INSERT INTO tuomarinrooli (tupaid, tuomari_id, rooli, ottelu_id) VALUES ('" + tuomarinrooli_id + "', '" + tuomari_id + "', '" + rooli + "', '" + oid + "')");
 
                                 }
                             }
@@ -286,7 +286,7 @@ public class Tallennus {
                         int nro = pelaaja.annaPelinumero();
                         int joukkue_id = pelaaja.annaJoukkue().annaID();
 
-                        st.executeUpdate("INSERT INTO pelaaja (id, etunimi, sukunimi, pelipaikka, pelinumero, pelaaja_id, joukkue_id) VALUES('" + pid + "', '" + petunimi + "', '" + psukunimi + "', '" + pelipaikka + "', '" + nro + "', '" + pelaaja_id + "', '" + joukkue_id + "')");
+                        st.executeUpdate("INSERT INTO pelaaja (tupaid, etunimi, sukunimi, pelipaikka, pelinumero, pelaaja_id, joukkue_id) VALUES('" + pid + "', '" + petunimi + "', '" + psukunimi + "', '" + pelipaikka + "', '" + nro + "', '" + pelaaja_id + "', '" + joukkue_id + "')");
 
                         //tallennetaan ko pelaajan kokoonpanotiedot
                         for (int p = 0; p < pelaaja.annaKokoonpanot().size(); p++) {
@@ -313,7 +313,7 @@ public class Tallennus {
                         int hallinta = toimari.annaHallinta();
                         int hallinta_id = toimari.annaHallintaID();
 
-                        st.executeUpdate("INSERT INTO toimari (id, etunimi, sukunimi, rooli, puh, sposti, joukkue_id, hallinta, hallinta_id) VALUES('" + toid + "', '" + tetunimi + "', '" + tsukunimi + "', '" + rooli + "', '" + puh + "', '" + sposti + "', '" + tjoukkue_id + "', '" + hallinta + "', '" + hallinta_id + "')");
+                        st.executeUpdate("INSERT INTO toimari (tupaid, etunimi, sukunimi, rooli, puh, sposti, joukkue_id, hallinta, hallinta_id) VALUES('" + toid + "', '" + tetunimi + "', '" + tsukunimi + "', '" + rooli + "', '" + puh + "', '" + sposti + "', '" + tjoukkue_id + "', '" + hallinta + "', '" + hallinta_id + "')");
 
                     }
 

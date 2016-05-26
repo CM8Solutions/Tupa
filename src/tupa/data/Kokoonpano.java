@@ -17,13 +17,9 @@ public class Kokoonpano implements Serializable {
     private Ottelu ottelu;
 
     public Kokoonpano() {
-
-        id = laskuri+1;
     }
 
     public Kokoonpano(Ottelu ottelu, Joukkue joukkue) {
-
-        id = laskuri+1;
         this.ottelu = ottelu;
         this.joukkue = joukkue;
     }

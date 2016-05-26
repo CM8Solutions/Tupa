@@ -99,6 +99,17 @@ public class Pysyvat {
            etusivu.setPadding(new Insets(10));
         etusivu.setSpacing(10);
         etusivu.getChildren().addAll(etusivuteksti);
+        
+                HBox joukkuesivu = new HBox();
+  
+              
+            LinkkiLabel joukkuesivuteksti = new LinkkiLabel(ikkuna); 
+                joukkuesivuteksti.setText("Oma joukkue");
+
+        joukkuesivuteksti.linkkiaKlikattu();
+           joukkuesivu.setPadding(new Insets(10));
+        joukkuesivu.setSpacing(10);
+        joukkuesivu.getChildren().addAll(joukkuesivuteksti);
  
   
        
@@ -107,7 +118,13 @@ public class Pysyvat {
      
 
         sivu.setPrefWidth(180);
-        sivu.getChildren().addAll(etusivu, spuu);
+        if(ikkuna.annaTaso() == 1){
+            sivu.getChildren().addAll(etusivu, joukkuesivu, spuu);
+        }
+        else{
+           sivu.getChildren().addAll(etusivu, spuu); 
+        }
+        
         sivu.setVgrow(spuu, Priority.ALWAYS);
 
         return sivu;

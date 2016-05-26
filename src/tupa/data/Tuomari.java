@@ -10,33 +10,22 @@ import java.util.List;
 public class Tuomari extends Henkilo {
 
     //+henkilon ja kohteen attribuutit
-    private int id_julkinen;
+    private static int id_julkinen;
     private static int tuLaskuri;
     private Turnaus turnaus;
 
     private List<TuomarinRooli> roolit = new ArrayList<>();
 
     public Tuomari() {
-       
-        id_julkinen = 88 + tuLaskuri;
-        asetaID(tuLaskuri+1);
 
     }
 
     public Tuomari(String etunimi, String sukunimi) {
         super(etunimi, sukunimi, etunimi + " " + sukunimi);
-       
-        id_julkinen = 88 + tuLaskuri;
-        asetaID(tuLaskuri+1);
-
     }
 
     public Tuomari(String nimi) {
         super(nimi);
-        tuLaskuri++;
-        id_julkinen = 88 + tuLaskuri;
-        asetaID(tuLaskuri+1);
-
     }
    public void kasvataLaskuria(){
         tuLaskuri++;

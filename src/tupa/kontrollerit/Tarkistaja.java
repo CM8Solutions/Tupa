@@ -163,7 +163,7 @@ public class Tarkistaja {
             con = yhteys.annaYhteys();
             st = con.createStatement();
 
-            sql = "SELECT DISTINCT * FROM turnaus WHERE id = '" + turnaus_id + "'";
+            sql = "SELECT DISTINCT * FROM turnaus WHERE tupaid = '" + turnaus_id + "'";
 
             ResultSet haetut_rivit = st.executeQuery(sql);
             int laskuri = 0;

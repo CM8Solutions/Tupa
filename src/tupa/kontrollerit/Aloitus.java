@@ -33,10 +33,13 @@ public class Aloitus {
             int laskuri = 0;
             ResultSet turnaukset = st.executeQuery("SELECT DISTINCT * FROM turnaus");
             while (turnaukset.next()) {
-                laskuri++;
+               turnaus.kasvataLaskuria();
             }
+            laskuri = turnaus.annaLaskuri();
             turnaus.asetaID(laskuri + 1);
-            turnaus.asetaLaskuri(laskuri + 1);
+            turnaus.kasvataLaskuria();
+            turnaus.asetaNimi("Uusi turnaus");
+           
 
         } catch (SQLException se) {
 
