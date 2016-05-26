@@ -10,7 +10,20 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeItem;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import tupa.Tupa;
 import tupa.nakymat.PaaNakyma;
 import tupa.nakymat.SarjaNakyma;
@@ -69,11 +82,11 @@ public class Muuttaja {
                     sarja.asetaTurnaus((Turnaus) ikkuna.annaKohteet().get(i));
                     break;
                 }
-             
+
             }
-               sarja.kasvataLaskuria();
-               
-              sarja.asetaID(sarja.annaLaskuri());
+            sarja.kasvataLaskuria();
+
+            sarja.asetaID(sarja.annaLaskuri());
 
         } else if (arvo instanceof Tuomari) {
 
@@ -100,8 +113,6 @@ public class Muuttaja {
         } else if (arvo instanceof Tuomari) {
             parent = ikkuna.annaRootTuomarit();
         }
-
- 
 
         TreeItem<Kohde> newItem = new TreeItem<Kohde>(arvo);
         parent.getChildren().add(newItem);
@@ -475,7 +486,7 @@ public class Muuttaja {
 
         if (avustava1 != null) {
 
-                for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
+            for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
 
                 if (ottelu.annaRoolit().get(i).annaRooli().equals("1. Avustava erotuomari")) {
                     TuomarinRooli avustava1R = ottelu.annaRoolit().get(i);
@@ -487,7 +498,7 @@ public class Muuttaja {
         }
 
         if (avustava2 != null) {
-                      for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
+            for (int i = 0; i < ottelu.annaRoolit().size(); i++) {
 
                 if (ottelu.annaRoolit().get(i).annaRooli().equals("2. Avustava erotuomari")) {
                     TuomarinRooli avustava2R = ottelu.annaRoolit().get(i);
@@ -593,299 +604,388 @@ public class Muuttaja {
 
     public void suoritaAutoOtteluLista(Sarja sarja) {
 
-        // poistetaan kaikki aiemmin luodut ottelut ensin
-        while (!sarja.annaOttelut().isEmpty()) {
-            for (int i = 0; i < sarja.annaOttelut().size(); i++) {
-                poistaOttelu(sarja.annaOttelut().get(i));
-            }
-        }
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
 
-        int maara = sarja.annaJoukkueet().size();
-        boolean parillinen_maara = true;
-        //jos joukkeita on pariton määrä, lisätään yksi ylimääräinen "dummy" joukkue, jota vastaan olevaa peliä ei oikeasti pelata
+        Label otsikko = new Label("Luodaan automaattista otteluohjelmaa..");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+        otsikko.setEffect(dropShadow);
 
-        Joukkue dummy = new Joukkue();
-        if (maara % 2 != 0) {
-            parillinen_maara = false;
+        ProgressBar edistyminen = new ProgressBar();
+        edistyminen.setPrefWidth(200);
+        edistyminen.setPrefHeight(30);
 
-            maara = maara + 1;
+        VBox palkki = new VBox();
+        palkki.setPadding(new Insets(10));
+        palkki.setSpacing(10);
+        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+        palkki.getChildren().addAll(otsikko, edistyminen);
 
-        }
-        int puolikas = maara / 2;
-        //PARILLINEN MÄÄRÄ?!
-        Joukkue[] joukkueet = new Joukkue[maara];
-        Joukkue[] joukkueet1 = new Joukkue[maara / 2];
-        Joukkue[] joukkueet2 = new Joukkue[maara / 2];
+        Stage tehtavastage = new Stage(StageStyle.UTILITY);
+        Scene scene = new Scene(palkki);
 
-        if (parillinen_maara) {
-            for (int i = 0; i < maara; i++) {
+        scene.getStylesheets().add("css/tyylit.css");
 
-                joukkueet[i] = sarja.annaJoukkueet().get(i);
+        tehtavastage.setScene(scene);
+        tehtavastage.show();
 
-            }
+        Task tehtava = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
 
-            for (int i = 0; i < puolikas; i++) {
+                // poistetaan kaikki aiemmin luodut ottelut ensin
+                while (!sarja.annaOttelut().isEmpty()) {
+                    for (int i = 0; i < sarja.annaOttelut().size(); i++) {
+                        poistaOttelu(sarja.annaOttelut().get(i));
+                    }
+                }
 
-                joukkueet1[i] = joukkueet[i];
+                int maara = sarja.annaJoukkueet().size();
+                boolean parillinen_maara = true;
+                //jos joukkeita on pariton määrä, lisätään yksi ylimääräinen "dummy" joukkue, jota vastaan olevaa peliä ei oikeasti pelata
 
-            }
+                Joukkue dummy = new Joukkue();
+                if (maara % 2 != 0) {
+                    parillinen_maara = false;
 
-            int kohta = puolikas;
-            for (int i = puolikas - 1; i >= 0; i--) {
-
-                joukkueet2[i] = joukkueet[kohta];
-                kohta++;
-
-            }
-        } else {
-            joukkueet[0] = dummy;
-            for (int i = 1; i < maara; i++) {
-
-                joukkueet[i] = sarja.annaJoukkueet().get(i - 1);
-
-            }
-
-            for (int i = 0; i < puolikas; i++) {
-
-                joukkueet1[i] = joukkueet[i];
-
-            }
-
-            int kohta = puolikas;
-            for (int i = puolikas - 1; i >= 0; i--) {
-
-                joukkueet2[i] = joukkueet[kohta];
-                kohta++;
-
-            }
-
-        }
-
-        //yksinkertaisten sarjojen otteluiden lkm (aritmeettinen summa, n = maara - 1): 
-        int ottelut = 0;
-
-        ottelut = ((maara - 1 + 1) / 2) * (maara - 1);
-
-        //joukkueet taulukossa
-        //muodostetaan otteluiden lukumaara * 2- matriisi siten, että yhdellä rivillä on yksi ottelu
-        Joukkue[][] ottelutaulu = new Joukkue[ottelut][2];
-
-        Joukkue[] apu1 = new Joukkue[maara / 2];
-        Joukkue[] apu2 = new Joukkue[maara / 2];
-
-        //kiinnitetään vika, joka ei siis liiku
-        Joukkue kiinni = joukkueet[maara - 1];
-
-        int kierrosten_lkm = maara - 1;
-
-        int j = 0;
-
-        int kierros = 1;
-        for (int i = 1; i <= kierrosten_lkm; i++) {
-
-            for (int k = 0; k < puolikas; k++) {
-
-                ottelutaulu[j][0] = joukkueet1[k];
-                ottelutaulu[j][1] = joukkueet2[k];
-
-                j++;
-            }
-            kierros++;
-            //kiinnitys
-            if (kierros % 2 == 0) {
-
-                apu1[0] = kiinni;
-                apu2[0] = joukkueet2[puolikas - 1];
-
-                int kohta2 = puolikas - 1;
-                for (int k = 1; k <= puolikas - 1; k++) {
-                    apu2[k] = joukkueet1[kohta2];
-                    kohta2--;
+                    maara = maara + 1;
 
                 }
-                int kohta3 = puolikas - 2;
-                for (int k = 1; k < puolikas - 1; k++) {
-                    apu1[k] = joukkueet2[kohta3];
-                    kohta3--;
+                int puolikas = maara / 2;
+                //PARILLINEN MÄÄRÄ?!
+                Joukkue[] joukkueet = new Joukkue[maara];
+                Joukkue[] joukkueet1 = new Joukkue[maara / 2];
+                Joukkue[] joukkueet2 = new Joukkue[maara / 2];
+
+                if (parillinen_maara) {
+                    for (int i = 0; i < maara; i++) {
+
+                        joukkueet[i] = sarja.annaJoukkueet().get(i);
+
+                    }
+
+                    for (int i = 0; i < puolikas; i++) {
+
+                        joukkueet1[i] = joukkueet[i];
+
+                    }
+
+                    int kohta = puolikas;
+                    for (int i = puolikas - 1; i >= 0; i--) {
+
+                        joukkueet2[i] = joukkueet[kohta];
+                        kohta++;
+
+                    }
+                } else {
+                    joukkueet[0] = dummy;
+                    for (int i = 1; i < maara; i++) {
+
+                        joukkueet[i] = sarja.annaJoukkueet().get(i - 1);
+
+                    }
+
+                    for (int i = 0; i < puolikas; i++) {
+
+                        joukkueet1[i] = joukkueet[i];
+
+                    }
+
+                    int kohta = puolikas;
+                    for (int i = puolikas - 1; i >= 0; i--) {
+
+                        joukkueet2[i] = joukkueet[kohta];
+                        kohta++;
+
+                    }
 
                 }
-                apu1[puolikas - 1] = joukkueet1[0];
 
-            } else {
+                //yksinkertaisten sarjojen otteluiden lkm (aritmeettinen summa, n = maara - 1): 
+                int ottelut = 0;
 
-                apu2[0] = kiinni;
-                apu1[0] = joukkueet2[puolikas - 1];
+                ottelut = ((maara - 1 + 1) / 2) * (maara - 1);
 
-                int kohta2 = puolikas - 1;
-                for (int k = 1; k <= puolikas - 1; k++) {
-                    apu2[k] = joukkueet1[kohta2];
-                    kohta2--;
+                //joukkueet taulukossa
+                //muodostetaan otteluiden lukumaara * 2- matriisi siten, että yhdellä rivillä on yksi ottelu
+                Joukkue[][] ottelutaulu = new Joukkue[ottelut][2];
 
-                }
-                int kohta3 = puolikas - 2;
-                for (int k = 1; k < puolikas - 1; k++) {
-                    apu1[k] = joukkueet2[kohta3];
-                    kohta3--;
+                Joukkue[] apu1 = new Joukkue[maara / 2];
+                Joukkue[] apu2 = new Joukkue[maara / 2];
 
-                }
-                apu1[puolikas - 1] = joukkueet2[0];
-            }
+                //kiinnitetään vika, joka ei siis liiku
+                Joukkue kiinni = joukkueet[maara - 1];
 
-            for (int k = 0; k <= puolikas - 1; k++) {
-                joukkueet1[k] = apu1[k];
-                joukkueet2[k] = apu2[k];
+                int kierrosten_lkm = maara - 1;
 
-            }
+                int j = 0;
 
-        }
+                int kierros = 1;
+                for (int i = 1; i <= kierrosten_lkm; i++) {
 
-        //jos joukkueita pariton määrä, varmistetaan, ettei koti- ja vieraspelit jakaudu epätasaisesti
-        if (!parillinen_maara) {
-            List<Joukkue> kotiyli = new ArrayList<>();
-            List<Joukkue> kotiali = new ArrayList<>();
+                    for (int k = 0; k < puolikas; k++) {
 
-            //käydään kaikki joukkueet läpi
-            for (int i = 0; i < joukkueet.length; i++) {
+                        ottelutaulu[j][0] = joukkueet1[k];
+                        ottelutaulu[j][1] = joukkueet2[k];
 
-                if (!joukkueet[i].equals(dummy)) {
-                    int kotiottelut = 0;
-                    int vierasottelut = 0;
-                    //käydään ottelutaulu läpi
-                    for (int k = 0; k < ottelut; k++) {
+                        j++;
+                    }
+                    kierros++;
+                    //kiinnitys
+                    if (kierros % 2 == 0) {
 
-                        if (ottelutaulu[k][0].equals(joukkueet[i]) && !ottelutaulu[k][1].equals(dummy)) {
-                            kotiottelut++;
-                        } else if (ottelutaulu[k][1].equals(joukkueet[i]) && !ottelutaulu[k][0].equals(dummy)) {
-                            vierasottelut++;
+                        apu1[0] = kiinni;
+                        apu2[0] = joukkueet2[puolikas - 1];
+
+                        int kohta2 = puolikas - 1;
+                        for (int k = 1; k <= puolikas - 1; k++) {
+                            apu2[k] = joukkueet1[kohta2];
+                            kohta2--;
+
                         }
+                        int kohta3 = puolikas - 2;
+                        for (int k = 1; k < puolikas - 1; k++) {
+                            apu1[k] = joukkueet2[kohta3];
+                            kohta3--;
 
+                        }
+                        apu1[puolikas - 1] = joukkueet1[0];
+
+                    } else {
+
+                        apu2[0] = kiinni;
+                        apu1[0] = joukkueet2[puolikas - 1];
+
+                        int kohta2 = puolikas - 1;
+                        for (int k = 1; k <= puolikas - 1; k++) {
+                            apu2[k] = joukkueet1[kohta2];
+                            kohta2--;
+
+                        }
+                        int kohta3 = puolikas - 2;
+                        for (int k = 1; k < puolikas - 1; k++) {
+                            apu1[k] = joukkueet2[kohta3];
+                            kohta3--;
+
+                        }
+                        apu1[puolikas - 1] = joukkueet2[0];
                     }
 
-                    if (!parillinen_maara && kotiottelut >= maara / 2) {
-
-                        kotiyli.add(joukkueet[i]);
-
-                    } else if (!parillinen_maara && vierasottelut >= maara / 2) {
-
-                        kotiali.add(joukkueet[i]);
+                    for (int k = 0; k <= puolikas - 1; k++) {
+                        joukkueet1[k] = apu1[k];
+                        joukkueet2[k] = apu2[k];
 
                     }
 
                 }
 
-            }
+                //jos joukkueita pariton määrä, varmistetaan, ettei koti- ja vieraspelit jakaudu epätasaisesti
+                if (!parillinen_maara) {
+                    List<Joukkue> kotiyli = new ArrayList<>();
+                    List<Joukkue> kotiali = new ArrayList<>();
 
-            for (int k = 0; k < ottelut; k++) {
-                if (kotiyli.size() > 0 && kotiali.size() > 0) {
+                    //käydään kaikki joukkueet läpi
+                    for (int i = 0; i < joukkueet.length; i++) {
 
-                    for (int kotiylialku = 0; kotiylialku < kotiyli.size(); kotiylialku++) {
+                        if (!joukkueet[i].equals(dummy)) {
+                            int kotiottelut = 0;
+                            int vierasottelut = 0;
+                            //käydään ottelutaulu läpi
+                            for (int k = 0; k < ottelut; k++) {
 
-                        for (int m = 0; m < kotiali.size(); m++) {
+                                if (ottelutaulu[k][0].equals(joukkueet[i]) && !ottelutaulu[k][1].equals(dummy)) {
+                                    kotiottelut++;
+                                } else if (ottelutaulu[k][1].equals(joukkueet[i]) && !ottelutaulu[k][0].equals(dummy)) {
+                                    vierasottelut++;
+                                }
 
-                            if (ottelutaulu[k][0].equals(kotiyli.get(kotiylialku)) && ottelutaulu[k][1].equals(kotiali.get(m))) {
-
-                                ottelutaulu[k][0] = kotiali.get(m);
-                                ottelutaulu[k][1] = kotiyli.get(kotiylialku);
-                                kotiali.remove(kotiali.get(m));
-                                kotiyli.remove(kotiyli.get(kotiylialku));
-
-                                break;
                             }
+
+                            if (!parillinen_maara && kotiottelut >= maara / 2) {
+
+                                kotiyli.add(joukkueet[i]);
+
+                            } else if (!parillinen_maara && vierasottelut >= maara / 2) {
+
+                                kotiali.add(joukkueet[i]);
+
+                            }
+
+                        }
+
+                    }
+
+                    for (int k = 0; k < ottelut; k++) {
+                        if (kotiyli.size() > 0 && kotiali.size() > 0) {
+
+                            for (int kotiylialku = 0; kotiylialku < kotiyli.size(); kotiylialku++) {
+
+                                for (int m = 0; m < kotiali.size(); m++) {
+
+                                    if (ottelutaulu[k][0].equals(kotiyli.get(kotiylialku)) && ottelutaulu[k][1].equals(kotiali.get(m))) {
+
+                                        ottelutaulu[k][0] = kotiali.get(m);
+                                        ottelutaulu[k][1] = kotiyli.get(kotiylialku);
+                                        kotiali.remove(kotiali.get(m));
+                                        kotiyli.remove(kotiyli.get(kotiylialku));
+
+                                        break;
+                                    }
+                                }
+
+                            }
+
                         }
 
                     }
 
                 }
 
+                //matriisin sisällön pohjalta luodaan ottelut
+                for (int i = 0; i < ottelut; i++) {
+
+                    if (!(ottelutaulu[i][0].equals(dummy) || ottelutaulu[i][1].equals(dummy))) {
+                        Ottelu ottelu = new Ottelu(sarja);
+                        ottelu.kasvataLaskuria();
+                        ottelu.asetaID(ottelu.annaLaskuri());
+                        ottelu.asetaOttelunumero(ottelu.annaLaskuri() + 990);
+
+                        Joukkue kotijoukkue = ottelutaulu[i][0];
+                        Joukkue vierasjoukkue = ottelutaulu[i][1];
+                        ottelu.asetaJoukkueet(kotijoukkue, vierasjoukkue);
+                        //lisätään kokoonpanot
+                        Kokoonpano koti_kokoonpano = new Kokoonpano(ottelu, kotijoukkue);
+                        koti_kokoonpano.kasvataLaskuria();
+                        koti_kokoonpano.asetaID(koti_kokoonpano.annaLaskuri());
+                        ottelu.asetaKotiKokoonpano(koti_kokoonpano);
+
+                        Kokoonpano vieras_kokoonpano = new Kokoonpano(ottelu, vierasjoukkue);
+                        vieras_kokoonpano.kasvataLaskuria();
+                        vieras_kokoonpano.asetaID(vieras_kokoonpano.annaLaskuri());
+                        ottelu.asetaVierasKokoonpano(vieras_kokoonpano);
+
+                        //lisätään tuomarinrooli
+                        TuomarinRooli rooli_erotuomari = new TuomarinRooli("Erotuomari", ottelu);
+                        rooli_erotuomari.kasvataLaskuria();
+                        ottelu.annaRoolit().add(rooli_erotuomari);
+
+                        TuomarinRooli rooli_avustava1 = new TuomarinRooli("1. Avustava erotuomari", ottelu);
+                        rooli_avustava1.kasvataLaskuria();
+                        ottelu.annaRoolit().add(rooli_avustava1);
+
+                        TuomarinRooli rooli_avustava2 = new TuomarinRooli("2. Avustava erotuomari", ottelu);
+                        rooli_avustava2.kasvataLaskuria();
+                        ottelu.annaRoolit().add(rooli_avustava2);
+                        sarja.annaOttelut().add(ottelu);
+
+                    }
+
+                }
+                int ottelua_per_kierros = 0;
+                if (parillinen_maara) {
+                    ottelua_per_kierros = maara / 2;
+                } else {
+                    maara = maara - 1;
+                    ottelua_per_kierros = maara / 2;
+                }
+
+                List<Ottelu> lisatyt_ottelut = sarja.annaOttelut();
+
+                int ottelulaskuri = 0;
+                int kierroslaskuri = 1;
+                for (int i = 0; i < lisatyt_ottelut.size(); i++) {
+
+                    ottelulaskuri++;
+
+                    if (ottelulaskuri > ottelua_per_kierros) {
+
+                        kierroslaskuri++;
+                        ottelulaskuri = 1;
+
+                    }
+
+                    lisatyt_ottelut.get(i).asetaKierros(kierroslaskuri);
+                    lisatyt_ottelut.get(i).asetaTaulukkokierros();
+
+                }
+                return null;
             }
+        };
+        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
 
-        }
+                tiedottaja.kirjoitaLoki("Otteluluettelo laadittu sarjaan " + sarja.toString() + ".");
+                ikkuna.asetaMuutos(true);
 
-        //matriisin sisällön pohjalta luodaan ottelut
-        for (int i = 0; i < ottelut; i++) {
-
-            if (!(ottelutaulu[i][0].equals(dummy) || ottelutaulu[i][1].equals(dummy))) {
-                Ottelu ottelu = new Ottelu(sarja);
-                ottelu.kasvataLaskuria();
-                ottelu.asetaID(ottelu.annaLaskuri());
-        ottelu.asetaOttelunumero(ottelu.annaLaskuri() + 990);
-        
-                Joukkue kotijoukkue = ottelutaulu[i][0];
-                Joukkue vierasjoukkue = ottelutaulu[i][1];               
-                ottelu.asetaJoukkueet(kotijoukkue, vierasjoukkue);
-                    //lisätään kokoonpanot
-        Kokoonpano koti_kokoonpano = new Kokoonpano(ottelu, kotijoukkue);
-        koti_kokoonpano.kasvataLaskuria();
-        koti_kokoonpano.asetaID(koti_kokoonpano.annaLaskuri());
-        ottelu.asetaKotiKokoonpano(koti_kokoonpano);
-
-        Kokoonpano vieras_kokoonpano = new Kokoonpano(ottelu, vierasjoukkue);
-        vieras_kokoonpano.kasvataLaskuria();
-        vieras_kokoonpano.asetaID(vieras_kokoonpano.annaLaskuri());
-        ottelu.asetaVierasKokoonpano(vieras_kokoonpano);
-                
-                //lisätään tuomarinrooli
-        TuomarinRooli rooli_erotuomari = new TuomarinRooli("Erotuomari", ottelu);
-        rooli_erotuomari.kasvataLaskuria();
-        ottelu.annaRoolit().add(rooli_erotuomari);
-
-        TuomarinRooli rooli_avustava1 = new TuomarinRooli("1. Avustava erotuomari", ottelu);
-        rooli_avustava1.kasvataLaskuria();
-        ottelu.annaRoolit().add(rooli_avustava1);
-
-        TuomarinRooli rooli_avustava2 = new TuomarinRooli("2. Avustava erotuomari", ottelu);
-        rooli_avustava2.kasvataLaskuria();
-        ottelu.annaRoolit().add(rooli_avustava2);        
-                sarja.annaOttelut().add(ottelu);
-
+                tehtavastage.hide();
             }
+        });
+        edistyminen.progressProperty().bind(tehtava.progressProperty());
 
-        }
-        int ottelua_per_kierros = 0;
-        if (parillinen_maara) {
-            ottelua_per_kierros = maara / 2;
-        } else {
-            maara = maara - 1;
-            ottelua_per_kierros = maara / 2;
-        }
-
-        List<Ottelu> lisatyt_ottelut = sarja.annaOttelut();
-
-        int ottelulaskuri = 0;
-        int kierroslaskuri = 1;
-        for (int i = 0; i < lisatyt_ottelut.size(); i++) {
-
-            ottelulaskuri++;
-
-            if (ottelulaskuri > ottelua_per_kierros) {
-
-                kierroslaskuri++;
-                ottelulaskuri = 1;
-
-            }
-
-            lisatyt_ottelut.get(i).asetaKierros(kierroslaskuri);
-            lisatyt_ottelut.get(i).asetaTaulukkokierros();
-
-        }
-        tiedottaja.kirjoitaLoki("Otteluluettelo laadittu sarjaan " + sarja.toString() + ".");
-        ikkuna.asetaMuutos(true);
+        tehtavastage.show();
+        new Thread(tehtava).start();
 
     }
 
     public void poistaKaikkiOttelut(List<Ottelu> ottelut, Sarja sarja) {
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
 
-        while (!sarja.annaOttelut().isEmpty()) {
-            for (int i = 0; i < ottelut.size(); i++) {
+        Label otsikko = new Label("Poistetaan kaikki sarjan ottelut..");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+        otsikko.setEffect(dropShadow);
 
-                poistaOttelu(ottelut.get(i));
+        ProgressBar edistyminen = new ProgressBar();
+        edistyminen.setPrefWidth(200);
+        edistyminen.setPrefHeight(30);
 
+        VBox palkki = new VBox();
+        palkki.setPadding(new Insets(10));
+        palkki.setSpacing(10);
+        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+        palkki.getChildren().addAll(otsikko, edistyminen);
+
+        Stage tehtavastage = new Stage(StageStyle.UTILITY);
+        Scene scene = new Scene(palkki);
+
+        scene.getStylesheets().add("css/tyylit.css");
+
+        tehtavastage.setScene(scene);
+        tehtavastage.show();
+
+        Task tehtava = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+
+                while (!sarja.annaOttelut().isEmpty()) {
+                    for (int i = 0; i < ottelut.size(); i++) {
+
+                        poistaOttelu(ottelut.get(i));
+
+                    }
+                }
+
+                sarja.annaOttelut().clear();
+                return null;
             }
-        }
+        };
+        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
 
-        sarja.annaOttelut().clear();
-        tiedottaja.kirjoitaLoki("Kaikki ottelut poistettu sarjasta " + sarja.toString() + ".");
-        ikkuna.asetaMuutos(true);
+                tiedottaja.kirjoitaLoki("Kaikki ottelut poistettu sarjasta " + sarja.toString() + ".");
+                ikkuna.asetaMuutos(true);
+                tehtavastage.hide();
+            }
+        });
+        edistyminen.progressProperty().bind(tehtava.progressProperty());
+
+        tehtavastage.show();
+        new Thread(tehtava).start();
+
     }
 
     public void poistaKaikkiJoukkueet(List<Joukkue> joukkueet, Sarja sarja) {
@@ -903,28 +1003,114 @@ public class Muuttaja {
 
     void poistaKaikkiPelaajat(List<Pelaaja> poistettavat, Joukkue joukkue) {
 
-        while (!joukkue.annaPelaajat().isEmpty()) {
-            for (int i = 0; i < poistettavat.size(); i++) {
-                poistaPelaaja(poistettavat.get(i), joukkue);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
 
+        Label otsikko = new Label("Poistetaan kaikki joukkueen pelaajat..");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+        otsikko.setEffect(dropShadow);
+
+        ProgressBar edistyminen = new ProgressBar();
+        edistyminen.setPrefWidth(200);
+        edistyminen.setPrefHeight(30);
+
+        VBox palkki = new VBox();
+        palkki.setPadding(new Insets(10));
+        palkki.setSpacing(10);
+        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+        palkki.getChildren().addAll(otsikko, edistyminen);
+
+        Stage tehtavastage = new Stage(StageStyle.UTILITY);
+        Scene scene = new Scene(palkki);
+
+        scene.getStylesheets().add("css/tyylit.css");
+
+        tehtavastage.setScene(scene);
+        tehtavastage.show();
+
+        Task tehtava = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+
+                while (!joukkue.annaPelaajat().isEmpty()) {
+                    for (int i = 0; i < poistettavat.size(); i++) {
+                        poistaPelaaja(poistettavat.get(i), joukkue);
+
+                    }
+                }
+                joukkue.annaPelaajat().clear();
+
+                return null;
             }
-        }
-        joukkue.annaPelaajat().clear();
-        tiedottaja.kirjoitaLoki("Kaikki pelaajat poistettu joukkueesta " + joukkue.toString() + ".");
-        ikkuna.asetaMuutos(true);
+        };
+        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                tiedottaja.kirjoitaLoki("Kaikki pelaajat poistettu joukkueesta " + joukkue.toString() + ".");
+                ikkuna.asetaMuutos(true);
+                tehtavastage.hide();
+            }
+        });
+        edistyminen.progressProperty().bind(tehtava.progressProperty());
+
+        tehtavastage.show();
+        new Thread(tehtava).start();
+
     }
 
     public void poistaKaikkiToimarit(List<Toimihenkilo> poistettavat, Joukkue joukkue) {
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
 
-        while (!joukkue.annaToimarit().isEmpty()) {
-            for (int i = 0; i < poistettavat.size(); i++) {
-                poistaToimari(poistettavat.get(i), joukkue);
+        Label otsikko = new Label("Poistetaan kaikki joukkueen toimihenkilöt..");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+        otsikko.setEffect(dropShadow);
 
+        ProgressBar edistyminen = new ProgressBar();
+        edistyminen.setPrefWidth(200);
+        edistyminen.setPrefHeight(30);
+
+        VBox palkki = new VBox();
+        palkki.setPadding(new Insets(10));
+        palkki.setSpacing(10);
+        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+        palkki.getChildren().addAll(otsikko, edistyminen);
+
+        Stage tehtavastage = new Stage(StageStyle.UTILITY);
+        Scene scene = new Scene(palkki);
+
+        scene.getStylesheets().add("css/tyylit.css");
+
+        tehtavastage.setScene(scene);
+        tehtavastage.show();
+
+        Task tehtava = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                while (!joukkue.annaToimarit().isEmpty()) {
+                    for (int i = 0; i < poistettavat.size(); i++) {
+                        poistaToimari(poistettavat.get(i), joukkue);
+
+                    }
+                }
+                joukkue.annaToimarit().clear();
+                return null;
             }
-        }
-        joukkue.annaToimarit().clear();
-        tiedottaja.kirjoitaLoki("Kaikki toimihenkilöt poistettu joukkueesta " + joukkue.toString() + ".");
-        ikkuna.asetaMuutos(true);
+        };
+        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                tiedottaja.kirjoitaLoki("Kaikki toimihenkilöt poistettu joukkueesta " + joukkue.toString() + ".");
+                ikkuna.asetaMuutos(true);
+                tehtavastage.hide();
+            }
+        });
+        edistyminen.progressProperty().bind(tehtava.progressProperty());
+
+        tehtavastage.show();
+        new Thread(tehtava).start();
 
     }
 
@@ -962,114 +1148,158 @@ public class Muuttaja {
     }
 
     public void poistaTurnaus(Turnaus turnaus) {
-        try {
-            int turnaus_id = turnaus.annaID();
-            turnaus.vahennaLaskuria();
-            con = yhteys.annaYhteys();
-            st = con.createStatement();
-            st2 = con.createStatement();
-            st3 = con.createStatement();
-            st4 = con.createStatement();
-            st5 = con.createStatement();
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
 
-            //tyhjennetään pelaajat
-            sql = "SELECT DISTINCT pelaaja.tupaid as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND pelaaja.joukkue_id = joukkue.tupaid";
-            ResultSet pelaajat = st2.executeQuery(sql);
+        Label otsikko = new Label("Poistetaan turnausta..");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+        otsikko.setEffect(dropShadow);
 
-            while (pelaajat.next()) {
+        ProgressBar edistyminen = new ProgressBar();
+        edistyminen.setPrefWidth(200);
+        edistyminen.setPrefHeight(30);
 
-                int id = pelaajat.getInt("pid");
-                sql = "DELETE FROM pelaaja WHERE tupaid='" + id + "'";
-                st.executeUpdate(sql);
-                sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
-                st.executeUpdate(sql);
-            }
+        VBox palkki = new VBox();
+        palkki.setPadding(new Insets(10));
+        palkki.setSpacing(10);
+        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+        palkki.getChildren().addAll(otsikko, edistyminen);
 
-            //tyhjennetään toimarit
-            sql = "SELECT DISTINCT toimari.tupaid as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND toimari.joukkue_id = joukkue.tupaid";
-            ResultSet toimarit = st3.executeQuery(sql);
+        Stage tehtavastage = new Stage(StageStyle.UTILITY);
+        Scene scene = new Scene(palkki);
 
-            while (toimarit.next()) {
+        scene.getStylesheets().add("css/tyylit.css");
 
-                int id = toimarit.getInt("tid");
-                sql = "DELETE FROM toimari WHERE tupaid='" + id + "'";
-                st.executeUpdate(sql);
-            }
+        tehtavastage.setScene(scene);
+        tehtavastage.show();
 
-            //tyhjennetään ottelut
-            sql = "SELECT DISTINCT ottelu.tupaid as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND (ottelu.kotijoukkue_id = joukkue.tupaid OR ottelu.vierasjoukkue_id = joukkue.tupaid)";
-            ResultSet ottelut = st4.executeQuery(sql);
+        Task tehtava = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
 
-            while (ottelut.next()) {
-                int id = ottelut.getInt("oid");
+                try {
+                    int turnaus_id = turnaus.annaID();
+                    turnaus.vahennaLaskuria();
+                    con = yhteys.annaYhteys();
+                    st = con.createStatement();
+                    st2 = con.createStatement();
+                    st3 = con.createStatement();
+                    st4 = con.createStatement();
+                    st5 = con.createStatement();
 
-                //tyhjennetään kokoonpanot
-                sql = "DELETE FROM kokoonpano WHERE ottelu_id='" + id + "'";
-                st.executeUpdate(sql);
+                    //tyhjennetään pelaajat
+                    sql = "SELECT DISTINCT pelaaja.tupaid as pid FROM sarja, joukkue, pelaaja WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND pelaaja.joukkue_id = joukkue.tupaid";
+                    ResultSet pelaajat = st2.executeQuery(sql);
 
-                //tyhjennetään ensin maalit
-                sql = "DELETE FROM maali WHERE ottelu_id='" + id + "'";
-                st.executeUpdate(sql);
-                //ja tuomarinroolit
+                    while (pelaajat.next()) {
 
-                sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
-                st.executeUpdate(sql);
+                        int id = pelaajat.getInt("pid");
+                        sql = "DELETE FROM pelaaja WHERE tupaid='" + id + "'";
+                        st.executeUpdate(sql);
+                        sql = "DELETE FROM pelaajan_kokoonpano WHERE pelaaja_id='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
 
-                sql = "DELETE FROM ottelu WHERE tupaid='" + id + "'";
-                st.executeUpdate(sql);
-            }
+                    //tyhjennetään toimarit
+                    sql = "SELECT DISTINCT toimari.tupaid as tid FROM sarja, joukkue, toimari WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND toimari.joukkue_id = joukkue.tupaid";
+                    ResultSet toimarit = st3.executeQuery(sql);
 
-            //tyhjennetään joukkueet
-            sql = "SELECT DISTINCT joukkue.tupaid as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid";
-            ResultSet joukkueet = st5.executeQuery(sql);
+                    while (toimarit.next()) {
 
-            while (joukkueet.next()) {
+                        int id = toimarit.getInt("tid");
+                        sql = "DELETE FROM toimari WHERE tupaid='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
 
-                int id = joukkueet.getInt("jid");
-                sql = "DELETE FROM joukkue WHERE tupaid='" + id + "'";
-                st.executeUpdate(sql);
-            }
+                    //tyhjennetään ottelut
+                    sql = "SELECT DISTINCT ottelu.tupaid as oid FROM sarja, joukkue, ottelu WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid AND (ottelu.kotijoukkue_id = joukkue.tupaid OR ottelu.vierasjoukkue_id = joukkue.tupaid)";
+                    ResultSet ottelut = st4.executeQuery(sql);
 
-            //tyhjennetään sarjat
-            sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
-            st.executeUpdate(sql);
+                    while (ottelut.next()) {
+                        int id = ottelut.getInt("oid");
 
-            //tyhjennetään tuomarit
-            sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
-            st.executeUpdate(sql);
+                        //tyhjennetään kokoonpanot
+                        sql = "DELETE FROM kokoonpano WHERE ottelu_id='" + id + "'";
+                        st.executeUpdate(sql);
 
-            sql = "DELETE FROM turnauksen_salasana WHERE turnaus_id='" + turnaus_id + "'";
-            st.executeUpdate(sql);
+                        //tyhjennetään ensin maalit
+                        sql = "DELETE FROM maali WHERE ottelu_id='" + id + "'";
+                        st.executeUpdate(sql);
+                        //ja tuomarinroolit
 
-            sql = "DELETE FROM kayttajan_turnaus WHERE turnaus_id='" + turnaus_id + "'";
-            st.executeUpdate(sql);
+                        sql = "DELETE FROM tuomarinrooli WHERE ottelu_id='" + id + "'";
+                        st.executeUpdate(sql);
 
-            Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-            tiedottaja.annaIlmoitus("Turnaus poistettu");
-            ikkuna.asetaAloitus(true);
+                        sql = "DELETE FROM ottelu WHERE tupaid='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
 
-        } catch (SQLException se) {
+                    //tyhjennetään joukkueet
+                    sql = "SELECT DISTINCT joukkue.tupaid as jid FROM sarja, joukkue WHERE sarja.turnaus_id='" + turnaus_id + "' AND joukkue.sarja_id = sarja.tupaid";
+                    ResultSet joukkueet = st5.executeQuery(sql);
 
-            se.printStackTrace();
-        } catch (Exception e) {
+                    while (joukkueet.next()) {
 
-            e.printStackTrace();
-        } finally {
+                        int id = joukkueet.getInt("jid");
+                        sql = "DELETE FROM joukkue WHERE tupaid='" + id + "'";
+                        st.executeUpdate(sql);
+                    }
 
-            try {
-                if (st != null) {
-                    con.close();
+                    //tyhjennetään sarjat
+                    sql = "DELETE FROM sarja WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+
+                    //tyhjennetään tuomarit
+                    sql = "DELETE FROM tuomari WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+
+                    sql = "DELETE FROM turnauksen_salasana WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+
+                    sql = "DELETE FROM kayttajan_turnaus WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
+
+                } catch (SQLException se) {
+
+                    se.printStackTrace();
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                } finally {
+
+                    try {
+                        if (st != null) {
+                            con.close();
+                        }
+                    } catch (SQLException se) {
+                    }
+                    try {
+                        if (con != null) {
+                            con.close();
+                        }
+                    } catch (SQLException se) {
+                        se.printStackTrace();
+                    }
                 }
-            } catch (SQLException se) {
+                return null;
             }
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
+        };
+        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+
+                Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                tiedottaja.annaIlmoitus("Turnaus poistettu");
+                ikkuna.asetaAloitus(true);
+
+                tehtavastage.hide();
             }
-        }
+        });
+        edistyminen.progressProperty().bind(tehtava.progressProperty());
+
+        tehtavastage.show();
+        new Thread(tehtava).start();
 
     }
 
