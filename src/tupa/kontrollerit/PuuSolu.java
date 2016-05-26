@@ -60,7 +60,7 @@ public class PuuSolu extends TreeCell<Kohde> {
 
         MenuItem item2 = new MenuItem("Muokkaa");
         menu.getItems().add(item2);
-        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) ) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
             item2.setDisable(true);
         }
         MenuItem item5 = new MenuItem("Poista");
@@ -82,6 +82,7 @@ public class PuuSolu extends TreeCell<Kohde> {
             item2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+
                     Sarja sarja = (Sarja) item;
                     SarjaNakyma sarjanakyma = new SarjaNakyma();
                     sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
@@ -131,9 +132,12 @@ public class PuuSolu extends TreeCell<Kohde> {
             item1.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    SarjaNakyma sarjanakyma = new SarjaNakyma();
-                    sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
-                    sarjanakyma.luoSarjanLisaysSivu();
+
+                    if (!ikkuna.annaAloitus()) {
+                        SarjaNakyma sarjanakyma = new SarjaNakyma();
+                        sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
+                        sarjanakyma.luoSarjanLisaysSivu();
+                    }
 
                 }
             });
@@ -141,13 +145,20 @@ public class PuuSolu extends TreeCell<Kohde> {
             item3.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //TIETOKANTA --> TIEDOSTO
+                    if (!ikkuna.annaAloitus()) {
+
+                        //TIETOKANTA --> TIEDOSTO
+                    }
+
                 }
             });
             item4.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //TIEDOSTO --> TIETOKANTA
+                    if (!ikkuna.annaAloitus()) {
+                        //TIEDOSTO --> TIETOKANTA
+                    }
+
                 }
             });
 

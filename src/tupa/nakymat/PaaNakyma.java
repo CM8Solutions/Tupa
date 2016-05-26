@@ -257,6 +257,7 @@ public class PaaNakyma {
         grid.setVgap(40);
 
         sb.setContent(grid);
+        System.out.println(ikkuna.annaAloitus());
 
         ikkuna.annaNaytto().getChildren().add(sb);
 
@@ -264,7 +265,7 @@ public class PaaNakyma {
 
         public void luoEtusivuTyhja() {
 
-
+  System.out.println(ikkuna.annaAloitus());
 
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");

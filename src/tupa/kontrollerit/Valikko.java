@@ -59,7 +59,7 @@ public class Valikko implements EventHandler<ActionEvent> {
 
         MenuItem tallenna = new MenuItem("Tallenna");
         tallenna.setAccelerator(new KeyCharacterCombination("S", KeyCombination.SHORTCUT_DOWN));
-        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaTaso() == 1) || ikkuna.annaAloitus()) {
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaTaso() == 1)) {
             tallenna.setDisable(true);
         }
 
@@ -150,7 +150,7 @@ public class Valikko implements EventHandler<ActionEvent> {
 
                         Aloitus aloitus = new Aloitus();
                         Turnaus turnaus = aloitus.luoAlkuTurnaus();
-                      
+
                         ikkuna.asetaTurnaus((Kohde) turnaus);
                         ikkuna.annaKohteet().add((Kohde) turnaus);
 
@@ -213,13 +213,17 @@ public class Valikko implements EventHandler<ActionEvent> {
                     valitsija.annaTurnausLuettelo();
 
                 }
-                
+
                 break;
             }
 
             case "Tallenna": {
-                Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-                tarkistaja.tarkistaTurnaustiedot();
+
+                if (!ikkuna.annaAloitus()) {
+                    Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                    tarkistaja.tarkistaTurnaustiedot();
+
+                }
                 break;
             }
 
@@ -250,6 +254,21 @@ public class Valikko implements EventHandler<ActionEvent> {
 
                 Ohjeistus ohje = new Ohjeistus();
                 ohje.annaTietoa();
+                break;
+            }
+            case "Tuo": {
+
+                if (!ikkuna.annaAloitus()) {
+
+                }
+                break;
+            }
+
+            case "Vie": {
+
+                if (!ikkuna.annaAloitus()) {
+
+                }
                 break;
             }
 

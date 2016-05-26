@@ -23,7 +23,7 @@ public class Tarkistaja {
     private Connection con = null;
     private Statement st = null;
     private String sql = "";
-    
+
     public Tarkistaja() {
 
     }
@@ -32,11 +32,11 @@ public class Tarkistaja {
         this.ikkuna = ikkuna;
         this.tiedottaja = new Tiedottaja(ikkuna);
     }
-    
-     public Tarkistaja(Tupa ikkuna, Turnaus turnaus) {
+
+    public Tarkistaja(Tupa ikkuna, Turnaus turnaus) {
         this.ikkuna = ikkuna;
         this.turnaus = turnaus;
-          this.tiedottaja = new Tiedottaja(ikkuna);
+        this.tiedottaja = new Tiedottaja(ikkuna);
     }
 
     public boolean nimiOK(String nimi) {
@@ -153,13 +153,12 @@ public class Tarkistaja {
         }
         return true;
     }
-    
-    
-     public void tarkistaTurnaustiedot() {
+
+    public void tarkistaTurnaustiedot() {
 
         int turnaus_id = turnaus.annaID();
         try {
-
+            System.out.println("try");
             con = yhteys.annaYhteys();
             st = con.createStatement();
 
@@ -175,13 +174,13 @@ public class Tarkistaja {
             if (laskuri == 1) {
                 Tallennus tallenna = new Tallennus(ikkuna);
                 tallenna.suoritaTallennus();
-                tiedottaja.kirjoitaLoki("Turnaus "+turnaus.toString() + " tallennettu.");
-            }
-            else{
+                tiedottaja.kirjoitaLoki("Turnaus " + turnaus.toString() + " tallennettu.");
+            } else {
+
                 Kirjautuminen kirjautuja = new Kirjautuminen(turnaus, ikkuna);
                 kirjautuja.luoTurnauksenSalasananSyotto();
             }
-               
+
         } catch (SQLException se) {
 
             se.printStackTrace();
@@ -203,13 +202,13 @@ public class Tarkistaja {
             } catch (SQLException se) {
                 se.printStackTrace();
             }
-        }
 
+        }
     }
-     
-    public boolean tarkistaTurnausMaara(){
+
+    public boolean tarkistaTurnausMaara() {
         boolean ok = false;
-         int kayttaja_id = ikkuna.annaKayttajaID();
+        int kayttaja_id = ikkuna.annaKayttajaID();
         try {
 
             con = yhteys.annaYhteys();
@@ -225,12 +224,11 @@ public class Tarkistaja {
             }
 
             if (laskuri < 5) {
-                  ok = true;
+                ok = true;
+            } else {
+                ok = false;
             }
-            else{
-              ok = false;
-            }
-               
+
         } catch (SQLException se) {
 
             se.printStackTrace();
@@ -253,8 +251,8 @@ public class Tarkistaja {
                 se.printStackTrace();
             }
         }
-  
+
         return ok;
-    } 
-     
+    }
+
 }
