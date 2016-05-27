@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -36,6 +38,7 @@ import tupa.nakymat.TuomariNakyma;
 import tupa.nakymat.ToimariNakyma;
 import tupa.nakymat.OtteluNakyma;
 import tupa.Tupa;
+import tupa.data.Henkilo;
 import tupa.data.Maali;
 import tupa.data.Ottelu;
 import tupa.data.Sarja;
@@ -63,19 +66,19 @@ public class Taulukko {
     private Varmistaja varmistaja;
     private Tarkistaja tarkistaja;
     private Tupa ikkuna;
-  private Connection con = null;
+    private Connection con = null;
     private Statement st = null;
     private Yhteys yhteys = new Yhteys();
-    private String sql="";
-    
+    private String sql = "";
+
     public Taulukko() {
 
     }
 
-    public Taulukko(Tupa ikkuna){
+    public Taulukko(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
-    
+
     public Taulukko(PaaNakyma nakyma) {
         this.nakyma = nakyma;
         tarkistaja = new Tarkistaja(nakyma.annaIkkuna());
@@ -383,8 +386,7 @@ public class Taulukko {
             public void handle(TableColumn.CellEditEvent<Ottelu, Tuomari> t) {
 
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-        
-                
+
                 if (tarkistaja.erotuomariOK(t.getNewValue(), ottelu)) {
 
                     //lisätään uuden tuomarin luetteloon ko rooli
@@ -694,11 +696,11 @@ public class Taulukko {
             Joukkue joukkue = joukkueet.get(k);
 
             for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
-                 
+
                 Pelaaja joukkueen_pelaaja = joukkue.annaPelaajat().get(i);
-                 if(!joukkueen_pelaaja.annaEtuNimi().equals("") && !joukkueen_pelaaja.annaEtuNimi().equals("Oma") && !joukkueen_pelaaja.annaEtuNimi().equals("Ei") ){
-                joukkueiden_pelaajat.add(joukkueen_pelaaja);
-                 }
+                if (!joukkueen_pelaaja.annaEtuNimi().equals("") && !joukkueen_pelaaja.annaEtuNimi().equals("Oma") && !joukkueen_pelaaja.annaEtuNimi().equals("Ei")) {
+                    joukkueiden_pelaajat.add(joukkueen_pelaaja);
+                }
             }
         }
 
@@ -1294,12 +1296,12 @@ public class Taulukko {
         List<Pelaaja> pelaajat = new ArrayList<>();
 
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
-             if(!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")){
-            joukkue.annaPelaajat().get(i).asetaTaulukkonimi();
-            joukkue.annaPelaajat().get(i).asetaTaulukkonumero();
-            joukkue.annaPelaajat().get(i).asetaTaulukkopelipaikka();
-            pelaajat.add(joukkue.annaPelaajat().get(i));
-             }
+            if (!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")) {
+                joukkue.annaPelaajat().get(i).asetaTaulukkonimi();
+                joukkue.annaPelaajat().get(i).asetaTaulukkonumero();
+                joukkue.annaPelaajat().get(i).asetaTaulukkopelipaikka();
+                pelaajat.add(joukkue.annaPelaajat().get(i));
+            }
         }
 
         ObservableList<Pelaaja> data
@@ -1315,7 +1317,7 @@ public class Taulukko {
         pelipaikka.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkopelipaikka"));
 
         pelipaikka.setPrefWidth(100);
-        
+
         taulukko.getColumns().addAll(pelinumero, pelaaja, pelipaikka);
         taulukko.setItems(data);
         pelinumero.setSortType(TableColumn.SortType.ASCENDING);
@@ -1347,12 +1349,12 @@ public class Taulukko {
         List<Pelaaja> pelaajat = new ArrayList<>();
 
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
-            if(!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")){
-            joukkue.annaPelaajat().get(i).asetaTaulukkoetunimi();
-            joukkue.annaPelaajat().get(i).asetaTaulukkosukunimi();
-            joukkue.annaPelaajat().get(i).asetaTaulukkonumero();
-            joukkue.annaPelaajat().get(i).asetaTaulukkopelipaikka();
-            pelaajat.add(joukkue.annaPelaajat().get(i));
+            if (!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")) {
+                joukkue.annaPelaajat().get(i).asetaTaulukkoetunimi();
+                joukkue.annaPelaajat().get(i).asetaTaulukkosukunimi();
+                joukkue.annaPelaajat().get(i).asetaTaulukkonumero();
+                joukkue.annaPelaajat().get(i).asetaTaulukkopelipaikka();
+                pelaajat.add(joukkue.annaPelaajat().get(i));
             }
         }
 
@@ -1513,9 +1515,9 @@ public class Taulukko {
         //haetaan kaikki joukkueen pelaajat
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
             Pelaaja pelaaja = joukkue.annaPelaajat().get(i);
-        if(!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")){
-            pelaajat.add(pelaaja);
-        }
+            if (!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")) {
+                pelaajat.add(pelaaja);
+            }
         }
 
         // järjestetään pelaajat pisteiden mukaiseen järjestykseen
@@ -1959,7 +1961,7 @@ public class Taulukko {
             @Override
             public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
                 OtteluNakyma ottelunakyma = nakyma.annaOttelunakyma();
-                
+
                 return new PoistoSoluMaali(data, ottelunakyma);
             }
 
@@ -2004,40 +2006,45 @@ public class Taulukko {
         sarake4.setPadding(new Insets(20));
         sarake4.getChildren().add(otrooli);
 
-        int koko = joukkue.annaPelaajat().size();
+        //pelaajat pelinumeron mukaiseen järjestykseen
+        Vector<Henkilo> pelaajat = new Vector<>();
 
-        for (int i = 0; i < koko; i++) {
+        for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
+            pelaajat.add((Henkilo) joukkue.annaPelaajat().get(i));
 
-            
-            Pelaaja haettu = joukkue.annaPelaajat().get(i);
+        }
 
-            if(!haettu.annaEtuNimi().equals("Ei") && !haettu.annaEtuNimi().equals("Oma") && !haettu.annaEtuNimi().equals("")){
-               
-                  Label nro = new Label("" + haettu.annaPelinumero() + "");
-            sarake1.getChildren().add(nro);
+        Collections.sort(pelaajat, Pelaaja.DESCENDING_COMPARATOR);
+        for (Henkilo pelaaja : pelaajat) {
+            Pelaaja haettu = (Pelaaja) pelaaja;
 
-            Label nimi = new Label(haettu.toString());
-            sarake2.getChildren().add(nimi);
-            //onko kokoonpanossa:
-            boolean on = false;
-            for (int j = 0; j < haettu.annaKokoonpanot().size(); j++) {
-                if (haettu.annaKokoonpanot().get(j).annaOttelu().equals(ottelu)) {
-                    on = true;
+            if (!haettu.annaEtuNimi().equals("Ei") && !haettu.annaEtuNimi().equals("Oma") && !haettu.annaEtuNimi().equals("")) {
+
+                Label nro = new Label("" + haettu.annaPelinumero() + "");
+                sarake1.getChildren().add(nro);
+
+                Label nimi = new Label(haettu.toString());
+                sarake2.getChildren().add(nimi);
+                //onko kokoonpanossa:
+                boolean on = false;
+                for (int j = 0; j < haettu.annaKokoonpanot().size(); j++) {
+                    if (haettu.annaKokoonpanot().get(j).annaOttelu().equals(ottelu)) {
+                        
+                        on = true;
+                    }
+
+                }
+                Label orooli = new Label();
+                if (on) {
+                    orooli.setText("Kokoonpanossa");
+                } else {
+                    orooli.setText("Ei kokoonpanossa");
                 }
 
+                Label opelipaikka = new Label(haettu.annaPelipaikka());
+                sarake3.getChildren().add(opelipaikka);
+                sarake4.getChildren().add(orooli);
             }
-            Label orooli = new Label();
-            if (on) {
-                orooli.setText("Kokoonpanossa");
-            } else {
-                orooli.setText("Ei kokoonpanossa");
-            }
-
-            Label opelipaikka = new Label(haettu.annaPelipaikka());
-            sarake3.getChildren().add(opelipaikka);
-            sarake4.getChildren().add(orooli);
-            }
-          
 
         }
 
@@ -2046,124 +2053,113 @@ public class Taulukko {
     }
 
     public TableView luoTurnausTaulukko() throws SQLException {
-      
+
         taulukko.setPlaceholder(new Label("Ei tallennettuja turnauksia"));
         taulukko.setId("my-table");
         List<Turnaus> turnauslista = new ArrayList<>();
-           try {
-      
-        con = yhteys.annaYhteys();
-      st = con.createStatement();
-      
-      //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
-      if(ikkuna.annaTaso() == 1 || ikkuna.annaTaso() == 2){
+        try {
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+
+            //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
+            if (ikkuna.annaTaso() == 1 || ikkuna.annaTaso() == 2) {
                 sql = "SELECT * FROM turnaus, kayttajan_turnaus WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + ikkuna.annaKayttajaID() + "'";
 
-            ResultSet turnaukset = st.executeQuery(sql);
+                ResultSet turnaukset = st.executeQuery(sql);
 
-            while (turnaukset.next()) {
-                String nimi = turnaukset.getString("nimi");
-                String luomispvm = turnaukset.getString("luomispvm");
-                int id = turnaukset.getInt("tupaid");
-                
-                Turnaus turnaus = new Turnaus();
-                turnaus.asetaID(id);
-                turnaus.asetaNimi(nimi);
-                  
-                turnaus.asetaLuomispvm(luomispvm);
-                turnaus.asetaTaulukkonimi();
-                turnaus.asetaTaulukkoluomispvm();
-                
-                turnauslista.add(turnaus);
-            }
-          
-      }
-      
-      //yleiselle ylläpitäjälle ja kirjautumattomille käyttäjille näytetään kaikki järjestelmässä olevat turnaukset
-      else{
+                while (turnaukset.next()) {
+                    String nimi = turnaukset.getString("nimi");
+                    String luomispvm = turnaukset.getString("luomispvm");
+                    int id = turnaukset.getInt("tupaid");
+
+                    Turnaus turnaus = new Turnaus();
+                    turnaus.asetaID(id);
+                    turnaus.asetaNimi(nimi);
+
+                    turnaus.asetaLuomispvm(luomispvm);
+                    turnaus.asetaTaulukkonimi();
+                    turnaus.asetaTaulukkoluomispvm();
+
+                    turnauslista.add(turnaus);
+                }
+
+            } //yleiselle ylläpitäjälle ja kirjautumattomille käyttäjille näytetään kaikki järjestelmässä olevat turnaukset
+            else {
                 sql = "SELECT * FROM turnaus";
 
-            ResultSet turnaukset = st.executeQuery(sql);
+                ResultSet turnaukset = st.executeQuery(sql);
 
-            while (turnaukset.next()) {
-                String nimi = turnaukset.getString("nimi");
-                String luomispvm = turnaukset.getString("luomispvm");
-                int id = turnaukset.getInt("tupaid");
-                
-                Turnaus turnaus = new Turnaus();
-                turnaus.asetaID(id);
-              
-                turnaus.asetaNimi(nimi);
-              
-             
-                turnaus.asetaLuomispvm(luomispvm);
-                turnaus.asetaTaulukkonimi();
-                turnaus.asetaTaulukkoluomispvm();
-                
-                turnauslista.add(turnaus);
-            }
-      }
-      
-              ObservableList<Turnaus> data
-                = FXCollections.observableArrayList(turnauslista);
+                while (turnaukset.next()) {
+                    String nimi = turnaukset.getString("nimi");
+                    String luomispvm = turnaukset.getString("luomispvm");
+                    int id = turnaukset.getInt("tupaid");
 
-        TableColumn nimi = new TableColumn("Turnaus");
-        TableColumn luomispvm = new TableColumn("Luomispvm ");
-         TableColumn col_action = new TableColumn<>("Poista");
-        nimi.setMinWidth(180);
-        luomispvm.setMinWidth(150);
-        nimi.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkonimi"));  
-       luomispvm.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkoluomispvm"));  
-        
-       if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2){
-            taulukko.getColumns().addAll(nimi, luomispvm, col_action);
-       }
-       else{
-            taulukko.getColumns().addAll(nimi, luomispvm);
-       }
-       
-        taulukko.setItems(data);
-        luomispvm.setSortType(TableColumn.SortType.DESCENDING);
-        taulukko.getSortOrder().add(luomispvm);
+                    Turnaus turnaus = new Turnaus();
+                    turnaus.asetaID(id);
 
+                    turnaus.asetaNimi(nimi);
 
-        taulukko.setFixedCellSize(25);
+                    turnaus.asetaLuomispvm(luomispvm);
+                    turnaus.asetaTaulukkonimi();
+                    turnaus.asetaTaulukkoluomispvm();
 
-        if (taulukko.getItems().size() == 0) {
-            taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(2)));
-        } else {
-            taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(1.1)));
-        }
-
-        
-        col_action.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
-
-            @Override
-            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Record, Boolean> p) {
-                return new SimpleBooleanProperty(p.getValue() != null);
-            }
-        });
-
-        col_action.setCellFactory(
-                new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
-
-            @Override
-            public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
-                return new PoistoSoluTurnaus(data, ikkuna);
+                    turnauslista.add(turnaus);
+                }
             }
 
-        });
-        
-        
-        
-        
-        
-        
-        taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
-        taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
-        
-           } catch (SQLException se) {
+            ObservableList<Turnaus> data
+                    = FXCollections.observableArrayList(turnauslista);
+
+            TableColumn nimi = new TableColumn("Turnaus");
+            TableColumn luomispvm = new TableColumn("Luomispvm ");
+            TableColumn col_action = new TableColumn<>("Poista");
+            nimi.setMinWidth(180);
+            luomispvm.setMinWidth(150);
+            nimi.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkonimi"));
+            luomispvm.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkoluomispvm"));
+
+            if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
+                taulukko.getColumns().addAll(nimi, luomispvm, col_action);
+            } else {
+                taulukko.getColumns().addAll(nimi, luomispvm);
+            }
+
+            taulukko.setItems(data);
+            luomispvm.setSortType(TableColumn.SortType.DESCENDING);
+            taulukko.getSortOrder().add(luomispvm);
+
+            taulukko.setFixedCellSize(25);
+
+            if (taulukko.getItems().size() == 0) {
+                taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(2)));
+            } else {
+                taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(1.1)));
+            }
+
+            col_action.setCellValueFactory(
+                    new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
+
+                @Override
+                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Record, Boolean> p) {
+                    return new SimpleBooleanProperty(p.getValue() != null);
+                }
+            });
+
+            col_action.setCellFactory(
+                    new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
+
+                @Override
+                public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
+                    return new PoistoSoluTurnaus(data, ikkuna);
+                }
+
+            });
+
+            taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
+            taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
+
+        } catch (SQLException se) {
 
             se.printStackTrace();
         } catch (Exception e) {
@@ -2185,9 +2181,7 @@ public class Taulukko {
                 se.printStackTrace();
             }
         }
-       
-       
-        
+
         return taulukko;
     }
 }

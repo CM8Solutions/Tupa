@@ -84,14 +84,12 @@ public class PelaajaNakyma {
     }
 
     public void luoPelaajaSivu(Pelaaja pelaaja) {
-        
+
         int joukkue_id = pelaaja.annaJoukkue().annaID();
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
-      
-   
-        
+
         //riville 1
         HBox painike = new HBox();
         painike.setSpacing(20);
@@ -133,38 +131,32 @@ public class PelaajaNakyma {
             }
         });
 
-        
-painike.getChildren().addAll(muokkausnappula, poistonappula);
-   
+        painike.getChildren().addAll(muokkausnappula, poistonappula);
 
- 
-        
-
-             HBox rivi0 = new HBox();
+        HBox rivi0 = new HBox();
         rivi0.setPadding(new Insets(20));
         rivi0.getChildren().addAll(paluunappula);
-        
-        grid.add(rivi0, 0,0);
-        
-   
+
+        grid.add(rivi0, 0, 0);
+
         //riville 2
         VBox info = new VBox();
         info.setSpacing(10);
         info.setPadding(new Insets(10, 10, 20, 240));
-        
+
         HBox nimirivi = new HBox();
         nimirivi.setSpacing(80);
-        
+
         Label nimi = new Label(pelaaja.toString());
         nimi.setFont(Font.font("Papyrus", 32));
         info.setAlignment(Pos.CENTER);
-       
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-           nimirivi.getChildren().addAll(nimi, painike);
 
-        else
-           nimirivi.getChildren().addAll(nimi);
-       
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id) {
+            nimirivi.getChildren().addAll(nimi, painike);
+        } else {
+            nimirivi.getChildren().addAll(nimi);
+        }
+
         HBox tiedot = new HBox();
         tiedot.setPadding(new Insets(10, 10, 40, 240));
         tiedot.setSpacing(40);
@@ -211,7 +203,7 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
 
     public void luoPelaajaMuokkaus(Pelaaja pelaaja) {
 
-        Button muokkausnappula = new Button("Tallenna");
+        Button muokkausnappula = new Button("OK");
         muokkausnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -220,10 +212,10 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
                 //nimen syöttöjen tarkistus
                 if (etunimi.getText().trim().isEmpty() || sukunimi.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                     ok = false;
                 } else if (etunimi.getText().length() > 64 || sukunimi.getText().length() > 64) {
-                    tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
+                    tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
                     ok = false;
                 }
                 for (char c : etunimi.getText().toCharArray()) {
@@ -231,7 +223,7 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
 
@@ -241,7 +233,7 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
                     }
@@ -254,7 +246,7 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
                     if (!joukkue.annaPelaajat().get(i).equals(pelaaja)) {
                         if (joukkue.annaPelaajat().get(i).annaPelinumero() == pelinumero.getValue()) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Valitsema pelinumero on jo käytössä toisella joukkueen pelaajalla.");
+                            tiedottaja.annaVirhe("Valitsema pelinumero on jo käytössä toisella joukkueen pelaajalla.");
                             break;
                         }
                     }
@@ -301,10 +293,12 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
 
         VBox vbox = new VBox();
         vbox.setSpacing(20);
-
+        VBox otsikkoboxi = new VBox();
         Label otsikko = new Label("Muokkaa pelaajan " + pelaaja.toString() + " tietoja: ");
         otsikko.setFont(Font.font("Papyrus", 22));
-
+        Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+        ohjeT.setFont(Font.font("Papyrus", 12));
+        otsikkoboxi.getChildren().addAll(otsikko, ohjeT);
         HBox hbox1 = new HBox();
         hbox1.setPadding(new Insets(20, 0, 0, 0));
         Label label1 = new Label("Etunimi: ");
@@ -334,7 +328,7 @@ painike.getChildren().addAll(muokkausnappula, poistonappula);
         HBox painikkeet = new HBox();
         painikkeet.setSpacing(20);
         painikkeet.getChildren().addAll(muokkausnappula, peruuta);
-        vbox.getChildren().addAll(otsikko, hbox1, hbox2, hbox3, hbox4, painikkeet);
+        vbox.getChildren().addAll(otsikkoboxi, hbox1, hbox2, hbox3, hbox4, painikkeet);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(40));

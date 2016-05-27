@@ -257,7 +257,7 @@ public class PaaNakyma {
         grid.setVgap(40);
 
         sb.setContent(grid);
-        System.out.println(ikkuna.annaAloitus());
+      
 
         ikkuna.annaNaytto().getChildren().add(sb);
 
@@ -265,7 +265,6 @@ public class PaaNakyma {
 
         public void luoEtusivuTyhja() {
 
-  System.out.println(ikkuna.annaAloitus());
 
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
@@ -375,13 +374,13 @@ public class PaaNakyma {
     }
 
     public GridPane luoTurnauksenMuokkaus() {
-        Button muokkausnappula = new Button("Tallenna");
+        Button muokkausnappula = new Button("OK");
         muokkausnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (nimi.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                 } else {
 
                     ikkuna.annaTurnaus().asetaNimi(nimi.getText());

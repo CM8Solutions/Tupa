@@ -171,7 +171,7 @@ public class JoukkueNakyma {
         otsikko1.setFont(Font.font("Papyrus", 18));
         Button ottelunappula = new Button();
         ottelunappula.setId("button-ohje");
-        ottelunappula.setText("\u003F");
+        ottelunappula.setText("!");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -194,7 +194,7 @@ public class JoukkueNakyma {
         otsikko2.setFont(Font.font("Papyrus", 18));
         Button pelaajanappula = new Button();
         pelaajanappula.setId("button-ohje");
-        pelaajanappula.setText("\u003F");
+        pelaajanappula.setText("!");
         pelaajanappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -220,7 +220,7 @@ public class JoukkueNakyma {
 
         Button toimarinappula = new Button();
         toimarinappula.setId("button-ohje");
-        toimarinappula.setText("\u003F");
+        toimarinappula.setText("!");
         toimarinappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -353,7 +353,7 @@ public class JoukkueNakyma {
         otsikko2.setFont(Font.font("Papyrus", 18));
         Button pelaajanappula = new Button();
         pelaajanappula.setId("button-ohje");
-        pelaajanappula.setText("\u003F");
+        pelaajanappula.setText("!");
         pelaajanappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -373,14 +373,18 @@ public class JoukkueNakyma {
         alle.setPadding(new Insets(20, 0, 60, 0));
         Label ohje = new Label("Lisää uusi pelaaja:");
         ohje.setFont(Font.font("Papyrus", 14));
+         Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+        ohjeT.setFont(Font.font("Papyrus", 12));
+        
 
         HBox lisays = new HBox();
         lisays.setSpacing(10);
-        lisays.setPadding(new Insets(10, 0, 0, 0));
+        lisays.setPadding(new Insets(20, 0, 0, 0));
 
         VBox vbox1 = new VBox();
 
         Label ohjeE = new Label("Etunimi: ");
+        
         HBox pakollinen_kentta1 = new HBox();
 
         pakollinen_kentta1.getChildren().addAll(ohjeE, pakollinen);
@@ -429,10 +433,10 @@ public class JoukkueNakyma {
                 //nimen syöttöjen tarkistus
                 if (etunimi.getText().trim().isEmpty() || sukunimi.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                     ok = false;
                 } else if (etunimi.getText().length() > 64 || sukunimi.getText().length() > 64) {
-                    tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
+                    tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
                     ok = false;
                 }
                 for (char c : etunimi.getText().toCharArray()) {
@@ -440,7 +444,7 @@ public class JoukkueNakyma {
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
 
@@ -450,7 +454,7 @@ public class JoukkueNakyma {
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
                     }
@@ -461,7 +465,7 @@ public class JoukkueNakyma {
 
                     if (joukkue.annaPelaajat().get(i).annaPelinumero() == pelinumero.getValue()) {
                         ok = false;
-                        tiedottaja.annaVaroitus("Valitsemasi pelinumero on jo käytössä toisella joukkueen pelaajalla.");
+                        tiedottaja.annaVirhe("Valitsemasi pelinumero on jo käytössä toisella joukkueen pelaajalla.");
                         break;
                     }
 
@@ -475,23 +479,15 @@ public class JoukkueNakyma {
             }
         });
         
-          Button tallenna = new Button("Tallenna");
-        tallenna.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                luoJoukkueSivu(joukkue);
-            }
-        });
+ 
      
-        VBox vbox16 = new VBox();
-        vbox16.setPadding(new Insets(20,0,0,0));
-         vbox16.getChildren().addAll(tallenna);
+  
 
           VBox vbox17= new VBox();
         vbox17.getChildren().addAll(ohjeTy, lisaysnappula);
         
         lisays.getChildren().addAll(vbox0, vbox1, vbox2, vbox3, vbox4, vbox17);
-        alle.getChildren().addAll(ohje, lisays, vbox16);
+        alle.getChildren().addAll(ohje, ohjeT, lisays);
         osio2.getChildren().addAll(otsikkorivi2, pelaajat, alle);
 
         HBox rivi4 = new HBox();
@@ -557,7 +553,7 @@ public class JoukkueNakyma {
 
         Button toimarinappula = new Button();
         toimarinappula.setId("button-ohje");
-        toimarinappula.setText("\u003F");
+        toimarinappula.setText("!");
         toimarinappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -576,10 +572,13 @@ public class JoukkueNakyma {
         alle2.setPadding(new Insets(20, 0, 60, 0));
         Label ohje2 = new Label("Lisää uusi toimihenkilö:");
         ohje2.setFont(Font.font("Papyrus", 14));
-
+    Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+        ohjeT.setFont(Font.font("Papyrus", 12));
+        
+        
         HBox lisays2 = new HBox();
         lisays2.setSpacing(10);
-        lisays2.setPadding(new Insets(10, 0, 0, 0));
+        lisays2.setPadding(new Insets(20, 0, 0, 0));
 
         VBox vbox11 = new VBox();
 
@@ -634,10 +633,10 @@ vbox16.setPadding(new Insets(20,0,0,0));
                 //nimen syöttöjen tarkistus
                 if (etunimi2.getText().trim().isEmpty() || sukunimi2.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                     ok = false;
                 } else if (etunimi2.getText().length() > 64 || sukunimi2.getText().length() > 64) {
-                    tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
+                    tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
                     ok = false;
                 }
                 for (char c : etunimi2.getText().toCharArray()) {
@@ -645,7 +644,7 @@ vbox16.setPadding(new Insets(20,0,0,0));
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
 
@@ -655,7 +654,7 @@ vbox16.setPadding(new Insets(20,0,0,0));
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
                     }
@@ -669,23 +668,15 @@ vbox16.setPadding(new Insets(20,0,0,0));
             }
         });
         
+
         
-         Button tallenna = new Button("Tallenna");
-        tallenna.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                luoJoukkueSivu(joukkue);
-            }
-        });
-        
-        
-        vbox16.getChildren().addAll(tallenna);
+ 
 
           VBox vbox17= new VBox();
         vbox17.getChildren().addAll(ohjeTyh, lisaysnappula2);
         
         lisays2.getChildren().addAll(vbox11, vbox12, vbox13, vbox14, vbox15, vbox17);
-        alle2.getChildren().addAll(ohje2, lisays2, vbox16);
+        alle2.getChildren().addAll(ohje2, ohjeT, lisays2);
         osio3.getChildren().addAll(otsikko3, toimihenkilot, alle2);
 
         HBox rivi5 = new HBox();
@@ -704,13 +695,13 @@ vbox16.setPadding(new Insets(20,0,0,0));
     }
 
     public GridPane luoJoukkueMuokkaus(Joukkue joukkue) {
-        Button muokkausnappula = new Button("Tallenna");
+        Button muokkausnappula = new Button("OK");
         muokkausnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (nimi.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                 } else {
 
                     joukkue.asetaNimi(nimi.getText());

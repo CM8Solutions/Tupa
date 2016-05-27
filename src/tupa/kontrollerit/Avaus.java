@@ -7,9 +7,12 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -26,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tupa.Tupa;
+import tupa.data.Henkilo;
 import tupa.data.Ottelu;
 import tupa.data.Kokoonpano;
 import tupa.data.Maali;
@@ -314,7 +318,7 @@ public class Avaus {
 
                                 int kotikokoonpano_id = kotikokoonpano.getInt("tupaid");
 
-                                Kokoonpano kokoonpano = new Kokoonpano();
+                                Kokoonpano kokoonpano = new Kokoonpano(ottelu, kotijoukkue);
 
                                 kokoonpano.asetaID(kotikokoonpano_id);
                                 kokoonpano.kasvataLaskuria();
@@ -348,7 +352,7 @@ public class Avaus {
                             while (vieraskokoonpano.next()) {
 
                                 int vieraskokoonpano_id = vieraskokoonpano.getInt("tupaid");
-                                Kokoonpano kokoonpano = new Kokoonpano();
+                                Kokoonpano kokoonpano = new Kokoonpano(ottelu, vierasjoukkue);
                                 kokoonpano.asetaID(vieraskokoonpano_id);
                                 kokoonpano.kasvataLaskuria();
                                 ottelu.asetaVierasKokoonpano(kokoonpano);
@@ -465,17 +469,14 @@ public class Avaus {
                             ikkuna.annaSarjatk().add(sarja);
 
                             parent = ikkuna.annaRootSarjat();
-                            TreeItem<Kohde> newItem = new TreeItem<Kohde>(kohdetk.get(i));
-                            parent.getChildren().add(newItem);
+                            TreeItem<Kohde> uusi = new TreeItem<Kohde>(kohdetk.get(i));
+                            parent.getChildren().add(uusi);
 
                         } else if (kohdetk.get(i) instanceof Tuomari) {
                             Tuomari tuomari = (Tuomari) kohdetk.get(i);
                             tuomaritk.add(tuomari);
                             ikkuna.annaTuomaritk().add(tuomari);
 
-                            parent = ikkuna.annaRootTuomarit();
-                            TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>(kohdetk.get(i));
-                            parent.getChildren().add(uusiKohde);
                         } else if (kohdetk.get(i) instanceof Joukkue) {
                             Joukkue joukkue = (Joukkue) kohdetk.get(i);
                             joukkuetk.add(joukkue);
@@ -501,6 +502,25 @@ public class Avaus {
                             ikkuna.asetaTurnaus(kohdetk.get(i));
 
                         }
+                    }
+
+                    //tuomarit puuhun aakkosjärjestykseen
+                    Vector<Henkilo> tuomaritV = new Vector<>();
+
+                    for (int i = 0; i < ikkuna.annaTuomaritk().size(); i++) {
+                        tuomaritV.add((Henkilo) ikkuna.annaTuomaritk().get(i));
+
+                    }
+
+                    Collections.sort(tuomaritV);
+
+                    TreeItem<Kohde> parentT = new TreeItem<>();
+                    parentT = ikkuna.annaRootTuomarit();
+
+                    for (Henkilo tuomari : tuomaritV) {
+                        TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>((Kohde) tuomari);
+                        parentT.getChildren().add(uusiKohde);
+
                     }
 
                 } catch (SQLException se) {

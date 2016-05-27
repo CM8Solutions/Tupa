@@ -41,17 +41,32 @@ public class Tiedottaja {
 
     public void annaVaroitus(String msg) {
 
-        Alert alert = new Alert(AlertType.WARNING);
+        Alert alert = new Alert(AlertType.INFORMATION);
 
         alert.setTitle("TUPA - TULOSPALVELU");
 
-        alert.setHeaderText("Huom!");
+        alert.setHeaderText(null);
 
-        alert.setContentText(msg);
+        alert.setContentText("Huom! " +msg);
 
         alert.showAndWait();
 
     }
+    
+       public void annaVirhe(String msg) {
+
+        Alert alert = new Alert(AlertType.ERROR);
+
+        alert.setTitle("TUPA - TULOSPALVELU");
+
+        alert.setHeaderText(null);
+
+        alert.setContentText("Huom! " +msg);
+
+        alert.showAndWait();
+
+    }
+    
     
         public void annaIlmoitus(String msg) {
 

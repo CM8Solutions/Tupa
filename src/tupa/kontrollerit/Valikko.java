@@ -3,6 +3,7 @@ Yläpalkin valikon muodostava luokka
  */
 package tupa.kontrollerit;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,13 +126,15 @@ public class Valikko implements EventHandler<ActionEvent> {
                 Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
             }
             return;
         }
 
     }
 
-    public void valikostaValittu(String teksti, ActionEvent e) throws InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException {
+    public void valikostaValittu(String teksti, ActionEvent e) throws InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, IOException {
 
         switch (teksti) {
             case "Uusi": {
@@ -164,7 +167,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                         tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                         ikkuna.asetaAloitus(false);
                     } else {
-                        tiedottaja.annaVaroitus("Olet luonut maksimimäärän turnauksia. Voit uusia lisenssisi ottamalla yhteyttä TUPA-ohjelman yleiseen ylläpitäjään, ks. (Valikko -> Ohje -> Tietoa ohjelmasta)");
+                        tiedottaja.annaVirhe("Olet luonut maksimimäärän turnauksia. Voit uusia lisenssisi ottamalla yhteyttä TUPA-ohjelman yleiseen ylläpitäjään, ks. (Valikko -> Ohje -> Tietoa ohjelmasta)");
                     }
 
                 } //yleisellä ylläpitäjällä ei rajoituksia (muilla toiminto ei ole edes käytössä)

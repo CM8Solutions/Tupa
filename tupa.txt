@@ -1,0 +1,39 @@
+
+- Taso 3: Yleinen ylläpitäjä (kaikki oikeudet)
+
+- Taso 2: Lisenssin ostanut käyttäjä, joka voi luoda korkeintaan 5 turnausta, ja 
+kuhunkin turnaukseen liittyen
+	* ylläpitää tietoja tuomareista
+	* ylläpitää tietoja sarjoista
+	* ylläpitää tietoja joukkueista
+	* ylläpitää tietoja pelaajista
+	* laatia sarjoihin otteluohjelmia (automaattisesti/manuaalisesti)
+	* päivittää otteluiden tuloksia sekä maalintekijöitä/syöttäjiä
+	* luoda tason 1 käyttäjätunnuksia
+
+- Taso 1: Tiettyyn turnukseen osallistuvan joukkueen tietoja hallinnoiva käyttäjä, joka voi 
+	* ylläpitää tietoja joukkueensa pelaajista ja toimihenkilöistä
+	* ilmoittaa kokoonpanoja otteluihin
+	* ilmoittaa joukkueensa otteluiden tuloksia ja maalintekijöitä/syöttäjiä
+
+- Taso 0: Käyttäjä, joka voi tarkastella turnaukseen liittyvien
+	* sarjojen otteluohjelmia, otteluiden tuloksia, sarjatilannetta ja pistepörssiä
+	* joukkueiden, pelaajien ja toimihenkilöiden sekä tuomareiden tietoja.
+
+Kaikille käyttäjille on nähtävillä tietoja turnauksen tuomareista, sarjoista, joukkueista ja
+pelaajista. Lisäksi käyttäjät voivat nähdä sarjojen otteluohjelmat, otteluiden tuloksen,
+sarjatilanteen sekä pistepörssin.
+Nämä tiedot ovat nähtävillä myös TUPA:n internetsivulla.
+
+Kaikkien paitsi tason 0 käyttäjien on kirjauduttava TUPA-tulospalveluun käyttäjätunnuksella
+ja sitä vastaavalla salasanalla.
+
+Lisäksi kirjautumattomien käyttäjien tulee syöttää turnaukseen liittyvä salasana päästäkseen
+tarkastelemaan kyseisen turnauksen tietoja.
+
+Mikäli olet unohtanut kirjautumisen yhteydessä käyttäjätunnuksen/salasanan tai turnauksen
+salasanan, ota yhteyttä turnauksen ylläpitäjään.
+
+Tarkempia ohjeita löytyy eri näkymissä olevan i-painikkeen alta.
+
+Huom! TUPA-tulospalvelun työpöytäversion käyttö vaatii nettiyhteyden.

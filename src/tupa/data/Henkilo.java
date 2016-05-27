@@ -4,7 +4,7 @@ package tupa.data;
  *
  * @author Marianne
  */
-public class Henkilo extends Kohde {
+public class Henkilo extends Kohde implements Comparable<Henkilo>{
     
     // 1-64 kirjainta, vain isot ja pienet kirjaimet, yks tai useampi tavuviiva
     private String etunimi;
@@ -60,5 +60,12 @@ public class Henkilo extends Kohde {
    public String annaKokoNimi() {
         return (etunimi + " " + sukunimi);
     }
-    
+
+   public int compareTo (Henkilo henkilo)
+	{
+		int tulos = sukunimi.compareTo (henkilo.annaSukuNimi ());
+		if (tulos != 0) return tulos;
+		tulos = etunimi.compareTo (henkilo.annaEtuNimi ());
+		return tulos;
+	}
 }

@@ -43,7 +43,7 @@ public class Tarkistaja {
         if (onTyhja(nimi)) {
             return false;
         } else if (nimi.length() > 64) {
-            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
+            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
             return false;
         } else {
 
@@ -52,7 +52,7 @@ public class Tarkistaja {
                 if (!Character.isLetter(c)) {
                     if (!Character.toString(c).equals("-")) {
 
-                        tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                        tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                         return false;
                     }
 
@@ -64,7 +64,7 @@ public class Tarkistaja {
 
     public boolean onTyhja(String merkkijono) {
         if (merkkijono.trim().isEmpty()) {
-            tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+            tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
             return true;
         } else {
             return false;
@@ -76,7 +76,7 @@ public class Tarkistaja {
 
             if (joukkue.annaPelaajat().get(i).annaPelinumero() == nro) {
 
-                tiedottaja.annaVaroitus("Valitsemasi pelinumero on jo käytössä toisella joukkueen pelaajalla.");
+                tiedottaja.annaVirhe("Valitsemasi pelinumero on jo käytössä toisella joukkueen pelaajalla.");
                 return false;
             }
 
@@ -87,11 +87,11 @@ public class Tarkistaja {
     public boolean kotijoukkueOK(Joukkue joukkue, Ottelu ottelu) {
 
         if (joukkue == null) {
-            tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+            tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
             return false;
         } else if (ottelu.annaVierasjoukkue().equals(joukkue)) {
 
-            tiedottaja.annaVaroitus("Koti- ja vierasjoukkue eivät voi olla samoja.");
+            tiedottaja.annaVirhe("Koti- ja vierasjoukkue eivät voi olla samoja.");
             return false;
         } else {
             return true;
@@ -101,11 +101,11 @@ public class Tarkistaja {
     public boolean vierasjoukkueOK(Joukkue joukkue, Ottelu ottelu) {
 
         if (joukkue == null) {
-            tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+            tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
             return false;
         } else if (ottelu.annaKotijoukkue().equals(joukkue)) {
 
-            tiedottaja.annaVaroitus("Koti- ja vierasjoukkue eivät voi olla samoja.");
+            tiedottaja.annaVirhe("Koti- ja vierasjoukkue eivät voi olla samoja.");
             return false;
         } else {
             return true;
@@ -116,10 +116,10 @@ public class Tarkistaja {
 
         if (tuomari != null) {
             if (ottelu.annaAvustava1().equals(tuomari)) {
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             } else if (ottelu.annaAvustava2().equals(tuomari)) {
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             }
         }
@@ -130,10 +130,10 @@ public class Tarkistaja {
 
         if (tuomari != null) {
             if (ottelu.annaErotuomari().equals(tuomari)) {
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             } else if (ottelu.annaAvustava2().equals(tuomari)) {
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             }
         }
@@ -144,10 +144,10 @@ public class Tarkistaja {
 
         if (tuomari != null) {
             if (ottelu.annaErotuomari().equals(tuomari)) {
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             } else if (ottelu.annaAvustava1().equals(tuomari)) {
-                tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                 return false;
             }
         }
@@ -158,7 +158,7 @@ public class Tarkistaja {
 
         int turnaus_id = turnaus.annaID();
         try {
-            System.out.println("try");
+           
             con = yhteys.annaYhteys();
             st = con.createStatement();
 

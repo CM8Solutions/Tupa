@@ -9,7 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -25,6 +27,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tupa.Tupa;
+import tupa.data.Henkilo;
 import tupa.nakymat.PaaNakyma;
 import tupa.nakymat.SarjaNakyma;
 import tupa.data.Kohde;
@@ -105,18 +108,6 @@ public class Muuttaja {
             tuomari.asetaID(tuomari.annaLaskuri());
             tuomari.asetaJulkinenId(tuomari.annaLaskuri() + 88);
         }
-
-        TreeItem<Kohde> parent = new TreeItem<>();
-
-        if (arvo instanceof Sarja) {
-            parent = ikkuna.annaRootSarjat();
-        } else if (arvo instanceof Tuomari) {
-            parent = ikkuna.annaRootTuomarit();
-        }
-
-        TreeItem<Kohde> newItem = new TreeItem<Kohde>(arvo);
-        parent.getChildren().add(newItem);
-
         // kohteen omat:
         //yleiseen tietokantaan:
         if (arvo instanceof Sarja) {
@@ -129,6 +120,39 @@ public class Muuttaja {
         }
 
         ikkuna.annaKohteet().add(arvo);
+
+        TreeItem<Kohde> parent = new TreeItem<>();
+
+        if (arvo instanceof Sarja) {
+
+            parent = ikkuna.annaRootSarjat();
+            TreeItem<Kohde> uusi = new TreeItem<Kohde>(arvo);
+            parent.getChildren().add(uusi);
+
+        } else if (arvo instanceof Tuomari) {
+            parent = ikkuna.annaRootTuomarit();
+
+            //tuomarit puuhun aakkosjärjestykseen
+            Vector<Henkilo> tuomaritV = new Vector<>();
+
+            for (int i = 0; i < ikkuna.annaTuomaritk().size(); i++) {
+                tuomaritV.add((Henkilo) ikkuna.annaTuomaritk().get(i));
+
+            }
+
+            Collections.sort(tuomaritV);
+
+            TreeItem<Kohde> parentT = new TreeItem<>();
+            parentT = ikkuna.annaRootTuomarit();
+            parentT.getChildren().clear();
+
+            for (Henkilo tuomari : tuomaritV) {
+                TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>((Kohde) tuomari);
+                parentT.getChildren().add(uusiKohde);
+
+            }
+
+        }
 
 //avataan se valikko, mihin uusi kohde on lisätty
         if (!parent.isExpanded()) {
@@ -579,14 +603,15 @@ public class Muuttaja {
                 //katsotaan onko koti- vai vierasjoukkue
                 if (joukkue.equals(ottelu.annaKotijoukkue())) {
                     Kokoonpano kotikokoonpano = ottelu.annaKotiKokoonpano();
-
                     kotikokoonpano.asetaPelaaja(pelaajat[i]);
+
                     pelaajat[i].annaKokoonpanot().add(kotikokoonpano);
                 } else if (joukkue.equals(ottelu.annaVierasjoukkue())) {
 
                     Kokoonpano vieraskokoonpano = ottelu.annaVierasKokoonpano();
                     vieraskokoonpano.asetaPelaaja(pelaajat[i]);
                     pelaajat[i].annaKokoonpanot().add(vieraskokoonpano);
+
                 }
             } else if (joukkue.equals(ottelu.annaKotijoukkue())) {
                 Kokoonpano kotikokoonpano = ottelu.annaKotiKokoonpano();

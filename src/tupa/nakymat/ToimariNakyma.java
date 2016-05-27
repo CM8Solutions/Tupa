@@ -81,12 +81,11 @@ public class ToimariNakyma {
     }
 
     public void luoToimariSivu(Toimihenkilo toimari) {
-        
+
         int joukkue_id = toimari.annaJoukkue().annaID();
         ScrollPane sb = new ScrollPane();
 
         GridPane grid = new GridPane();
-     
 
         //riville 1
         HBox painike = new HBox();
@@ -117,32 +116,29 @@ public class ToimariNakyma {
             }
         });
         Button oikeusnappula = new Button();
-        
-        if(toimari.annaHallinta() == 1){
-                       oikeusnappula.setText("Poista joukkueen ylläpitäjän roolista");
-        oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-               
-                varmistaja.annaToimarinOikeudenPoistoVarmistus(toimari);
 
-            }
-        }); 
-        }
-        else{
-             oikeusnappula.setText("Lisää joukkueen ylläpitäjäksi");
-        oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-               
-                Kirjautuminen kirjautuja = new Kirjautuminen(ikkuna);
-                kirjautuja.luoHallintaLisaysToimari(toimari);
+        if (toimari.annaHallinta() == 1) {
+            oikeusnappula.setText("Poista joukkueen ylläpitäjän roolista");
+            oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
 
-            }
-        });  
+                    varmistaja.annaToimarinOikeudenPoistoVarmistus(toimari);
+
+                }
+            });
+        } else {
+            oikeusnappula.setText("Lisää joukkueen ylläpitäjäksi");
+            oikeusnappula.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+
+                    Kirjautuminen kirjautuja = new Kirjautuminen(ikkuna);
+                    kirjautuja.luoHallintaLisaysToimari(toimari);
+
+                }
+            });
         }
-  
-        
 
         Button paluunappula = new Button("<< Toimihenkilön joukkuesivulle");
         paluunappula.setPadding(new Insets(0, 150, 0, 0));
@@ -155,41 +151,33 @@ public class ToimariNakyma {
 
             }
         });
-     painike.setSpacing(20);
-        
-     
+        painike.setSpacing(20);
+
         HBox rivi0 = new HBox();
         rivi0.setPadding(new Insets(20));
         rivi0.getChildren().addAll(paluunappula);
-     
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-        painike.getChildren().addAll(muokkausnappula, poistonappula, oikeusnappula);
 
-     
-         grid.add(rivi0, 0, 0);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id) {
+            painike.getChildren().addAll(muokkausnappula, poistonappula, oikeusnappula);
+        }
 
+        grid.add(rivi0, 0, 0);
 
-          
-          HBox nimirivi = new HBox();
-              nimirivi.setPadding(new Insets(10, 10, 20, 240));
+        HBox nimirivi = new HBox();
+        nimirivi.setPadding(new Insets(10, 10, 20, 240));
         nimirivi.setSpacing(80);
-          
-   
-        
+
         Label nimi = new Label(toimari.toString());
         nimi.setFont(Font.font("Papyrus", 32));
-       
-       
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-           nimirivi.getChildren().addAll(nimi, painike);
 
-        else
-           nimirivi.getChildren().addAll(nimi);
-        
-        
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id) {
+            nimirivi.getChildren().addAll(nimi, painike);
+        } else {
+            nimirivi.getChildren().addAll(nimi);
+        }
+
         HBox tiedot = new HBox();
-        
-        
+
         tiedot.setPadding(new Insets(10, 10, 40, 240));
         tiedot.setSpacing(40);
 
@@ -200,7 +188,6 @@ public class ToimariNakyma {
         Label puh = new Label("Puhelinnumero: " + toimari.annaPuh());
         puh.setFont(Font.font("Papyrus", 18));
 
-      
         tiedot.setAlignment(Pos.CENTER);
         tiedot.getChildren().addAll(rooli, sposti, puh);
         grid.add(nimirivi, 0, 1);
@@ -214,7 +201,7 @@ public class ToimariNakyma {
     }
 
     public void luoToimariMuokkaus(Toimihenkilo toimari) {
-        Button muokkausnappula = new Button("Tallenna");
+        Button muokkausnappula = new Button("OK");
         muokkausnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -222,10 +209,10 @@ public class ToimariNakyma {
                 //nimen syöttöjen tarkistus
                 if (etunimi.getText().trim().isEmpty() || sukunimi.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                     ok = false;
                 } else if (etunimi.getText().length() > 64 || sukunimi.getText().length() > 64) {
-                    tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
+                    tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
                     ok = false;
                 }
                 for (char c : etunimi.getText().toCharArray()) {
@@ -233,7 +220,7 @@ public class ToimariNakyma {
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
 
@@ -243,7 +230,7 @@ public class ToimariNakyma {
                     if (!Character.isLetter(c)) {
                         if (!Character.toString(c).equals("-")) {
                             ok = false;
-                            tiedottaja.annaVaroitus("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
                             break;
                         }
                     }
@@ -288,10 +275,12 @@ public class ToimariNakyma {
 
         VBox vbox = new VBox();
         vbox.setSpacing(20);
-
+        VBox otsikkoboxi = new VBox();
         Label otsikko = new Label("Muokkaa toimihenkilön " + toimari.toString() + " tietoja: ");
         otsikko.setFont(Font.font("Papyrus", 22));
-
+        Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+        ohjeT.setFont(Font.font("Papyrus", 12));
+        otsikkoboxi.getChildren().addAll(otsikko, ohjeT);
         HBox hbox1 = new HBox();
         Label label1 = new Label("Etunimi: ");
         HBox pakollinen_kentta1 = new HBox();
@@ -321,7 +310,7 @@ public class ToimariNakyma {
         HBox painikkeet = new HBox();
         painikkeet.setSpacing(20);
         painikkeet.getChildren().addAll(muokkausnappula, peruuta);
-        vbox.getChildren().addAll(otsikko, hbox1, hbox2, hbox3, hbox4, hbox5, painikkeet);
+        vbox.getChildren().addAll(otsikkoboxi, hbox1, hbox2, hbox3, hbox4, hbox5, painikkeet);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(40));

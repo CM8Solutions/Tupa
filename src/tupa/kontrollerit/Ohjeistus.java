@@ -4,9 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -24,80 +34,66 @@ import javafx.stage.Stage;
  */
 public class Ohjeistus {
 
+    FileInputStream fs = null;
+
+    String tiedosto = "tupa.txt";
+
     public Ohjeistus() {
 
     }
 
-    public void annaYleisOhje() {
+    public void annaYleisOhje() throws UnsupportedEncodingException, IOException {
+     
         Stage stage = new Stage();
-        BorderPane alue = new BorderPane();
-        alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
-        alue.setPadding(new Insets(10, 30, 0, 30));
         stage.getIcons().add(new Image("kuvat/icon.png"));
+        HBox alue = new HBox();
 
+        ScrollPane sp = new ScrollPane();
+
+        sp.setStyle("-fx-background-color:  transparent");
         VBox vbox = new VBox();
-        vbox.setPadding(new Insets(30, 30 , 0, 30));
+
         vbox.setSpacing(10);
-          
+        vbox.setPadding(new Insets(30, 500, 20, 20));
+        vbox.setAlignment(Pos.CENTER);
 
         VBox box0 = new VBox();
-  box0.setSpacing(10);
-  
-   HBox otsikkorivi = new HBox();
-        otsikkorivi.setSpacing(400);
+        box0.setSpacing(10);
+
+        HBox otsikkorivi = new HBox();
+        otsikkorivi.setSpacing(100);
 
         HBox tekstiboxi = new HBox();
-   
+
         HBox kuvaboxi = new HBox();
-        kuvaboxi.setAlignment(Pos. TOP_LEFT);
-        
+        kuvaboxi.setAlignment(Pos.TOP_LEFT);
+
         ImageView selectedImage = new ImageView();
         Image image1 = new Image("kuvat/ohje.png");
         selectedImage.setImage(image1);
         selectedImage.setFitHeight(60);
         selectedImage.setFitWidth(60);
-  
+
         Label ekaotsikko = new Label("TUPA - tulospalvelussa on 4 eri käyttäjätasoa:");
-         ekaotsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
-        Label ohje = new Label(annaPitkaOhje());
+        ekaotsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
 
-        ohje.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
-    
         tekstiboxi.getChildren().addAll(ekaotsikko);
-      kuvaboxi.getChildren().addAll(selectedImage);
-       otsikkorivi.getChildren().addAll(tekstiboxi, kuvaboxi);
-        box0.getChildren().addAll(otsikkorivi, ohje);
+        kuvaboxi.getChildren().addAll(selectedImage);
+        otsikkorivi.getChildren().addAll(tekstiboxi, kuvaboxi);
+        box0.getChildren().addAll(otsikkorivi, annaPitkaOhje());
 
-        HBox hbox1 = new HBox();
+        vbox.getChildren().addAll(box0);
+        sp.setContent(vbox);
 
-        Label guiviesti = new Label("\nTUPA - tulospalvelun käyttöliittymä on pyritty toteuttamaan siten, ettei käyttäjän tarvitse lukea erillistä käyttöohjetta.\nTarpeen mukaan sellainen voidaan kuitenkin myöhemmin laatia tähän.");
-
-        guiviesti.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
-
-        hbox1.setAlignment(Pos.CENTER);
-        hbox1.getChildren().add(guiviesti);
-
-        HBox hbox2 = new HBox();
-        hbox2.setPadding(new Insets(20,40,40,40));
-
-        Button ok = new Button("Sulje");
-
-        ok.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-                stage.close();
-            }
-        });
-        hbox2.setAlignment(Pos.CENTER);
-        hbox2.getChildren().addAll(ok);
-        vbox.getChildren().addAll(box0, hbox1, hbox2);
-        alue.setCenter(vbox);
-
-        Scene sceneV = new Scene(alue);
+        vbox.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+        sp.setMinWidth(alue.getPrefWidth());
+        alue.getChildren().addAll(sp);
+        alue.setAlignment(Pos.CENTER);
+        Scene sceneV = new Scene(alue, 700, 400);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
-        stage.showAndWait();
+        stage.show();
 
     }
 
@@ -149,14 +145,35 @@ public class Ohjeistus {
         Scene sceneV = new Scene(alue);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
-        stage.showAndWait();
+        stage.show();
 
     }
 
-    public String annaPitkaOhje() {
-        String ohje = "-Taso 3: Yleinen ylläpitäjä (kaikki oikeudet)\n-Taso 2: Lisenssin ostanut käyttäjä, joka voi luoda korkeintaan 5 turnausta ja hallinnoida niitä sekä luoda tason 1 käyttäjätunnuksia\n-Taso 1: Joukkueen tietoja hallinnoiva käyttäjä, joka voi\n\t* hallinnoida turnaukseen osallistuvia joukkueensa pelaajia ja toimihenkilöitä\n\t* ilmoittaa kokoonpanoja otteluihin\n\t* ilmoittaa joukkueensa otteluiden tuloksia ja maalintekijöitä\n- Taso 0: Käyttäjä, joka voi tarkastella turnaukseen liittyvien\n\t* sarjojen otteluohjelmia, otteluiden tuloksia, sarjatilannetta ja pistepörssiä\n\t* joukkueiden, pelaajien ja toimihenkilöiden sekä tuomareiden tietoja.\n\nKaikkien paitsi tason 0 käyttäjien on kirjauduttava TUPA-tulospalveluun käyttäjätunnuksella ja sitä vastaavalla salasanalla.\nLisäksi kirjautumattomien käyttäjien tulee syöttää turnaukseen liittyvä salasana päästäkseen tarkastelemaan kyseisen turnauksen tietoja.\nMikäli olet unohtanut kirjautumisen yhteydessä käyttäjätunnuksen/salasanan tai turnauksen salasanan, ota yhteyttä turnauksen ylläpitäjään.\n";
+    public VBox annaPitkaOhje() throws IOException {
 
-        return ohje;
+        VBox boxi = new VBox();
+        try {
+            fs = new FileInputStream(tiedosto);
+        } catch (FileNotFoundException e) {
+            System.out.println("Tiedostoa " + tiedosto + " ei ole olemassa");
+            return boxi;
+        }
+
+        InputStreamReader is = new InputStreamReader(fs, "ISO-8859-1");
+        BufferedReader input = new BufferedReader(is);
+
+        String rivi = input.readLine();
+        while (rivi != null) {
+            Label uusi = new Label();
+            uusi.setText(rivi);
+            uusi.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
+            boxi.getChildren().add(uusi);
+            rivi = input.readLine();
+        }
+
+        fs.close();
+
+        return boxi;
     }
 
 }

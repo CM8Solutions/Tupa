@@ -1,6 +1,7 @@
 package tupa.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,14 +12,14 @@ import javafx.beans.property.StringProperty;
  *
  * @author Marianne
  */
-public class Pelaaja extends Henkilo {
+public class Pelaaja extends Henkilo implements Comparable<Henkilo> {
 
     //+henkilon ja kohteen attribuutit
     private static int peLaskuri;
     private int id_julkinen;
     private Joukkue joukkue;
     private int pelinumero;
-    private String pelipaikka="";
+    private String pelipaikka = "";
 
     private List<Kokoonpano> kokoonpanot = new ArrayList<>();
     private List<Maali> maalit = new ArrayList<>();
@@ -36,6 +37,16 @@ public class Pelaaja extends Henkilo {
     private transient StringProperty taulukkosukunimi = new SimpleStringProperty();
     private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
 
+    public static final Comparator<Henkilo> DESCENDING_COMPARATOR = new Comparator<Henkilo>() {
+        // Overriding the compare method to sort the age
+        public int compare(Henkilo d, Henkilo d1) {
+            Pelaaja p = (Pelaaja) d;
+            Pelaaja p1 = (Pelaaja) d1;
+
+            return p.pelinumero - p1.pelinumero;
+        }
+    };
+
     public Pelaaja() {
     }
 
@@ -46,18 +57,19 @@ public class Pelaaja extends Henkilo {
     public List<Maali> annaMaaliLista() {
         return maalit;
     }
-   public void kasvataLaskuria(){
+
+    public void kasvataLaskuria() {
         peLaskuri++;
     }
-    
+
     public int annaLaskuri() {
         return peLaskuri;
     }
+
     public void asetaLaskuri(int laskuri) {
         this.peLaskuri = laskuri;
     }
 
-    
     public int annaJulkinenID() {
         return id_julkinen;
     }
@@ -66,9 +78,10 @@ public class Pelaaja extends Henkilo {
         this.id_julkinen = id;
     }
 
-      public void vahennaLaskuria(){
+    public void vahennaLaskuria() {
         peLaskuri--;
     }
+
     public Joukkue annaJoukkue() {
         return joukkue;
     }
@@ -98,17 +111,16 @@ public class Pelaaja extends Henkilo {
     }
 
     public int annaOttelut() {
-        
+
         int maara = 0;
-        
-        for(int i=0; i<kokoonpanot.size(); i++){
-            if(kokoonpanot.get(i).annaOttelu().annaTulos().equals("-")){
+
+        for (int i = 0; i < kokoonpanot.size(); i++) {
+            if (kokoonpanot.get(i).annaOttelu().annaTulos().equals("-")) {
                 maara = maara;
+            } else {
+                maara = maara + 1;
             }
-            else{
-                  maara = maara + 1;
-            }
-              
+
         }
         return maara;
     }
@@ -118,12 +130,12 @@ public class Pelaaja extends Henkilo {
         int maara = 0;
 
         for (int i = 0; i < maalit.size(); i++) {
-             if(maalit.get(i).annaMaalinTekija() != null){
-                    if (maalit.get(i).annaMaalinTekija().equals(this)) {
-                maara++;
+            if (maalit.get(i).annaMaalinTekija() != null) {
+                if (maalit.get(i).annaMaalinTekija().equals(this)) {
+                    maara++;
+                }
             }
-             }
-         
+
         }
 
         return maara;
@@ -134,12 +146,11 @@ public class Pelaaja extends Henkilo {
         int maara = 0;
 
         for (int i = 0; i < maalit.size(); i++) {
-            if(maalit.get(i).annaSyottaja() != null){
-                   if (maalit.get(i).annaSyottaja().equals(this)) {
-                maara++;
+            if (maalit.get(i).annaSyottaja() != null) {
+                if (maalit.get(i).annaSyottaja().equals(this)) {
+                    maara++;
                 }
             }
-         
 
         }
 
@@ -269,6 +280,14 @@ public class Pelaaja extends Henkilo {
 
     public StringProperty taulukkorooliProperty() {
         return taulukkorooli;
+    }
+
+    public int compareTo(Henkilo henkilo) {
+        Pelaaja pelaaja = (Pelaaja) henkilo;
+        int tulos = annaSukuNimi().compareTo(pelaaja.annaSukuNimi());
+     
+            return tulos;
+    
     }
 
 }

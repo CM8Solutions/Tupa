@@ -35,9 +35,8 @@ public class Opastus {
         String msg = "Klikkaamalla ottelua pääset tarkastelemaan otteluun liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("OTTELULUETTELO");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -47,9 +46,8 @@ public class Opastus {
         String msg = "Klikkaa sitä taulukon solua, jonka sisältöä haluat muokata.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("OTTELULUETTELON MUOKKAUS");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -59,9 +57,8 @@ public class Opastus {
         String msg = "Klikkaamalla joukkuetta pääset tarkastelemaan joukkueeseen liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("JOUKKUELUETTELO");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -71,9 +68,8 @@ public class Opastus {
         String msg = "Klikkaa taulukon solua, jos haluat muokata sen sisältöä.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("JOUKKUELUETTELON MUOKKAUS");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -83,9 +79,8 @@ public class Opastus {
         String msg = "Klikkaamalla pelaajaa pääset tarkastelemaan pelaajaan liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("PELAAJALUETTELO");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -95,9 +90,8 @@ public class Opastus {
         String msg = "Klikkaa sitä taulukon solua, jonka sisältöä haluat muokata.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("PELAAJALUETTELON MUOKKAUS");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -107,9 +101,8 @@ public class Opastus {
         String msg = "Klikkaamalla toimihenkilöä pääset tarkastelemaan toimihenkilöön liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("TOIMIHENKILÖLUETTELO");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -119,9 +112,8 @@ public class Opastus {
         String msg = "Klikkaa sitä taulukon solua, jonka sisältöä haluat muokata.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("TOIMIHENKILÖLUETTELON MUOKKAUS");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -131,9 +123,8 @@ public class Opastus {
         String msg = "Ottelun maalintekijäksi/syöttäjäksi voi merkitä vain sellaisen pelaajan, joka on merkitty ottelun kokoonpanoon.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("MAALITILASTON MUOKKAUS");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }
@@ -143,9 +134,8 @@ public class Opastus {
         String msg = "Ottelun kokoonpanoluettelossa on vain ne pelaajat, jotka on lisätty joukkueen pelaajaluetteloon.";
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("TUPA - TULOSPALVELU");
-        alert.setHeaderText("OTTELUN KOKOONPANOLUETTELO");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
-
         alert.showAndWait();
 
     }

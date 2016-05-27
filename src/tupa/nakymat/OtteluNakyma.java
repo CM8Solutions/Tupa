@@ -1,7 +1,9 @@
 package tupa.nakymat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import tupa.Tupa;
+import tupa.data.Henkilo;
 import tupa.kontrollerit.Muuttaja;
 import tupa.kontrollerit.Tiedottaja;
 import tupa.kontrollerit.Varmistaja;
@@ -99,15 +102,13 @@ public class OtteluNakyma {
     public void luoOttelusivu(Ottelu ottelu) {
         int kotijoukkue_id = ottelu.annaKotijoukkue().annaID();
         int vierasjoukkue_id = ottelu.annaVierasjoukkue().annaID();
-        
-        
+
         ScrollPane sb = new ScrollPane();
         sb.setHbarPolicy(AS_NEEDED);
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20, 10, 40, 10));
 
         VBox rivi1 = new VBox();
-   
 
         Button paluunappula = new Button("<< Ottelun sarjasivulle");
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
@@ -150,7 +151,7 @@ public class OtteluNakyma {
         });
 
         HBox painikkeet = new HBox();
-  painikkeet.setPadding(new Insets(0,0,0,20)); 
+        painikkeet.setPadding(new Insets(0, 0, 0, 20));
         painikkeet.setAlignment(Pos.TOP_LEFT);
         painikkeet.getChildren().addAll(paluunappula);
         rivi1.getChildren().addAll(painikkeet);
@@ -173,8 +174,9 @@ public class OtteluNakyma {
         HBox painikkeet2 = new HBox();
         painikkeet2.setPadding(new Insets(20, 0, 0, 0));
         painikkeet2.setSpacing(40);
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == kotijoukkue_id || ikkuna.annaJoukkueID() == vierasjoukkue_id)
-        painikkeet2.getChildren().addAll(tulosnappula);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == kotijoukkue_id || ikkuna.annaJoukkueID() == vierasjoukkue_id) {
+            painikkeet2.getChildren().addAll(tulosnappula);
+        }
 
         Taulukko taulukontekija1 = new Taulukko(nakyma, varmistaja);
 
@@ -209,7 +211,7 @@ public class OtteluNakyma {
 
         Button otsikkonappula = new Button();
         otsikkonappula.setId("button-ohje");
-        otsikkonappula.setText("\u003F");
+        otsikkonappula.setText("!");
         otsikkonappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -237,8 +239,9 @@ public class OtteluNakyma {
                 luoKokoonpanosivu(ottelu, koti);
             }
         });
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == kotijoukkue_id)
-        kotialle.getChildren().add(lisayskoti);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == kotijoukkue_id) {
+            kotialle.getChildren().add(lisayskoti);
+        }
         kotiosio.getChildren().add(kotialle);
 
         VBox vierasosio = new VBox();
@@ -249,7 +252,7 @@ public class OtteluNakyma {
         koko_otsake_vieras.setPadding(new Insets(0, 0, 0, 20));
         Button otsikkonappula2 = new Button();
         otsikkonappula2.setId("button-ohje");
-        otsikkonappula2.setText("\u003F");
+        otsikkonappula2.setText("!");
         otsikkonappula2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -278,8 +281,9 @@ public class OtteluNakyma {
                 luoKokoonpanosivu(ottelu, vieras);
             }
         });
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == vierasjoukkue_id)
-        vierasalle.getChildren().add(lisaysvieras);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == vierasjoukkue_id) {
+            vierasalle.getChildren().add(lisaysvieras);
+        }
         vierasosio.getChildren().add(vierasalle);
 
         VBox maaliosio = new VBox();
@@ -290,12 +294,12 @@ public class OtteluNakyma {
         painikkeet3.setPadding(new Insets(40, 0, 0, 0));
         painikkeet3.getChildren().addAll(maalinappula);
 
-           if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == vierasjoukkue_id || ikkuna.annaJoukkueID() == kotijoukkue_id)
-        maaliosio.getChildren().addAll(maaliotsikko, maalit, painikkeet3);
-           else
-                 maaliosio.getChildren().addAll(maaliotsikko, maalit);
-           
-           
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == vierasjoukkue_id || ikkuna.annaJoukkueID() == kotijoukkue_id) {
+            maaliosio.getChildren().addAll(maaliotsikko, maalit, painikkeet3);
+        } else {
+            maaliosio.getChildren().addAll(maaliotsikko, maalit);
+        }
+
         HBox rivi4 = new HBox();
         rivi4.setPadding(new Insets(30));
 
@@ -338,7 +342,7 @@ public class OtteluNakyma {
         HBox painikkeet = new HBox();
 
         painikkeet.setSpacing(20);
-      
+
         painikkeet.getChildren().addAll(paluu);
         rivi1.getChildren().addAll(painikkeet);
 
@@ -361,7 +365,7 @@ public class OtteluNakyma {
 
         Button otsikkonappula = new Button();
         otsikkonappula.setId("button-ohje");
-        otsikkonappula.setText("\u003F");
+        otsikkonappula.setText("!");
         otsikkonappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -409,18 +413,27 @@ public class OtteluNakyma {
         sarake4.setPadding(new Insets(20));
         sarake4.getChildren().add(otrooli);
 
-        int koko = joukkue.annaPelaajat().size();
+        //pelaajat pelinumeron mukaiseen järjestykseen
+        Vector<Henkilo> pelaajat = new Vector<>();
+
+        for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
+            pelaajat.add((Henkilo) joukkue.annaPelaajat().get(i));
+
+        }
+
+        Collections.sort(pelaajat, Pelaaja.DESCENDING_COMPARATOR);
 
         HBox painikeboksi = new HBox();
         painikeboksi.setPadding(new Insets(10, 0, 0, 0));
         painikeboksi.setSpacing(10);
-
+        int koko = joukkue.annaPelaajat().size();
         Pelaaja[] pelaajataulukko = new Pelaaja[koko];
         String[] roolitaulukko = new String[koko];
 
-        for (int i = 0; i < koko; i++) {
+        int i = 0;
+        for (Henkilo pelaaja : pelaajat) {
             int kohta = i;
-            Pelaaja haettu = joukkue.annaPelaajat().get(i);
+            Pelaaja haettu = (Pelaaja) pelaaja;
             pelaajataulukko[kohta] = haettu;
 
             Label nro = new Label("" + haettu.annaPelinumero() + "");
@@ -466,10 +479,10 @@ public class OtteluNakyma {
             Label opelipaikka = new Label(haettu.annaPelipaikka());
             sarake3.getChildren().add(opelipaikka);
             sarake4.getChildren().add(rooli);
-
+            i++;
         }
 
-        Button lisaysnappula = new Button("Tallenna");
+        Button lisaysnappula = new Button("Lisää");
         lisaysnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -496,10 +509,10 @@ public class OtteluNakyma {
     }
 
     public void luoOttelunMaalisivu(Ottelu ottelu) {
-        
+
         int kotijoukkue_id = ottelu.annaKotijoukkue().annaID();
         int vierasjoukkue_id = ottelu.annaVierasjoukkue().annaID();
-        
+
         ScrollPane sb = new ScrollPane();
         sb.setHbarPolicy(AS_NEEDED);
         GridPane grid = new GridPane();
@@ -586,7 +599,7 @@ public class OtteluNakyma {
 
         Button otsikkonappula = new Button();
         otsikkonappula.setId("button-ohje");
-        otsikkonappula.setText("\u003F");
+        otsikkonappula.setText("!");
         otsikkonappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -660,12 +673,12 @@ public class OtteluNakyma {
         int syotetyt_koti = 0;
 
         for (int i = 0; i < ottelu.annaMaalit().size(); i++) {
-            if(ottelu.annaMaalit().get(i).annaMaalinTekija() != null){
-                    if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaKotijoukkue())) {
-                syotetyt_koti++;
+            if (ottelu.annaMaalit().get(i).annaMaalinTekija() != null) {
+                if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaKotijoukkue())) {
+                    syotetyt_koti++;
+                }
             }
-            }
-        
+
         }
 
         maalialle1.getChildren().addAll(alle7, alle8, alle9);
@@ -678,30 +691,16 @@ public class OtteluNakyma {
             @Override
             public void handle(ActionEvent e) {
 
-                if(maalintekija1.getValue() != null && syottaja1.getValue() != null){
-                         muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
+                if (maalintekija1.getValue() != null && syottaja1.getValue() != null) {
+                    muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
                 }
-           
+
                 ikkuna.asetaMuutos(true);
                 luoOttelunMaalisivu(ottelu);
             }
         });
 
-            Button tallenna = new Button("Tallenna");
-        lisaysnappula3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-
-                if(maalintekija1.getValue() != null && syottaja1.getValue() != null){
-                         muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
-                }
-           
-                ikkuna.asetaMuutos(true);
-                luoOttelusivu(ottelu);
-            }
-        });
-        
-        painikeboksi3.getChildren().addAll(lisaysnappula3, tallenna);
+        painikeboksi3.getChildren().addAll(lisaysnappula3);
 
         rivi4.getChildren().addAll(maalitaulu);
         if (syotetyt_koti < ottelu.annaKotimaalit()) {
@@ -725,7 +724,7 @@ public class OtteluNakyma {
 
         Button otsikkonappula2 = new Button();
         otsikkonappula2.setId("button-ohje");
-        otsikkonappula2.setText("\u003F");
+        otsikkonappula2.setText("!");
         otsikkonappula2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -815,19 +814,19 @@ public class OtteluNakyma {
         int syotetyt_vieras = 0;
 
         for (int i = 0; i < ottelu.annaMaalit().size(); i++) {
-            if(ottelu.annaMaalit().get(i).annaMaalinTekija() != null){
-                   if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaVierasjoukkue())) {
-                syotetyt_vieras++;
+            if (ottelu.annaMaalit().get(i).annaMaalinTekija() != null) {
+                if (ottelu.annaMaalit().get(i).annaMaalinTekija().annaJoukkue().equals(ottelu.annaVierasjoukkue())) {
+                    syotetyt_vieras++;
+                }
             }
-            }
-         
+
         }
 
         maalialle2.getChildren().addAll(alle72, alle82, alle92);
         HBox painikeboksi32 = new HBox();
         painikeboksi32.setPadding(new Insets(30, 0, 0, 0));
 
-        Button lisaysnappula32 = new Button("Tallenna");
+        Button lisaysnappula32 = new Button("Lisää");
         lisaysnappula32.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -845,13 +844,11 @@ public class OtteluNakyma {
             vierasboxi.getChildren().addAll(otsikkovieras_koko, eimahd2);
         }
 
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2){
-          rivi5.getChildren().addAll(kotiboxi, vierasboxi);
-        }
-        else if (ikkuna.annaJoukkueID() == kotijoukkue_id){
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
+            rivi5.getChildren().addAll(kotiboxi, vierasboxi);
+        } else if (ikkuna.annaJoukkueID() == kotijoukkue_id) {
             rivi5.getChildren().addAll(kotiboxi);
-        }
-        else if (ikkuna.annaJoukkueID() == vierasjoukkue_id){
+        } else if (ikkuna.annaJoukkueID() == vierasjoukkue_id) {
             rivi5.getChildren().addAll(vierasboxi);
         }
 
@@ -951,7 +948,7 @@ public class OtteluNakyma {
         painikeboksi0.setPadding(new Insets(10, 0, 0, 0));
         painikeboksi0.setSpacing(20);
 
-        Button lisaysnappula0 = new Button("Tallenna");
+        Button lisaysnappula0 = new Button("Lisää");
         lisaysnappula0.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {

@@ -81,13 +81,13 @@ public class SarjaNakyma {
 
     public void luoSarjanLisaysSivu() {
 
-        Button lisaysnappula = new Button("Tallenna");
+        Button lisaysnappula = new Button("Lisää");
         lisaysnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (nimi.getText().trim().isEmpty()) {
 
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                 } else {
                     Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
                     boolean onjo = false;
@@ -97,7 +97,7 @@ public class SarjaNakyma {
                         }
                     }
                     if(onjo){
-                         tiedottaja.annaVaroitus("Tämänniminen sarja on jo olemassa.");
+                         tiedottaja.annaVirhe("Tämänniminen sarja on jo olemassa.");
                     }
                     else{
                          Kohde uusi = new Sarja(nimi.getText(), turnaus);
@@ -226,7 +226,7 @@ public class SarjaNakyma {
         otsikko1.setFont(Font.font("Papyrus", 18));
         Button ottelunappula = new Button();
         ottelunappula.setId("button-ohje");
-        ottelunappula.setText("\u003F");
+        ottelunappula.setText("!");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -248,7 +248,7 @@ public class SarjaNakyma {
         otsikko2.setFont(Font.font("Papyrus", 18));
         Button joukkuenappula = new Button();
         joukkuenappula.setId("button-ohje");
-        joukkuenappula.setText("\u003F");
+        joukkuenappula.setText("!");
         joukkuenappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -413,7 +413,7 @@ public class SarjaNakyma {
         otsikko1.setFont(Font.font("Papyrus", 18));
         Button ottelunappula = new Button();
         ottelunappula.setId("button-ohje");
-        ottelunappula.setText("\u003F");
+        ottelunappula.setText("!");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -559,7 +559,7 @@ public class SarjaNakyma {
         otsikkorivi1.setSpacing(20);
         Button ottelunappula = new Button();
         ottelunappula.setId("button-ohje");
-        ottelunappula.setText("\u003F");
+        ottelunappula.setText("!");
         ottelunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -760,15 +760,15 @@ public class SarjaNakyma {
                 boolean ok = true;
                 //TARKISTUKSET!!
                 if (koti.getValue() == null || vieras.getValue() == null) {
-                    tiedottaja.annaVaroitus("Valitse sekä koti- että vierasjoukkue.");
+                    tiedottaja.annaVirhe("Valitse sekä koti- että vierasjoukkue.");
                     ok = false;
                 }
                 if (koti.getValue() == vieras.getValue()) {
-                    tiedottaja.annaVaroitus("Koti- ja vierasjoukkue eivät voi olla samoja.");
+                    tiedottaja.annaVirhe("Koti- ja vierasjoukkue eivät voi olla samoja.");
                     ok = false;
                 }
                 if (((erotuomari.getValue() == avustava1.getValue()) && (erotuomari.getValue() != null)) || ((erotuomari.getValue() == avustava2.getValue()) && (erotuomari.getValue() != null)) || ((avustava2.getValue() == avustava1.getValue()) && (avustava1.getValue() != null))) {
-                    tiedottaja.annaVaroitus("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
+                    tiedottaja.annaVirhe("Sama henkilö ei voi olla kuin yhdessä tuomarin roolissa.");
                     ok = false;
 
                 }
@@ -793,21 +793,11 @@ public class SarjaNakyma {
             }
         });
         
-        Button tallenna = new Button();
-          tallenna.setText("Tallenna");
-        paluunappula.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-
-                luoOtteluLuetteloMuokkaus(sarja);
-
-            }
-        });
-
+ 
         painikeboksi.getChildren().addAll(lisaysnappula, tyhjennys);
 
         alle.getChildren().addAll(ohjekierros, ohjekoti, ohjevieras, ohjeaika, ohjekello, ohjepaikka, ohjetuomari1, ohjetuomari2, ohjetuomari3);
-        ylialle.getChildren().addAll(ohje, alle, painikeboksi, tallenna);
+        ylialle.getChildren().addAll(ohje, alle, painikeboksi);
 
         osio1.getChildren().addAll(otsikkorivi1, ottelut, ylialle);
 
@@ -869,7 +859,7 @@ public class SarjaNakyma {
         otsikko2.setFont(Font.font("Papyrus", 18));
         Button joukkuenappula = new Button();
         joukkuenappula.setId("button-ohje");
-        joukkuenappula.setText("\u003F");
+        joukkuenappula.setText("!");
         joukkuenappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -900,13 +890,13 @@ public class SarjaNakyma {
                 boolean ok = true;
                 //tarkistus, onko tyhjä kenttä
                 if (lisaaJoukkue.getText().trim().isEmpty()) {
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                     ok = false;
                 }
                 //tarkistus, onko samanniminen jos tässä sarjassa EI OTA HUOMIOON KIRJAINTEN KOKOA!!!!
                 for (int i = 0; i < sarja.annaJoukkueet().size(); i++) {
                     if (sarja.annaJoukkueet().get(i).toString().equals(lisaaJoukkue.getText())) {
-                        tiedottaja.annaVaroitus("Tämänniminen joukkue on jo sarjassa.");
+                        tiedottaja.annaVirhe("Tämänniminen joukkue on jo sarjassa.");
                         ok = false;
                     }
                 }
@@ -919,17 +909,10 @@ public class SarjaNakyma {
             }
         });
 
-        Button tallenna = new Button("Tallenna");
-        tallenna.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                TreeItem<Kohde> mihin = new TreeItem<>(sarja);
-                luoSarjaSivu(mihin);
-            }
-        });
+
 
         painikeboksi2.getChildren().addAll(lisaaJoukkue, lisaysnappula2);
-        alle2.getChildren().addAll(painikeboksi2, tallenna);
+        alle2.getChildren().addAll(painikeboksi2);
         osio2.getChildren().addAll(otsikkorivi2, joukkueet, alle2);
 
         HBox rivi6 = new HBox();
@@ -945,12 +928,12 @@ public class SarjaNakyma {
     }
 
     public void luoSarjaMuokkaus(Sarja arvo) {
-        Button muokkausnappula = new Button("Tallenna");
+        Button muokkausnappula = new Button("OK");
         muokkausnappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (nimi.getText().trim().isEmpty()) {
-                    tiedottaja.annaVaroitus("Et voi antaa tyhjää kenttää.");
+                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
                 } else {
 
                     //poisto puusta
