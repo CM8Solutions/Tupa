@@ -1393,16 +1393,16 @@
  ******************************************************************************/
 
 .scroll-pane {
-    -fx-background-color: transparent;
-      -fx-background: transparent;
+    -fx-background-color: #fff;
+      -fx-background: #fff;
     -fx-background-insets: 0, 1;
     -fx-padding: 1.0;
     -fx-border: none;
 }
 
 .scroll-pane:focused {
-     -fx-background: transparent;
-    -fx-background-color: transparent;
+     -fx-background: #fff;
+    -fx-background-color: #fff;
     -fx-background-insets: -1.4, 0, 1;
 }
 
@@ -1417,8 +1417,8 @@
 }
 
 .scroll-pane > .corner {
-     -fx-background: transparent;
-    -fx-background-color: transparent;
+     -fx-background: #fff;
+    -fx-background-color: #fff;
     -fx-background-insets: 0, 1 0 0 1;
 }
 
@@ -4801,6 +4801,3 @@ to the top and bottom -fx-padding values of the parent toolbar. */
 
 }
 
-.scroll-pane > .viewport {
-   -fx-background-color:red;
-}
