@@ -18,8 +18,14 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
 import tupa.Tupa;
+import tupa.data.Joukkue;
 import tupa.nakymat.PaaNakyma;
 import tupa.data.Kohde;
+import tupa.data.Ottelu;
+import tupa.data.Pelaaja;
+import tupa.data.Sarja;
+import tupa.data.Toimihenkilo;
+import tupa.data.Tuomari;
 import tupa.data.Turnaus;
 
 /**
@@ -128,54 +134,39 @@ public class Valikko implements EventHandler<ActionEvent> {
                 Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
             }
             return;
         }
 
     }
 
-    public void valikostaValittu(String teksti, ActionEvent e) throws InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, IOException {
+    public void valikostaValittu(String teksti, ActionEvent e) throws InstantiationException, SQLException, IllegalAccessException, ClassNotFoundException, IOException, InterruptedException {
 
         switch (teksti) {
             case "Uusi": {
-                //tsekataan ensin, onko käyttäjä tehnyt muutoksia
+                boolean ok = true;
+                if (ikkuna.annaTaso() == 2) {
+                    Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                    ok = tarkistaja.tarkistaTurnausMaara();
+
+                }
+                if (!ok) {
+                    tiedottaja.annaVirhe("Olet luonut maksimimäärän turnauksia. Voit uusia lisenssisi ottamalla yhteyttä TUPA-ohjelman yleiseen ylläpitäjään, ks. (Valikko -> Ohje -> Tietoa ohjelmasta)");
+                } 
+                else if(ok){ 
                 if (ikkuna.muutettu()) {
                     Varmistaja varmista = new Varmistaja(ikkuna.annaKohteet(), ikkuna);
                     varmista.annaUudenVarmistus();
-                } else //tarkistetaan onko käyttäjällä oikeuksia lisätä vielä uusia turnauksia (max. 5)
-                if (ikkuna.annaTaso() == 2) {
-                    Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-                    boolean ok = tarkistaja.tarkistaTurnausMaara();
-
-                    if (ok) {
-                        //tyhjennetään kaikki tiedot 
-                        ikkuna.annaKohteet().clear();
-
-                        Aloitus aloitus = new Aloitus();
-                        Turnaus turnaus = aloitus.luoAlkuTurnaus();
-
-                        ikkuna.asetaTurnaus((Kohde) turnaus);
-                        ikkuna.annaKohteet().add((Kohde) turnaus);
-
-                        //vielä pitää tyhjentää puu
-                        TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
-                        TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
-                        parentSarjat.getChildren().clear();
-                        parentTuomarit.getChildren().clear();
-
-                        nakyma.luoEtusivu();
-                        tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
-                        ikkuna.asetaAloitus(false);
-                    } else {
-                        tiedottaja.annaVirhe("Olet luonut maksimimäärän turnauksia. Voit uusia lisenssisi ottamalla yhteyttä TUPA-ohjelman yleiseen ylläpitäjään, ks. (Valikko -> Ohje -> Tietoa ohjelmasta)");
-                    }
-
-                } //yleisellä ylläpitäjällä ei rajoituksia (muilla toiminto ei ole edes käytössä)
-                else {
-
-                    //tyhjennetään kaikki tiedot 
+              
+                } else {
+                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                    paivittaja.paivitaLaskurit();
+                    
                     ikkuna.annaKohteet().clear();
-
+                    ikkuna.annaTuomaritk().clear();
+                    ikkuna.annaSarjatk().clear();
                     Aloitus aloitus = new Aloitus();
                     Turnaus turnaus = aloitus.luoAlkuTurnaus();
                     Kohde uusiTurnaus = (Kohde) turnaus;
@@ -192,7 +183,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                     tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
                     ikkuna.asetaAloitus(false);
                 }
-
+                }
                 break;
             }
             case "Avaa": {
@@ -200,11 +191,13 @@ public class Valikko implements EventHandler<ActionEvent> {
 
                 if (ikkuna.muutettu()) {
                     Varmistaja varmista = new Varmistaja(ikkuna.annaKohteet(), ikkuna);
-                    varmista.annaUudenVarmistus();
+                    varmista.annaAvausVarmistus();
+                   
                 } else {
-                    //tyhjennetään kaikki tiedot 
-                    ikkuna.annaKohteet().clear();
 
+                    ikkuna.annaKohteet().clear();
+                    ikkuna.annaTuomaritk().clear();
+                    ikkuna.annaSarjatk().clear();
                     //vielä pitää tyhjentää puu
                     TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
                     TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
@@ -224,7 +217,10 @@ public class Valikko implements EventHandler<ActionEvent> {
 
                 if (!ikkuna.annaAloitus()) {
                     Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-                    tarkistaja.tarkistaTurnaustiedot();
+                    tarkistaja.tarkistaTurnaustiedot(true, false, false);
+
+                } else {
+                    tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
 
                 }
                 break;
@@ -262,6 +258,46 @@ public class Valikko implements EventHandler<ActionEvent> {
             case "Tuo": {
 
                 if (!ikkuna.annaAloitus()) {
+                    String url = "jdbc:mysql://tite.work:3306/";
+                    String driver = "com.mysql.jdbc.Driver";
+                    String dbName = "tupa";
+                    String userName = "root";
+                    String password = "asdlol";                    
+                      /*NOTE: Used to create a cmd command*/
+                      String executeCmd = "mysqldump --host=" + url + " --user=" + userName + " --password=" + password + " " + dbName + " > testi.sql";
+       
+
+        /*NOTE: Executing the command here*/
+        Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+        int processComplete = runtimeProcess.waitFor();
+
+        /*NOTE: processComplete=0 if correctly executed, will contain other values if not*/
+        if (processComplete == 0) {
+            System.out.println("Backup Complete");
+        } else {
+            System.out.println("Backup Failure");
+        }
+
+                    
+                    TuomariValitsin valitsin = new TuomariValitsin(ikkuna);
+                    valitsin.annaTuomariLuettelo();
+                    
+
+//
+//                    /**
+//                     * ********************************************************
+//                     */
+//// Execute Shell Command
+//                    /**
+//                     * ********************************************************
+//                     */
+//                    String executeCmd = "";
+//                    executeCmd = "mysqldump --opt --user=root --password=asdlol lmhprogram myResumes  --where="etunimi='Tuomas'" > test.sql";
+//                    Runtime rt = Runtime.getRuntime();
+//                    Process pr = rt.exec("mysqldump --opt --user=root --password=asdlol lmhprogram myResumes  --where=date_pulled='2011-05-23' > test.sql");
+
+                } else {
+                    tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
 
                 }
                 break;
@@ -269,9 +305,16 @@ public class Valikko implements EventHandler<ActionEvent> {
 
             case "Vie": {
 
-                if (!ikkuna.annaAloitus()) {
+                if (ikkuna.annaAloitus()) {
 
+                    tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
+
+                } else if (!ikkuna.annaAloitus() && ikkuna.annaValittuTuomari() != null) {
+
+                } else if (ikkuna.annaValittuTuomari() == null) {
+                    tiedottaja.annaVaroitus("Valitse ensin se tuomari, jonka haluat viedä");
                 }
+
                 break;
             }
 

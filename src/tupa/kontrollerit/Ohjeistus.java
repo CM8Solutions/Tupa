@@ -49,19 +49,19 @@ public class Ohjeistus {
         HBox alue = new HBox();
 
         ScrollPane sp = new ScrollPane();
-
-        sp.setStyle("-fx-background-color:  transparent");
+ sp.setId("my-scrollpane");
+   
         VBox vbox = new VBox();
 
         vbox.setSpacing(10);
-        vbox.setPadding(new Insets(30, 500, 20, 20));
+        vbox.setPadding(new Insets(30, 700, 20, 20));
         vbox.setAlignment(Pos.CENTER);
 
         VBox box0 = new VBox();
-        box0.setSpacing(10);
+   
 
         HBox otsikkorivi = new HBox();
-        otsikkorivi.setSpacing(100);
+        otsikkorivi.setSpacing(300);
 
         HBox tekstiboxi = new HBox();
 
@@ -74,8 +74,8 @@ public class Ohjeistus {
         selectedImage.setFitHeight(60);
         selectedImage.setFitWidth(60);
 
-        Label ekaotsikko = new Label("TUPA - tulospalvelussa on 4 eri käyttäjätasoa:");
-        ekaotsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
+        Label ekaotsikko = new Label("TUPA - tulospalvelu:");
+        ekaotsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
 
         tekstiboxi.getChildren().addAll(ekaotsikko);
         kuvaboxi.getChildren().addAll(selectedImage);
@@ -88,9 +88,9 @@ public class Ohjeistus {
         vbox.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
 alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
         sp.setMinWidth(alue.getPrefWidth());
-        alue.getChildren().addAll(sp);
+        
         alue.setAlignment(Pos.CENTER);
-        Scene sceneV = new Scene(alue, 700, 400);
+        Scene sceneV = new Scene(sp, 700, 400);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
         stage.show();

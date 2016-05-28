@@ -80,82 +80,81 @@ public class SarjaNakyma {
     }
 
     public void luoSarjanLisaysSivu() {
+        if (!ikkuna.annaAloitus()) {
+            Button lisaysnappula = new Button("Lisää");
+            lisaysnappula.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (nimi.getText().trim().isEmpty()) {
 
-        Button lisaysnappula = new Button("Lisää");
-        lisaysnappula.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (nimi.getText().trim().isEmpty()) {
-
-                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
-                } else {
-                    Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
-                    boolean onjo = false;
-                    for(int i=0; i<turnaus.annaSarjat().size(); i++){
-                        if(turnaus.annaSarjat().get(i).toString().equals(nimi.getText())){
-                            onjo = true;
-                        }
-                    }
-                    if(onjo){
-                         tiedottaja.annaVirhe("Tämänniminen sarja on jo olemassa.");
-                    }
-                    else{
-                         Kohde uusi = new Sarja(nimi.getText(), turnaus);
-                    turnaus.annaSarjat().add((Sarja) uusi);
-
-                    muuttaja.lisaaKohde(uusi);
-                    nimi.clear();
-                    ikkuna.asetaMuutos(true);     
+                        tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
+                    } else {
+                        Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+                        boolean onjo = false;
+                        for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
+                            if (turnaus.annaSarjat().get(i).toString().equals(nimi.getText())) {
+                                onjo = true;
                             }
-                    
-                  
+                        }
+                        if (onjo) {
+                            tiedottaja.annaVirhe("Tämänniminen sarja on jo olemassa.");
+                        } else {
+                            Kohde uusi = new Sarja(nimi.getText(), turnaus);
+                            turnaus.annaSarjat().add((Sarja) uusi);
 
-                    luoSarjanLisaysSivu();
+                            muuttaja.lisaaKohde(uusi);
+                            nimi.clear();
+                            ikkuna.asetaMuutos(true);
+                        }
+
+                        luoSarjanLisaysSivu();
+                    }
+
                 }
+            });
 
-            }
-        });
+            Button peruuta = new Button("Peruuta");
+            peruuta.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
 
-        Button peruuta = new Button("Peruuta");
-        peruuta.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+                    nakyma.luoEtusivu();
+                }
+            });
 
-                nakyma.luoEtusivu();
-            }
-        });
+            VBox lisays = new VBox();
+            lisays.setSpacing(20);
+            HBox hbox1 = new HBox();
+            Label label1 = new Label("Sarjan nimi: ");
+            HBox pakollinen_kentta1 = new HBox();
 
-        VBox lisays = new VBox();
-        lisays.setSpacing(20);
-        HBox hbox1 = new HBox();
-        Label label1 = new Label("Sarjan nimi: ");
-        HBox pakollinen_kentta1 = new HBox();
+            pakollinen_kentta1.getChildren().addAll(label1, pakollinen);
 
-        pakollinen_kentta1.getChildren().addAll(label1, pakollinen);
+            hbox1.setSpacing(10);
+            hbox1.getChildren().addAll(pakollinen_kentta1, nimi);
 
-        hbox1.setSpacing(10);
-        hbox1.getChildren().addAll(pakollinen_kentta1, nimi);
+            HBox hbox2 = new HBox();
+            hbox2.setSpacing(10);
+            hbox2.getChildren().addAll(lisaysnappula, peruuta);
 
-        HBox hbox2 = new HBox();
-        hbox2.setSpacing(10);
-        hbox2.getChildren().addAll(lisaysnappula, peruuta);
+            lisays.getChildren().addAll(hbox1, hbox2);
 
-        lisays.getChildren().addAll(hbox1, hbox2);
+            GridPane grid = new GridPane();
+            grid.setAlignment(Pos.CENTER);
 
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
+            Label otsikko = new Label("Lisää uusi sarja");
+            otsikko.setFont(Font.font("Papyrus", 28));
 
-        Label otsikko = new Label("Lisää uusi sarja");
-        otsikko.setFont(Font.font("Papyrus", 28));
+            grid.add(otsikko, 0, 0);
+            grid.add(lisays, 0, 1);
+            grid.setVgap(40);
 
-        grid.add(otsikko, 0, 0);
-        grid.add(lisays, 0, 1);
-        grid.setVgap(40);
+            VBox peitto = new VBox();
+            peitto.setStyle("-fx-background-color: white;");
+            ikkuna.annaNaytto().getChildren().add(peitto);
+            ikkuna.annaNaytto().getChildren().add(grid);
+        }
 
-        VBox peitto = new VBox();
-        peitto.setStyle("-fx-background-color: white;");
-        ikkuna.annaNaytto().getChildren().add(peitto);
-        ikkuna.annaNaytto().getChildren().add(grid);
     }
 
     public void luoSarjaSivu(TreeItem<Kohde> arvo) {
@@ -465,8 +464,8 @@ public class SarjaNakyma {
 
             }
         });
-        
-          autonappula.setOnAction(new EventHandler<ActionEvent>() {
+
+        autonappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (sarja.annaOttelut().size() != 0) {
@@ -478,7 +477,6 @@ public class SarjaNakyma {
 
             }
         });
-        
 
         HBox painikeboksi = new HBox();
         painikeboksi.setSpacing(40);
@@ -782,7 +780,6 @@ public class SarjaNakyma {
 
             }
         });
-        
 
         Button tyhjennys = new Button("Tyhjennä");
         tyhjennys.setOnAction(new EventHandler<ActionEvent>() {
@@ -792,8 +789,7 @@ public class SarjaNakyma {
                 luoOttelunLisaysSivu(sarja);
             }
         });
-        
- 
+
         painikeboksi.getChildren().addAll(lisaysnappula, tyhjennys);
 
         alle.getChildren().addAll(ohjekierros, ohjekoti, ohjevieras, ohjeaika, ohjekello, ohjepaikka, ohjetuomari1, ohjetuomari2, ohjetuomari3);
@@ -908,8 +904,6 @@ public class SarjaNakyma {
                 }
             }
         });
-
-
 
         painikeboksi2.getChildren().addAll(lisaaJoukkue, lisaysnappula2);
         alle2.getChildren().addAll(painikeboksi2);

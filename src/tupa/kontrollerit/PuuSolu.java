@@ -45,17 +45,23 @@ public class PuuSolu extends TreeCell<Kohde> {
                 onJuuri = true;
             }
 
-            if (!onJuuri) {
-                ContextMenu valikko = rakennaSolmuValikko(item);
+            if (!onJuuri && (item instanceof Sarja)) {
+                ContextMenu valikko = rakennaSolmuValikkoSarja(item);
                 setContextMenu(valikko);
-            } else {
-                ContextMenu valikko = rakennaJuuriValikko(item);
+            } else if (!onJuuri && (item instanceof Tuomari)) {
+                ContextMenu valikko = rakennaSolmuValikkoTuomari(item);
+                setContextMenu(valikko);
+            } else if (onJuuri && (item instanceof Sarja)) {
+                ContextMenu valikko = rakennaJuuriValikkoSarja(item);
+                setContextMenu(valikko);
+            } else if (onJuuri && (item instanceof Tuomari)) {
+                ContextMenu valikko = rakennaJuuriValikkoTuomari(item);
                 setContextMenu(valikko);
             }
         }
     }
 
-    private ContextMenu rakennaSolmuValikko(Kohde item) {
+    private ContextMenu rakennaSolmuValikkoTuomari(Kohde item) {
         ContextMenu menu = new ContextMenu();
 
         MenuItem item2 = new MenuItem("Muokkaa");
@@ -78,36 +84,34 @@ public class PuuSolu extends TreeCell<Kohde> {
             }
         });
 
-        if (item instanceof Sarja) {
-            item2.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-
-                    Sarja sarja = (Sarja) item;
-                    SarjaNakyma sarjanakyma = new SarjaNakyma();
-                    sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
-                    sarjanakyma.luoSarjaMuokkaus(sarja);
-
-                }
-            });
+        //tiedostoon tallennus
+        MenuItem item3 = new MenuItem("Vie");
+        menu.getItems().add(item3);
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
+            item3.setDisable(true);
         }
-        if (item instanceof Tuomari) {
-            item2.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    Tuomari tuomari = (Tuomari) item;
-                    TuomariNakyma tuomarinakyma = new TuomariNakyma();
-                    tuomarinakyma = ikkuna.annaPaaNakyma().annaTuomarinakyma();
-                    tuomarinakyma.luoTuomariMuokkaus(tuomari);
 
-                }
-            });
-        }
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Tuomari tuomari = (Tuomari) item;
+                TuomariNakyma tuomarinakyma = new TuomariNakyma();
+                tuomarinakyma = ikkuna.annaPaaNakyma().annaTuomarinakyma();
+                tuomarinakyma.luoTuomariMuokkaus(tuomari);
+
+            }
+        });
+        item3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TIETOKANTA --> TIEDOSTO
+            }
+        });
 
         return menu;
     }
 
-    private ContextMenu rakennaJuuriValikko(Kohde item) {
+    private ContextMenu rakennaJuuriValikkoTuomari(Kohde item) {
         ContextMenu menu = new ContextMenu();
 
         MenuItem item1 = new MenuItem("Lisää");
@@ -115,12 +119,7 @@ public class PuuSolu extends TreeCell<Kohde> {
         if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
             item1.setDisable(true);
         }
-        //tiedostoon tallennus
-        MenuItem item3 = new MenuItem("Vie");
-        menu.getItems().add(item3);
-        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
-            item3.setDisable(true);
-        }
+
         //tiedostosta luku, VAIN PÄÄITEMIIN
         MenuItem item4 = new MenuItem("Tuo");
         menu.getItems().add(item4);
@@ -128,67 +127,100 @@ public class PuuSolu extends TreeCell<Kohde> {
             item4.setDisable(true);
         }
 
-        if (item instanceof Sarja) {
-            item1.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (ikkuna.annaAloitus()) {
+                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                    tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
 
-                    if (!ikkuna.annaAloitus()) {
-                        SarjaNakyma sarjanakyma = new SarjaNakyma();
-                        sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
-                        sarjanakyma.luoSarjanLisaysSivu();
-                    }
-
-                }
-            });
-
-            item3.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if (!ikkuna.annaAloitus()) {
-
-                        //TIETOKANTA --> TIEDOSTO
-                    }
-
-                }
-            });
-            item4.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if (!ikkuna.annaAloitus()) {
-                        //TIEDOSTO --> TIETOKANTA
-                    }
-
-                }
-            });
-
-        }
-        if (item instanceof Tuomari) {
-            item1.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
+                } else {
                     TuomariNakyma tuomarinakyma = new TuomariNakyma();
                     tuomarinakyma = ikkuna.annaPaaNakyma().annaTuomarinakyma();
                     tuomarinakyma.luoTuomarinLisaysSivu();
+                }
+
+            }
+        });
+
+        item4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (ikkuna.annaAloitus()) {
+                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                    tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
 
                 }
-            });
-
-            item3.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    //TIETOKANTA --> TIEDOSTO
-                }
-            });
-            item4.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    //TIEDOSTO --> TIETOKANTA
-                }
-            });
-
-        }
+            }
+        });
 
         return menu;
     }
+
+    private ContextMenu rakennaSolmuValikkoSarja(Kohde item) {
+        ContextMenu menu = new ContextMenu();
+
+        MenuItem item2 = new MenuItem("Muokkaa");
+        menu.getItems().add(item2);
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
+            item2.setDisable(true);
+        }
+        MenuItem item5 = new MenuItem("Poista");
+        menu.getItems().add(item5);
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
+            item5.setDisable(true);
+        }
+        Varmistaja varmistaja = new Varmistaja(ikkuna, ikkuna.annaPaaNakyma());
+
+        item5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                varmistaja.annaPoistoVarmistus(item);
+
+            }
+        });
+
+        item2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                Sarja sarja = (Sarja) item;
+                SarjaNakyma sarjanakyma = new SarjaNakyma();
+                sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
+                sarjanakyma.luoSarjaMuokkaus(sarja);
+
+            }
+        });
+
+        return menu;
+    }
+
+    private ContextMenu rakennaJuuriValikkoSarja(Kohde item) {
+        ContextMenu menu = new ContextMenu();
+
+        MenuItem item1 = new MenuItem("Lisää");
+        menu.getItems().add(item1);
+        if (!(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)) {
+            item1.setDisable(true);
+        }
+
+        item1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (ikkuna.annaAloitus()) {
+                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                    tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
+
+                } else {
+                    SarjaNakyma sarjanakyma = new SarjaNakyma();
+                    sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
+                    sarjanakyma.luoSarjanLisaysSivu();
+                }
+
+            }
+        });
+
+        return menu;
+    }
+
 }

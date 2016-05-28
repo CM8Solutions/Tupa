@@ -70,7 +70,7 @@ public class Puurakenne {
                 TreeItem<Kohde> klikattu = sivuPuu.getSelectionModel().getSelectedItem();
                 if (klikattu != null && !ikkuna.annaAloitus()) {
                     if ((!klikattu.equals(ikkuna.annaRootSarjat())) && (klikattu.getValue() instanceof Sarja)) {
-
+                         ikkuna.asetaValittuTuomari(null);
                         Sarja sarja = (Sarja) klikattu.getValue();
                         TreeItem<Kohde> mihin = new TreeItem<>(sarja);
                         PaaNakyma nakyma = ikkuna.annaPaaNakyma();

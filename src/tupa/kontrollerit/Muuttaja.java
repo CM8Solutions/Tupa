@@ -104,9 +104,12 @@ public class Muuttaja {
                 }
 
             }
+
             tuomari.kasvataLaskuria();
+
             tuomari.asetaID(tuomari.annaLaskuri());
             tuomari.asetaJulkinenId(tuomari.annaLaskuri() + 88);
+
         }
         // kohteen omat:
         //yleiseen tietokantaan:
@@ -940,8 +943,8 @@ public class Muuttaja {
         tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-
-                tiedottaja.kirjoitaLoki("Otteluluettelo laadittu sarjaan " + sarja.toString() + ".");
+                Tiedottaja tiedottaja2 = new Tiedottaja(ikkuna);
+                tiedottaja2.kirjoitaLoki("Otteluluettelo laadittu sarjaan " + sarja.toString() + ".");
                 ikkuna.asetaMuutos(true);
 
                 tehtavastage.hide();

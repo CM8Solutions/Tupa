@@ -57,6 +57,7 @@ public class Tupa extends Application {
     
     private boolean alotus = true;
    
+    private Tuomari valittuTuomari;
     // turnaus, johon liittyy, tallennettu!
     private Kohde turnaus = new Turnaus();
 
@@ -306,6 +307,14 @@ nakyma.luoEtusivuTyhja();
     
     public int annaJoukkueID(){
         return joukkue_id;
+    }
+    
+    public void asetaValittuTuomari(Tuomari valittu){
+        this.valittuTuomari = valittu;
+    }
+    
+    public Tuomari annaValittuTuomari(){
+        return valittuTuomari;
     }
     
 }

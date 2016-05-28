@@ -53,7 +53,7 @@ public class Varmistaja {
     public Varmistaja() {
 
     }
-    
+
     public Varmistaja(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
@@ -106,7 +106,7 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-             tarkistaja.tarkistaTurnaustiedot();
+                tarkistaja.tarkistaTurnaustiedot(false, false, false);
                 Platform.exit();
             }
         });
@@ -153,7 +153,7 @@ public class Varmistaja {
         joo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                ikkuna.asetaValittuTuomari(null);
                 muuttaja.poistaKohde(arvo);
                 stageV.close();
 
@@ -201,21 +201,27 @@ public class Varmistaja {
         eiTallennus.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //tyhjennetään kaikki tiedot 
+                LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                paivittaja.paivitaLaskurit();
                 ikkuna.annaKohteet().clear();
-
-                Kohde uusiTurnaus = new Turnaus();
+                ikkuna.annaTuomaritk().clear();
+                ikkuna.annaSarjatk().clear();
+                Aloitus aloitus = new Aloitus();
+                Turnaus turnaus = aloitus.luoAlkuTurnaus();
+                Kohde uusiTurnaus = (Kohde) turnaus;
                 ikkuna.asetaTurnaus(uusiTurnaus);
+                ikkuna.annaKohteet().add(uusiTurnaus);
 
                 //vielä pitää tyhjentää puu
                 TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
                 TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
                 parentSarjat.getChildren().clear();
                 parentTuomarit.getChildren().clear();
-                ikkuna.annaPaaNakyma().luoEtusivu();
+
+                nakyma.luoEtusivu();
                 Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                          tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
-                     ikkuna.asetaAloitus(false);        
+                tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
+                ikkuna.asetaAloitus(false);
                 stageV.close();
 
             }
@@ -226,19 +232,8 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-             tarkistaja.tarkistaTurnaustiedot();
-                //tyhjennetään kaikki tiedot 
-                ikkuna.annaKohteet().clear();
+                tarkistaja.tarkistaTurnaustiedot(false, false, true);
 
-                Kohde uusiTurnaus = new Turnaus();
-                ikkuna.asetaTurnaus(uusiTurnaus);
-
-                //vielä pitää tyhjentää puu
-                TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
-                TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
-                parentSarjat.getChildren().clear();
-                parentTuomarit.getChildren().clear();
-                ikkuna.annaPaaNakyma().luoEtusivu();
                 stageV.close();
             }
         });
@@ -284,9 +279,10 @@ public class Varmistaja {
         eiTallennus.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //tyhjennetään kaikki tiedot 
-                ikkuna.annaKohteet().clear();
 
+                ikkuna.annaKohteet().clear();
+                ikkuna.annaTuomaritk().clear();
+                ikkuna.annaSarjatk().clear();
                 Kohde uusiTurnaus = new Turnaus();
                 ikkuna.asetaTurnaus(uusiTurnaus);
 
@@ -297,7 +293,7 @@ public class Varmistaja {
                 parentTuomarit.getChildren().clear();
 
                 //sitten vasta avaukseen
-                  TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
+                TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
                 try {
                     valitsija.annaTurnausLuettelo();
                 } catch (SQLException ex) {
@@ -312,26 +308,8 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-             tarkistaja.tarkistaTurnaustiedot();
-                //tyhjennetään kaikki tiedot 
-                ikkuna.annaKohteet().clear();
+                tarkistaja.tarkistaTurnaustiedot(false, true, false);
 
-                Kohde uusiTurnaus = new Turnaus();
-                ikkuna.asetaTurnaus(uusiTurnaus);
-
-                //vielä pitää tyhjentää puu
-                TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
-                TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
-                parentSarjat.getChildren().clear();
-                parentTuomarit.getChildren().clear();
-                //sitten vasta avaukseen
-                   //sitten vasta avaukseen
-                  TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
-                try {
-                    valitsija.annaTurnausLuettelo();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 stageV.close();
             }
         });
@@ -833,8 +811,8 @@ public class Varmistaja {
 
     }
 
-    public void annaToimarinOikeudenPoistoVarmistus(Toimihenkilo toimari){
-             Stage stageV = new Stage();
+    public void annaToimarinOikeudenPoistoVarmistus(Toimihenkilo toimari) {
+        Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
 
         VBox vbox = new VBox();
@@ -842,7 +820,7 @@ public class Varmistaja {
         vbox.setSpacing(10);
 
         HBox hbox1 = new HBox();
-        Label viesti = new Label("Haluatko todella poistaa toimihenkilön " + toimari.toString() + " joukkueen "+toimari.annaJoukkue().toString() + " roolista?");
+        Label viesti = new Label("Haluatko todella poistaa toimihenkilön " + toimari.toString() + " joukkueen " + toimari.annaJoukkue().toString() + " roolista?");
 
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().add(viesti);
@@ -884,12 +862,10 @@ public class Varmistaja {
         stageV.setScene(sceneV);
         stageV.show();
 
-        
     }
-    
-      public void annaTurnauksenPoistoVarmistus(Turnaus turnaus) {
 
-       
+    public void annaTurnauksenPoistoVarmistus(Turnaus turnaus) {
+
         Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
 
@@ -915,7 +891,7 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 muuttaja.poistaTurnaus(turnaus);
-               PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                 nakyma.luoEtusivuTyhja();
                 stageV.close();
 
@@ -939,5 +915,55 @@ public class Varmistaja {
         stageV.show();
 
     }
-    
+
+    public void annaTuomarinVientiVarmistus(Tuomari tuomari) {
+
+        Stage stageV = new Stage();
+        BorderPane alue = new BorderPane();
+
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        HBox hbox1 = new HBox();
+        Label viesti = new Label("Haluatko todella viedä tuomarin " + tuomari.toString() + " tiedot tietokannasta tiedostoon?");
+
+        hbox1.setAlignment(Pos.CENTER);
+        hbox1.getChildren().add(viesti);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(10));
+        hbox2.setSpacing(10);
+        Button joo = new Button("Kyllä");
+
+        Button peruuta = new Button("Peruuta");
+
+        joo.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                //toiminta
+                stageV.close();
+
+            }
+        });
+        peruuta.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                stageV.close();
+            }
+        });
+        hbox2.setAlignment(Pos.CENTER);
+        hbox2.getChildren().addAll(joo, peruuta);
+        vbox.getChildren().addAll(hbox1, hbox2);
+        alue.setCenter(vbox);
+
+        Scene sceneV = new Scene(alue, 400, 100);
+        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setScene(sceneV);
+        stageV.show();
+
+    }
+
 }

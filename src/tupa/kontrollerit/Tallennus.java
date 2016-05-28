@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TreeItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -66,7 +69,8 @@ public class Tallennus {
         this.ikkuna = ikkuna;
     }
 
-    public void suoritaTallennus() throws InstantiationException, SQLException, IllegalAccessException {
+    public void suoritaTallennus(boolean jatko, boolean avaus, boolean uusi) throws InstantiationException, SQLException, IllegalAccessException {
+
         DropShadow dropShadow = new DropShadow();
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
@@ -386,6 +390,26 @@ public class Tallennus {
                         se.printStackTrace();
                     }
                 }
+
+                if (!jatko) {
+
+                    ikkuna.annaKohteet().clear();
+                    ikkuna.annaTuomaritk().clear();
+                    ikkuna.annaSarjatk().clear();
+                    Aloitus aloitus = new Aloitus();
+                    Turnaus turnaus = aloitus.luoAlkuTurnaus();
+                    Kohde uusiTurnaus = (Kohde) turnaus;
+                    ikkuna.asetaTurnaus(uusiTurnaus);
+                    ikkuna.annaKohteet().add(uusiTurnaus);
+
+                    //vielä pitää tyhjentää puu
+                    TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
+                    TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
+                    parentSarjat.getChildren().clear();
+                    parentTuomarit.getChildren().clear();
+
+                }
+
                 return null;
             }
         };
@@ -393,8 +417,32 @@ public class Tallennus {
             @Override
             public void handle(WorkerStateEvent t) {
 
+                if (avaus) {
+
+                    PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                    nakyma.luoEtusivuTyhja();
+                    //sitten vasta avaukseen
+                    TurnausValitsin valitsija = new TurnausValitsin(ikkuna);
+                    try {
+                        valitsija.annaTurnausLuettelo();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Tallennus.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    ikkuna.asetaAloitus(false);
+                } else if (uusi) {
+
+                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                    paivittaja.paivitaLaskurit();
+                    PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                    nakyma.luoEtusivu();
+                    Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                    tiedottaja.kirjoitaLoki("Uusi turnaus avattu.");
+                    ikkuna.asetaAloitus(false);
+                }
+
                 //päivitetään tilanne, että tallennus on suoritettu
                 ikkuna.asetaMuutos(false);
+
                 tehtavastage.hide();
             }
         });

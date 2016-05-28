@@ -129,6 +129,12 @@ public class Avaus {
 
                     turnaus_id = turnaus.annaID();
 
+                    
+                    //päivitetään ensin laskurit
+                
+                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                    paivittaja.paivitaLaskurit();
+                    
                     ikkuna.asetaTurnaus((Kohde) turnaus);
 
                     //haetaan tuomarit
@@ -144,8 +150,9 @@ public class Avaus {
                         Tuomari tuomari = new Tuomari(etunimi, sukunimi);
                         tuomari.asetaID(id);
                         tuomari.asetaTurnaus(turnaus);
+                      
                         tuomari.asetaJulkinenId(julkinen_id);
-                        tuomari.kasvataLaskuria();
+                      
                         turnaus.annaTuomarit().add(tuomari);
 
                         kohdetk.add((Kohde) tuomari);
@@ -163,7 +170,7 @@ public class Avaus {
 
                         Sarja sarja = new Sarja(snimi, turnaus);
                         sarja.asetaID(sid);
-                        sarja.kasvataLaskuria();
+                     
                         turnaus.annaSarjat().add(sarja);
 
                         kohdetk.add((Kohde) sarja);
@@ -180,7 +187,7 @@ public class Avaus {
 
                             Joukkue joukkue = new Joukkue(jnimi);
                             joukkue.asetaID(jid);
-                            joukkue.kasvataLaskuria();
+                          
                             joukkue.asetaSarja(sarja);
 
                             sarja.annaJoukkueet().add(joukkue);
@@ -207,7 +214,7 @@ public class Avaus {
                                 pelaaja.asetaJulkinenID(pelaaja_id);
                                 pelaaja.asetaPelipaikka(pelipaikka);
                                 pelaaja.asetaJoukkue(joukkue);
-                                pelaaja.kasvataLaskuria();
+                               
                                 joukkue.annaPelaajat().add(pelaaja);
 
                                 kohdetk.add((Kohde) pelaaja);
@@ -237,7 +244,7 @@ public class Avaus {
                                 toimari.asetaHallinta(hallinta);
                                 toimari.asetaHallintaID(hallinta_id);
                                 toimari.asetaJoukkue(joukkue);
-                                toimari.kasvataLaskuria();
+                           
                                 joukkue.annaToimarit().add(toimari);
 
                                 kohdetk.add((Kohde) toimari);
@@ -284,7 +291,7 @@ public class Avaus {
                             ottelu.asetaKierros(kierros);
                             ottelu.asetaVierasmaalit(vierasmaalit);
                             ottelu.asetaKotimaalit(kotimaalit);
-                            ottelu.kasvataLaskuria();
+                     
                             Joukkue kotijoukkue = new Joukkue();
                             Joukkue vierasjoukkue = new Joukkue();
 
@@ -321,7 +328,7 @@ public class Avaus {
                                 Kokoonpano kokoonpano = new Kokoonpano(ottelu, kotijoukkue);
 
                                 kokoonpano.asetaID(kotikokoonpano_id);
-                                kokoonpano.kasvataLaskuria();
+                           
                                 ottelu.asetaKotiKokoonpano(kokoonpano);
                                 //pelaajien kokoonpanotiedot
                                 sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + kotikokoonpano_id + "'";
@@ -354,7 +361,7 @@ public class Avaus {
                                 int vieraskokoonpano_id = vieraskokoonpano.getInt("tupaid");
                                 Kokoonpano kokoonpano = new Kokoonpano(ottelu, vierasjoukkue);
                                 kokoonpano.asetaID(vieraskokoonpano_id);
-                                kokoonpano.kasvataLaskuria();
+                             
                                 ottelu.asetaVierasKokoonpano(kokoonpano);
                                 //pelaajien kokoonpanotiedot
                                 sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + vieraskokoonpano_id + "'";
@@ -411,7 +418,7 @@ public class Avaus {
                                         maali.asetaSyottaja(pelaaja);
                                     }
                                 }
-                                maali.kasvataLaskuria();
+                             
                                 ottelu.annaMaalit().add(maali);
 
                             }
@@ -439,7 +446,7 @@ public class Avaus {
                                     }
                                 }
 
-                                tuomarinrooli.kasvataLaskuria();
+                            
                                 tuomarinrooli.asetaID(tuomarinrooli_id);
 
                                 ottelu.annaRoolit().add(tuomarinrooli);
@@ -518,6 +525,7 @@ public class Avaus {
                     parentT = ikkuna.annaRootTuomarit();
 
                     for (Henkilo tuomari : tuomaritV) {
+                  
                         TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>((Kohde) tuomari);
                         parentT.getChildren().add(uusiKohde);
 

@@ -2029,7 +2029,7 @@ public class Taulukko {
                 boolean on = false;
                 for (int j = 0; j < haettu.annaKokoonpanot().size(); j++) {
                     if (haettu.annaKokoonpanot().get(j).annaOttelu().equals(ottelu)) {
-                        
+
                         on = true;
                     }
 
@@ -2182,6 +2182,110 @@ public class Taulukko {
             }
         }
 
+        return taulukko;
+    }
+
+    public TableView luoTuotavienTuomarienTaulukko(int kayttaja_id) {
+        taulukko.setPlaceholder(new Label("Ei tuomareita"));
+        taulukko.setId("my-table");
+        List<Tuomari> tuomarit = new ArrayList<>();
+
+//        for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
+//            if (!joukkue.annaPelaajat().get(i).annaEtuNimi().equals("") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Oma") && !joukkue.annaPelaajat().get(i).annaEtuNimi().equals("Ei")) {
+//                joukkue.annaPelaajat().get(i).asetaTaulukkonimi();
+//                joukkue.annaPelaajat().get(i).asetaTaulukkojulkinen_id();
+//                joukkue.annaPelaajat().get(i).asetaTaulukkoturnaus();
+//                tuomarit.add(joukkue.annaPelaajat().get(i));
+//            }
+//        }
+        try {
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+
+            //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
+            sql = "SELECT tuomari.etunimi as etunimi, tuomari.sukunimi as sukunimi, tuomari.tupaid as tid, tuomari.tuomari_id as tuid, turnaus.nimi as turnimi, turnaus.tupaid as turid FROM turnaus, kayttajan_turnaus, tuomari WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid ";
+
+            ResultSet tuomarit_tk = st.executeQuery(sql);
+
+            while (tuomarit_tk.next()) {
+                String etunimi = tuomarit_tk.getString("etunimi");
+                   String sukunimi = tuomarit_tk.getString("sukunimi");
+                  String turnaus_nimi = tuomarit_tk.getString("turnimi");
+               
+                int id = tuomarit_tk.getInt("tid");
+                int tuomari_id = tuomarit_tk.getInt("tuid");
+                int turnaus_id = tuomarit_tk.getInt("turid");
+                
+                
+                Turnaus turnaus = new Turnaus();
+                turnaus.asetaNimi(turnaus_nimi);
+                turnaus.asetaID(turnaus_id);
+                  
+                Tuomari tuomari = new Tuomari(etunimi, sukunimi);
+                tuomari.asetaID(id);
+        
+                tuomari.asetaJulkinenId(tuomari_id);
+                tuomari.asetaTurnaus(turnaus);
+             
+                tuomari.asetaTaulukkonimi();
+               tuomari.asetaTaulukkojulkinen_id();
+               tuomari.asetaTaulukkoturnaus();
+
+                tuomarit.add(tuomari);
+            }
+
+            ObservableList<Tuomari> data
+                    = FXCollections.observableArrayList(tuomarit);
+
+            TableColumn tuomari = new TableColumn("Tuomari");
+            TableColumn tuomari_id = new TableColumn("TuomariID");
+            TableColumn turnaus = new TableColumn("Turnaus");
+            tuomari.setMinWidth(200);
+            tuomari_id.setPrefWidth(150);
+            tuomari.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkonimi"));
+            tuomari_id.setCellValueFactory(new PropertyValueFactory<Pelaaja, Integer>("taulukkojulkinen_id"));
+            turnaus.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkoturnaus"));
+
+            turnaus.setPrefWidth(200);
+
+            taulukko.getColumns().addAll(tuomari_id, tuomari, turnaus);
+            taulukko.setItems(data);
+            tuomari.setSortType(TableColumn.SortType.ASCENDING);
+            taulukko.getSortOrder().add(tuomari);
+
+            taulukko.setFixedCellSize(25);
+
+            if (taulukko.getItems().size() == 0) {
+                taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(2)));
+            } else {
+                taulukko.prefHeightProperty().bind(taulukko.fixedCellSizeProperty().multiply(Bindings.size(taulukko.getItems()).add(1.1)));
+            }
+
+            taulukko.minHeightProperty().bind(taulukko.prefHeightProperty());
+            taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
         return taulukko;
     }
 }

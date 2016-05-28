@@ -1,3 +1,4 @@
+TUPA - tulospalvelussa on 4 eri käyttäjätasoa:
 
 - Taso 3: Yleinen ylläpitäjä (kaikki oikeudet)
 
@@ -7,8 +8,13 @@ kuhunkin turnaukseen liittyen
 	* ylläpitää tietoja sarjoista
 	* ylläpitää tietoja joukkueista
 	* ylläpitää tietoja pelaajista
-	* laatia sarjoihin otteluohjelmia (automaattisesti/manuaalisesti)
+	* laatia sarjoihin otteluohjelmia
+		~ manuaalisesti
+		~ automaattisesti (vain yksinkertaisena pelattavat sarjat, eli joukkueet pelaavat kerran toisiaan vastaan)
 	* päivittää otteluiden tuloksia sekä maalintekijöitä/syöttäjiä
+	* tuoda tuomareita aiemmin luoduista turnauksista:
+		Huom! Tuomarit on ensin vietävä halutusta turnauksesta tiedostoon ja sitten tuotava tästä tiedostosta
+		kyseiseen turnaukseen
 	* luoda tason 1 käyttäjätunnuksia
 
 - Taso 1: Tiettyyn turnukseen osallistuvan joukkueen tietoja hallinnoiva käyttäjä, joka voi 

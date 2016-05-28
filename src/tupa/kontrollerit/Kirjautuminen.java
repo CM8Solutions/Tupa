@@ -302,7 +302,7 @@ public class Kirjautuminen {
 
     }
 
-    public void luoTurnauksenSalasananSyotto() {
+    public void luoTurnauksenSalasananSyotto(boolean jatko, boolean avaus, boolean uusi) {
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
         alue.setPadding(new Insets(10, 50, 50, 50));
@@ -428,8 +428,8 @@ public class Kirjautuminen {
                         Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
                         tiedottaja.annaIlmoitus("Turnauksen " + turnaus.toString() + " salasana tallennettu!");
                         Tallennus tallenna = new Tallennus(ikkuna);
-                        tallenna.suoritaTallennus();
-                        tiedottaja.kirjoitaLoki("Turnaus "+turnaus.toString() + " tallennettu.");
+                        tallenna.suoritaTallennus(jatko, avaus, uusi);
+                        tiedottaja.kirjoitaLoki("Turnaus " + turnaus.toString() + " tallennettu.");
                         stage.close();
 
                     } catch (SQLException se) {

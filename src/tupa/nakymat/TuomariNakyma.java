@@ -69,121 +69,123 @@ public class TuomariNakyma {
     }
 
     public void luoTuomarinLisaysSivu() {
+        if (!ikkuna.annaAloitus()) {
+            Button lisaysnappula = new Button("Lisää");
+            lisaysnappula.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    boolean ok = true;
+                    //nimen syöttöjen tarkistus
+                    if (etunimi.getText().trim().isEmpty() || sukunimi.getText().trim().isEmpty()) {
 
-        Button lisaysnappula = new Button("Lisää");
-        lisaysnappula.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                boolean ok = true;
-                //nimen syöttöjen tarkistus
-                if (etunimi.getText().trim().isEmpty() || sukunimi.getText().trim().isEmpty()) {
-
-                    tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
-                    ok = false;
-                } else if (etunimi.getText().length() > 64 || sukunimi.getText().length() > 64) {
-                    tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
-                    ok = false;
-                }
-                for (char c : etunimi.getText().toCharArray()) {
-
-                    if (!Character.isLetter(c)) {
-                        if (!Character.toString(c).equals("-")) {
-                            ok = false;
-                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
-                            break;
-                        }
-
+                        tiedottaja.annaVirhe("Et voi antaa tyhjää kenttää.");
+                        ok = false;
+                    } else if (etunimi.getText().length() > 64 || sukunimi.getText().length() > 64) {
+                        tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää korkeintaan 64 merkkiä.");
+                        ok = false;
                     }
-                }
-                for (char c : sukunimi.getText().toCharArray()) {
-                    if (!Character.isLetter(c)) {
-                        if (!Character.toString(c).equals("-")) {
-                            ok = false;
-                            tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
-                            break;
+                    for (char c : etunimi.getText().toCharArray()) {
+
+                        if (!Character.isLetter(c)) {
+                            if (!Character.toString(c).equals("-")) {
+                                ok = false;
+                                tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                                break;
+                            }
+
                         }
                     }
+                    for (char c : sukunimi.getText().toCharArray()) {
+                        if (!Character.isLetter(c)) {
+                            if (!Character.toString(c).equals("-")) {
+                                ok = false;
+                                tiedottaja.annaVirhe("Sekä etu- että sukunimi saa sisältää vain kirjaimia ja tavuviivoja.");
+                                break;
+                            }
+                        }
+                    }
+
+                    if (ok) {
+
+                        Kohde uusi = new Tuomari(etunimi.getText(), sukunimi.getText());
+                        Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+
+                        turnaus.annaTuomarit().add((Tuomari) uusi);
+                        muuttaja.lisaaKohde(uusi);
+                        etunimi.clear();
+                        sukunimi.clear();
+                        ikkuna.asetaMuutos(true);
+                        luoTuomarinLisaysSivu();
+
+                    }
+
                 }
+            });
 
-                if (ok) {
+            Button peruuta = new Button("Peruuta");
 
-                    Kohde uusi = new Tuomari(etunimi.getText(), sukunimi.getText());
-                    Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
-
-                    turnaus.annaTuomarit().add((Tuomari) uusi);
-                    muuttaja.lisaaKohde(uusi);
-                    etunimi.clear();
-                    sukunimi.clear();
-                    ikkuna.asetaMuutos(true);
-                    luoTuomarinLisaysSivu();
+            peruuta.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    nakyma.luoEtusivu();
 
                 }
+            });
 
-            }
-        });
+            VBox vbox = new VBox();
+            vbox.setSpacing(20);
+            HBox hbox1 = new HBox();
+            Label label1 = new Label("Etunimi: ");
+            HBox pakollinen_kentta1 = new HBox();
 
-        Button peruuta = new Button("Peruuta");
+            pakollinen_kentta1.getChildren().addAll(label1, pakollinen);
+            hbox1.setSpacing(20);
+            hbox1.getChildren().addAll(pakollinen_kentta1, etunimi);
 
-        peruuta.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                nakyma.luoEtusivu();
+            HBox hbox2 = new HBox();
+            Label label2 = new Label("Sukunimi: ");
+            HBox pakollinen_kentta2 = new HBox();
 
-            }
-        });
+            pakollinen_kentta2.getChildren().addAll(label2, pakollinen2);
+            hbox2.setSpacing(10);
+            hbox2.getChildren().addAll(pakollinen_kentta2, sukunimi);
 
-        VBox vbox = new VBox();
-        vbox.setSpacing(20);
-        HBox hbox1 = new HBox();
-        Label label1 = new Label("Etunimi: ");
-        HBox pakollinen_kentta1 = new HBox();
+            HBox hbox3 = new HBox();
+            hbox3.setSpacing(10);
+            hbox3.getChildren().addAll(lisaysnappula, peruuta);
 
-        pakollinen_kentta1.getChildren().addAll(label1, pakollinen);
-        hbox1.setSpacing(20);
-        hbox1.getChildren().addAll(pakollinen_kentta1, etunimi);
+            vbox.getChildren().addAll(hbox1, hbox2, hbox3);
 
-        HBox hbox2 = new HBox();
-        Label label2 = new Label("Sukunimi: ");
-        HBox pakollinen_kentta2 = new HBox();
+            GridPane grid = new GridPane();
+            grid.setPadding(new Insets(40));
+            grid.setAlignment(Pos.TOP_CENTER);
+            grid.setVgap(20);
 
-        pakollinen_kentta2.getChildren().addAll(label2, pakollinen2);
-        hbox2.setSpacing(10);
-        hbox2.getChildren().addAll(pakollinen_kentta2, sukunimi);
+            VBox otsikkoboxi = new VBox();
 
-        HBox hbox3 = new HBox();
-        hbox3.setSpacing(10);
-        hbox3.getChildren().addAll(lisaysnappula, peruuta);
+            Label otsikko = new Label("Lisää uusi tuomari.");
+            otsikko.setFont(Font.font("Papyrus", 28));
+            Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+            ohjeT.setFont(Font.font("Papyrus", 12));
 
-        vbox.getChildren().addAll(hbox1, hbox2, hbox3);
+            otsikkoboxi.getChildren().addAll(otsikko, ohjeT);
 
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(40));
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.setVgap(20);
-        
-        VBox otsikkoboxi = new VBox();
-        
-        
-        Label otsikko = new Label("Lisää uusi tuomari.");
-        otsikko.setFont(Font.font("Papyrus", 28));
-    Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
-        ohjeT.setFont(Font.font("Papyrus", 12));
-        
-        otsikkoboxi.getChildren().addAll(otsikko, ohjeT);
-                
-        grid.add(otsikkoboxi, 1, 5);
-        grid.add(vbox, 1, 7);
+            grid.add(otsikkoboxi, 1, 5);
+            grid.add(vbox, 1, 7);
 
-        VBox peitto = new VBox();
-        peitto.setStyle("-fx-background-color: white;");
-        ikkuna.annaNaytto().getChildren().add(peitto);
-        ikkuna.annaNaytto().getChildren().add(grid);
+            VBox peitto = new VBox();
+            peitto.setStyle("-fx-background-color: white;");
+            ikkuna.annaNaytto().getChildren().add(peitto);
+            ikkuna.annaNaytto().getChildren().add(grid);
+        }
+
     }
 
     public void luoTuomariSivu(TreeItem<Kohde> arvo) {
 
         ScrollPane sb = new ScrollPane();
         Tuomari tuomari = (Tuomari) arvo.getValue();
+        ikkuna.asetaValittuTuomari(tuomari);
 
         GridPane grid = new GridPane();
 
@@ -206,6 +208,7 @@ public class TuomariNakyma {
         poistonappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 varmistaja.annaPoistoVarmistus(arvo.getValue());
 
             }
@@ -228,12 +231,12 @@ public class TuomariNakyma {
         info.setAlignment(Pos.CENTER);
         info.getChildren().addAll(nimi, id);
 
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
-        rivi2.getChildren().addAll(info, painike);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
+            rivi2.getChildren().addAll(info, painike);
+        } else {
+            rivi2.getChildren().addAll(info);
+        }
 
-        else
-           rivi2.getChildren().addAll(info);
-        
         grid.add(rivi2, 0, 0);
 
         Taulukko taulukontekija1 = new Taulukko(nakyma, varmistaja);
@@ -244,7 +247,7 @@ public class TuomariNakyma {
         //riville 3
         VBox osio1 = new VBox();
         osio1.setSpacing(20);
-        osio1.setPadding(new Insets(10,20, 200, 10));
+        osio1.setPadding(new Insets(10, 20, 200, 10));
         osio1.setAlignment(Pos.CENTER);
         Label otsikko1 = new Label("Ottelut:");
         otsikko1.setFont(Font.font("Papyrus", 18));
@@ -252,7 +255,6 @@ public class TuomariNakyma {
         grid.setPadding(new Insets(20));
         grid.add(osio1, 0, 1);
         sb.setContent(grid);
-        
 
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
@@ -347,14 +349,13 @@ public class TuomariNakyma {
         vbox.setSpacing(20);
 
         VBox otsikkoboxi = new VBox();
-        
+
         Label otsikko = new Label("Muokkaa tuomarin " + tuomari.toString() + " tietoja: ");
         otsikko.setFont(Font.font("Papyrus", 22));
         Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
         ohjeT.setFont(Font.font("Papyrus", 12));
         otsikkoboxi.getChildren().addAll(otsikko, ohjeT);
-        
-        
+
         HBox hbox1 = new HBox();
         Label label1 = new Label("Etunimi: ");
         HBox pakollinen_kentta1 = new HBox();

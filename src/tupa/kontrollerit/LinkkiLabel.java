@@ -40,12 +40,12 @@ public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {
         nimi = this.getText();
 
         if (nimi.equals("Etusivu") && !ikkuna.annaAloitus() ) {
-   
+   ikkuna.asetaValittuTuomari(null);
             nakyma.luoEtusivu();
             return;
         }
         else if (nimi.equals("Oma joukkue") && !ikkuna.annaAloitus() ) {
-            
+            ikkuna.asetaValittuTuomari(null);
             Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
             Joukkue joukkue = new Joukkue();
             for(int i=0; i<turnaus.annaSarjat().size(); i++){

@@ -154,7 +154,7 @@ public class Tarkistaja {
         return true;
     }
 
-    public void tarkistaTurnaustiedot() {
+    public void tarkistaTurnaustiedot(boolean jatko, boolean avaus, boolean uusi) {
 
         int turnaus_id = turnaus.annaID();
         try {
@@ -173,12 +173,12 @@ public class Tarkistaja {
 
             if (laskuri == 1) {
                 Tallennus tallenna = new Tallennus(ikkuna);
-                tallenna.suoritaTallennus();
+                tallenna.suoritaTallennus(jatko, avaus, uusi);
                 tiedottaja.kirjoitaLoki("Turnaus " + turnaus.toString() + " tallennettu.");
             } else {
 
                 Kirjautuminen kirjautuja = new Kirjautuminen(turnaus, ikkuna);
-                kirjautuja.luoTurnauksenSalasananSyotto();
+                kirjautuja.luoTurnauksenSalasananSyotto(jatko, avaus, uusi);
             }
 
         } catch (SQLException se) {

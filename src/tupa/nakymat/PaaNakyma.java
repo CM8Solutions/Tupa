@@ -114,7 +114,7 @@ public class PaaNakyma {
     }
 
     public void luoOhje(String uusiohje, TreeItem<Kohde> arvo) {
-
+ikkuna.asetaValittuTuomari(null);
         HBox ohjepalkki = new HBox();
 
         ohjepalkki.setPadding(new Insets(10, 30, 10, 30));
@@ -162,7 +162,7 @@ public class PaaNakyma {
     }
 
     public void luoEtusivu() {
-
+ikkuna.asetaValittuTuomari(null);
         HBox nimipalkki = new HBox();
 
         nimipalkki.setPadding(new Insets(20));
@@ -265,7 +265,7 @@ public class PaaNakyma {
 
         public void luoEtusivuTyhja() {
 
-
+ikkuna.asetaValittuTuomari(null);
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
         ikkuna.annaNaytto().getChildren().add(peitto);
@@ -301,7 +301,7 @@ public class PaaNakyma {
     
     
     public void luoHakutulossivu(String hakusana) throws SQLException {
-
+ikkuna.asetaValittuTuomari(null);
         HBox nimipalkki = new HBox();
         nimipalkki.setPadding(new Insets(20));
         nimipalkki.setPadding(new Insets(0, 20, 20, 400));
@@ -341,7 +341,7 @@ public class PaaNakyma {
         Tallennus tallennus = new Tallennus(ikkuna);
       
         try {
-            tallennus.suoritaTallennus();
+            tallennus.suoritaTallennus(true, false, false);
         } catch (InstantiationException ex) {
             Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
