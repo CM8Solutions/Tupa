@@ -9,6 +9,7 @@ import tupa.data.Tuomari;
 import tupa.data.Joukkue;
 import tupa.data.Ottelu;
 import tupa.data.Turnaus;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -158,7 +159,7 @@ public class Tarkistaja {
 
         int turnaus_id = turnaus.annaID();
         try {
-           
+
             con = yhteys.annaYhteys();
             st = con.createStatement();
 
@@ -253,6 +254,52 @@ public class Tarkistaja {
         }
 
         return ok;
+    }
+
+    public boolean annaVientiOK(int id) {
+        int arvo = 0;
+
+        try {
+
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+
+            sql = "SELECT DISTINCT viety_tiedostoon FROM tuomari WHERE tupaid = '" + id + "'";
+
+            ResultSet haetut_rivit = st.executeQuery(sql);
+
+            while (haetut_rivit.next()) {
+                arvo = haetut_rivit.getInt("viety_tiedostoon");
+
+            }
+
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        if (arvo == 1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

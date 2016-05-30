@@ -34,6 +34,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import tupa.Tupa;
 import tupa.nakymat.PaaNakyma;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -92,23 +93,22 @@ public class KayttajanKirjautuminen extends Stage {
 
         HBox tekstiboxi = new HBox();
         tekstiboxi.setAlignment(Pos.CENTER);
-        
+
         HBox kuvaboxi = new HBox();
-        kuvaboxi.setAlignment(Pos. TOP_LEFT);
-        
+        kuvaboxi.setAlignment(Pos.TOP_LEFT);
+
         ImageView selectedImage = new ImageView();
         Image image1 = new Image("kuvat/login.png");
         selectedImage.setImage(image1);
         selectedImage.setFitHeight(120);
         selectedImage.setFitWidth(120);
-     
 
         Label text = new Label("Kirjaudu TUPA-tulospalveluun antamalla käyttäjätunnus ja salasana.");
         text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         text.setEffect(dropShadow);
 
-         tekstiboxi.getChildren().addAll(text);
-          kuvaboxi.getChildren().addAll(selectedImage);
+        tekstiboxi.getChildren().addAll(text);
+        kuvaboxi.getChildren().addAll(selectedImage);
         otsikkorivi.getChildren().addAll(tekstiboxi, kuvaboxi);
         hb.getChildren().add(otsikkorivi);
 

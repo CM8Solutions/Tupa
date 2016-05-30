@@ -36,9 +36,11 @@ public class Kokoonpano implements Serializable {
     public Joukkue annaJoukkue() {
         return joukkue;
     }
-  public void vahennaLaskuria(){
+
+    public void vahennaLaskuria() {
         laskuri--;
     }
+
     public Ottelu annaOttelu() {
         return ottelu;
     }
@@ -59,8 +61,9 @@ public class Kokoonpano implements Serializable {
     public void asetaLaskuri(int laskuri) {
         this.laskuri = laskuri;
     }
-   public void kasvataLaskuria(){
+
+    public void kasvataLaskuria() {
         laskuri++;
     }
-    
+
 }

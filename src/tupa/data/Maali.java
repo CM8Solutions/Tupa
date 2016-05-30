@@ -26,7 +26,7 @@ public class Maali implements Serializable {
     private transient StringProperty taulukkojoukkue = new SimpleStringProperty();
 
     public Maali() {
-      
+
     }
 
     public Maali(Ottelu ottelu) {
@@ -40,9 +40,11 @@ public class Maali implements Serializable {
     public int annaID() {
         return id;
     }
-  public void vahennaLaskuria(){
+
+    public void vahennaLaskuria() {
         laskuri--;
     }
+
     public void asetaTiedot(int aika, Pelaaja maalintekija, Pelaaja syottaja) {
         this.aika = aika;
 
@@ -94,8 +96,9 @@ public class Maali implements Serializable {
     }
 
     public void asetaTaulukkomaalintekija() {
-        if(annaMaalinTekija() != null)
-        this.taulukkomaalintekija = new SimpleStringProperty(this.annaMaalinTekija().toString());
+        if (annaMaalinTekija() != null) {
+            this.taulukkomaalintekija = new SimpleStringProperty(this.annaMaalinTekija().toString());
+        }
     }
 
     public StringProperty taulukkosyottajaProperty() {
@@ -103,8 +106,8 @@ public class Maali implements Serializable {
     }
 
     public void asetaTaulukkosyottaja() {
-        if(annaSyottaja() != null){
-                    this.taulukkosyottaja = new SimpleStringProperty(this.annaSyottaja().toString());
+        if (annaSyottaja() != null) {
+            this.taulukkosyottaja = new SimpleStringProperty(this.annaSyottaja().toString());
         }
 
     }
@@ -115,10 +118,9 @@ public class Maali implements Serializable {
 
     public void asetaTaulukkojoukkue() {
 
-    if(annaMaalinTekija() != null)
-                this.taulukkojoukkue = new SimpleStringProperty(this.annaMaalinTekija().annaJoukkue().toString());
-            
-        
+        if (annaMaalinTekija() != null) {
+            this.taulukkojoukkue = new SimpleStringProperty(this.annaMaalinTekija().annaJoukkue().toString());
+        }
 
     }
 
@@ -137,8 +139,9 @@ public class Maali implements Serializable {
     public void asetaLaskuri(int laskuri) {
         this.laskuri = laskuri;
     }
-       public void kasvataLaskuria(){
+
+    public void kasvataLaskuria() {
         laskuri++;
     }
-    
+
 }

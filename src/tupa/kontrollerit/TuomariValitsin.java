@@ -3,13 +3,9 @@ package tupa.kontrollerit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.effect.DropShadow;
@@ -24,9 +20,7 @@ import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import tupa.Tupa;
-import tupa.data.Ottelu;
 import tupa.data.Tuomari;
-import tupa.data.Turnaus;
 
 /**
  *
@@ -45,7 +39,7 @@ public class TuomariValitsin {
     }
 
     public void annaTuomariLuetteloVietavat() throws SQLException {
-
+        int kayttaja_id = ikkuna.annaKayttajaID();
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
@@ -61,13 +55,16 @@ public class TuomariValitsin {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        HBox hbox1 = new HBox();
+        VBox box1 = new VBox();
         Text otsikko = new Text("Valitse tuomari, jonka tiedot haluat viedä tiedostoon.");
         otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         otsikko.setEffect(dropShadow);
 
-        hbox1.setAlignment(Pos.CENTER);
-        hbox1.getChildren().add(otsikko);
+        Text opastus = new Text("(Huom! Valittavana on vain ne turnauksen tuomarit, joiden tietoja ei ole vielä viety tiedostoon.)");
+        opastus.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
+
+        box1.setAlignment(Pos.CENTER);
+        box1.getChildren().addAll(otsikko, opastus);
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(30, 30, 10, 30));
@@ -82,7 +79,7 @@ public class TuomariValitsin {
             int id = tuomari.annaID();
             Vie vieja = new Vie();
             try {
-                vieja.vieTiedostoon(id);
+                vieja.vieTiedostoon(id, kayttaja_id);
             } catch (ParserConfigurationException ex) {
                 Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
@@ -90,13 +87,19 @@ public class TuomariValitsin {
             } catch (TransformerException ex) {
                 Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
             }
+            try {
 
-            stage.close();
+                annaTuomariLuetteloVietavat();
+                stage.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         });
 
         hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().addAll(turnaukset);
-        vbox.getChildren().addAll(hbox1, hbox2);
+        vbox.getChildren().addAll(box1, hbox2);
 
         sb.setContent(vbox);
         alue.setCenter(sb);
@@ -110,6 +113,8 @@ public class TuomariValitsin {
     }
 
     public void annaTuomariLuetteloTuotavat() throws SQLException {
+
+        int kayttaja_id = ikkuna.annaKayttajaID();
 
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
@@ -126,13 +131,16 @@ public class TuomariValitsin {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        HBox hbox1 = new HBox();
-        Text otsikko = new Text("Valitse tuomari, jonka tiedot haluat tuoda tiedostosta.");
+        VBox box1 = new VBox();
+
+        Text otsikko = new Text("Valitse tuomari, jonka tiedot haluat tuoda turnaukseen.");
         otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         otsikko.setEffect(dropShadow);
+        Text opastus = new Text("(Huom! Valittavana on vain ne tuomarit, joiden tiedot on viety tiedostoon siitä turnauksesta, johon tuomari on alunperin lisätty.)");
+        opastus.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
 
-        hbox1.setAlignment(Pos.CENTER);
-        hbox1.getChildren().add(otsikko);
+        box1.setAlignment(Pos.CENTER);
+        box1.getChildren().addAll(otsikko, opastus);
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(30, 30, 10, 30));
@@ -145,9 +153,9 @@ public class TuomariValitsin {
         turnaukset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             Tuomari tuomari = (Tuomari) newSelection;
             int id = tuomari.annaID();
-            Tuo tuoja = new Tuo();
+            Tuo tuoja = new Tuo(ikkuna);
             try {
-                tuoja.tuoTiedostosta(id);
+                tuoja.tuoTiedostosta(id, kayttaja_id);
             } catch (ParserConfigurationException ex) {
                 Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
@@ -155,13 +163,17 @@ public class TuomariValitsin {
             } catch (TransformerException ex) {
                 Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            try {
+                annaTuomariLuetteloTuotavat();
+            } catch (SQLException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            }
             stage.close();
         });
 
         hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().addAll(turnaukset);
-        vbox.getChildren().addAll(hbox1, hbox2);
+        vbox.getChildren().addAll(box1, hbox2);
 
         sb.setContent(vbox);
         alue.setCenter(sb);

@@ -48,6 +48,7 @@ import tupa.data.Toimihenkilo;
 import tupa.data.Joukkue;
 import tupa.data.Kokoonpano;
 import tupa.data.Turnaus;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -68,8 +69,10 @@ public class Taulukko {
     private Tupa ikkuna;
     private Connection con = null;
     private Statement st = null;
+    private Statement st2 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
+    private String sql2 = "";
 
     public Taulukko() {
 
@@ -2186,44 +2189,60 @@ public class Taulukko {
     }
 
     public TableView luoTuotavienTuomarienTaulukko(int kayttaja_id) {
-        taulukko.setPlaceholder(new Label("Ei tuomareita"));
+        taulukko.setPlaceholder(new Label("Ei tuotavia tuomareita."));
         taulukko.setId("my-table");
         List<Tuomari> tuomarit = new ArrayList<>();
 
+        Turnaus turnaus_nykyinen = (Turnaus) ikkuna.annaTurnaus();
+        int turnaus_id_nykyinen = turnaus_nykyinen.annaID();
         try {
 
             con = yhteys.annaYhteys();
             st = con.createStatement();
-
+            st2 = con.createStatement();
             //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
-            sql = "SELECT tuomari.etunimi as etunimi, tuomari.sukunimi as sukunimi, tuomari.tupaid as tid, tuomari.tuomari_id as tuid, turnaus.nimi as turnimi, turnaus.tupaid as turid FROM turnaus, kayttajan_turnaus, tuomari WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.viety_tiedostoon = 1";
+            sql = "SELECT DISTINCT tuomari.etunimi as etunimi, tuomari.sukunimi as sukunimi, tuomari.tupaid as tid, tuomari.tuomari_id as tuid FROM turnaus, kayttajan_turnaus, tuomari WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.turnaus_id <> '" + turnaus_id_nykyinen + "' AND tuomari.viety_tiedostoon = 1";
 
             ResultSet tuomarit_tk = st.executeQuery(sql);
-
+            boolean onjo = false;
             while (tuomarit_tk.next()) {
                 String etunimi = tuomarit_tk.getString("etunimi");
                 String sukunimi = tuomarit_tk.getString("sukunimi");
-                String turnaus_nimi = tuomarit_tk.getString("turnimi");
 
                 int id = tuomarit_tk.getInt("tid");
                 int tuomari_id = tuomarit_tk.getInt("tuid");
-                int turnaus_id = tuomarit_tk.getInt("turid");
-
-                Turnaus turnaus = new Turnaus();
-                turnaus.asetaNimi(turnaus_nimi);
-                turnaus.asetaID(turnaus_id);
 
                 Tuomari tuomari = new Tuomari(etunimi, sukunimi);
                 tuomari.asetaID(id);
 
                 tuomari.asetaJulkinenId(tuomari_id);
-                tuomari.asetaTurnaus(turnaus);
 
                 tuomari.asetaTaulukkonimi();
                 tuomari.asetaTaulukkojulkinen_id();
-                tuomari.asetaTaulukkoturnaus();
 
-                tuomarit.add(tuomari);
+                //turnaustiedot
+                sql2 = "SELECT DISTINCT turnaus.tupaid as turid, turnaus.nimi as turnimi FROM tuomari, turnaus, kayttajan_turnaus WHERE kayttajan_turnaus.turnaus_id = turnaus.tupaid AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.tupaid='" + id + "'";
+                ResultSet tuomarinturnaukset = st2.executeQuery(sql2);
+                while (tuomarinturnaukset.next()) {
+                    int turnaus_id2 = tuomarinturnaukset.getInt("turid");
+                    String turnimi = tuomarinturnaukset.getString("turnimi");
+                    Turnaus turnaus2 = new Turnaus();
+                    turnaus2.asetaNimi(turnimi);
+
+                    tuomari.annaKaikkiTurnaukset().add(turnaus2);
+                }
+
+                tuomari.asetaTaulukkoturnaukset();
+
+                for (int i = 0; i < turnaus_nykyinen.annaTuomarit().size(); i++) {
+                    if (turnaus_nykyinen.annaTuomarit().get(i).annaID() == id) {
+                        onjo = true;
+                    }
+                }
+
+                if (!onjo) {
+                    tuomarit.add(tuomari);
+                }
             }
 
             ObservableList<Tuomari> data
@@ -2231,14 +2250,13 @@ public class Taulukko {
 
             TableColumn tuomari = new TableColumn("Tuomari");
             TableColumn tuomari_id = new TableColumn("TuomariID");
-            TableColumn turnaus = new TableColumn("Turnaus");
+            TableColumn turnaus = new TableColumn("Turnaukset, jossa mukana");
             tuomari.setMinWidth(200);
-            tuomari_id.setPrefWidth(150);
-            tuomari.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkonimi"));
-            tuomari_id.setCellValueFactory(new PropertyValueFactory<Pelaaja, Integer>("taulukkojulkinen_id"));
-            turnaus.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkoturnaus"));
-
-            turnaus.setPrefWidth(200);
+            tuomari_id.setPrefWidth(100);
+            turnaus.setMinWidth(400);
+            tuomari.setCellValueFactory(new PropertyValueFactory<Tuomari, String>("taulukkonimi"));
+            tuomari_id.setCellValueFactory(new PropertyValueFactory<Tuomari, Integer>("taulukkojulkinen_id"));
+            turnaus.setCellValueFactory(new PropertyValueFactory<Tuomari, String>("taulukkoturnaukset"));
 
             taulukko.getColumns().addAll(tuomari_id, tuomari, turnaus);
             taulukko.setItems(data);
@@ -2281,42 +2299,49 @@ public class Taulukko {
     }
 
     public TableView luoVietavienTuomarienTaulukko(int kayttaja_id) {
-        taulukko.setPlaceholder(new Label("Ei tuomareita"));
+        taulukko.setPlaceholder(new Label("Ei vietäviä tuomareita."));
         taulukko.setId("my-table");
         List<Tuomari> tuomarit = new ArrayList<>();
+        int turnaus_id_nykyinen = ikkuna.annaTurnaus().annaID();
 
         try {
 
             con = yhteys.annaYhteys();
             st = con.createStatement();
 
+            st2 = con.createStatement();
+
             //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
-            sql = "SELECT tuomari.etunimi as etunimi, tuomari.sukunimi as sukunimi, tuomari.tupaid as tid, tuomari.tuomari_id as tuid, turnaus.nimi as turnimi, turnaus.tupaid as turid FROM turnaus, kayttajan_turnaus, tuomari WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.viety_tiedostoon=0";
+            sql = "SELECT DISTINCT tuomari.etunimi as etunimi, tuomari.sukunimi as sukunimi, tuomari.tupaid as tid, tuomari.tuomari_id as tuid FROM turnaus, kayttajan_turnaus, tuomari WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.turnaus_id = '" + turnaus_id_nykyinen + "' AND tuomari.viety_tiedostoon=0";
 
             ResultSet tuomarit_tk = st.executeQuery(sql);
 
             while (tuomarit_tk.next()) {
                 String etunimi = tuomarit_tk.getString("etunimi");
                 String sukunimi = tuomarit_tk.getString("sukunimi");
-                String turnaus_nimi = tuomarit_tk.getString("turnimi");
 
                 int id = tuomarit_tk.getInt("tid");
                 int tuomari_id = tuomarit_tk.getInt("tuid");
-                int turnaus_id = tuomarit_tk.getInt("turid");
-
-                Turnaus turnaus = new Turnaus();
-                turnaus.asetaNimi(turnaus_nimi);
-                turnaus.asetaID(turnaus_id);
 
                 Tuomari tuomari = new Tuomari(etunimi, sukunimi);
                 tuomari.asetaID(id);
 
                 tuomari.asetaJulkinenId(tuomari_id);
-                tuomari.asetaTurnaus(turnaus);
 
                 tuomari.asetaTaulukkonimi();
                 tuomari.asetaTaulukkojulkinen_id();
-                tuomari.asetaTaulukkoturnaus();
+
+                sql2 = "SELECT DISTINCT turnaus.tupaid as turid, turnaus.nimi as turnimi FROM tuomari, turnaus, kayttajan_turnaus WHERE kayttajan_turnaus.turnaus_id = turnaus.tupaid AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.tupaid='" + id + "'";
+                ResultSet tuomarinturnaukset = st2.executeQuery(sql2);
+                while (tuomarinturnaukset.next()) {
+
+                    String turnimi = tuomarinturnaukset.getString("turnimi");
+                    Turnaus turnaus2 = new Turnaus();
+                    turnaus2.asetaNimi(turnimi);
+
+                    tuomari.annaKaikkiTurnaukset().add(turnaus2);
+                }
+                tuomari.asetaTaulukkoturnaukset();
 
                 tuomarit.add(tuomari);
             }
@@ -2326,14 +2351,13 @@ public class Taulukko {
 
             TableColumn tuomari = new TableColumn("Tuomari");
             TableColumn tuomari_id = new TableColumn("TuomariID");
-            TableColumn turnaus = new TableColumn("Turnaus");
+            TableColumn turnaus = new TableColumn("Turnaukset, jossa mukana");
             tuomari.setMinWidth(200);
-            tuomari_id.setPrefWidth(150);
-            tuomari.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkonimi"));
-            tuomari_id.setCellValueFactory(new PropertyValueFactory<Pelaaja, Integer>("taulukkojulkinen_id"));
-            turnaus.setCellValueFactory(new PropertyValueFactory<Pelaaja, String>("taulukkoturnaus"));
-
-            turnaus.setPrefWidth(200);
+            tuomari_id.setPrefWidth(100);
+            turnaus.setMinWidth(400);
+            tuomari.setCellValueFactory(new PropertyValueFactory<Tuomari, String>("taulukkonimi"));
+            tuomari_id.setCellValueFactory(new PropertyValueFactory<Tuomari, Integer>("taulukkojulkinen_id"));
+            turnaus.setCellValueFactory(new PropertyValueFactory<Tuomari, String>("taulukkoturnaukset"));
 
             taulukko.getColumns().addAll(tuomari_id, tuomari, turnaus);
             taulukko.setItems(data);

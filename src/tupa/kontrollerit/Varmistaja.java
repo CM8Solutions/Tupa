@@ -18,6 +18,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import tupa.data.Ottelu;
 import tupa.data.Kohde;
 import tupa.data.Turnaus;
@@ -414,9 +416,11 @@ public class Varmistaja {
 
                 muuttaja.poistaKaikkiOttelut(poistettavat, sarja);
                 sarjanakyma = nakyma.annaSarjanakyma();
-                TreeItem<Kohde> mihin = new TreeItem<>(sarja);
 
-                sarjanakyma.luoSarjaSivu(mihin);
+                sarjanakyma.luoOtteluLuetteloMuokkaus(sarja);
+                Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                tiedottaja.kirjoitaLoki("Kaikki ottelut poistettu sarjasta " + sarja.toString() + ".");
+                ikkuna.asetaMuutos(true);
                 stageV.close();
 
             }
@@ -466,9 +470,7 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 muuttaja.suoritaAutoOtteluLista(sarja);
-                sarjanakyma = nakyma.annaSarjanakyma();
 
-                sarjanakyma.luoOtteluLuetteloMuokkaus(sarja);
                 stageV.close();
 
             }
@@ -917,7 +919,8 @@ public class Varmistaja {
     }
 
     public void annaTuomarinVientiVarmistus(Tuomari tuomari) {
-
+        int id = tuomari.annaID();
+        int kayttaja_id = ikkuna.annaKayttajaID();
         Stage stageV = new Stage();
         BorderPane alue = new BorderPane();
 
@@ -926,7 +929,7 @@ public class Varmistaja {
         vbox.setSpacing(10);
 
         HBox hbox1 = new HBox();
-        Label viesti = new Label("Haluatko todella viedä tuomarin " + tuomari.toString() + " tiedot tietokannasta tiedostoon?");
+        Label viesti = new Label("Haluatko todella viedä tuomarin " + tuomari.toString() + " tiedot tiedostoon?");
 
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().add(viesti);
@@ -942,7 +945,29 @@ public class Varmistaja {
             @Override
             public void handle(ActionEvent event) {
 
-                //toiminta
+                if (ikkuna.muutettu()) {
+                    Tallennus tallentaja = new Tallennus(ikkuna);
+                    try {
+                        tallentaja.suoritaTallennus(true, false, false);
+                    } catch (InstantiationException ex) {
+                        Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                Vie vieja = new Vie();
+                try {
+                    vieja.vieTiedostoon(id, kayttaja_id);
+                } catch (ParserConfigurationException ex) {
+                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerException ex) {
+                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 stageV.close();
 
             }

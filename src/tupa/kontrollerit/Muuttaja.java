@@ -41,6 +41,7 @@ import tupa.data.Ottelu;
 import tupa.data.Maali;
 import tupa.data.Kokoonpano;
 import tupa.data.TuomarinRooli;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -100,6 +101,7 @@ public class Muuttaja {
 
                     Turnaus turnaus = (Turnaus) ikkuna.annaKohteet().get(i);
                     tuomari.asetaTurnaus(turnaus);
+                    tuomari.annaKaikkiTurnaukset().add(turnaus);
                     break;
                 }
 
@@ -945,6 +947,9 @@ public class Muuttaja {
             public void handle(WorkerStateEvent t) {
                 Tiedottaja tiedottaja2 = new Tiedottaja(ikkuna);
                 tiedottaja2.kirjoitaLoki("Otteluluettelo laadittu sarjaan " + sarja.toString() + ".");
+                sarjanakyma = nakyma.annaSarjanakyma();
+
+                sarjanakyma.luoOtteluLuetteloMuokkaus(sarja);
                 ikkuna.asetaMuutos(true);
 
                 tehtavastage.hide();
@@ -953,66 +958,23 @@ public class Muuttaja {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        new Thread(tehtava).start();
+        Thread th = new Thread(tehtava);
+        th.start();
+    
 
     }
 
     public void poistaKaikkiOttelut(List<Ottelu> ottelut, Sarja sarja) {
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setOffsetX(5);
-        dropShadow.setOffsetY(5);
 
-        Label otsikko = new Label("Poistetaan kaikki sarjan ottelut..");
-        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
-        otsikko.setEffect(dropShadow);
+        while (!sarja.annaOttelut().isEmpty()) {
+            for (int i = 0; i < ottelut.size(); i++) {
 
-        ProgressBar edistyminen = new ProgressBar();
-        edistyminen.setPrefWidth(200);
-        edistyminen.setPrefHeight(30);
+                poistaOttelu(ottelut.get(i));
 
-        VBox palkki = new VBox();
-        palkki.setPadding(new Insets(10));
-        palkki.setSpacing(10);
-        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
-        palkki.getChildren().addAll(otsikko, edistyminen);
-
-        Stage tehtavastage = new Stage(StageStyle.UTILITY);
-        Scene scene = new Scene(palkki);
-
-        scene.getStylesheets().add("css/tyylit.css");
-
-        tehtavastage.setScene(scene);
-        tehtavastage.show();
-
-        Task tehtava = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-
-                while (!sarja.annaOttelut().isEmpty()) {
-                    for (int i = 0; i < ottelut.size(); i++) {
-
-                        poistaOttelu(ottelut.get(i));
-
-                    }
-                }
-
-                sarja.annaOttelut().clear();
-                return null;
             }
-        };
-        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t) {
+        }
 
-                tiedottaja.kirjoitaLoki("Kaikki ottelut poistettu sarjasta " + sarja.toString() + ".");
-                ikkuna.asetaMuutos(true);
-                tehtavastage.hide();
-            }
-        });
-        edistyminen.progressProperty().bind(tehtava.progressProperty());
-
-        tehtavastage.show();
-        new Thread(tehtava).start();
+        sarja.annaOttelut().clear();
 
     }
 
@@ -1083,7 +1045,9 @@ public class Muuttaja {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        new Thread(tehtava).start();
+        Thread th = new Thread(tehtava);
+        th.start();
+      
 
     }
 
@@ -1132,13 +1096,16 @@ public class Muuttaja {
             public void handle(WorkerStateEvent t) {
                 tiedottaja.kirjoitaLoki("Kaikki toimihenkilöt poistettu joukkueesta " + joukkue.toString() + ".");
                 ikkuna.asetaMuutos(true);
+
                 tehtavastage.hide();
             }
         });
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        new Thread(tehtava).start();
+        Thread th = new Thread(tehtava);
+        th.start();
+      
 
     }
 
@@ -1327,7 +1294,9 @@ public class Muuttaja {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        new Thread(tehtava).start();
+        Thread th = new Thread(tehtava);
+        th.start();
+    
 
     }
 

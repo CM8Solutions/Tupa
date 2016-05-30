@@ -16,12 +16,12 @@ public class Turnaus extends Kohde {
     private List<Tuomari> tuomarit = new ArrayList<>();
     private String luomispvm = "";
     //taulukkoattribuutit
-    
+
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
     private transient StringProperty taulukkoluomispvm = new SimpleStringProperty();
-    
+
     public Turnaus() {
-   
+
     }
 
     public List<Sarja> annaSarjat() {
@@ -32,14 +32,14 @@ public class Turnaus extends Kohde {
         return tuomarit;
     }
 
-    public void kasvataLaskuria(){
+    public void kasvataLaskuria() {
         turLaskuri++;
     }
-    
-    public void vahennaLaskuria(){
+
+    public void vahennaLaskuria() {
         turLaskuri--;
     }
-    
+
     public int annaLaskuri() {
         return turLaskuri;
     }
@@ -47,16 +47,15 @@ public class Turnaus extends Kohde {
     public void asetaLaskuri(int laskuri) {
         this.turLaskuri = laskuri;
     }
-    
-    public void asetaLuomispvm(String luomispvm){
+
+    public void asetaLuomispvm(String luomispvm) {
         this.luomispvm = luomispvm;
     }
-    
-    public String annaLuomispvm(){
+
+    public String annaLuomispvm() {
         return luomispvm;
     }
-    
-    
+
     public StringProperty taulukkonimiProperty() {
         return taulukkonimi;
     }
@@ -65,7 +64,7 @@ public class Turnaus extends Kohde {
 
         this.taulukkonimi = new SimpleStringProperty(this.toString());
     }
-    
+
     public StringProperty taulukkoluomispvmProperty() {
         return taulukkoluomispvm;
     }

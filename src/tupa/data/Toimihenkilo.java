@@ -40,7 +40,7 @@ public class Toimihenkilo extends Henkilo {
     public void vahennaLaskuria() {
         toLaskuri--;
     }
-   
+
     public void asetaLaskuri(int laskuri) {
         this.toLaskuri = laskuri;
     }

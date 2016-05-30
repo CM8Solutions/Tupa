@@ -114,7 +114,7 @@ public class PaaNakyma {
     }
 
     public void luoOhje(String uusiohje, TreeItem<Kohde> arvo) {
-ikkuna.asetaValittuTuomari(null);
+        ikkuna.asetaValittuTuomari(null);
         HBox ohjepalkki = new HBox();
 
         ohjepalkki.setPadding(new Insets(10, 30, 10, 30));
@@ -155,14 +155,15 @@ ikkuna.asetaValittuTuomari(null);
             }
         });
         grid.setAlignment(Pos.CENTER);
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
-        grid.add(uusi, 1, 1);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
+            grid.add(uusi, 1, 1);
+        }
 
         ikkuna.annaNaytto().getChildren().add(grid);
     }
 
     public void luoEtusivu() {
-ikkuna.asetaValittuTuomari(null);
+        ikkuna.asetaValittuTuomari(null);
         HBox nimipalkki = new HBox();
 
         nimipalkki.setPadding(new Insets(20));
@@ -247,9 +248,10 @@ ikkuna.asetaValittuTuomari(null);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(0, 0, 0, 300));
-       
-      if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2)
-        grid.add(muokkausnappula, 2, 1);
+
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
+            grid.add(muokkausnappula, 2, 1);
+        }
         grid.add(nimipalkki, 1, 1);
 
         grid.add(hakupalkki, 1, 2);
@@ -257,21 +259,16 @@ ikkuna.asetaValittuTuomari(null);
         grid.setVgap(40);
 
         sb.setContent(grid);
-      
 
         ikkuna.annaNaytto().getChildren().add(sb);
 
     }
 
-        public void luoEtusivuTyhja() {
+    public void luoEtusivuTyhja() {
 
-ikkuna.asetaValittuTuomari(null);
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
         ikkuna.annaNaytto().getChildren().add(peitto);
-
-
-
 
         VBox palkki = new VBox();
         palkki.setAlignment(Pos.CENTER);
@@ -279,29 +276,21 @@ ikkuna.asetaValittuTuomari(null);
         palkki.setSpacing(20);
         Label otsikko = new Label("Avaa yläpalkin valikosta haluamasi toiminto.");
         otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 18));
-    
 
-
-       palkki.getChildren().addAll(otsikko);
+        palkki.getChildren().addAll(otsikko);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(100, 0, 0, 100));
-       
-      
 
         grid.add(palkki, 1, 2);
         grid.setAlignment(Pos.CENTER);
-    
-
-     
 
         ikkuna.annaNaytto().getChildren().add(grid);
 
     }
-    
-    
+
     public void luoHakutulossivu(String hakusana) throws SQLException {
-ikkuna.asetaValittuTuomari(null);
+
         HBox nimipalkki = new HBox();
         nimipalkki.setPadding(new Insets(20));
         nimipalkki.setPadding(new Insets(0, 20, 20, 400));
@@ -333,22 +322,21 @@ ikkuna.asetaValittuTuomari(null);
         hakupalkki.setSpacing(20);
         Label otsikko = new Label("Hakutulokset: ");
         otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 18));
-        //hakutoiminto HBox
 
         Haku haku = new Haku((Turnaus) ikkuna.annaTurnaus(), this);
 
-        if(ikkuna.muutettu()){
-        Tallennus tallennus = new Tallennus(ikkuna);
-      
-        try {
-            tallennus.suoritaTallennus(true, false, false);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (ikkuna.muutettu()) {
+            Tallennus tallennus = new Tallennus(ikkuna);
+
+            try {
+                tallennus.suoritaTallennus(true, false, false);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         tulos = haku.luoHakuTulos(hakusana);
 

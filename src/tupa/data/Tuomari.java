@@ -17,11 +17,13 @@ public class Tuomari extends Henkilo {
     private int id_julkinen;
     private static int tuLaskuri;
     private Turnaus turnaus;
+    private int viety_tiedostoon;
+    private List<Turnaus> kaikkiturnaukset = new ArrayList<>();
 
+    //taulukkoattribuutit
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
-    private transient StringProperty taulukkoturnaus = new SimpleStringProperty();
     private transient IntegerProperty taulukkojulkinen_id = new SimpleIntegerProperty();
-
+    private transient StringProperty taulukkoturnaukset = new SimpleStringProperty();
     private List<TuomarinRooli> roolit = new ArrayList<>();
 
     public Tuomari() {
@@ -46,6 +48,14 @@ public class Tuomari extends Henkilo {
 
     public int annaLaskuri() {
         return tuLaskuri;
+    }
+
+    public int annaVienti() {
+        return viety_tiedostoon;
+    }
+
+    public void asetaVienti(int viety) {
+        this.viety_tiedostoon = viety;
     }
 
     public void asetaLaskuri(int laskuri) {
@@ -77,6 +87,56 @@ public class Tuomari extends Henkilo {
         return id;
     }
 
+    public List<Turnaus> annaKaikkiTurnaukset() {
+        return kaikkiturnaukset;
+    }
+
+    public String annaTurnausLuettelo() {
+        List<String> luettelolista = new ArrayList<String>();
+
+        for (int i = 0; i < kaikkiturnaukset.size(); i++) {
+            luettelolista.add(kaikkiturnaukset.get(i).toString());
+
+        }
+
+        String luettelo = "";
+        int laskuri = 0;
+        int maara = luettelolista.size();
+        for (String s : luettelolista) {
+            laskuri++;
+            if (laskuri < maara) {
+                luettelo += s + ", ";
+            } else {
+                luettelo += s;
+            }
+        }
+
+        return luettelo;
+    }
+
+    public String annaTurnausLuetteloKaikki() {
+        List<String> luettelolista = new ArrayList<String>();
+
+        for (int i = 0; i < kaikkiturnaukset.size(); i++) {
+            luettelolista.add(kaikkiturnaukset.get(i).toString());
+
+        }
+
+        String luettelo = "";
+        int laskuri = 0;
+        int maara = luettelolista.size();
+        for (String s : luettelolista) {
+            laskuri++;
+            if (laskuri < maara) {
+                luettelo += s + ",\t\t";
+            } else {
+                luettelo += s;
+            }
+        }
+
+        return luettelo;
+    }
+
     public StringProperty taulukkonimiProperty() {
         return taulukkonimi;
     }
@@ -85,12 +145,12 @@ public class Tuomari extends Henkilo {
         this.taulukkonimi = new SimpleStringProperty(this.toString());
     }
 
-    public StringProperty taulukkoturnausProperty() {
-        return taulukkoturnaus;
+    public StringProperty taulukkoturnauksetProperty() {
+        return taulukkoturnaukset;
     }
 
-    public void asetaTaulukkoturnaus() {
-        this.taulukkoturnaus = new SimpleStringProperty(this.annaTurnaus().toString());
+    public void asetaTaulukkoturnaukset() {
+        this.taulukkoturnaukset = new SimpleStringProperty(this.annaTurnausLuettelo());
     }
 
     public void asetaTaulukkojulkinen_id() {

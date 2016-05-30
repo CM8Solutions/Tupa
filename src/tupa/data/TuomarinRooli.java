@@ -15,7 +15,7 @@ public class TuomarinRooli implements Serializable {
 
     private static int laskuri;
     private int id;
-    private String rooli="";
+    private String rooli = "";
     private Ottelu ottelu;
     private Tuomari tuomari;
 
@@ -31,7 +31,7 @@ public class TuomarinRooli implements Serializable {
         this.tuomari = tuomari;
         this.ottelu = ottelu;
     }
-    
+
     public TuomarinRooli(String rooli, Ottelu ottelu) {
         this.tuomari = new Tuomari();
         this.rooli = rooli;

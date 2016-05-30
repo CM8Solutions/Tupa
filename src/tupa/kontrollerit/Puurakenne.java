@@ -61,8 +61,7 @@ public class Puurakenne {
         rootSivuPuu.getChildren().addAll(rs, keinoVali, rt);
 
         TreeView<Kohde> sivuPuu = new TreeView<>();
-        
-   
+
         sivuPuu.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -70,7 +69,7 @@ public class Puurakenne {
                 TreeItem<Kohde> klikattu = sivuPuu.getSelectionModel().getSelectedItem();
                 if (klikattu != null && !ikkuna.annaAloitus()) {
                     if ((!klikattu.equals(ikkuna.annaRootSarjat())) && (klikattu.getValue() instanceof Sarja)) {
-                         ikkuna.asetaValittuTuomari(null);
+                        ikkuna.asetaValittuTuomari(null);
                         Sarja sarja = (Sarja) klikattu.getValue();
                         TreeItem<Kohde> mihin = new TreeItem<>(sarja);
                         PaaNakyma nakyma = ikkuna.annaPaaNakyma();
@@ -98,9 +97,7 @@ public class Puurakenne {
                 }
 
             }
-        });            
-        
-
+        });
 
         sivuPuu.setRoot(rootSivuPuu);
 

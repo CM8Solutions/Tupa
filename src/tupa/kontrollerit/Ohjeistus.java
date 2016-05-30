@@ -43,22 +43,21 @@ public class Ohjeistus {
     }
 
     public void annaYleisOhje() throws UnsupportedEncodingException, IOException {
-     
+
         Stage stage = new Stage();
         stage.getIcons().add(new Image("kuvat/icon.png"));
         HBox alue = new HBox();
 
         ScrollPane sp = new ScrollPane();
- sp.setId("my-scrollpane");
-   
+        sp.setId("my-scrollpane");
+
         VBox vbox = new VBox();
 
         vbox.setSpacing(10);
-        vbox.setPadding(new Insets(30, 700, 20, 20));
+        vbox.setPadding(new Insets(30, 700, 20, 30));
         vbox.setAlignment(Pos.CENTER);
 
         VBox box0 = new VBox();
-   
 
         HBox otsikkorivi = new HBox();
         otsikkorivi.setSpacing(300);
@@ -86,10 +85,7 @@ public class Ohjeistus {
         sp.setContent(vbox);
 
         vbox.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
-alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
-        sp.setMinWidth(alue.getPrefWidth());
-        
-        alue.setAlignment(Pos.CENTER);
+
         Scene sceneV = new Scene(sp, 700, 400);
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
@@ -155,7 +151,7 @@ alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccff
         try {
             fs = new FileInputStream(tiedosto);
         } catch (FileNotFoundException e) {
-            System.out.println("Tiedostoa " + tiedosto + " ei ole olemassa");
+        
             return boxi;
         }
 

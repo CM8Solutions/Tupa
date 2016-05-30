@@ -285,9 +285,9 @@ public class Pelaaja extends Henkilo implements Comparable<Henkilo> {
     public int compareTo(Henkilo henkilo) {
         Pelaaja pelaaja = (Pelaaja) henkilo;
         int tulos = annaSukuNimi().compareTo(pelaaja.annaSukuNimi());
-     
-            return tulos;
-    
+
+        return tulos;
+
     }
 
 }

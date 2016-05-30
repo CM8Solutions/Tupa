@@ -28,6 +28,7 @@ import tupa.nakymat.JoukkueNakyma;
 import tupa.nakymat.PelaajaNakyma;
 import tupa.nakymat.ToimariNakyma;
 import tupa.nakymat.TuomariNakyma;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -239,7 +240,7 @@ public class Haku {
                 while (toimarit.next()) {
                     loyty = true;
                     toimariloyty = true;
-                 int toid = toimarit.getInt("toid");
+                    int toid = toimarit.getInt("toid");
                     for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
                         Sarja sarja = turnaus.annaSarjat().get(i);
                         for (int j = 0; j < sarja.annaJoukkueet().size(); j++) {

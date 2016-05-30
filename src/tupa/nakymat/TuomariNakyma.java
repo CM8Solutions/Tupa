@@ -226,10 +226,13 @@ public class TuomariNakyma {
 
         Label nimi = new Label(tuomari.toString());
         nimi.setFont(Font.font("Papyrus", 28));
-        Label id = new Label("TuomariID: " + tuomari.annaJulkinenId());
+        Label id = new Label("TuomariID: \t" + tuomari.annaJulkinenId());
         id.setFont(Font.font("Papyrus", 14));
+
+        Label turnaukset = new Label("Saman käyttäjän hallinnoimat turnaukset, jossa tuomari on mukana:\t " + tuomari.annaTurnausLuetteloKaikki());
+        turnaukset.setFont(Font.font("Papyrus", 14));
         info.setAlignment(Pos.CENTER);
-        info.getChildren().addAll(nimi, id);
+        info.getChildren().addAll(nimi, id, turnaukset);
 
         if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
             rivi2.getChildren().addAll(info, painike);

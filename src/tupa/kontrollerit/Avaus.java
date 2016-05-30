@@ -8,7 +8,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -25,7 +24,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tupa.Tupa;
@@ -42,6 +40,7 @@ import tupa.data.Toimihenkilo;
 import tupa.data.Joukkue;
 import tupa.data.TuomarinRooli;
 import tupa.nakymat.PaaNakyma;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -62,6 +61,7 @@ public class Avaus {
     private Statement st9 = null;
     private Statement st10 = null;
     private Statement st11 = null;
+    private Statement st12 = null;
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
     private String sql2 = "";
@@ -126,15 +126,14 @@ public class Avaus {
                     st9 = con.createStatement();
                     st10 = con.createStatement();
                     st11 = con.createStatement();
+                    st12 = con.createStatement();
 
                     turnaus_id = turnaus.annaID();
 
-                    
                     //päivitetään ensin laskurit
-                
                     LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
                     paivittaja.paivitaLaskurit();
-                    
+
                     ikkuna.asetaTurnaus((Kohde) turnaus);
 
                     //haetaan tuomarit
@@ -146,13 +145,27 @@ public class Avaus {
                         String etunimi = tuomarit.getString("etunimi");
                         String sukunimi = tuomarit.getString("sukunimi");
                         int id = tuomarit.getInt("tupaid");
+
                         int julkinen_id = tuomarit.getInt("tuomari_id");
+                        int viety = tuomarit.getInt("viety_tiedostoon");
+
                         Tuomari tuomari = new Tuomari(etunimi, sukunimi);
                         tuomari.asetaID(id);
                         tuomari.asetaTurnaus(turnaus);
-                      
+                        tuomari.asetaVienti(viety);
                         tuomari.asetaJulkinenId(julkinen_id);
-                      
+
+                        sql2 = "SELECT DISTINCT turnaus.tupaid as turid, turnaus.nimi as turnimi FROM tuomari, turnaus WHERE tuomari.turnaus_id = turnaus.tupaid AND tuomari.tupaid='" + id + "'";
+                        ResultSet tuomarinturnaukset = st12.executeQuery(sql2);
+                        while (tuomarinturnaukset.next()) {
+                            int turnaus_id2 = tuomarinturnaukset.getInt("turid");
+                            String turnimi = tuomarinturnaukset.getString("turnimi");
+                            Turnaus turnaus2 = new Turnaus();
+                            turnaus2.asetaNimi(turnimi);
+
+                            tuomari.annaKaikkiTurnaukset().add(turnaus2);
+                        }
+
                         turnaus.annaTuomarit().add(tuomari);
 
                         kohdetk.add((Kohde) tuomari);
@@ -170,7 +183,7 @@ public class Avaus {
 
                         Sarja sarja = new Sarja(snimi, turnaus);
                         sarja.asetaID(sid);
-                     
+
                         turnaus.annaSarjat().add(sarja);
 
                         kohdetk.add((Kohde) sarja);
@@ -187,7 +200,7 @@ public class Avaus {
 
                             Joukkue joukkue = new Joukkue(jnimi);
                             joukkue.asetaID(jid);
-                          
+
                             joukkue.asetaSarja(sarja);
 
                             sarja.annaJoukkueet().add(joukkue);
@@ -214,7 +227,7 @@ public class Avaus {
                                 pelaaja.asetaJulkinenID(pelaaja_id);
                                 pelaaja.asetaPelipaikka(pelipaikka);
                                 pelaaja.asetaJoukkue(joukkue);
-                               
+
                                 joukkue.annaPelaajat().add(pelaaja);
 
                                 kohdetk.add((Kohde) pelaaja);
@@ -244,7 +257,7 @@ public class Avaus {
                                 toimari.asetaHallinta(hallinta);
                                 toimari.asetaHallintaID(hallinta_id);
                                 toimari.asetaJoukkue(joukkue);
-                           
+
                                 joukkue.annaToimarit().add(toimari);
 
                                 kohdetk.add((Kohde) toimari);
@@ -291,7 +304,7 @@ public class Avaus {
                             ottelu.asetaKierros(kierros);
                             ottelu.asetaVierasmaalit(vierasmaalit);
                             ottelu.asetaKotimaalit(kotimaalit);
-                     
+
                             Joukkue kotijoukkue = new Joukkue();
                             Joukkue vierasjoukkue = new Joukkue();
 
@@ -328,7 +341,7 @@ public class Avaus {
                                 Kokoonpano kokoonpano = new Kokoonpano(ottelu, kotijoukkue);
 
                                 kokoonpano.asetaID(kotikokoonpano_id);
-                           
+
                                 ottelu.asetaKotiKokoonpano(kokoonpano);
                                 //pelaajien kokoonpanotiedot
                                 sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + kotikokoonpano_id + "'";
@@ -361,7 +374,7 @@ public class Avaus {
                                 int vieraskokoonpano_id = vieraskokoonpano.getInt("tupaid");
                                 Kokoonpano kokoonpano = new Kokoonpano(ottelu, vierasjoukkue);
                                 kokoonpano.asetaID(vieraskokoonpano_id);
-                             
+
                                 ottelu.asetaVierasKokoonpano(kokoonpano);
                                 //pelaajien kokoonpanotiedot
                                 sql4 = "SELECT DISTINCT * FROM pelaajan_kokoonpano WHERE kokoonpano_id = '" + vieraskokoonpano_id + "'";
@@ -418,7 +431,7 @@ public class Avaus {
                                         maali.asetaSyottaja(pelaaja);
                                     }
                                 }
-                             
+
                                 ottelu.annaMaalit().add(maali);
 
                             }
@@ -446,7 +459,6 @@ public class Avaus {
                                     }
                                 }
 
-                            
                                 tuomarinrooli.asetaID(tuomarinrooli_id);
 
                                 ottelu.annaRoolit().add(tuomarinrooli);
@@ -525,7 +537,7 @@ public class Avaus {
                     parentT = ikkuna.annaRootTuomarit();
 
                     for (Henkilo tuomari : tuomaritV) {
-                  
+
                         TreeItem<Kohde> uusiKohde = new TreeItem<Kohde>((Kohde) tuomari);
                         parentT.getChildren().add(uusiKohde);
 
@@ -570,7 +582,9 @@ public class Avaus {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        new Thread(tehtava).start();
+        Thread th = new Thread(tehtava);
+        th.start();
+     
 
     }
 

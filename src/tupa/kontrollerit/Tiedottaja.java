@@ -47,13 +47,13 @@ public class Tiedottaja {
 
         alert.setHeaderText(null);
 
-        alert.setContentText("Huom! " +msg);
+        alert.setContentText("Huom! " + msg);
 
         alert.showAndWait();
 
     }
-    
-       public void annaVirhe(String msg) {
+
+    public void annaVirhe(String msg) {
 
         Alert alert = new Alert(AlertType.ERROR);
 
@@ -61,26 +61,23 @@ public class Tiedottaja {
 
         alert.setHeaderText(null);
 
-        alert.setContentText("Huom! " +msg);
+        alert.setContentText("Huom! " + msg);
 
         alert.showAndWait();
 
     }
-    
-    
-        public void annaIlmoitus(String msg) {
+
+    public void annaIlmoitus(String msg) {
 
         Alert alert = new Alert(AlertType.INFORMATION);
 
         alert.setTitle("TUPA - TULOSPALVELU");
 
-    alert.setHeaderText(null);
+        alert.setHeaderText(null);
 
         alert.setContentText(msg);
 
         alert.showAndWait();
-    
-             
-    
+
     }
 }

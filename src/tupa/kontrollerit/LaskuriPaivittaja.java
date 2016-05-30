@@ -19,6 +19,7 @@ import tupa.data.Sarja;
 import tupa.data.Toimihenkilo;
 import tupa.data.Tuomari;
 import tupa.data.TuomarinRooli;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -53,47 +54,26 @@ public class LaskuriPaivittaja {
     public void paivitaLaskurit() {
 
         try {
-            for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
 
-                if (ikkuna.annaKohteet().get(i) instanceof Sarja) {
-                    Sarja sarja = (Sarja) ikkuna.annaKohteet().get(i);
-                    sarja.asetaLaskuri(0);
+            Sarja sarjav = new Sarja();
+            sarjav.asetaLaskuri(0);
 
-                } else if (ikkuna.annaKohteet().get(i) instanceof Tuomari) {
-                    Tuomari tuomari = (Tuomari) ikkuna.annaKohteet().get(i);
-                    tuomari.asetaLaskuri(0);
-
-                } else if (ikkuna.annaKohteet().get(i) instanceof Pelaaja) {
-
-                    Pelaaja pelaaja = (Pelaaja) ikkuna.annaKohteet().get(i);
-                    pelaaja.asetaLaskuri(0);
-
-                    for (int j = 0; j < pelaaja.annaKaikkiMaalit().size(); j++) {
-                        pelaaja.annaKaikkiMaalit().get(j).asetaLaskuri(0);
-                    }
-
-                    break;
-                } else if (ikkuna.annaKohteet().get(i) instanceof Joukkue) {
-                    Joukkue joukkue = (Joukkue) ikkuna.annaKohteet().get(i);
-                    joukkue.asetaLaskuri(0);
-
-                    for (int j = 0; j < joukkue.annaOttelut().size(); j++) {
-                        Ottelu ottelu = joukkue.annaOttelut().get(j);
-                        ottelu.asetaLaskuri(0);
-                        ottelu.annaKotiKokoonpano().asetaLaskuri(0);
-                        ottelu.annaVierasKokoonpano().asetaLaskuri(0);
-                        for (int k = 0; k < ottelu.annaRoolit().size(); k++) {
-                            ottelu.annaRoolit().get(k).asetaLaskuri(0);
-                        }
-
-                    }
-
-                } else if (ikkuna.annaKohteet().get(i) instanceof Toimihenkilo) {
-                    Toimihenkilo toimari = (Toimihenkilo) ikkuna.annaKohteet().get(i);
-                    toimari.asetaLaskuri(0);
-
-                }
-            }
+            Tuomari tuomariv = new Tuomari();
+            tuomariv.asetaLaskuri(0);
+            Pelaaja pelaajav = new Pelaaja();
+            pelaajav.asetaLaskuri(0);
+            Maali maaliv = new Maali();
+            maaliv.asetaLaskuri(0);
+            Kokoonpano kokoonpanov = new Kokoonpano();
+            kokoonpanov.asetaLaskuri(0);
+            Ottelu otteluv = new Ottelu();
+            otteluv.asetaLaskuri(0);
+            Joukkue joukkuev = new Joukkue();
+            joukkuev.asetaLaskuri(0);
+            Toimihenkilo toimariv = new Toimihenkilo();
+            toimariv.asetaLaskuri(0);
+            TuomarinRooli rooliv = new TuomarinRooli();
+            rooliv.asetaLaskuri(0);
 
             con = yhteys.annaYhteys();
             st = con.createStatement();
@@ -123,8 +103,8 @@ public class LaskuriPaivittaja {
             ResultSet t = st2.executeQuery(sql);
 
             while (t.next()) {
-              Tuomari tuomari = new Tuomari();
-              tuomari.kasvataLaskuria();
+                Tuomari tuomari = new Tuomari();
+                tuomari.kasvataLaskuria();
             }
 
             sql = "SELECT * FROM joukkue";
@@ -132,8 +112,8 @@ public class LaskuriPaivittaja {
             ResultSet j = st3.executeQuery(sql);
 
             while (j.next()) {
-               Joukkue joukkue = new Joukkue();
-               joukkue.kasvataLaskuria();
+                Joukkue joukkue = new Joukkue();
+                joukkue.kasvataLaskuria();
 
             }
 
@@ -145,8 +125,8 @@ public class LaskuriPaivittaja {
                 Pelaaja pelaaja = new Pelaaja();
                 pelaaja.kasvataLaskuria();
             }
-            
-                sql = "SELECT * FROM toimari";
+
+            sql = "SELECT * FROM toimari";
 
             ResultSet to = st5.executeQuery(sql);
 
@@ -154,42 +134,40 @@ public class LaskuriPaivittaja {
                 Toimihenkilo toimari = new Toimihenkilo();
                 toimari.kasvataLaskuria();
             }
-            
-                sql = "SELECT * FROM ottelu";
+
+            sql = "SELECT * FROM ottelu";
 
             ResultSet o = st6.executeQuery(sql);
 
             while (o.next()) {
-               Ottelu ottelu = new Ottelu();
-               ottelu.kasvataLaskuria();
+                Ottelu ottelu = new Ottelu();
+                ottelu.kasvataLaskuria();
             }
-                sql = "SELECT * FROM maali";
+            sql = "SELECT * FROM maali";
 
             ResultSet m = st7.executeQuery(sql);
 
             while (m.next()) {
-             Maali maali = new Maali();
-             maali.kasvataLaskuria();
-             
+                Maali maali = new Maali();
+                maali.kasvataLaskuria();
+
             }
-                sql = "SELECT * FROM kokoonpano";
+            sql = "SELECT * FROM kokoonpano";
 
             ResultSet k = st8.executeQuery(sql);
 
             while (k.next()) {
-               Kokoonpano kokoonpano = new Kokoonpano();
-               kokoonpano.kasvataLaskuria();
+                Kokoonpano kokoonpano = new Kokoonpano();
+                kokoonpano.kasvataLaskuria();
             }
-                sql = "SELECT * FROM tuomarinrooli";
+            sql = "SELECT * FROM tuomarinrooli";
 
             ResultSet tr = st9.executeQuery(sql);
 
             while (tr.next()) {
-             TuomarinRooli rooli = new TuomarinRooli();
-             rooli.kasvataLaskuria();
+                TuomarinRooli rooli = new TuomarinRooli();
+                rooli.kasvataLaskuria();
             }
-            
-            
 
         } catch (SQLException se) {
 

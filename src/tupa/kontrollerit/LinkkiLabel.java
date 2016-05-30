@@ -39,25 +39,24 @@ public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {
     public void handle(MouseEvent e) {
         nimi = this.getText();
 
-        if (nimi.equals("Etusivu") && !ikkuna.annaAloitus() ) {
-   ikkuna.asetaValittuTuomari(null);
+        if (nimi.equals("Etusivu") && !ikkuna.annaAloitus()) {
+            ikkuna.asetaValittuTuomari(null);
             nakyma.luoEtusivu();
             return;
-        }
-        else if (nimi.equals("Oma joukkue") && !ikkuna.annaAloitus() ) {
+        } else if (nimi.equals("Oma joukkue") && !ikkuna.annaAloitus()) {
             ikkuna.asetaValittuTuomari(null);
             Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
             Joukkue joukkue = new Joukkue();
-            for(int i=0; i<turnaus.annaSarjat().size(); i++){
+            for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
                 Sarja sarja = turnaus.annaSarjat().get(i);
-                
-                for(int j=0; j<sarja.annaJoukkueet().size(); j++){
-                    if(sarja.annaJoukkueet().get(j).annaID() == ikkuna.annaJoukkueID()){
+
+                for (int j = 0; j < sarja.annaJoukkueet().size(); j++) {
+                    if (sarja.annaJoukkueet().get(j).annaID() == ikkuna.annaJoukkueID()) {
                         joukkue = sarja.annaJoukkueet().get(j);
                     }
                 }
             }
-     
+
             JoukkueNakyma joukkuenakyma = nakyma.annaJoukkuenakyma();
             joukkuenakyma.luoJoukkueSivu(joukkue);
             return;

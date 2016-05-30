@@ -48,15 +48,15 @@ public class Tupa extends Application {
 
     //käyttöoikeudet 0 = vain turnauksen tietojen katselu, 1 = joukkueen ylläpitäjä/oikeudet uusien turnauksien lisäämiseen, 2=lisenssin ostanut käyttäjä, joka voi luoda max 5 turnausta ja hallita niitä, 3=yleinen ylläpitäjä
     private int taso = 0;
-   
+
     //käyttäjän id muistiin
     private int kayttaja_id = 0;
-    
+
     //käyttäjän hallinnoiman joukkueen id muistiin
     private int joukkue_id = 0;
-    
+
     private boolean alotus = true;
-   
+
     private Tuomari valittuTuomari;
     // turnaus, johon liittyy, tallennettu!
     private Kohde turnaus = new Turnaus();
@@ -100,12 +100,11 @@ public class Tupa extends Application {
     @Override
 
     public void start(Stage primaryStage) throws SQLException {
-     
+
         nakyma = new PaaNakyma(this);
         Stage kirjautuja = new KayttajanKirjautuminen(primaryStage, this);
-  
-      
-       kirjautuja.sizeToScene();
+
+        kirjautuja.sizeToScene();
         kirjautuja.showAndWait();
         //luodaan turnaus, kun ohjelma käynnistyy
         Aloitus aloitus = new Aloitus();
@@ -114,13 +113,11 @@ public class Tupa extends Application {
 
         BorderPane border = new BorderPane();
 
-     
         //keskinäytön tyylittely
         naytto.setStyle("-fx-background-color: white;");
 
         //aloitusnäkymä
- 
-nakyma.luoEtusivuTyhja();
+        nakyma.luoEtusivuTyhja();
         //muodostaan ylävalikko
         MenuBar menuBar = new MenuBar();
         valikko = new Valikko(menuBar, this);
@@ -144,28 +141,24 @@ nakyma.luoEtusivuTyhja();
         sivuPuu.setShowRoot(false);
 
         //jonka jälkeen rakennetaan ikkunan vasen puoli
-     
         border.setLeft(osiot.rakennaVasensivu(sivuPuu));
-   
-            
+
         //ylaosan "logo"
         keski.getChildren().add(osiot.rakennaYlaosa());
         keski.getChildren().add(naytto);
 
         border.setCenter(keski);
 
-      
-        
-         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-     Scene scene = new Scene(border, screenBounds.getWidth(), screenBounds.getHeight());
-        
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        Scene scene = new Scene(border, screenBounds.getWidth(), screenBounds.getHeight());
+
         primaryStage.setTitle("TUPA \t - \t Tulospalvelu");
         scene.getStylesheets().add("css/tyylit.css");
 
         primaryStage.getIcons().add(new Image("kuvat/icon.png"));
         primaryStage.setScene(scene);
         Platform.setImplicitExit(false);
-       
+
         primaryStage.show();
         Varmistaja varmista = new Varmistaja(kohdetk, this);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -182,13 +175,12 @@ nakyma.luoEtusivuTyhja();
 
             }
         });
-      
-        if(annaTaso() == 1){
-             TurnausValitsin valitsija = new TurnausValitsin(this);
-                    valitsija.annaTurnausLuettelo();        
+
+        if (annaTaso() == 1) {
+            TurnausValitsin valitsija = new TurnausValitsin(this);
+            valitsija.annaTurnausLuettelo();
         }
-    
-  
+
     }
 
     public PaaNakyma annaPaaNakyma() {
@@ -276,45 +268,45 @@ nakyma.luoEtusivuTyhja();
     public List<String> annaLokilista() {
         return lokilista;
     }
-    
-    public void asetaTaso(int taso){
+
+    public void asetaTaso(int taso) {
         this.taso = taso;
     }
-    
-    public int annaTaso(){
+
+    public int annaTaso() {
         return taso;
     }
-    
-    public void asetaAloitus(boolean arvo){
+
+    public void asetaAloitus(boolean arvo) {
         this.alotus = arvo;
     }
-    
-    public boolean annaAloitus(){
+
+    public boolean annaAloitus() {
         return alotus;
     }
-    
-    public void asetaKayttajaID(int id){
+
+    public void asetaKayttajaID(int id) {
         this.kayttaja_id = id;
     }
-    
-    public int annaKayttajaID(){
+
+    public int annaKayttajaID() {
         return kayttaja_id;
     }
-    
-    public void asetaJoukkueID(int id){
+
+    public void asetaJoukkueID(int id) {
         this.joukkue_id = id;
     }
-    
-    public int annaJoukkueID(){
+
+    public int annaJoukkueID() {
         return joukkue_id;
     }
-    
-    public void asetaValittuTuomari(Tuomari valittu){
+
+    public void asetaValittuTuomari(Tuomari valittu) {
         this.valittuTuomari = valittu;
     }
-    
-    public Tuomari annaValittuTuomari(){
+
+    public Tuomari annaValittuTuomari() {
         return valittuTuomari;
     }
-    
+
 }

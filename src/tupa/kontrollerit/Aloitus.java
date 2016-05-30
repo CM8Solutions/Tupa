@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import tupa.data.Turnaus;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Aloitus {
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
 
-   public Aloitus() {
+    public Aloitus() {
 
     }
 
@@ -33,13 +34,12 @@ public class Aloitus {
             int laskuri = 0;
             ResultSet turnaukset = st.executeQuery("SELECT DISTINCT * FROM turnaus");
             while (turnaukset.next()) {
-               turnaus.kasvataLaskuria();
+                turnaus.kasvataLaskuria();
             }
             laskuri = turnaus.annaLaskuri();
             turnaus.asetaID(laskuri + 1);
             turnaus.kasvataLaskuria();
             turnaus.asetaNimi("Uusi turnaus");
-           
 
         } catch (SQLException se) {
 

@@ -37,6 +37,7 @@ import tupa.data.Maali;
 import tupa.data.Kokoonpano;
 import tupa.data.TuomarinRooli;
 import tupa.nakymat.PaaNakyma;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -235,8 +236,9 @@ public class Tallennus {
                                 int tid = tuomari.annaID();
                                 String etunimi = tuomari.annaEtuNimi();
                                 String sukunimi = tuomari.annaSukuNimi();
+                                int viety_tiedostoon = tuomari.annaVienti();
 
-                                st.executeUpdate("INSERT INTO tuomari (tupaid, etunimi, sukunimi, tuomari_id, turnaus_id) VALUES('" + tid + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "')");
+                                st.executeUpdate("INSERT INTO tuomari (tupaid, etunimi, sukunimi, tuomari_id, turnaus_id, viety_tiedostoon) VALUES('" + tid + "', '" + etunimi + "', '" + sukunimi + "', '" + tuomari_id + "', '" + turnaus_id + "', '" + viety_tiedostoon + "')");
 
                             } else if (tiedot instanceof Joukkue) {
 
@@ -449,7 +451,9 @@ public class Tallennus {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        new Thread(tehtava).start();
+        Thread th = new Thread(tehtava);
+        th.start();
+      
 
     }
 

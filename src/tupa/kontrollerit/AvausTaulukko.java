@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.scene.control.TableView;
 import tupa.Tupa;
+import tupa.data.Yhteys;
 
 /**
  *

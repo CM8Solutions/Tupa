@@ -38,6 +38,7 @@ import tupa.data.Toimihenkilo;
 import tupa.data.Turnaus;
 import tupa.nakymat.PaaNakyma;
 import tupa.nakymat.ToimariNakyma;
+import tupa.data.Yhteys;
 
 /**
  *

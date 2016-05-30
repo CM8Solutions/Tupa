@@ -275,7 +275,14 @@ public class Valikko implements EventHandler<ActionEvent> {
             }
 
             case "Vie": {
+
                 if (!ikkuna.annaAloitus()) {
+
+                    if (ikkuna.muutettu()) {
+                        Tallennus tallentaja = new Tallennus();
+                        tallentaja.suoritaTallennus(true, false, false);
+
+                    }
 
                     TuomariValitsin valitsin = new TuomariValitsin(ikkuna);
                     valitsin.annaTuomariLuetteloVietavat();

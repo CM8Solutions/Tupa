@@ -75,9 +75,7 @@ public class JoukkueNakyma {
 
     public void luoJoukkueSivu(Joukkue joukkue) {
         int joukkue_id = joukkue.annaID();
-        
-    
-      
+
         ScrollPane sb = new ScrollPane();
         sb.setHbarPolicy(AS_NEEDED);
         GridPane grid = new GridPane();
@@ -146,12 +144,13 @@ public class JoukkueNakyma {
         nimi.setFont(Font.font("Papyrus", 32));
 
         info.setAlignment(Pos.CENTER);
-            if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-        info.getChildren().addAll(nimi, nappulat);
-        else
-                 info.getChildren().addAll(nimi);
-                
-            grid.add(info, 0, 2);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id) {
+            info.getChildren().addAll(nimi, nappulat);
+        } else {
+            info.getChildren().addAll(nimi);
+        }
+
+        grid.add(info, 0, 2);
 
         HBox rivi3 = new HBox();
         rivi3.setSpacing(40);
@@ -260,9 +259,10 @@ public class JoukkueNakyma {
 
             }
         });
-        
-        if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-        pelaajienalle.getChildren().addAll(plisaysnappula);
+
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id) {
+            pelaajienalle.getChildren().addAll(plisaysnappula);
+        }
 
         HBox toimarienalle = new HBox();
         toimarienalle.setPadding(new Insets(20, 0, 0, 0));
@@ -277,8 +277,9 @@ public class JoukkueNakyma {
 
             }
         });
-   if(ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id)
-        toimarienalle.getChildren().addAll(tlisaysnappula);
+        if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2 || ikkuna.annaJoukkueID() == joukkue_id) {
+            toimarienalle.getChildren().addAll(tlisaysnappula);
+        }
 
         osio3.getChildren().addAll(otsikkorivi3, toimihenkilot, toimarienalle);
         osio2.getChildren().addAll(otsikkorivi2, pelaajat, pelaajienalle);
@@ -373,9 +374,8 @@ public class JoukkueNakyma {
         alle.setPadding(new Insets(20, 0, 60, 0));
         Label ohje = new Label("Lisää uusi pelaaja:");
         ohje.setFont(Font.font("Papyrus", 14));
-         Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+        Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
         ohjeT.setFont(Font.font("Papyrus", 12));
-        
 
         HBox lisays = new HBox();
         lisays.setSpacing(10);
@@ -384,7 +384,7 @@ public class JoukkueNakyma {
         VBox vbox1 = new VBox();
 
         Label ohjeE = new Label("Etunimi: ");
-        
+
         HBox pakollinen_kentta1 = new HBox();
 
         pakollinen_kentta1.getChildren().addAll(ohjeE, pakollinen);
@@ -478,14 +478,10 @@ public class JoukkueNakyma {
                 }
             }
         });
-        
- 
-     
-  
 
-          VBox vbox17= new VBox();
+        VBox vbox17 = new VBox();
         vbox17.getChildren().addAll(ohjeTy, lisaysnappula);
-        
+
         lisays.getChildren().addAll(vbox0, vbox1, vbox2, vbox3, vbox4, vbox17);
         alle.getChildren().addAll(ohje, ohjeT, lisays);
         osio2.getChildren().addAll(otsikkorivi2, pelaajat, alle);
@@ -572,10 +568,9 @@ public class JoukkueNakyma {
         alle2.setPadding(new Insets(20, 0, 60, 0));
         Label ohje2 = new Label("Lisää uusi toimihenkilö:");
         ohje2.setFont(Font.font("Papyrus", 14));
-    Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
+        Label ohjeT = new Label("(etu- ja sukunimi saa sisältää max. 64 merkkiä, vain kirjaimia ja tavuviivoja.)");
         ohjeT.setFont(Font.font("Papyrus", 12));
-        
-        
+
         HBox lisays2 = new HBox();
         lisays2.setSpacing(10);
         lisays2.setPadding(new Insets(20, 0, 0, 0));
@@ -622,7 +617,7 @@ public class JoukkueNakyma {
         vbox15.getChildren().addAll(ohjePuh, puh);
 
         VBox vbox16 = new VBox();
-vbox16.setPadding(new Insets(20,0,0,0));
+        vbox16.setPadding(new Insets(20, 0, 0, 0));
 
         Label ohjeTyh = new Label("");
         Button lisaysnappula2 = new Button("Lisää");
@@ -667,14 +662,10 @@ vbox16.setPadding(new Insets(20,0,0,0));
                 }
             }
         });
-        
 
-        
- 
-
-          VBox vbox17= new VBox();
+        VBox vbox17 = new VBox();
         vbox17.getChildren().addAll(ohjeTyh, lisaysnappula2);
-        
+
         lisays2.getChildren().addAll(vbox11, vbox12, vbox13, vbox14, vbox15, vbox17);
         alle2.getChildren().addAll(ohje2, ohjeT, lisays2);
         osio3.getChildren().addAll(otsikko3, toimihenkilot, alle2);

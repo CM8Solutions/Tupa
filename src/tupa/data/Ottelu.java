@@ -480,7 +480,7 @@ public class Ottelu implements Serializable {
 
     public void asetaAvustava1(Tuomari uusiavustava, Tuomari vanha_avustava) {
 
-         for (int i = 0; i < this.annaRoolit().size(); i++) {
+        for (int i = 0; i < this.annaRoolit().size(); i++) {
 
             if (this.annaRoolit().get(i).annaRooli().equals("1. Avustava erotuomari")) {
                 TuomarinRooli rooli = this.annaRoolit().get(i);
@@ -511,7 +511,7 @@ public class Ottelu implements Serializable {
 
     public void asetaAvustava2(Tuomari uusiavustava, Tuomari vanha_avustava) {
 
-          for (int i = 0; i < this.annaRoolit().size(); i++) {
+        for (int i = 0; i < this.annaRoolit().size(); i++) {
 
             if (this.annaRoolit().get(i).annaRooli().equals("2. Avustava erotuomari")) {
                 TuomarinRooli rooli = this.annaRoolit().get(i);

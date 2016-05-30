@@ -4,6 +4,9 @@ package tupa.kontrollerit;
  *
  * @author Marianne
  */
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
@@ -36,9 +39,6 @@ public class PuuSolu extends TreeCell<Kohde> {
             setText(item.toString());
             setGraphic(getTreeItem().getGraphic());
 
-            //treeitemien sisältö pitää tutkia
-            //käyttäjäoikeudet tulee tutkia
-//			
             boolean onJuuri = false;
 
             if (ikkuna.annaRootSarjat().getValue().equals(item) || ikkuna.annaRootTuomarit().getValue().equals(item)) {
@@ -104,7 +104,21 @@ public class PuuSolu extends TreeCell<Kohde> {
         item3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TIETOKANTA --> TIEDOSTO
+                Tuomari tuomari = (Tuomari) item;
+                int id = tuomari.annaID();
+
+                boolean ok = false;
+                Tarkistaja tarkistaja = new Tarkistaja(ikkuna);
+                ok = tarkistaja.annaVientiOK(id);
+                if (ok) {
+
+                    Varmistaja varmistaja = new Varmistaja(ikkuna);
+                    varmistaja.annaTuomarinVientiVarmistus(tuomari);
+                } else {
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaIlmoitus("Tuomarin tiedot on jo viety tiedostoon.");
+                }
+
             }
         });
 
@@ -150,6 +164,13 @@ public class PuuSolu extends TreeCell<Kohde> {
                     Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
                     tiedottaja.annaIlmoitus("Avaa ensin turnaus tai luo uusi.");
 
+                } else {
+                    TuomariValitsin valitsin = new TuomariValitsin(ikkuna);
+                    try {
+                        valitsin.annaTuomariLuetteloTuotavat();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PuuSolu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });

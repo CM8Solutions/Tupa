@@ -29,75 +29,71 @@ import tupa.data.Turnaus;
  * @author Marianne
  */
 public class TurnausValitsin {
-    
+
     private Tupa ikkuna;
-    
-    public TurnausValitsin(){
-        
+
+    public TurnausValitsin() {
+
     }
-    
-    public TurnausValitsin(Tupa ikkuna){
+
+    public TurnausValitsin(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
-    
-    public void annaTurnausLuettelo() throws SQLException{
-        
+
+    public void annaTurnausLuettelo() throws SQLException {
+
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
         stage.getIcons().add(new Image("kuvat/icon.png"));
-        
+
         ScrollPane sb = new ScrollPane();
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(30, 100, 30, 100));
         vbox.setSpacing(10);
- sb.setId("my-scrollpane");
-        
-    DropShadow dropShadow = new DropShadow();
+        sb.setId("my-scrollpane");
+
+        DropShadow dropShadow = new DropShadow();
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
- 
+
         HBox hbox1 = new HBox();
         Text otsikko = new Text("Valitse haluamasi turnaus.");
-   otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
-   otsikko.setEffect(dropShadow);
-   
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
+        otsikko.setEffect(dropShadow);
+
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().add(otsikko);
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(30, 30, 10, 30));
-     
-         Taulukko taulukontekija = new Taulukko(ikkuna);
+
+        Taulukko taulukontekija = new Taulukko(ikkuna);
 
         TableView turnaukset = taulukontekija.luoTurnausTaulukko();
         turnaukset.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        
+
         turnaukset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-           
-          
-                     Kirjautuminen kirjautuja = new Kirjautuminen((Turnaus) newSelection, ikkuna);
-           kirjautuja.luoKirjautuminen();
-       
-        
-            
+
+            Kirjautuminen kirjautuja = new Kirjautuminen((Turnaus) newSelection, ikkuna);
+            kirjautuja.luoKirjautuminen();
+
             stage.close();
         });
-        
+
         hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().addAll(turnaukset);
         vbox.getChildren().addAll(hbox1, hbox2);
-        
+
         sb.setContent(vbox);
         alue.setCenter(sb);
 
         Scene sceneV = new Scene(alue);
-         sceneV.getStylesheets().add("css/tyylit.css");
+        sceneV.getStylesheets().add("css/tyylit.css");
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
         stage.show();
-        
+
     }
-    
+
 }
