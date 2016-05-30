@@ -21,7 +21,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import tupa.Tupa;
+import tupa.data.Ottelu;
+import tupa.data.Tuomari;
 import tupa.data.Turnaus;
 
 /**
@@ -29,71 +33,145 @@ import tupa.data.Turnaus;
  * @author Marianne
  */
 public class TuomariValitsin {
-    
+
     private Tupa ikkuna;
-    
-    public TuomariValitsin(){
-        
+
+    public TuomariValitsin() {
+
     }
-    
-    public TuomariValitsin(Tupa ikkuna){
+
+    public TuomariValitsin(Tupa ikkuna) {
         this.ikkuna = ikkuna;
     }
-    
-    public void annaTuomariLuettelo() throws SQLException{
-        
+
+    public void annaTuomariLuetteloVietavat() throws SQLException {
+
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
 
         stage.getIcons().add(new Image("kuvat/icon.png"));
-        
+
         ScrollPane sb = new ScrollPane();
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(30, 100, 30, 100));
         vbox.setSpacing(10);
- sb.setId("my-scrollpane");
-        
-    DropShadow dropShadow = new DropShadow();
+        sb.setId("my-scrollpane");
+
+        DropShadow dropShadow = new DropShadow();
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
- 
+
         HBox hbox1 = new HBox();
-        Text otsikko = new Text("Valitse tuomari, jonka tiedot haluat viedä tiedostosta tietokantaan.");
-   otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
-   otsikko.setEffect(dropShadow);
-   
+        Text otsikko = new Text("Valitse tuomari, jonka tiedot haluat viedä tiedostoon.");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
+        otsikko.setEffect(dropShadow);
+
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().add(otsikko);
 
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(30, 30, 10, 30));
-     
-         Taulukko taulukontekija = new Taulukko(ikkuna);
 
-        TableView turnaukset = taulukontekija.luoTuotavienTuomarienTaulukko(ikkuna.annaKayttajaID());
+        Taulukko taulukontekija = new Taulukko(ikkuna);
+
+        TableView turnaukset = taulukontekija.luoVietavienTuomarienTaulukko(ikkuna.annaKayttajaID());
         turnaukset.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        
+
         turnaukset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-           //toiminta
-        
-            
+            Tuomari tuomari = (Tuomari) newSelection;
+            int id = tuomari.annaID();
+            Vie vieja = new Vie();
+            try {
+                vieja.vieTiedostoon(id);
+            } catch (ParserConfigurationException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TransformerException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             stage.close();
         });
-        
+
         hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().addAll(turnaukset);
         vbox.getChildren().addAll(hbox1, hbox2);
-        
+
         sb.setContent(vbox);
         alue.setCenter(sb);
 
         Scene sceneV = new Scene(alue);
-         sceneV.getStylesheets().add("css/tyylit.css");
+        sceneV.getStylesheets().add("css/tyylit.css");
         stage.setTitle("TUPA - TULOSPALVELU");
         stage.setScene(sceneV);
         stage.show();
-        
+
     }
-    
+
+    public void annaTuomariLuetteloTuotavat() throws SQLException {
+
+        Stage stage = new Stage();
+        BorderPane alue = new BorderPane();
+
+        stage.getIcons().add(new Image("kuvat/icon.png"));
+
+        ScrollPane sb = new ScrollPane();
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(30, 100, 30, 100));
+        vbox.setSpacing(10);
+        sb.setId("my-scrollpane");
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
+
+        HBox hbox1 = new HBox();
+        Text otsikko = new Text("Valitse tuomari, jonka tiedot haluat tuoda tiedostosta.");
+        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
+        otsikko.setEffect(dropShadow);
+
+        hbox1.setAlignment(Pos.CENTER);
+        hbox1.getChildren().add(otsikko);
+
+        HBox hbox2 = new HBox();
+        hbox2.setPadding(new Insets(30, 30, 10, 30));
+
+        Taulukko taulukontekija = new Taulukko(ikkuna);
+
+        TableView turnaukset = taulukontekija.luoTuotavienTuomarienTaulukko(ikkuna.annaKayttajaID());
+        turnaukset.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        turnaukset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            Tuomari tuomari = (Tuomari) newSelection;
+            int id = tuomari.annaID();
+            Tuo tuoja = new Tuo();
+            try {
+                tuoja.tuoTiedostosta(id);
+            } catch (ParserConfigurationException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TransformerException ex) {
+                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            stage.close();
+        });
+
+        hbox2.setAlignment(Pos.CENTER);
+        hbox2.getChildren().addAll(turnaukset);
+        vbox.getChildren().addAll(hbox1, hbox2);
+
+        sb.setContent(vbox);
+        alue.setCenter(sb);
+
+        Scene sceneV = new Scene(alue);
+        sceneV.getStylesheets().add("css/tyylit.css");
+        stage.setTitle("TUPA - TULOSPALVELU");
+        stage.setScene(sceneV);
+        stage.show();
+
+    }
+
 }
