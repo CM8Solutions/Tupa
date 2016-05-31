@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import tupa.Tupa;
 
 /**
  *
@@ -36,7 +37,6 @@ public class Ohjeistus {
 
     FileInputStream fs = null;
 
-    String tiedosto = "tupa.txt";
 
     public Ohjeistus() {
 
@@ -149,9 +149,9 @@ public class Ohjeistus {
 
         VBox boxi = new VBox();
         try {
-            fs = new FileInputStream(tiedosto);
+            fs = new FileInputStream("./src/tiedostot/tupa.txt");
         } catch (FileNotFoundException e) {
-        
+   
             return boxi;
         }
 
