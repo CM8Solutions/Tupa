@@ -464,7 +464,7 @@ public class Muuttaja {
 
     }
 
-    public void lisaaOttelu(Joukkue koti, Joukkue vieras, LocalDate aika, String tunnit, String minuutit, String paikka, Tuomari erotuomari, Tuomari avustava1, Tuomari avustava2, Sarja sarja) {
+    public void lisaaOttelu(Joukkue koti, Joukkue vieras, int kierros, LocalDate aika, String tunnit, String minuutit, String paikka, Tuomari erotuomari, Tuomari avustava1, Tuomari avustava2, Sarja sarja) {
 
         Ottelu ottelu = new Ottelu(sarja);
         ottelu.kasvataLaskuria();
@@ -472,6 +472,7 @@ public class Muuttaja {
         ottelu.asetaOttelunumero(ottelu.annaLaskuri() + 990);
         ottelu.asetaJoukkueet(koti, vieras);
         ottelu.asetaPaikka(paikka);
+        ottelu.asetaKierros(kierros);
         ottelu.asetaAika(aika, tunnit, minuutit);
 
         //lisätään kokoonpanot

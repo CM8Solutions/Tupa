@@ -295,7 +295,7 @@ public class Avaus {
                             ottelu.asetaPaikka(paikka);
                             ottelu.asetaTunnit(kellotunnit);
                             ottelu.asetaMinuutit(kellominuutit);
-                            DateFormat muoto = new SimpleDateFormat("dd.mm.yyyy", Locale.ENGLISH);
+                            DateFormat muoto = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
                             Date paiva_date = muoto.parse(paiva);
 
                             ottelu.asetaPaivaDate(paiva_date);

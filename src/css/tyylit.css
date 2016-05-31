@@ -4101,14 +4101,14 @@ Only the properties with values that are different from the TextBox are specifie
     -fx-padding: 0 0.25em 0 0.333333em; /* 0 3 0 4 */
 }
 .date-picker-popup > * > .spinner > .button > .right-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+     -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
     -fx-background-insets: 1 0 -1 0, 0;
     -fx-padding: 0.5em 0.333333em 0 0; /* 6 4 0 0 */
     -fx-shape: "M 4 0 L 0 -3 L 0 3 z";
     -fx-scale-shape: true;
 }
 .date-picker-popup > * > .spinner > .button > .left-arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
     -fx-background-insets: 1 0 -1 0, 0;
     -fx-padding: 0.5em 0.333333em 0 0; /* 6 4 0 0 */
     -fx-shape: "M 0 0 L 4 -3 L 4 3 z";
@@ -4149,7 +4149,7 @@ Only the properties with values that are different from the TextBox are specifie
     -fx-border-width: 1px;
     -fx-background: -fx-control-inner-background;
     -fx-background-color: -fx-background;
-    -fx-text-fill: -fx-accent;
+    -fx-text-fill: linear-gradient(to bottom, #00b300, 	 #33ff33); 
 }
 .date-picker-popup > * > .day-cell {
     -fx-padding: 0.333333em 0.583333em 0.333333em 0.583333em; /* 4 7 4 7 */
@@ -4180,18 +4180,18 @@ Only the properties with values that are different from the TextBox are specifie
 }
 .date-picker-popup > * > .today:hover,
 .date-picker-popup > * > .today.selected {
-    -fx-background-color: -fx-selection-bar, derive(-fx-base, -10%),-fx-selection-bar;
+    -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
 }
 .date-picker-popup > * > .day-cell:focused,
 .date-picker-popup > * > .today:focused {
-    -fx-background-color: -fx-control-inner-background, -fx-cell-focus-inner-border, -fx-control-inner-background;
+     -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
     -fx-background-insets: 1, 2, 3;
 }
 .date-picker-popup > * > .day-cell:focused:hover,
 .date-picker-popup > * > .today:focused:hover,
 .date-picker-popup > * > .today.selected:focused,
 .date-picker-popup > * > .selected:focused {
-    -fx-background-color: -fx-selection-bar, -fx-cell-focus-inner-border, -fx-selection-bar;
+     -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
 }
 .date-picker-popup > * > .previous-month,
 .date-picker-popup > * > .next-month {

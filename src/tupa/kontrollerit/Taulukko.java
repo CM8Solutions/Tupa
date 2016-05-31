@@ -172,6 +172,7 @@ public class Taulukko {
         taulukko.setItems(data);
         id.setPrefWidth(50);
         kierros.setPrefWidth(70);
+        ajankohta.setMinWidth(150);
         ottelu.setMinWidth(200);
         paikka.setMinWidth(200);
         erotuomari.setMinWidth(150);
@@ -179,7 +180,9 @@ public class Taulukko {
         avustava2.setMinWidth(150);
         tulos.setPrefWidth(50);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
-
+        paiva.setSortType(TableColumn.SortType.ASCENDING);
+        kello.setSortType(TableColumn.SortType.ASCENDING);
+        taulukko.getSortOrder().add(kierros);
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(kello);
 
@@ -270,7 +273,7 @@ public class Taulukko {
 
         id.setMinWidth(50);
         kierros.setMinWidth(50);
-        paiva.setMinWidth(150);
+        paiva.setMinWidth(250);
         tunnit.setMinWidth(50);
         minuutit.setMinWidth(50);
 

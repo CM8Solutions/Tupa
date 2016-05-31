@@ -225,6 +225,8 @@ public class Ottelu implements Serializable {
         this.kalenteriaika = aika;
 
         this.paiva = aika.toString();
+        asetaPaivaDate(Date.from(aika.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        
         this.kellotunnit = tunnit;
         this.kellominuutit = minuutit;
         this.kello = tunnit + " : " + minuutit;

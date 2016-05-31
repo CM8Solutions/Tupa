@@ -824,7 +824,7 @@ public class OtteluNakyma {
 
         maalialle2.getChildren().addAll(alle72, alle82, alle92);
         HBox painikeboksi32 = new HBox();
-        painikeboksi32.setPadding(new Insets(30, 0, 0, 0));
+        painikeboksi32.setPadding(new Insets(10, 0, 0, 0));
 
         Button lisaysnappula32 = new Button("Lisää");
         lisaysnappula32.setOnAction(new EventHandler<ActionEvent>() {

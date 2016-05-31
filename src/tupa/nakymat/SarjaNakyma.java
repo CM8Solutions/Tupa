@@ -512,7 +512,7 @@ public class SarjaNakyma {
 
         Button paluunappula = new Button();
 
-        paluunappula.setText("<< Palaa ottelusivulle");
+        paluunappula.setText("<< Palaa otteluluettelon muokkaukseen");
         paluunappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -571,7 +571,7 @@ public class SarjaNakyma {
         VBox ylialle = new VBox();
         ylialle.setSpacing(10);
         HBox alle = new HBox();
-        alle.setSpacing(10);
+        alle.setSpacing(30);
 
         Label ohje = new Label("Lisää ottelu:");
         ohje.setFont(Font.font("Papyrus", 14));
@@ -772,7 +772,7 @@ public class SarjaNakyma {
                 }
 
                 if (ok) {
-                    muuttaja.lisaaOttelu(koti.getValue(), vieras.getValue(), ajankohta.getValue(), kellotunnit.getValue(), kellominuutit.getValue(), paikka.getText(), erotuomari.getValue(), avustava1.getValue(), avustava2.getValue(), sarja);
+                    muuttaja.lisaaOttelu(koti.getValue(), vieras.getValue(), kierros.getValue(), ajankohta.getValue(), kellotunnit.getValue(), kellominuutit.getValue(), paikka.getText(), erotuomari.getValue(), avustava1.getValue(), avustava2.getValue(), sarja);
                     tiedottaja.kirjoitaLoki("Otteluluetteloa muokattu.");
                     ikkuna.asetaMuutos(true);
                     luoOttelunLisaysSivu(sarja);
