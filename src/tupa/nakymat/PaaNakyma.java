@@ -3,7 +3,10 @@ Luokka, joka muodostaa päänäkymät
  */
 package tupa.nakymat;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -34,6 +37,7 @@ import tupa.data.Turnaus;
 import tupa.data.Sarja;
 import tupa.data.Kohde;
 import tupa.data.Tuomari;
+import tupa.data.Yhteys;
 
 /**
  *
@@ -62,6 +66,11 @@ public class PaaNakyma {
     private TuomariNakyma tuomarinakyma;
     private ToimariNakyma toimarinakyma;
     private VBox tulos = new VBox();
+
+    //tk yhteys
+    private Yhteys yhteys = new Yhteys();
+    private Connection con = null;
+    private Statement st = null;
 
     public PaaNakyma() {
 
@@ -163,14 +172,55 @@ public class PaaNakyma {
     }
 
     public void luoEtusivu() {
-        ikkuna.asetaValittuTuomari(null);
-        HBox nimipalkki = new HBox();
 
-        nimipalkki.setPadding(new Insets(20));
+        VBox nimipalkki = new VBox();
+        nimipalkki.setPadding(new Insets(20, 20 ,0, 20));
         Label nimi = new Label(ikkuna.annaTurnaus().toString());
         nimi.setFont(Font.font("Papyrus", FontWeight.BOLD, 36));
         nimipalkki.setAlignment(Pos.CENTER);
-        nimipalkki.getChildren().addAll(nimi);
+   
+        int turnaus_id = ikkuna.annaTurnaus().annaID();
+
+        String sposti = "";
+        try {
+            con = yhteys.annaYhteys();
+            st = con.createStatement();
+            ResultSet spostit = st.executeQuery("SELECT DISTINCT kayttaja.sposti as sposti FROM kayttaja, kayttajan_turnaus WHERE kayttaja.id = kayttajan_turnaus.kayttaja_id AND kayttajan_turnaus.turnaus_id = '" + turnaus_id + "' AND kayttaja.taso = 2");
+
+            while (spostit.next()) {
+
+                sposti = spostit.getString("sposti");
+
+            }
+
+        } catch (SQLException se) {
+
+            se.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (st != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+  
+        Label yllapitaja = new Label("(ylläpitäjän yhteystiedot:\t" + sposti+")");
+        yllapitaja.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
+
+        
+           nimipalkki.getChildren().addAll(nimi, yllapitaja);
 
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
@@ -192,10 +242,7 @@ public class PaaNakyma {
             }
         });
 
-        VBox rivi1 = new VBox();
-        rivi1.setPadding(new Insets(20));
-        rivi1.getChildren().addAll(muokkausnappula);
-
+    
         VBox hakupalkki = new VBox();
         hakupalkki.setAlignment(Pos.CENTER);
 
@@ -253,8 +300,8 @@ public class PaaNakyma {
             grid.add(muokkausnappula, 2, 1);
         }
         grid.add(nimipalkki, 1, 1);
-
-        grid.add(hakupalkki, 1, 2);
+  
+        grid.add(hakupalkki, 1, 3);
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(40);
 

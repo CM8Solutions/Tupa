@@ -1,5 +1,8 @@
 package tupa.kontrollerit;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -59,6 +62,14 @@ public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {
 
             JoukkueNakyma joukkuenakyma = nakyma.annaJoukkuenakyma();
             joukkuenakyma.luoJoukkueSivu(joukkue);
+            return;
+        } else if (nimi.equals("Unohtunut tunnus/salasana?")) {
+            Ohjeistus ohje = new Ohjeistus();
+            try {
+                ohje.annaUnohtunutOhje();
+            } catch (IOException ex) {
+                Logger.getLogger(LinkkiLabel.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return;
         }
 

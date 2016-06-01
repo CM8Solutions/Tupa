@@ -125,7 +125,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -174,7 +174,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -252,7 +252,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -328,7 +328,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -381,7 +381,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -438,7 +438,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -488,7 +488,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 600, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -543,7 +543,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 600, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -596,7 +596,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 300, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -649,7 +649,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 300, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -702,7 +702,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 300, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -755,7 +755,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 300, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
     }
@@ -807,7 +807,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 300, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -860,7 +860,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 300, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -912,7 +912,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 
@@ -985,7 +985,7 @@ public class Varmistaja {
         alue.setCenter(vbox);
 
         Scene sceneV = new Scene(alue, 400, 100);
-        stageV.setTitle("TUPA - TULOSPALVELU");
+        stageV.setTitle("TUPA - Tulospalvelu");
         stageV.setScene(sceneV);
         stageV.show();
 

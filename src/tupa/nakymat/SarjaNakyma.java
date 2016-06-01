@@ -347,7 +347,7 @@ public class SarjaNakyma {
         grid.add(rivi4, 0, 3);
         grid.add(rivi5, 0, 4);
         grid.add(rivi6, 0, 5);
-        grid.setPadding(new Insets(20));
+        grid.setPadding(new Insets(20, 20, 60, 20));
         sb.setContent(grid);
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");

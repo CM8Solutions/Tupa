@@ -75,7 +75,7 @@ public class Vie {
             StringWriter sw = new StringWriter();
             StreamResult sr = new StreamResult(sw);
             transformer.transform(domSource, sr);
-            String xmlPath = "src/tiedostot/tuomarit_'" + id + "'_'" + kayttaja_id + "'.xml";
+            String xmlPath = "lib/tuomarit_'" + id + "'_'" + kayttaja_id + "'.xml";
             StreamResult result = new StreamResult(new File(xmlPath).getPath());
             transformer.transform(domSource, result);
 

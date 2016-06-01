@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -273,7 +274,7 @@ public class Kirjautuminen {
 
                 Scene sceneV = new Scene(alue);
                 sceneV.getStylesheets().add("css/tyylit.css");
-                stage.setTitle("TUPA - TULOSPALVELU");
+                stage.setTitle("TUPA - Tulospalvelu");
                 stage.setScene(sceneV);
                 stage.show();
 
@@ -471,7 +472,7 @@ public class Kirjautuminen {
 
         Scene sceneV = new Scene(alue);
         sceneV.getStylesheets().add("css/tyylit.css");
-        stage.setTitle("TUPA - TULOSPALVELU");
+        stage.setTitle("TUPA - Tulospalvelu");
         stage.setScene(sceneV);
         stage.show();
 
@@ -683,7 +684,7 @@ public class Kirjautuminen {
 
         Scene sceneV = new Scene(alue);
         sceneV.getStylesheets().add("css/tyylit.css");
-        stage.setTitle("TUPA - TULOSPALVELU");
+        stage.setTitle("TUPA - Tulospalvelu");
         stage.setScene(sceneV);
         stage.show();
     }
@@ -692,7 +693,7 @@ public class Kirjautuminen {
 
         Stage stage = new Stage();
         BorderPane alue = new BorderPane();
-        alue.setPadding(new Insets(10, 50, 50, 50));
+        alue.setPadding(new Insets(10, 50, 30, 50));
         stage.getIcons().add(new Image("kuvat/icon.png"));
 
         HBox hb = new HBox();
@@ -703,44 +704,58 @@ public class Kirjautuminen {
         gridPane.setHgap(5);
         gridPane.setVgap(10);
 
-        Label tunnus = new Label("Käyttäjätunnus");
+        Label tunnus = new Label("Käyttäjätunnus:");
         TextField ts = new TextField();
-        Label salasana = new Label("Salasana");
+        Label salasana = new Label("Salasana:");
         PasswordField ss = new PasswordField();
-        Label salasana2 = new Label("Salasana uudelleen");
+        Label salasana2 = new Label("Salasana uudelleen:");
         PasswordField ss2 = new PasswordField();
+        Label sposti = new Label("Sähköpostiosoite:");
+        TextField ts2 = new TextField();
 
         Button nappula = new Button("Tallenna");
         Button peruuta = new Button("Peruuta");
 
-        nappula.setOnAction(new EventHandler<ActionEvent>() {
+        peruuta.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
                 PaaNakyma nakyma = ikkuna.annaPaaNakyma();
-                nakyma.luoEtusivuTyhja();
-
+                if (ikkuna.annaAloitus()) {
+                    nakyma.luoEtusivuTyhja();
+                } else {
+                    nakyma.luoEtusivu();
+                }
+                 stage.close();
             }
 
         });
 
         Label viesti = new Label();
 
+        HBox boxi = new HBox();
+        boxi.setSpacing(20);
+        boxi.setPadding(new Insets(10, 0, 0, 0));
+        boxi.getChildren().addAll(nappula, peruuta);
+        
         gridPane.add(tunnus, 0, 0);
         gridPane.add(ts, 1, 0);
         gridPane.add(salasana, 0, 1);
         gridPane.add(ss, 1, 1);
         gridPane.add(salasana2, 0, 2);
         gridPane.add(ss2, 1, 2);
-        gridPane.add(nappula, 1, 3);
-        gridPane.add(peruuta, 2, 3);
-        gridPane.add(viesti, 1, 4);
+        gridPane.add(sposti, 0, 3);
+        gridPane.add(ts2, 1, 3);
+
+        gridPane.add(boxi, 1, 4);
+    
+        gridPane.add(viesti, 0, 5);
 
         DropShadow dropShadow = new DropShadow();
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        Text text = new Text("Valitse käyttäjälle käyttäjätunnus ja salasana.");
+        Text text = new Text("Valitse käyttäjälle käyttäjätunnus ja salasana, sekä anna käyttäjän sähköpostiosoite.");
         text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
         text.setEffect(dropShadow);
 
@@ -754,10 +769,19 @@ public class Kirjautuminen {
                 String syotetty_tunnus = ts.getText().toString();
                 String syotetty_salasana = ss.getText().toString();
                 String syotetty_salasana2 = ss2.getText().toString();
+                String syotetty_sposti = ts2.getText().toString();
 
                 int turnaus_id = turnaus.annaID();
 
-                if (syotetty_salasana.equals(syotetty_salasana2)) {
+                if (syotetty_salasana.trim().isEmpty() || syotetty_salasana2.trim().isEmpty() || syotetty_tunnus.trim().isEmpty() || syotetty_sposti.trim().isEmpty()) {
+                    viesti.setText("Et voi antaa tyhjää kenttää!");
+                    viesti.setTextFill(Color.RED);
+                       ss.setText("");
+                            ss2.setText("");
+                               ts.setText("");
+                            ts2.setText("");
+
+                } else if (syotetty_salasana.equals(syotetty_salasana2)) {
 
                     try {
 
@@ -824,6 +848,14 @@ public class Kirjautuminen {
                             stmt3.setString(2, syotetty_tunnus);
                             stmt3.executeUpdate();
 
+                            sql = "UPDATE kayttaja SET sposti = ? WHERE tunnus = ?";
+
+                            PreparedStatement stmt4 = con.prepareStatement(sql);
+
+                            stmt4.setString(1, syotetty_sposti);
+                            stmt4.setString(2, syotetty_tunnus);
+                            stmt4.executeUpdate();
+
                             Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
                             tiedottaja.annaIlmoitus("Käyttäjä lisätty järjestelmään onnistuneesti.");
 
@@ -862,6 +894,213 @@ public class Kirjautuminen {
 
                 } else {
 
+                    viesti.setText("Salasanat eivät vastaa toisiaan!");
+                    viesti.setTextFill(Color.RED);
+                    ss.setText("");
+                    ss2.setText("");
+                }
+
+            }
+        });
+
+        alue.setTop(hb);
+        alue.setCenter(gridPane);
+
+        Scene sceneV = new Scene(alue);
+        sceneV.getStylesheets().add("css/tyylit.css");
+        stage.setTitle("TUPA - Tulospalvelu");
+        stage.setScene(sceneV);
+        stage.show();
+    }
+
+    public void luoTunnuksenPalautus() {
+
+        Stage stage = new Stage();
+        BorderPane alue = new BorderPane();
+        alue.setPadding(new Insets(10, 30, 30, 30));
+        stage.getIcons().add(new Image("kuvat/icon.png"));
+
+        HBox hb = new HBox();
+        hb.setPadding(new Insets(20, 20, 20, 30));
+
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20, 200, 20, 20));
+        gridPane.setHgap(20);
+        gridPane.setVgap(10);
+
+        Label tunnus = new Label("Käyttäjätunnus:");
+        TextField ts = new TextField();
+        Label salasana = new Label("Uusi salasana:");
+        PasswordField ss = new PasswordField();
+        Label salasana2 = new Label("Uusi salasana uudelleen:");
+        PasswordField ss2 = new PasswordField();
+
+        HBox boxi = new HBox();
+        boxi.setSpacing(20);
+        boxi.setPadding(new Insets(10, 0, 0, 0));
+        Button nappula = new Button("Tallenna");
+        Button peruuta = new Button("Peruuta");
+
+        peruuta.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                if (ikkuna.annaAloitus()) {
+                    nakyma.luoEtusivuTyhja();
+                } else {
+                    nakyma.luoEtusivu();
+                }
+                 stage.close();
+            }
+
+        });
+
+        boxi.getChildren().addAll(nappula, peruuta);
+        Label viesti = new Label();
+
+        gridPane.add(tunnus, 0, 0);
+        gridPane.add(ts, 1, 0);
+        gridPane.add(salasana, 0, 1);
+        gridPane.add(ss, 1, 1);
+        gridPane.add(salasana2, 0, 2);
+        gridPane.add(ss2, 1, 2);
+        gridPane.add(boxi, 1, 3);
+        
+        HBox boxi2 = new HBox();
+        boxi2.setPadding(new Insets(0,0,0,20));
+        boxi2.getChildren().add(viesti);
+        
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
+
+        Text text = new Text("Palauta tason 2 käyttäjän tunnus:");
+        text.setFont(Font.font("Papyrus", FontWeight.BOLD, 20));
+        text.setEffect(dropShadow);
+
+        hb.getChildren().add(text);
+
+        alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
+
+        nappula.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String syotetty_tunnus = ts.getText().toString();
+                String syotetty_salasana = ss.getText().toString();
+                String syotetty_salasana2 = ss2.getText().toString();
+
+                int turnaus_id = turnaus.annaID();
+
+                if (syotetty_salasana.equals(syotetty_salasana2)) {
+
+                    try {
+
+                        con = yhteys.annaYhteys();
+                        st = con.createStatement();
+                        st4 = con.createStatement();
+
+                        //tarkistetaan, onko tunnus jo tietokannassa
+                        sql = "SELECT * FROM kayttaja WHERE tunnus = ?";
+
+                        PreparedStatement stmt8 = con.prepareStatement(sql);
+                        stmt8.setString(1, syotetty_tunnus);
+
+                        ResultSet haetut_tunnukset = stmt8.executeQuery();
+                        int laskuri = 0;
+
+                        while (haetut_tunnukset.next()) {
+                            laskuri++;
+                        }
+
+                        if (laskuri == 1) {
+                            // tunnus on olemassa
+
+                            //ennen vientiä kantaan kryptataan salasana ja siivotaan syötteet
+                            byte[] salt = new byte[16];
+                            SecureRandom random = new SecureRandom();
+                            random.nextBytes(salt);
+                            Base64.Encoder enc = Base64.getEncoder();
+
+                            //tallennetaan ensin salt
+                            sql = "UPDATE kayttaja SET salt=? WHERE tunnus=?";
+
+                            PreparedStatement stmt = con.prepareStatement(sql);
+                            stmt.setString(1, enc.encodeToString(salt));
+                            stmt.setString(2, syotetty_tunnus);
+
+                            stmt.executeUpdate();
+
+                            //sitten haetaan ko salt tk:sta 
+                            sql = "SELECT salt FROM kayttaja WHERE tunnus = ?";
+                            PreparedStatement stmt2 = con.prepareStatement(sql);
+                            stmt2.setString(1, syotetty_tunnus);
+
+                            ResultSet haetut_saltit = stmt2.executeQuery();
+                            String haettu_salt = "";
+
+                            while (haetut_saltit.next()) {
+
+                                haettu_salt = haetut_saltit.getString("salt");
+
+                            }
+                            //muutetaan string tavuiksi
+                            byte[] salt_byte = haettu_salt.getBytes();
+
+                            //tällä nyt häshätään syötetty salasana
+                            KeySpec spec = new PBEKeySpec(syotetty_salasana.toCharArray(), salt_byte, 65536, 128);
+                            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+                            byte[] hash = f.generateSecret(spec).getEncoded();
+
+                            sql = "UPDATE kayttaja SET salasana = ? WHERE tunnus = ?";
+
+                            PreparedStatement stmt3 = con.prepareStatement(sql);
+
+                            stmt3.setString(1, enc.encodeToString(hash));
+                            stmt3.setString(2, syotetty_tunnus);
+                            stmt3.executeUpdate();
+
+                            Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                            tiedottaja.annaIlmoitus("Käyttäjän tunnus palautettu onnistuneesti!");
+
+                            stage.close();
+
+                        } else {
+                            //tunnus on jo käytössä
+                            viesti.setText("Käyttäjätunnusta ei ole olemassa!");
+                            viesti.setTextFill(Color.RED);
+                            ss.setText("");
+                            ss2.setText("");
+                            
+                               ts.setText("");
+                        }
+
+                    } catch (SQLException se) {
+
+                        se.printStackTrace();
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+                    } finally {
+
+                        try {
+                            if (st != null) {
+                                con.close();
+                            }
+                        } catch (SQLException se) {
+                        }
+                        try {
+                            if (con != null) {
+                                con.close();
+                            }
+                        } catch (SQLException se) {
+                            se.printStackTrace();
+                        }
+                    }
+
+                } else {
+
                     viesti.setText("Salasanat eivät vastaa toisiaan.");
                     viesti.setTextFill(Color.RED);
                     ss.setText("");
@@ -872,10 +1111,10 @@ public class Kirjautuminen {
 
         alue.setTop(hb);
         alue.setCenter(gridPane);
-
+        alue.setBottom(boxi2);
         Scene sceneV = new Scene(alue);
         sceneV.getStylesheets().add("css/tyylit.css");
-        stage.setTitle("TUPA - TULOSPALVELU");
+        stage.setTitle("TUPA - Tulospalvelu");
         stage.setScene(sceneV);
         stage.show();
     }

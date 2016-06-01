@@ -47,7 +47,7 @@ public class Tuo {
     }
 
     public void tuoTiedostosta(int id, int kayttaja_id) throws ParserConfigurationException, SQLException, TransformerConfigurationException, TransformerException {
-        xmlPath = "src/tiedostot/tuomarit_'" + id + "'_'" + kayttaja_id + "'.xml";
+        xmlPath = "lib/tuomarit_'" + id + "'_'" + kayttaja_id + "'.xml";
         List<Kohde> kohdetk = ikkuna.annaKohteet();
         Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
         try {
@@ -115,7 +115,8 @@ public class Tuo {
                 ikkuna.asetaMuutos(true);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+           Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaIlmoitus(""+e);
         }
     }
 }

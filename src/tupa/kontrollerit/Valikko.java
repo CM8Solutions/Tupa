@@ -20,14 +20,8 @@ import javafx.scene.input.KeyCombination;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import tupa.Tupa;
-import tupa.data.Joukkue;
 import tupa.nakymat.PaaNakyma;
 import tupa.data.Kohde;
-import tupa.data.Ottelu;
-import tupa.data.Pelaaja;
-import tupa.data.Sarja;
-import tupa.data.Toimihenkilo;
-import tupa.data.Tuomari;
 import tupa.data.Turnaus;
 
 /**
@@ -89,6 +83,12 @@ public class Valikko implements EventHandler<ActionEvent> {
             admin.setDisable(true);
         }
 
+        MenuItem admin2 = new MenuItem("Palauta tunnus");
+        admin2.setAccelerator(new KeyCharacterCombination("P", KeyCombination.SHORTCUT_DOWN));
+        if (!(ikkuna.annaTaso() == 3)) {
+            admin2.setDisable(true);
+        }
+
         MenuItem lopeta = new MenuItem("Lopeta");
         lopeta.setAccelerator(new KeyCharacterCombination("Q", KeyCombination.SHORTCUT_DOWN));
 
@@ -98,10 +98,11 @@ public class Valikko implements EventHandler<ActionEvent> {
         vie.setOnAction(this);
         tuo.setOnAction(this);
         admin.setOnAction(this);
+        admin2.setOnAction(this);
 
         lopeta.setOnAction(this);
 
-        menuTiedosto.getItems().addAll(uusi, avaa, tallenna, vie, tuo, new SeparatorMenuItem(), admin, lopeta);
+        menuTiedosto.getItems().addAll(uusi, avaa, tallenna, vie, tuo, new SeparatorMenuItem(), admin, admin2, lopeta);
 
         Menu menuOhje = new Menu("Ohje");
         MenuItem ohje = new MenuItem("Ohje");
@@ -234,6 +235,13 @@ public class Valikko implements EventHandler<ActionEvent> {
             case "Lisää lisenssi": {
                 Kirjautuminen kirjautuja = new Kirjautuminen(ikkuna);
                 kirjautuja.luoYleinenHallintaLisays();
+                break;
+            }
+
+            case "Palauta tunnus": {
+
+                Kirjautuminen kirjautuja = new Kirjautuminen(ikkuna);
+                kirjautuja.luoTunnuksenPalautus();
                 break;
             }
 

@@ -1,0 +1,8 @@
+- Tason 1 k‰ytt‰j‰: ota yhteytt‰ turnauksen yll‰pit‰j‰‰n.
+
+- Tason 2 k‰ytt‰j‰: l‰het‰ s‰hkˆpostia TUPA-tulospalvelun yleiselle yll‰pit‰j‰lle osoitteeseen u97506@student.uwasa.fi
+
+
+Huom! Tason 2 k‰ytt‰j‰ palauta tason 1 unohtunut tunnus/salasana n‰in:
+	poista ko k‰ytt‰j‰ yll‰pit‰j‰n roolista -> lis‰‰ uudelleen yll‰pit‰j‰ksi
+

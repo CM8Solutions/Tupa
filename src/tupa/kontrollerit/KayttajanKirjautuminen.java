@@ -114,6 +114,20 @@ public class KayttajanKirjautuminen extends Stage {
 
         alue.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
 
+        VBox hb3 = new VBox();
+        hb3.setPadding(new Insets(0, 20, 30, 0));
+  
+
+        LinkkiLabel unohdus = new LinkkiLabel();
+        unohdus.setText("Unohtunut tunnus/salasana?");
+        unohdus.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
+        unohdus.setEffect(dropShadow);
+        unohdus.setStyle("-fx-underline: true");
+        unohdus.linkkiaKlikattu();
+        hb3.getChildren().add(unohdus);
+
+        gridPane.add(hb3, 0, 4);
+
         nappula.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -251,7 +265,7 @@ public class KayttajanKirjautuminen extends Stage {
         });
 
         VBox hb2 = new VBox();
-        hb2.setPadding(new Insets(10, 20, 0, 30));
+        hb2.setPadding(new Insets(10, 20, 0, 20));
         hb2.setSpacing(20);
 
         Text text2 = new Text("Voit myös jatkaa ohjelmaan kirjautumatta, jolloin käytössäsi ovat rajoitetuimmat oikeudet.");
@@ -269,6 +283,7 @@ public class KayttajanKirjautuminen extends Stage {
             }
         });
         hb2.getChildren().add(nappula2);
+
         alue.setTop(hb);
         alue.setCenter(gridPane);
         alue.setBottom(hb2);

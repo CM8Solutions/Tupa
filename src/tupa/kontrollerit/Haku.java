@@ -86,7 +86,7 @@ public class Haku {
                 while (sarjat.next()) {
                     loyty = true;
                     sarjaloyty = true;
-                    int sid = sarjat.getInt("id");
+                    int sid = sarjat.getInt("tupaid");
 
                     for (int i = 0; i < turnaus.annaSarjat().size(); i++) {
 
@@ -120,7 +120,7 @@ public class Haku {
                 }
 
                 //joukkueet
-                sql = "SELECT DISTINCT joukkue.id as jid FROM sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id) AND (joukkue.nimi LIKE ?))";
+                sql = "SELECT DISTINCT joukkue.tupaid as jid FROM sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.tupaid) AND (joukkue.nimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
@@ -169,7 +169,7 @@ public class Haku {
                 }
 
                 //pelaajat
-                sql = "SELECT DISTINCT pelaaja.id as pid FROM pelaaja, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND pelaaja.joukkue_id = joukkue.id) AND (pelaaja.etunimi LIKE ? OR pelaaja.sukunimi LIKE ?))";
+                sql = "SELECT DISTINCT pelaaja.tupaid as pid FROM pelaaja, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.tupaid AND pelaaja.joukkue_id = joukkue.tupaid) AND (pelaaja.etunimi LIKE ? OR pelaaja.sukunimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
@@ -222,7 +222,7 @@ public class Haku {
                 }
 
                 //toimihenkilöt
-                sql = "SELECT DISTINCT toimari.id as toid FROM toimari, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.id AND toimari.joukkue_id = joukkue.id) AND (toimari.etunimi LIKE ? OR toimari.sukunimi LIKE ?))";
+                sql = "SELECT DISTINCT toimari.tupaid as toid FROM toimari, sarja, joukkue WHERE ((sarja.turnaus_id = ? AND joukkue.sarja_id = sarja.tupaid AND toimari.joukkue_id = joukkue.tupaid) AND (toimari.etunimi LIKE ? OR toimari.sukunimi LIKE ?))";
                 pst = con.prepareStatement(sql);
                 pst.setInt(1, turnaus_id);
                 pst.setString(2, "%" + hakusana + "%");
@@ -298,7 +298,7 @@ public class Haku {
                     loyty = true;
                     tuomariloyty = true;
 
-                    int tid = tuomarit.getInt("id");
+                    int tid = tuomarit.getInt("tupaid");
 
                     for (int i = 0; i < turnaus.annaTuomarit().size(); i++) {
                         if (turnaus.annaTuomarit().get(i).annaID() == tid) {

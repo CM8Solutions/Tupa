@@ -43,7 +43,7 @@ public class Tiedottaja {
 
         Alert alert = new Alert(AlertType.INFORMATION);
 
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
 
         alert.setHeaderText(null);
 
@@ -57,7 +57,7 @@ public class Tiedottaja {
 
         Alert alert = new Alert(AlertType.ERROR);
 
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
 
         alert.setHeaderText(null);
 
@@ -71,7 +71,7 @@ public class Tiedottaja {
 
         Alert alert = new Alert(AlertType.INFORMATION);
 
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
 
         alert.setHeaderText(null);
 

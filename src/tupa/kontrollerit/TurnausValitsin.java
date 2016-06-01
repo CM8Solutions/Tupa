@@ -90,7 +90,7 @@ public class TurnausValitsin {
 
         Scene sceneV = new Scene(alue);
         sceneV.getStylesheets().add("css/tyylit.css");
-        stage.setTitle("TUPA - TULOSPALVELU");
+        stage.setTitle("TUPA - Tulospalvelu");
         stage.setScene(sceneV);
         stage.show();
 

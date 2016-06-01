@@ -27,14 +27,18 @@ kuhunkin turnaukseen liittyen
 
 Kaikille käyttäjille on siis nähtävillä tietoja turnauksen tuomareista, sarjoista, joukkueista ja
 pelaajista. Lisäksi käyttäjät voivat nähdä sarjojen otteluohjelmat, otteluiden tuloksen,
-sarjatilanteen sekä pistepörssin. Nämä tiedot ovat nähtävillä myös TUPA:n internetsivulla.
+sarjatilanteen sekä pistepörssin. Nämä tiedot ovat nähtävillä myös TUPA:n internetsivulla http://tite.work/tupa.
 
 Kaikkien paitsi tason 0 käyttäjien on kirjauduttava TUPA-tulospalveluun käyttäjätunnuksella
 ja sitä vastaavalla salasanalla. Kirjautumattomien käyttäjien tulee syöttää turnaukseen liittyvä
 salasana päästäkseen tarkastelemaan kyseisen turnauksen tietoja.
 
-Mikäli olet unohtanut kirjautumisen yhteydessä käyttäjätunnuksen/salasanan tai turnauksen
-salasanan, ota yhteyttä turnauksen ylläpitäjään.
+Unohtunut salasana/tunnus:
+	* Tason 1 käyttäjä: ota yhteyttä turnauksen ylläpitäjään
+	* Tason 2 käyttäjä: lähetä sähköpostia TUPA-tulospalvelun yleiselle ylläpitäjälle osoitteeseen 
+	u97506@student.uwasa.fi
+	* Huom! Tason 2 käyttäjä palauta tason 1 unohtunut tunnus/salasana näin:
+	poista ko käyttäjä ylläpitäjän roolista -> lisää uudelleen ylläpitäjäksi
 
 Tarkempia ohjeita löytyy eri näkymissä olevan i-painikkeen alta.
 

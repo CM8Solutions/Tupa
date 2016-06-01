@@ -580,7 +580,7 @@ public class Muuttaja {
                 ikkuna.annaKohteet().add(syottaja);
             }
             maali.asetaTiedot(aika, maalintekija, syottaja);
-        } else if (!maalintekija.annaEtuNimi().equals("Valitse") && syottaja.annaEtuNimi().equals("Valitse")) {
+        } else if (!maalintekija.annaEtuNimi().equals("Valitse") && !syottaja.annaEtuNimi().equals("Valitse")) {
             Maali maali = new Maali(ottelu);
             maali.kasvataLaskuria();
             maali.asetaID(maali.annaLaskuri());

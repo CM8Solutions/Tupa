@@ -833,7 +833,7 @@ public class OtteluNakyma {
 
                 muuttaja.lisaaMaali(aika.getValue(), maalintekija2.getValue(), syottaja2.getValue(), ottelu, ottelu.annaVierasjoukkue());
                 ikkuna.asetaMuutos(true);
-                luoOttelusivu(ottelu);
+               luoOttelunMaalisivu(ottelu);
             }
         });
 

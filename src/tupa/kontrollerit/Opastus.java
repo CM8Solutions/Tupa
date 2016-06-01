@@ -34,7 +34,7 @@ public class Opastus {
 
         String msg = "Klikkaamalla ottelua pääset tarkastelemaan otteluun liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -45,7 +45,7 @@ public class Opastus {
 
         String msg = "Klikkaa sitä taulukon solua, jonka sisältöä haluat muokata.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -56,7 +56,7 @@ public class Opastus {
 
         String msg = "Klikkaamalla joukkuetta pääset tarkastelemaan joukkueeseen liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -67,7 +67,7 @@ public class Opastus {
 
         String msg = "Klikkaa taulukon solua, jos haluat muokata sen sisältöä.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -78,7 +78,7 @@ public class Opastus {
 
         String msg = "Klikkaamalla pelaajaa pääset tarkastelemaan pelaajaan liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -89,7 +89,7 @@ public class Opastus {
 
         String msg = "Klikkaa sitä taulukon solua, jonka sisältöä haluat muokata.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -100,7 +100,7 @@ public class Opastus {
 
         String msg = "Klikkaamalla toimihenkilöä pääset tarkastelemaan toimihenkilöön liittyviä tietoja.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -111,7 +111,7 @@ public class Opastus {
 
         String msg = "Klikkaa sitä taulukon solua, jonka sisältöä haluat muokata.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -122,7 +122,7 @@ public class Opastus {
 
         String msg = "Ottelun maalintekijäksi/syöttäjäksi voi merkitä vain sellaisen pelaajan, joka on merkitty ottelun kokoonpanoon.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
@@ -133,7 +133,7 @@ public class Opastus {
 
         String msg = "Ottelun kokoonpanoluettelossa on vain ne pelaajat, jotka on lisätty joukkueen pelaajaluetteloon.";
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("TUPA - TULOSPALVELU");
+        alert.setTitle("TUPA - Tulospalvelu");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();

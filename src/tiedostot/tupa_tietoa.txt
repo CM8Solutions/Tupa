@@ -1,0 +1,10 @@
+TUPA-ohjelma soveltuu erilaisten sarjamuotoisina järjestettävien turnausten hallintaan.
+Yhdellä lisenssillä voi muodostaa 5 kpl turnauksia.
+Lisenssejä voi tiedustella lähettämällä sähköpostia osoitteeseen u97506@student.uwasa.fi.
+
+Tulevia muutoksia versioon 2.0:
+	* automaattinen otteluluettelon laadintamahdollisuus myös kaksinkertaisille sarjoille (joukkueet pelaavat kaksi kertaa toisiaan vastaan, kerran kotona ja kerran vieraissa)
+	* mahdollisuus muodostaa turnauksia, joissa joukkueet jaetaan ensin lohkoihin ja lohkosijoitusten perusteella muodostetaan sijoitusottelut
+	* unohtuneen tunnuksen/sähköpostin automaattinen palautus
+	* tietoturvaominaisuuksien parannuksia
+	* käyttäjäkokemusten perusteella tehtyjä yleisiä korjaustoimenpiteitä
