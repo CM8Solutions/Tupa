@@ -179,7 +179,7 @@ public class Muuttaja {
                 }
 
             }
-           
+
         } else if (arvo instanceof Tuomari) {
 
             Tuomari tuomari = (Tuomari) arvo;
@@ -190,7 +190,7 @@ public class Muuttaja {
                 }
 
             }
-        
+
         }
 
         //poisto puusta
@@ -257,8 +257,6 @@ public class Muuttaja {
 
         Sarja sarja = ottelu.annaSarja();
 
- 
-
         Joukkue joukkue1 = ottelu.annaKotijoukkue();
         Joukkue joukkue2 = ottelu.annaVierasjoukkue();
 
@@ -307,7 +305,7 @@ public class Muuttaja {
             for (int j = 0; j < pelaaja.annaMaaliLista().size(); j++) {
                 Maali maali = pelaaja.annaMaaliLista().get(j);
                 if (maali.annaOttelu().equals(ottelu)) {
-                  
+
                     pelaaja.annaMaaliLista().remove(maali);
                 }
             }
@@ -320,7 +318,7 @@ public class Muuttaja {
             for (int j = 0; j < pelaaja.annaMaaliLista().size(); j++) {
                 Maali maali = pelaaja.annaMaaliLista().get(j);
                 if (maali.annaOttelu().equals(ottelu)) {
-                    
+
                     pelaaja.annaMaaliLista().remove(maali);
                 }
             }
@@ -401,7 +399,7 @@ public class Muuttaja {
     }
 
     public void poistaPelaaja(Pelaaja pelaaja, Joukkue joukkue) {
-     
+
         ikkuna.annaKohteet().remove((Kohde) pelaaja);
 
         joukkue.annaPelaajat().remove(pelaaja);
@@ -410,7 +408,7 @@ public class Muuttaja {
     }
 
     public void poistaToimari(Toimihenkilo toimari, Joukkue joukkue) {
-     
+
         ikkuna.annaKohteet().remove((Kohde) toimari);
         joukkue.annaToimarit().remove(toimari);
         tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu.");
@@ -418,7 +416,7 @@ public class Muuttaja {
     }
 
     public void poistaJoukkue(Joukkue joukkue, Sarja sarja) {
-       
+
         for (int j = 0; j < joukkue.annaPelaajat().size(); j++) {
 
             ikkuna.annaKohteet().remove((Kohde) joukkue.annaPelaajat().get(j));
@@ -948,7 +946,6 @@ public class Muuttaja {
         tehtavastage.show();
         Thread th = new Thread(tehtava);
         th.start();
-    
 
     }
 
@@ -1035,7 +1032,6 @@ public class Muuttaja {
         tehtavastage.show();
         Thread th = new Thread(tehtava);
         th.start();
-      
 
     }
 
@@ -1093,7 +1089,6 @@ public class Muuttaja {
         tehtavastage.show();
         Thread th = new Thread(tehtava);
         th.start();
-      
 
     }
 
@@ -1163,7 +1158,7 @@ public class Muuttaja {
 
                 try {
                     int turnaus_id = turnaus.annaID();
-      
+
                     con = yhteys.annaYhteys();
                     st = con.createStatement();
                     st2 = con.createStatement();
@@ -1241,6 +1236,7 @@ public class Muuttaja {
                     st.executeUpdate(sql);
 
                     sql = "DELETE FROM kayttajan_turnaus WHERE turnaus_id='" + turnaus_id + "'";
+                    st.executeUpdate(sql);
                     sql = "DELETE FROM turnaus WHERE tupaid='" + turnaus_id + "'";
                     st.executeUpdate(sql);
 
@@ -1285,7 +1281,6 @@ public class Muuttaja {
         tehtavastage.show();
         Thread th = new Thread(tehtava);
         th.start();
-    
 
     }
 

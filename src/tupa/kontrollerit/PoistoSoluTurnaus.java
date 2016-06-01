@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+import javafx.stage.Stage;
 import tupa.Tupa;
 import tupa.data.Turnaus;
 
@@ -21,7 +22,7 @@ public class PoistoSoluTurnaus extends TableCell<Record, Boolean> {
 
     }
 
-    public PoistoSoluTurnaus(ObservableList<Turnaus> data, Tupa ikkuna) {
+    public PoistoSoluTurnaus(ObservableList<Turnaus> data, Tupa ikkuna, Stage stage) {
         cellButton.setId("button-poisto");
         cellButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -31,6 +32,7 @@ public class PoistoSoluTurnaus extends TableCell<Record, Boolean> {
                 Turnaus turnaus = (Turnaus) PoistoSoluTurnaus.this.getTableView().getItems().get(PoistoSoluTurnaus.this.getIndex());
                 Varmistaja varmistaja = new Varmistaja(ikkuna);
                 varmistaja.annaTurnauksenPoistoVarmistus(turnaus);
+                stage.close();
             }
         });
     }

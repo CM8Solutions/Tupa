@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
  */
 public class Turnaus extends Kohde {
 
-    private int turLaskuri;
+    private static int turLaskuri;
     private List<Sarja> sarjat = new ArrayList<>();
     private List<Tuomari> tuomarit = new ArrayList<>();
     private String luomispvm = "";

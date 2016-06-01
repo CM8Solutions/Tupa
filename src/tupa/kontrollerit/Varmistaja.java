@@ -59,14 +59,14 @@ public class Varmistaja {
     public Varmistaja(Tupa ikkuna) {
         this.ikkuna = ikkuna;
         nakyma = ikkuna.annaPaaNakyma();
-          muuttaja = new Muuttaja(ikkuna, nakyma);
+        muuttaja = new Muuttaja(ikkuna, nakyma);
     }
 
     public Varmistaja(List<Kohde> kohteet, Tupa ikkuna) {
         kohdetk = kohteet;
         this.ikkuna = ikkuna;
-             nakyma = ikkuna.annaPaaNakyma();
-          muuttaja = new Muuttaja(ikkuna, nakyma);
+        nakyma = ikkuna.annaPaaNakyma();
+        muuttaja = new Muuttaja(ikkuna, nakyma);
         sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
         joukkuenakyma = ikkuna.annaPaaNakyma().annaJoukkuenakyma();
     }
@@ -207,17 +207,17 @@ public class Varmistaja {
         eiTallennus.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    Turnaus turnausv = (Turnaus)ikkuna.annaTurnaus();
+                Turnaus turnausv = (Turnaus) ikkuna.annaTurnaus();
                 LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnausv, ikkuna);
                 paivittaja.paivitaLaskurit();
                 ikkuna.annaKohteet().clear();
                 ikkuna.annaTuomaritk().clear();
                 ikkuna.annaSarjatk().clear();
-              
+
                 Turnaus turnaus = new Turnaus();
-                  turnaus.kasvataLaskuria();
-                        turnaus.asetaID(turnaus.annaID());
-                               turnaus.asetaNimi("Uusi turnaus");
+                turnaus.kasvataLaskuria();
+                turnaus.asetaID(turnaus.annaLaskuri());
+                turnaus.asetaNimi("Uusi turnaus");
                 Kohde uusiTurnaus = (Kohde) turnaus;
                 ikkuna.asetaTurnaus(uusiTurnaus);
                 ikkuna.annaKohteet().add(uusiTurnaus);
@@ -903,6 +903,7 @@ public class Varmistaja {
                 muuttaja.poistaTurnaus(turnaus);
                 PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                 nakyma.luoEtusivuTyhja();
+
                 stageV.close();
 
             }

@@ -25,9 +25,9 @@ public class Aloitus {
 
     public Turnaus luoAlkuTurnaus() {
 
-            turnaus.asetaID(0);
-     
-            turnaus.asetaNimi("Uusi turnaus");
+        turnaus.asetaID(0);
+
+        turnaus.asetaNimi("Uusi turnaus");
 
         return turnaus;
     }

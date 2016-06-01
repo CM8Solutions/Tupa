@@ -116,7 +116,6 @@ public class KayttajanKirjautuminen extends Stage {
 
         VBox hb3 = new VBox();
         hb3.setPadding(new Insets(0, 20, 30, 0));
-  
 
         LinkkiLabel unohdus = new LinkkiLabel();
         unohdus.setText("Unohtunut tunnus/salasana?");

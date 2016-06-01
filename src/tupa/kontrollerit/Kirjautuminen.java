@@ -432,6 +432,10 @@ public class Kirjautuminen {
                         Tallennus tallenna = new Tallennus(ikkuna);
                         tallenna.suoritaTallennus(jatko, avaus, uusi);
                         tiedottaja.kirjoitaLoki("Turnaus " + turnaus.toString() + " tallennettu.");
+
+                        PaaNakyma nakyma = ikkuna.annaPaaNakyma();
+                        nakyma.luoEtusivu();
+
                         stage.close();
 
                     } catch (SQLException se) {
@@ -726,7 +730,7 @@ public class Kirjautuminen {
                 } else {
                     nakyma.luoEtusivu();
                 }
-                 stage.close();
+                stage.close();
             }
 
         });
@@ -737,7 +741,7 @@ public class Kirjautuminen {
         boxi.setSpacing(20);
         boxi.setPadding(new Insets(10, 0, 0, 0));
         boxi.getChildren().addAll(nappula, peruuta);
-        
+
         gridPane.add(tunnus, 0, 0);
         gridPane.add(ts, 1, 0);
         gridPane.add(salasana, 0, 1);
@@ -748,7 +752,7 @@ public class Kirjautuminen {
         gridPane.add(ts2, 1, 3);
 
         gridPane.add(boxi, 1, 4);
-    
+
         gridPane.add(viesti, 0, 5);
 
         DropShadow dropShadow = new DropShadow();
@@ -776,10 +780,10 @@ public class Kirjautuminen {
                 if (syotetty_salasana.trim().isEmpty() || syotetty_salasana2.trim().isEmpty() || syotetty_tunnus.trim().isEmpty() || syotetty_sposti.trim().isEmpty()) {
                     viesti.setText("Et voi antaa tyhjää kenttää!");
                     viesti.setTextFill(Color.RED);
-                       ss.setText("");
-                            ss2.setText("");
-                               ts.setText("");
-                            ts2.setText("");
+                    ss.setText("");
+                    ss2.setText("");
+                    ts.setText("");
+                    ts2.setText("");
 
                 } else if (syotetty_salasana.equals(syotetty_salasana2)) {
 
@@ -951,7 +955,7 @@ public class Kirjautuminen {
                 } else {
                     nakyma.luoEtusivu();
                 }
-                 stage.close();
+                stage.close();
             }
 
         });
@@ -966,11 +970,10 @@ public class Kirjautuminen {
         gridPane.add(salasana2, 0, 2);
         gridPane.add(ss2, 1, 2);
         gridPane.add(boxi, 1, 3);
-        
+
         HBox boxi2 = new HBox();
-        boxi2.setPadding(new Insets(0,0,0,20));
+        boxi2.setPadding(new Insets(0, 0, 0, 20));
         boxi2.getChildren().add(viesti);
-        
 
         DropShadow dropShadow = new DropShadow();
         dropShadow.setOffsetX(5);
@@ -1072,8 +1075,8 @@ public class Kirjautuminen {
                             viesti.setTextFill(Color.RED);
                             ss.setText("");
                             ss2.setText("");
-                            
-                               ts.setText("");
+
+                            ts.setText("");
                         }
 
                     } catch (SQLException se) {

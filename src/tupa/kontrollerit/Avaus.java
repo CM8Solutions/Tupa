@@ -584,7 +584,6 @@ public class Avaus {
         tehtavastage.show();
         Thread th = new Thread(tehtava);
         th.start();
-     
 
     }
 

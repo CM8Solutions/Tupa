@@ -4101,7 +4101,7 @@ Only the properties with values that are different from the TextBox are specifie
     -fx-padding: 0 0.25em 0 0.333333em; /* 0 3 0 4 */
 }
 .date-picker-popup > * > .spinner > .button > .right-arrow {
-     -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
+    -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
     -fx-background-insets: 1 0 -1 0, 0;
     -fx-padding: 0.5em 0.333333em 0 0; /* 6 4 0 0 */
     -fx-shape: "M 4 0 L 0 -3 L 0 3 z";
@@ -4184,14 +4184,14 @@ Only the properties with values that are different from the TextBox are specifie
 }
 .date-picker-popup > * > .day-cell:focused,
 .date-picker-popup > * > .today:focused {
-     -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
+    -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
     -fx-background-insets: 1, 2, 3;
 }
 .date-picker-popup > * > .day-cell:focused:hover,
 .date-picker-popup > * > .today:focused:hover,
 .date-picker-popup > * > .today.selected:focused,
 .date-picker-popup > * > .selected:focused {
-     -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
+    -fx-background-color:  linear-gradient(to bottom, #00b300, 	 #33ff33); 
 }
 .date-picker-popup > * > .previous-month,
 .date-picker-popup > * > .next-month {

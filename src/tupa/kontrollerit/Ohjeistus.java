@@ -136,6 +136,7 @@ public class Ohjeistus {
         stage.show();
 
     }
+
     public void annaUnohtunutOhje() throws UnsupportedEncodingException, IOException {
 
         Stage stage = new Stage();
@@ -186,10 +187,7 @@ public class Ohjeistus {
         stage.show();
 
     }
-    
-    
-    
-    
+
     public VBox annaPitkaOhje() throws IOException {
 
         VBox boxi = new VBox();
@@ -233,8 +231,8 @@ public class Ohjeistus {
 
         return boxi;
     }
-    
-        public VBox annaPitkaOhje3() throws IOException {
+
+    public VBox annaPitkaOhje3() throws IOException {
 
         VBox boxi = new VBox();
         fs = getClass().getClassLoader().getResourceAsStream("tiedostot/tupa_unohtunutohje.txt");
@@ -255,10 +253,5 @@ public class Ohjeistus {
 
         return boxi;
     }
-    
-    
-    
-    
-    
 
 }

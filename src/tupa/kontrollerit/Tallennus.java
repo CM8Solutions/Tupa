@@ -398,11 +398,11 @@ public class Tallennus {
                     ikkuna.annaKohteet().clear();
                     ikkuna.annaTuomaritk().clear();
                     ikkuna.annaSarjatk().clear();
-                   
+
                     Turnaus turnaus = new Turnaus();
-                           turnaus.asetaNimi("Uusi turnaus");
-                      turnaus.kasvataLaskuria();
-                        turnaus.asetaID(turnaus.annaID());
+                    turnaus.asetaNimi("Uusi turnaus");
+                    turnaus.kasvataLaskuria();
+                    turnaus.asetaID(turnaus.annaLaskuri());
                     Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
                     ikkuna.annaKohteet().add(uusiTurnaus);
@@ -457,7 +457,6 @@ public class Tallennus {
         tehtavastage.show();
         Thread th = new Thread(tehtava);
         th.start();
-      
 
     }
 

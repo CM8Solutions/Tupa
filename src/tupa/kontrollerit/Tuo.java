@@ -115,8 +115,8 @@ public class Tuo {
                 ikkuna.asetaMuutos(true);
             }
         } catch (Exception e) {
-           Tiedottaja tiedottaja = new Tiedottaja();
-                tiedottaja.annaIlmoitus(""+e);
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaIlmoitus("" + e);
         }
     }
 }

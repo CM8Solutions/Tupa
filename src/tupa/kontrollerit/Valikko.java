@@ -167,23 +167,22 @@ public class Valikko implements EventHandler<ActionEvent> {
                         varmista.annaUudenVarmistus();
 
                     } else {
-                        Turnaus turnausv = (Turnaus)ikkuna.annaTurnaus();
+                        Turnaus turnausv = (Turnaus) ikkuna.annaTurnaus();
                         LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnausv, ikkuna);
                         paivittaja.paivitaLaskurit();
 
                         ikkuna.annaKohteet().clear();
                         ikkuna.annaTuomaritk().clear();
                         ikkuna.annaSarjatk().clear();
-                      
+
                         Turnaus turnaus = new Turnaus();
                         turnaus.kasvataLaskuria();
-                        turnaus.asetaID(turnaus.annaID());
-                               turnaus.asetaNimi("Uusi turnaus");
-                    
+                        turnaus.asetaID(turnaus.annaLaskuri());
+                        turnaus.asetaNimi("Uusi turnaus");
+
                         Kohde uusiTurnaus = (Kohde) turnaus;
                         ikkuna.asetaTurnaus(uusiTurnaus);
                         ikkuna.annaKohteet().add(uusiTurnaus);
-
                         //vielä pitää tyhjentää puu
                         TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
                         TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();

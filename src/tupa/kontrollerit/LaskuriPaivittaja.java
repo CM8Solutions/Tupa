@@ -44,14 +44,13 @@ public class LaskuriPaivittaja {
     private Yhteys yhteys = new Yhteys();
     private String sql = "";
     private Tupa ikkuna;
-       private Turnaus turnaus;
+    private Turnaus turnaus;
 
     public LaskuriPaivittaja() {
 
     }
 
-
-  public LaskuriPaivittaja(Turnaus turnaus, Tupa ikkuna) {
+    public LaskuriPaivittaja(Turnaus turnaus, Tupa ikkuna) {
         this.ikkuna = ikkuna;
         this.turnaus = turnaus;
     }
@@ -93,12 +92,11 @@ public class LaskuriPaivittaja {
             int maara = 0;
             while (s.next()) {
                 maara = s.getInt("arvo");
-               
+
             }
 
             Sarja sarja = new Sarja();
             sarja.asetaLaskuri(maara);
-          
 
             sql = "SELECT MAX(tupaid) AS arvo FROM tuomari WHERE tuomari.turnaus_id = '" + turnaus_id + "'";
 
