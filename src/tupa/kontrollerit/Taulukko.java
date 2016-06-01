@@ -179,7 +179,7 @@ public class Taulukko {
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
         tulos.setPrefWidth(50);
-        paiva.setSortType(TableColumn.SortType.ASCENDING);
+        kierros.setSortType(TableColumn.SortType.ASCENDING);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
         kello.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSortOrder().add(kierros);
@@ -286,8 +286,11 @@ public class Taulukko {
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
         paiva.setMinWidth(70);
+         kierros.setSortType(TableColumn.SortType.ASCENDING);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
-
+        tunnit.setSortType(TableColumn.SortType.ASCENDING);
+        minuutit.setSortType(TableColumn.SortType.ASCENDING);
+         taulukko.getSortOrder().add(kierros);
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(tunnit);
         taulukko.getSortOrder().add(minuutit);

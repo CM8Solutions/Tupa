@@ -619,6 +619,8 @@ public class OtteluNakyma {
         Pelaaja ohjeistus3 = new Pelaaja("Valitse", " ");
         kotipelaajalista1.add(ohjeistus3);
         Pelaaja oma1 = new Pelaaja("Oma", " maali");
+       oma1.kasvataLaskuria();
+        oma1.asetaID(oma1.annaLaskuri());
         kotipelaajalista1.add(oma1);
 
         for (int i = 0; i < ottelu.annaKotijoukkue().annaPelaajat().size(); i++) {
@@ -650,6 +652,8 @@ public class OtteluNakyma {
         Pelaaja ohjeistus4 = new Pelaaja("Valitse", " ");
         kotipelaajalista2.add(ohjeistus4);
         Pelaaja ohjeistus5 = new Pelaaja("Ei", " syöttäjää");
+            ohjeistus5.kasvataLaskuria();
+        ohjeistus5.asetaID(ohjeistus5.annaLaskuri());
         kotipelaajalista2.add(ohjeistus5);
         for (int i = 0; i < ottelu.annaKotijoukkue().annaPelaajat().size(); i++) {
             Kokoonpano koti = ottelu.annaKotiKokoonpano();
@@ -746,6 +750,8 @@ public class OtteluNakyma {
         Pelaaja ohjeistus32 = new Pelaaja("Valitse", " ");
         vieraspelaajalista1.add(ohjeistus32);
         Pelaaja oma2 = new Pelaaja("Oma", " maali");
+             oma2.kasvataLaskuria();
+        oma2.asetaID(oma2.annaLaskuri());
         vieraspelaajalista1.add(oma2);
 
         for (int i = 0; i < ottelu.annaVierasjoukkue().annaPelaajat().size(); i++) {
@@ -777,6 +783,10 @@ public class OtteluNakyma {
         Pelaaja ohjeistus42 = new Pelaaja("Valitse", " ");
         vieraspelaajalista2.add(ohjeistus42);
         Pelaaja ohjeistus52 = new Pelaaja("Ei", " syöttäjää");
+        
+            ohjeistus52.kasvataLaskuria();
+       ohjeistus52.asetaID(ohjeistus52.annaLaskuri());
+        
         vieraspelaajalista2.add(ohjeistus52);
         for (int i = 0; i < ottelu.annaVierasjoukkue().annaPelaajat().size(); i++) {
             Kokoonpano vieras = ottelu.annaVierasKokoonpano();

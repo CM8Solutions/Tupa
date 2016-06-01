@@ -656,7 +656,7 @@ public class SarjaNakyma {
         List<String> tuntilista = new ArrayList();
 
         for (int i = 0; i < 24; i++) {
-            tuntilista.add("" + i);
+            tuntilista.add("0" + i);
         }
 
         ObservableList tunnit = FXCollections.observableList(tuntilista);
