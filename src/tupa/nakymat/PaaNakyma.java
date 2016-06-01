@@ -174,13 +174,13 @@ public class PaaNakyma {
     public void luoEtusivu() {
 
         VBox nimipalkki = new VBox();
-        nimipalkki.setPadding(new Insets(20, 20 ,0, 20));
+        nimipalkki.setPadding(new Insets(20, 20, 0, 20));
         Label nimi = new Label(ikkuna.annaTurnaus().toString());
         nimi.setFont(Font.font("Papyrus", FontWeight.BOLD, 36));
         nimipalkki.setAlignment(Pos.CENTER);
-   
-        int turnaus_id = ikkuna.annaTurnaus().annaID();
 
+        int turnaus_id = ikkuna.annaTurnaus().annaID();
+        int laskuri = 0;
         String sposti = "";
         try {
             con = yhteys.annaYhteys();
@@ -188,7 +188,7 @@ public class PaaNakyma {
             ResultSet spostit = st.executeQuery("SELECT DISTINCT kayttaja.sposti as sposti FROM kayttaja, kayttajan_turnaus WHERE kayttaja.id = kayttajan_turnaus.kayttaja_id AND kayttajan_turnaus.turnaus_id = '" + turnaus_id + "' AND kayttaja.taso = 2");
 
             while (spostit.next()) {
-
+                laskuri++;
                 sposti = spostit.getString("sposti");
 
             }
@@ -215,12 +215,16 @@ public class PaaNakyma {
                 se.printStackTrace();
             }
         }
-  
-        Label yllapitaja = new Label("(ylläpitäjän yhteystiedot:\t" + sposti+")");
+        Label yllapitaja = new Label();
+        if (laskuri != 0) {
+            yllapitaja.setText("(ylläpitäjän yhteystiedot:\t" + sposti + ")");
+        } else {
+            yllapitaja.setText("");
+        }
+
         yllapitaja.setFont(Font.font("Papyrus", FontWeight.BOLD, 14));
 
-        
-           nimipalkki.getChildren().addAll(nimi, yllapitaja);
+        nimipalkki.getChildren().addAll(nimi, yllapitaja);
 
         VBox peitto = new VBox();
         peitto.setStyle("-fx-background-color: white;");
@@ -242,7 +246,6 @@ public class PaaNakyma {
             }
         });
 
-    
         VBox hakupalkki = new VBox();
         hakupalkki.setAlignment(Pos.CENTER);
 
@@ -300,7 +303,7 @@ public class PaaNakyma {
             grid.add(muokkausnappula, 2, 1);
         }
         grid.add(nimipalkki, 1, 1);
-  
+
         grid.add(hakupalkki, 1, 3);
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(40);

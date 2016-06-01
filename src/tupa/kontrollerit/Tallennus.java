@@ -398,8 +398,11 @@ public class Tallennus {
                     ikkuna.annaKohteet().clear();
                     ikkuna.annaTuomaritk().clear();
                     ikkuna.annaSarjatk().clear();
-                    Aloitus aloitus = new Aloitus();
-                    Turnaus turnaus = aloitus.luoAlkuTurnaus();
+                   
+                    Turnaus turnaus = new Turnaus();
+                           turnaus.asetaNimi("Uusi turnaus");
+                      turnaus.kasvataLaskuria();
+                        turnaus.asetaID(turnaus.annaID());
                     Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
                     ikkuna.annaKohteet().add(uusiTurnaus);
@@ -433,7 +436,8 @@ public class Tallennus {
                     ikkuna.asetaAloitus(false);
                 } else if (uusi) {
 
-                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                    Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnaus, ikkuna);
                     paivittaja.paivitaLaskurit();
                     PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                     nakyma.luoEtusivu();

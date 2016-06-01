@@ -131,7 +131,7 @@ public class Avaus {
                     turnaus_id = turnaus.annaID();
 
                     //päivitetään ensin laskurit
-                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnaus, ikkuna);
                     paivittaja.paivitaLaskurit();
 
                     ikkuna.asetaTurnaus((Kohde) turnaus);

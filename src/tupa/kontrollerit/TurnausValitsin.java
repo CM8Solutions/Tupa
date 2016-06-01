@@ -74,8 +74,9 @@ public class TurnausValitsin {
         turnaukset.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         turnaukset.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            Turnaus turnaus = (Turnaus) newSelection;
 
-            Kirjautuminen kirjautuja = new Kirjautuminen((Turnaus) newSelection, ikkuna);
+            Kirjautuminen kirjautuja = new Kirjautuminen(turnaus, ikkuna);
             kirjautuja.luoKirjautuminen();
 
             stage.close();

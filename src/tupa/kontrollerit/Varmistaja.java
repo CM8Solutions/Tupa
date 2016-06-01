@@ -58,11 +58,15 @@ public class Varmistaja {
 
     public Varmistaja(Tupa ikkuna) {
         this.ikkuna = ikkuna;
+        nakyma = ikkuna.annaPaaNakyma();
+          muuttaja = new Muuttaja(ikkuna, nakyma);
     }
 
     public Varmistaja(List<Kohde> kohteet, Tupa ikkuna) {
         kohdetk = kohteet;
         this.ikkuna = ikkuna;
+             nakyma = ikkuna.annaPaaNakyma();
+          muuttaja = new Muuttaja(ikkuna, nakyma);
         sarjanakyma = ikkuna.annaPaaNakyma().annaSarjanakyma();
         joukkuenakyma = ikkuna.annaPaaNakyma().annaJoukkuenakyma();
     }
@@ -203,13 +207,17 @@ public class Varmistaja {
         eiTallennus.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(ikkuna);
+                    Turnaus turnausv = (Turnaus)ikkuna.annaTurnaus();
+                LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnausv, ikkuna);
                 paivittaja.paivitaLaskurit();
                 ikkuna.annaKohteet().clear();
                 ikkuna.annaTuomaritk().clear();
                 ikkuna.annaSarjatk().clear();
-                Aloitus aloitus = new Aloitus();
-                Turnaus turnaus = aloitus.luoAlkuTurnaus();
+              
+                Turnaus turnaus = new Turnaus();
+                  turnaus.kasvataLaskuria();
+                        turnaus.asetaID(turnaus.annaID());
+                               turnaus.asetaNimi("Uusi turnaus");
                 Kohde uusiTurnaus = (Kohde) turnaus;
                 ikkuna.asetaTurnaus(uusiTurnaus);
                 ikkuna.annaKohteet().add(uusiTurnaus);
@@ -876,7 +884,7 @@ public class Varmistaja {
         vbox.setSpacing(10);
 
         HBox hbox1 = new HBox();
-        Label viesti = new Label("Haluatko todella poistaa turnauksen " + turnaus.toString() + " ?");
+        Label viesti = new Label("Haluatko todella poistaa turnauksen " + turnaus.toString() + "?");
 
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().add(viesti);
