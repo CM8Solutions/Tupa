@@ -14,7 +14,6 @@ import javafx.beans.property.StringProperty;
  */
 public class Pelaaja extends Henkilo implements Comparable<Henkilo> {
 
-    //+henkilon ja kohteen attribuutit
     private static int peLaskuri;
     private int id_julkinen;
     private Joukkue joukkue;
@@ -24,6 +23,7 @@ public class Pelaaja extends Henkilo implements Comparable<Henkilo> {
     private List<Kokoonpano> kokoonpanot = new ArrayList<>();
     private List<Maali> maalit = new ArrayList<>();
 
+    //taulukkoattribuutit
     private transient IntegerProperty taulukkonumero = new SimpleIntegerProperty();
     private transient IntegerProperty taulukko_ottelut = new SimpleIntegerProperty();
     private transient IntegerProperty taulukkomaalit = new SimpleIntegerProperty();
@@ -38,7 +38,7 @@ public class Pelaaja extends Henkilo implements Comparable<Henkilo> {
     private transient StringProperty taulukkoetunimi = new SimpleStringProperty();
 
     public static final Comparator<Henkilo> DESCENDING_COMPARATOR = new Comparator<Henkilo>() {
-        // Overriding the compare method to sort the age
+
         public int compare(Henkilo d, Henkilo d1) {
             Pelaaja p = (Pelaaja) d;
             Pelaaja p1 = (Pelaaja) d1;
@@ -284,7 +284,11 @@ public class Pelaaja extends Henkilo implements Comparable<Henkilo> {
 
     public int compareTo(Henkilo henkilo) {
         Pelaaja pelaaja = (Pelaaja) henkilo;
-        int tulos = annaSukuNimi().compareTo(pelaaja.annaSukuNimi());
+        int tulos = 0;
+
+        if (annaSukuNimi() != null && pelaaja.annaSukuNimi() != null) {
+            tulos = annaSukuNimi().compareTo(pelaaja.annaSukuNimi());
+        }
 
         return tulos;
 

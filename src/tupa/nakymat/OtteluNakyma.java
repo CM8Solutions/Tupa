@@ -32,7 +32,6 @@ import tupa.kontrollerit.Tiedottaja;
 import tupa.kontrollerit.Varmistaja;
 import tupa.kontrollerit.Taulukko;
 import tupa.kontrollerit.Opastus;
-import tupa.data.Joukkue;
 import tupa.data.Kokoonpano;
 import tupa.data.Ottelu;
 import tupa.data.Kohde;

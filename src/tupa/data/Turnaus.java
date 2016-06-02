@@ -15,8 +15,8 @@ public class Turnaus extends Kohde {
     private List<Sarja> sarjat = new ArrayList<>();
     private List<Tuomari> tuomarit = new ArrayList<>();
     private String luomispvm = "";
-    //taulukkoattribuutit
 
+    //taulukkoattribuutit
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
     private transient StringProperty taulukkoluomispvm = new SimpleStringProperty();
 

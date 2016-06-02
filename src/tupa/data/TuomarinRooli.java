@@ -19,6 +19,7 @@ public class TuomarinRooli implements Serializable {
     private Ottelu ottelu;
     private Tuomari tuomari;
 
+    //taulukkoattribuutit
     private transient StringProperty taulukkorooli = new SimpleStringProperty();
     private transient StringProperty taulukkonimi = new SimpleStringProperty();
 

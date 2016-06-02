@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class Sarja extends Kohde {
 
-    //+kohteen attribuutit
     private static int saLaskuri;
     private Turnaus turnaus;
 

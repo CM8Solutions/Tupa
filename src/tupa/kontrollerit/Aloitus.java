@@ -1,8 +1,6 @@
 package tupa.kontrollerit;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import tupa.data.Turnaus;
 import tupa.data.Yhteys;

@@ -16,15 +16,6 @@ public class Joukkue extends Kohde {
     private static int joLaskuri;
     private Sarja sarja;
 
-    private transient StringProperty taulukkonimi = new SimpleStringProperty();
-    private transient IntegerProperty taulukko_ottelut = new SimpleIntegerProperty();
-    private transient IntegerProperty taulukkovoitot = new SimpleIntegerProperty();
-    private transient IntegerProperty taulukkohaviot = new SimpleIntegerProperty();
-    private transient IntegerProperty taulukkotasapelit = new SimpleIntegerProperty();
-    private transient IntegerProperty taulukkopisteet = new SimpleIntegerProperty();
-    private transient IntegerProperty taulukkosijoitus = new SimpleIntegerProperty();
-    private transient StringProperty taulukkomaalisuhde = new SimpleStringProperty();
-
     private List<Ottelu> ottelut = new ArrayList<Ottelu>();
     private List<Toimihenkilo> toimarit = new ArrayList<Toimihenkilo>();
     private List<Pelaaja> pelaajat = new ArrayList<Pelaaja>();
@@ -33,6 +24,16 @@ public class Joukkue extends Kohde {
     private List<Integer> haviot = new ArrayList<Integer>();
     private List<Integer> tehdyt = new ArrayList<Integer>();
     private List<Integer> paastetyt = new ArrayList<Integer>();
+
+    //taulukkoattribuutit
+    private transient StringProperty taulukkonimi = new SimpleStringProperty();
+    private transient IntegerProperty taulukko_ottelut = new SimpleIntegerProperty();
+    private transient IntegerProperty taulukkovoitot = new SimpleIntegerProperty();
+    private transient IntegerProperty taulukkohaviot = new SimpleIntegerProperty();
+    private transient IntegerProperty taulukkotasapelit = new SimpleIntegerProperty();
+    private transient IntegerProperty taulukkopisteet = new SimpleIntegerProperty();
+    private transient IntegerProperty taulukkosijoitus = new SimpleIntegerProperty();
+    private transient StringProperty taulukkomaalisuhde = new SimpleStringProperty();
 
     public Joukkue() {
     }
