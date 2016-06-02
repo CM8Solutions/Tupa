@@ -5,6 +5,9 @@ package tupa.kontrollerit;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -185,7 +188,7 @@ public class Valikko implements EventHandler<ActionEvent> {
                         turnaus.kasvataLaskuria();
                         turnaus.asetaID(turnaus.annaLaskuri());
                         turnaus.asetaNimi("Uusi turnaus");
-
+                        turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
                         Kohde uusiTurnaus = (Kohde) turnaus;
                         ikkuna.asetaTurnaus(uusiTurnaus);
                         ikkuna.annaKohteet().add(uusiTurnaus);

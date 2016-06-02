@@ -2,6 +2,9 @@ package tupa.kontrollerit;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
@@ -26,7 +29,7 @@ public class Aloitus {
         turnaus.asetaID(0);
 
         turnaus.asetaNimi("Uusi turnaus");
-
+        turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         return turnaus;
     }
 

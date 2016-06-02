@@ -5,8 +5,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -111,7 +115,10 @@ public class TurnausValitsin {
 
                     turnaus.asetaLuomispvm(luomispvm);
                     turnaus.asetaTaulukkonimi();
-                    turnaus.asetaTaulukkoluomispvm();
+                    DateFormat muoto = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+                    Date paiva_date = muoto.parse(luomispvm);
+
+                    turnaus.asetaLuomispvmDate(paiva_date);
 
                     turnauslista.add(turnaus);
                 }
@@ -134,7 +141,10 @@ public class TurnausValitsin {
 
                     turnaus.asetaLuomispvm(luomispvm);
                     turnaus.asetaTaulukkonimi();
-                    turnaus.asetaTaulukkoluomispvm();
+                    DateFormat muoto = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+                    Date paiva_date = muoto.parse(luomispvm);
+
+                    turnaus.asetaLuomispvmDate(paiva_date);
 
                     turnauslista.add(turnaus);
                 }
@@ -144,12 +154,12 @@ public class TurnausValitsin {
                     = FXCollections.observableArrayList(turnauslista);
 
             TableColumn nimi = new TableColumn("Turnaus");
-            TableColumn luomispvm = new TableColumn("Luomispvm ");
+            TableColumn luomispvm = new TableColumn("Lisätty");
             TableColumn col_action = new TableColumn<>("Poista");
             nimi.setMinWidth(180);
             luomispvm.setMinWidth(150);
             nimi.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkonimi"));
-            luomispvm.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkoluomispvm"));
+            luomispvm.setCellValueFactory(new PropertyValueFactory<Turnaus, String>("taulukkoluomispvmstring"));
 
             if (ikkuna.annaTaso() == 3 || ikkuna.annaTaso() == 2) {
                 taulukko.getColumns().addAll(nimi, luomispvm, col_action);

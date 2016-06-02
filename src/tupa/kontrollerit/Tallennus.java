@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class Tallennus {
 
                     Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
                     turnaus_id = turnaus.annaID();
-
+                    String luomispvm = turnaus.annaLuomispvm();
                     String turnaus_nimi = turnaus.toString();
 
                     ResultSet turnaukset = st.executeQuery("SELECT * FROM  turnaus");
@@ -134,7 +135,7 @@ public class Tallennus {
                     //ei ollut kannassa ennestään
                     if (!loyty) {
 
-                        st.executeUpdate("INSERT INTO turnaus (tupaid, nimi) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "')");
+                        st.executeUpdate("INSERT INTO turnaus (tupaid, nimi, luomispvm) VALUES('" + turnaus_id + "', '" + turnaus_nimi + "', '" + luomispvm + "')");
 
                     } //oli jo kannassa, jolloin kaikki siihen liittyvät tiedot tyhjennetään ennen tallentamista
                     else {
@@ -406,6 +407,7 @@ public class Tallennus {
                     turnaus.asetaNimi("Uusi turnaus");
                     turnaus.kasvataLaskuria();
                     turnaus.asetaID(turnaus.annaLaskuri());
+                    turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
                     Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
                     ikkuna.annaKohteet().add(uusiTurnaus);

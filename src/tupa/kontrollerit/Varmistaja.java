@@ -1,6 +1,9 @@
 package tupa.kontrollerit;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
@@ -216,6 +219,7 @@ public class Varmistaja {
                 turnaus.kasvataLaskuria();
                 turnaus.asetaID(turnaus.annaLaskuri());
                 turnaus.asetaNimi("Uusi turnaus");
+                turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
                 Kohde uusiTurnaus = (Kohde) turnaus;
                 ikkuna.asetaTurnaus(uusiTurnaus);
                 ikkuna.annaKohteet().add(uusiTurnaus);
