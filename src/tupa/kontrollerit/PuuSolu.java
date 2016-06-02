@@ -169,7 +169,8 @@ public class PuuSolu extends TreeCell<Kohde> {
                     try {
                         valitsin.annaTuomariLuetteloTuotavat();
                     } catch (SQLException ex) {
-                        Logger.getLogger(PuuSolu.class.getName()).log(Level.SEVERE, null, ex);
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + ex);
                     }
                 }
             }

@@ -102,13 +102,17 @@ public class Kirjautuminen {
                 try {
                     avaaja.avaa();
                 } catch (SQLException ex) {
-                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 } catch (InstantiationException ex) {
-                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 }
 
             } else {
@@ -220,13 +224,17 @@ public class Kirjautuminen {
                                     try {
                                         avaaja.avaa();
                                     } catch (SQLException ex) {
-                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                        Tiedottaja tiedottaja = new Tiedottaja();
+                                        tiedottaja.annaVirhe("" + ex);
                                     } catch (ClassNotFoundException ex) {
-                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                        Tiedottaja tiedottaja = new Tiedottaja();
+                                        tiedottaja.annaVirhe("" + ex);
                                     } catch (InstantiationException ex) {
-                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                        Tiedottaja tiedottaja = new Tiedottaja();
+                                        tiedottaja.annaVirhe("" + ex);
                                     } catch (IllegalAccessException ex) {
-                                        Logger.getLogger(Taulukko.class.getName()).log(Level.SEVERE, null, ex);
+                                        Tiedottaja tiedottaja = new Tiedottaja();
+                                        tiedottaja.annaVirhe("" + ex);
                                     }
 
                                     stage.close();
@@ -244,10 +252,12 @@ public class Kirjautuminen {
 
                         } catch (SQLException se) {
 
-                            se.printStackTrace();
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         } catch (Exception e) {
 
-                            e.printStackTrace();
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + e);
                         } finally {
 
                             try {
@@ -255,13 +265,16 @@ public class Kirjautuminen {
                                     con.close();
                                 }
                             } catch (SQLException se) {
+                                Tiedottaja tiedottaja = new Tiedottaja();
+                                tiedottaja.annaVirhe("" + se);
                             }
                             try {
                                 if (con != null) {
                                     con.close();
                                 }
                             } catch (SQLException se) {
-                                se.printStackTrace();
+                                Tiedottaja tiedottaja = new Tiedottaja();
+                                tiedottaja.annaVirhe("" + se);
                             }
                         }
 
@@ -281,10 +294,12 @@ public class Kirjautuminen {
             }
         } catch (SQLException se) {
 
-            se.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + se);
         } catch (Exception e) {
 
-            e.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + e);
         } finally {
 
             try {
@@ -292,13 +307,16 @@ public class Kirjautuminen {
                     con.close();
                 }
             } catch (SQLException se) {
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
             try {
                 if (con != null) {
                     con.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
         }
 
@@ -440,10 +458,12 @@ public class Kirjautuminen {
 
                     } catch (SQLException se) {
 
-                        se.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + se);
                     } catch (Exception e) {
 
-                        e.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + e);
                     } finally {
 
                         try {
@@ -451,13 +471,16 @@ public class Kirjautuminen {
                                 con.close();
                             }
                         } catch (SQLException se) {
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                         try {
                             if (con != null) {
                                 con.close();
                             }
                         } catch (SQLException se) {
-                            se.printStackTrace();
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                     }
 
@@ -652,10 +675,12 @@ public class Kirjautuminen {
 
                     } catch (SQLException se) {
 
-                        se.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + se);
                     } catch (Exception e) {
 
-                        e.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + e);
                     } finally {
 
                         try {
@@ -663,13 +688,16 @@ public class Kirjautuminen {
                                 con.close();
                             }
                         } catch (SQLException se) {
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                         try {
                             if (con != null) {
                                 con.close();
                             }
                         } catch (SQLException se) {
-                            se.printStackTrace();
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                     }
 
@@ -875,10 +903,12 @@ public class Kirjautuminen {
 
                     } catch (SQLException se) {
 
-                        se.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + se);
                     } catch (Exception e) {
 
-                        e.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + e);
                     } finally {
 
                         try {
@@ -886,13 +916,16 @@ public class Kirjautuminen {
                                 con.close();
                             }
                         } catch (SQLException se) {
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                         try {
                             if (con != null) {
                                 con.close();
                             }
                         } catch (SQLException se) {
-                            se.printStackTrace();
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                     }
 
@@ -1081,10 +1114,12 @@ public class Kirjautuminen {
 
                     } catch (SQLException se) {
 
-                        se.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + se);
                     } catch (Exception e) {
 
-                        e.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + e);
                     } finally {
 
                         try {
@@ -1092,13 +1127,16 @@ public class Kirjautuminen {
                                 con.close();
                             }
                         } catch (SQLException se) {
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                         try {
                             if (con != null) {
                                 con.close();
                             }
                         } catch (SQLException se) {
-                            se.printStackTrace();
+                            Tiedottaja tiedottaja = new Tiedottaja();
+                            tiedottaja.annaVirhe("" + se);
                         }
                     }
 

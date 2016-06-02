@@ -68,7 +68,8 @@ public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {
             try {
                 ohje.annaUnohtunutOhje();
             } catch (IOException ex) {
-                Logger.getLogger(LinkkiLabel.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
             return;
         }

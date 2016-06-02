@@ -81,18 +81,22 @@ public class TuomariValitsin {
             try {
                 vieja.vieTiedostoon(id, kayttaja_id);
             } catch (ParserConfigurationException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (SQLException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (TransformerException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
             try {
 
                 annaTuomariLuetteloVietavat();
                 stage.close();
             } catch (SQLException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
 
         });
@@ -157,16 +161,20 @@ public class TuomariValitsin {
             try {
                 tuoja.tuoTiedostosta(id, kayttaja_id);
             } catch (ParserConfigurationException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (SQLException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (TransformerException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
             try {
                 annaTuomariLuetteloTuotavat();
             } catch (SQLException ex) {
-                Logger.getLogger(TuomariValitsin.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
             stage.close();
         });

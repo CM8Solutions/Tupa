@@ -183,7 +183,7 @@ public class ToimariNakyma {
 
         Label joukkue = new Label("Joukkue: " + toimari.annaJoukkue());
         joukkue.setFont(Font.font("Papyrus", 14));
-        
+
         Label rooli = new Label("Rooli: " + toimari.annaRooli());
         rooli.setFont(Font.font("Papyrus", 14));
         Label sposti = new Label("Sähköpostiosoite: " + toimari.annaSposti());
@@ -192,7 +192,7 @@ public class ToimariNakyma {
         puh.setFont(Font.font("Papyrus", 18));
 
         tiedot.setAlignment(Pos.CENTER);
-        tiedot.getChildren().addAll(joukkue,rooli, sposti, puh);
+        tiedot.getChildren().addAll(joukkue, rooli, sposti, puh);
         grid.add(nimirivi, 0, 1);
         grid.add(tiedot, 0, 2);
 

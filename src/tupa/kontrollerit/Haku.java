@@ -335,10 +335,12 @@ public class Haku {
 
         } catch (SQLException se) {
 
-            se.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + se);
         } catch (Exception e) {
 
-            e.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + e);
         } finally {
 
             try {
@@ -346,13 +348,16 @@ public class Haku {
                     con.close();
                 }
             } catch (SQLException se) {
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
             try {
                 if (con != null) {
                     con.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
         }
 

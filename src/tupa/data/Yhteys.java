@@ -3,6 +3,7 @@ package tupa.data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import tupa.kontrollerit.Tiedottaja;
 
 /**
  *
@@ -26,12 +27,13 @@ public class Yhteys {
             try {
                 yhteys = DriverManager.getConnection(url + dbName, userName, password);
             } catch (SQLException ex) {
-
-                System.out.println("Yhteydenotto tietokantaan epäonnistui.");
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
         } catch (ClassNotFoundException ex) {
 
-            System.out.println("Ajuria (driver) ei löytynyt.");
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + ex);
         }
         return yhteys;
     }

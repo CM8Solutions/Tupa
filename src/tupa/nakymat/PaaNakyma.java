@@ -195,10 +195,12 @@ public class PaaNakyma {
 
         } catch (SQLException se) {
 
-            se.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + se);
         } catch (Exception e) {
 
-            e.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + e);
         } finally {
 
             try {
@@ -206,13 +208,16 @@ public class PaaNakyma {
                     con.close();
                 }
             } catch (SQLException se) {
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
             try {
                 if (con != null) {
                     con.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
         }
         Label yllapitaja = new Label();
@@ -285,7 +290,8 @@ public class PaaNakyma {
                 try {
                     luoHakutulossivu(hakukentta.getText());
                 } catch (SQLException ex) {
-                    Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 }
 
             }
@@ -381,11 +387,14 @@ public class PaaNakyma {
             try {
                 tallennus.suoritaTallennus(true, false, false);
             } catch (InstantiationException ex) {
-                Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (SQLException ex) {
-                Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(PaaNakyma.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
         }
         tulos = haku.luoHakuTulos(hakusana);

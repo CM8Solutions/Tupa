@@ -286,11 +286,11 @@ public class Taulukko {
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
         paiva.setMinWidth(70);
-         kierros.setSortType(TableColumn.SortType.ASCENDING);
+        kierros.setSortType(TableColumn.SortType.ASCENDING);
         paiva.setSortType(TableColumn.SortType.ASCENDING);
         tunnit.setSortType(TableColumn.SortType.ASCENDING);
         minuutit.setSortType(TableColumn.SortType.ASCENDING);
-         taulukko.getSortOrder().add(kierros);
+        taulukko.getSortOrder().add(kierros);
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(tunnit);
         taulukko.getSortOrder().add(minuutit);
@@ -2148,10 +2148,12 @@ public class Taulukko {
             taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
         } catch (SQLException se) {
 
-            se.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + se);
         } catch (Exception e) {
 
-            e.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + e);
         } finally {
 
             try {
@@ -2159,13 +2161,16 @@ public class Taulukko {
                     con.close();
                 }
             } catch (SQLException se) {
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
             try {
                 if (con != null) {
                     con.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
         }
         return taulukko;
@@ -2249,10 +2254,12 @@ public class Taulukko {
             taulukko.maxHeightProperty().bind(taulukko.prefHeightProperty());
         } catch (SQLException se) {
 
-            se.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + se);
         } catch (Exception e) {
 
-            e.printStackTrace();
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaVirhe("" + e);
         } finally {
 
             try {
@@ -2260,13 +2267,16 @@ public class Taulukko {
                     con.close();
                 }
             } catch (SQLException se) {
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
             try {
                 if (con != null) {
                     con.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + se);
             }
         }
         return taulukko;

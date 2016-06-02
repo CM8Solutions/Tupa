@@ -307,7 +307,8 @@ public class Varmistaja {
                 try {
                     valitsija.annaTurnausLuettelo();
                 } catch (SQLException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 }
                 stageV.close();
             }
@@ -959,11 +960,14 @@ public class Varmistaja {
                     try {
                         tallentaja.suoritaTallennus(true, false, false);
                     } catch (InstantiationException ex) {
-                        Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + ex);
                     } catch (SQLException ex) {
-                        Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + ex);
                     } catch (IllegalAccessException ex) {
-                        Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + ex);
                     }
                 }
 
@@ -971,11 +975,14 @@ public class Varmistaja {
                 try {
                     vieja.vieTiedostoon(id, kayttaja_id);
                 } catch (ParserConfigurationException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 } catch (TransformerException ex) {
-                    Logger.getLogger(Varmistaja.class.getName()).log(Level.SEVERE, null, ex);
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + ex);
                 }
                 stageV.close();
 

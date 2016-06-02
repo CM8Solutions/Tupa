@@ -116,7 +116,7 @@ public class Tuo {
             }
         } catch (Exception e) {
             Tiedottaja tiedottaja = new Tiedottaja();
-            tiedottaja.annaIlmoitus("" + e);
+            tiedottaja.annaVirhe("" + e);
         }
     }
 }

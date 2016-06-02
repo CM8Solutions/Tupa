@@ -372,10 +372,12 @@ public class Tallennus {
 
                 } catch (SQLException se) {
 
-                    se.printStackTrace();
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + se);
                 } catch (Exception e) {
 
-                    e.printStackTrace();
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVirhe("" + e);
                 } finally {
 
                     try {
@@ -383,13 +385,16 @@ public class Tallennus {
                             con.close();
                         }
                     } catch (SQLException se) {
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + se);
                     }
                     try {
                         if (con != null) {
                             con.close();
                         }
                     } catch (SQLException se) {
-                        se.printStackTrace();
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + se);
                     }
                 }
 
@@ -431,7 +436,8 @@ public class Tallennus {
                     try {
                         valitsija.annaTurnausLuettelo();
                     } catch (SQLException ex) {
-                        Logger.getLogger(Tallennus.class.getName()).log(Level.SEVERE, null, ex);
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVirhe("" + ex);
                     }
                     ikkuna.asetaAloitus(false);
                 } else if (uusi) {

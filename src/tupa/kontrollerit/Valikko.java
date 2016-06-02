@@ -128,21 +128,29 @@ public class Valikko implements EventHandler<ActionEvent> {
                 valikostaValittu(
                         ((MenuItem) lahde).getText(), e);
             } catch (InstantiationException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (SQLException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (IOException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (ParserConfigurationException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             } catch (TransformerException ex) {
-                Logger.getLogger(Valikko.class.getName()).log(Level.SEVERE, null, ex);
+                Tiedottaja tiedottaja = new Tiedottaja();
+                tiedottaja.annaVirhe("" + ex);
             }
             return;
         }
