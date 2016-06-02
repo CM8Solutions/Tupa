@@ -474,14 +474,17 @@ public class Muuttaja {
         //lisätään tuomarinrooli
         TuomarinRooli rooli_erotuomari = new TuomarinRooli("Erotuomari", ottelu);
         rooli_erotuomari.kasvataLaskuria();
+         rooli_erotuomari.asetaID(rooli_erotuomari.annaLaskuri());
         ottelu.annaRoolit().add(rooli_erotuomari);
 
         TuomarinRooli rooli_avustava1 = new TuomarinRooli("1. Avustava erotuomari", ottelu);
         rooli_avustava1.kasvataLaskuria();
+          rooli_avustava1.asetaID(rooli_avustava1.annaLaskuri());
         ottelu.annaRoolit().add(rooli_avustava1);
 
         TuomarinRooli rooli_avustava2 = new TuomarinRooli("2. Avustava erotuomari", ottelu);
         rooli_avustava2.kasvataLaskuria();
+         rooli_avustava2.asetaID(rooli_avustava2.annaLaskuri());
         ottelu.annaRoolit().add(rooli_avustava2);
 
         //tuomarit kohdilleen (jos annettu)
@@ -884,14 +887,17 @@ public class Muuttaja {
                         //lisätään tuomarinrooli
                         TuomarinRooli rooli_erotuomari = new TuomarinRooli("Erotuomari", ottelu);
                         rooli_erotuomari.kasvataLaskuria();
+                         rooli_erotuomari.asetaID(rooli_erotuomari.annaLaskuri());
                         ottelu.annaRoolit().add(rooli_erotuomari);
 
                         TuomarinRooli rooli_avustava1 = new TuomarinRooli("1. Avustava erotuomari", ottelu);
                         rooli_avustava1.kasvataLaskuria();
+                         rooli_avustava1.asetaID(rooli_avustava1.annaLaskuri());
                         ottelu.annaRoolit().add(rooli_avustava1);
 
                         TuomarinRooli rooli_avustava2 = new TuomarinRooli("2. Avustava erotuomari", ottelu);
                         rooli_avustava2.kasvataLaskuria();
+                         rooli_avustava2.asetaID(rooli_avustava2.annaLaskuri());
                         ottelu.annaRoolit().add(rooli_avustava2);
                         sarja.annaOttelut().add(ottelu);
 
