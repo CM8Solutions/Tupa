@@ -413,11 +413,33 @@ public class OtteluNakyma {
         sarake4.setPadding(new Insets(20));
         sarake4.getChildren().add(otrooli);
 
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(20, 20, 0, 20));
+        gridPane.setHgap(40);
+        gridPane.setVgap(20);
+
+        int rivi = 0;
+        int sarake = 0;
+
+        gridPane.add(otnro, sarake, rivi);
+        sarake++;
+        gridPane.add(otnimi, sarake, rivi);
+        sarake++;
+        gridPane.add(otpelipaikka, sarake, rivi);
+        sarake++;
+        gridPane.add(otrooli, sarake, rivi);
+        sarake = 0;
+        rivi++;
+
+        int koko = 0;
         //pelaajat pelinumeron mukaiseen järjestykseen
         Vector<Henkilo> pelaajat = new Vector<>();
 
         for (int i = 0; i < joukkue.annaPelaajat().size(); i++) {
-            pelaajat.add((Henkilo) joukkue.annaPelaajat().get(i));
+            if (joukkue.annaPelaajat().get(i).annaJulkinenID() != 0) {
+                pelaajat.add((Henkilo) joukkue.annaPelaajat().get(i));
+                koko++;
+            }
 
         }
 
@@ -426,13 +448,14 @@ public class OtteluNakyma {
         HBox painikeboksi = new HBox();
         painikeboksi.setPadding(new Insets(10, 0, 0, 0));
         painikeboksi.setSpacing(10);
-        int koko = joukkue.annaPelaajat().size();
+
         Pelaaja[] pelaajataulukko = new Pelaaja[koko];
         String[] roolitaulukko = new String[koko];
 
         int i = 0;
         for (Henkilo pelaaja : pelaajat) {
             int kohta = i;
+            System.out.println(pelaaja);
             Pelaaja haettu = (Pelaaja) pelaaja;
             pelaajataulukko[kohta] = haettu;
 
@@ -480,6 +503,15 @@ public class OtteluNakyma {
             sarake3.getChildren().add(opelipaikka);
             sarake4.getChildren().add(rooli);
             i++;
+            gridPane.add(nro, sarake, rivi);
+            sarake++;
+            gridPane.add(pnimi, sarake, rivi);
+            sarake++;
+            gridPane.add(opelipaikka, sarake, rivi);
+            sarake++;
+            gridPane.add(rooli, sarake, rivi);
+            sarake = 0;
+            rivi++;
         }
 
         Button lisaysnappula = new Button("Lisää");
@@ -496,7 +528,8 @@ public class OtteluNakyma {
         painikeboksi.getChildren().addAll(lisaysnappula);
         kokoonpanoluettelo.getChildren().addAll(sarake1, sarake2, sarake3, sarake4);
 
-        rivi3.getChildren().addAll(koko_otsake, kokoonpanoluettelo, painikeboksi);
+        gridPane.add(painikeboksi, sarake, rivi);
+        rivi3.getChildren().addAll(koko_otsake, gridPane);
 
         grid.add(rivi3, 0, 2);
 
@@ -594,7 +627,7 @@ public class OtteluNakyma {
         HBox otsikkokoti_koko = new HBox();
         otsikkokoti_koko.setSpacing(20);
 
-        Label otsikkokoti = new Label("Kotijoukkueen maalit:");
+        Label otsikkokoti = new Label("Kotijoukkueen " + ottelu.annaKotijoukkue() + " maalit:");
         otsikkokoti.setFont(Font.font("Papyrus", 14));
 
         Button otsikkonappula = new Button();
@@ -619,7 +652,7 @@ public class OtteluNakyma {
         Pelaaja ohjeistus3 = new Pelaaja("Valitse", " ");
         kotipelaajalista1.add(ohjeistus3);
         Pelaaja oma1 = new Pelaaja("Oma", " maali");
-       oma1.kasvataLaskuria();
+        oma1.kasvataLaskuria();
         oma1.asetaID(oma1.annaLaskuri());
         kotipelaajalista1.add(oma1);
 
@@ -652,7 +685,7 @@ public class OtteluNakyma {
         Pelaaja ohjeistus4 = new Pelaaja("Valitse", " ");
         kotipelaajalista2.add(ohjeistus4);
         Pelaaja ohjeistus5 = new Pelaaja("Ei", " syöttäjää");
-            ohjeistus5.kasvataLaskuria();
+        ohjeistus5.kasvataLaskuria();
         ohjeistus5.asetaID(ohjeistus5.annaLaskuri());
         kotipelaajalista2.add(ohjeistus5);
         for (int i = 0; i < ottelu.annaKotijoukkue().annaPelaajat().size(); i++) {
@@ -696,10 +729,19 @@ public class OtteluNakyma {
             public void handle(ActionEvent e) {
 
                 if (maalintekija1.getValue() != null && syottaja1.getValue() != null) {
-                    muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
+                    if (maalintekija1.getValue() == syottaja1.getValue()) {
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVaroitus("Maalintekijä ja syöttäjä ei voi olla sama pelaaja!");
+                    } else {
+                        muuttaja.lisaaMaali(aika.getValue(), maalintekija1.getValue(), syottaja1.getValue(), ottelu, ottelu.annaKotijoukkue());
+                        ikkuna.asetaMuutos(true);
+                    }
+
+                } else {
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVaroitus("Anna sekä maalintekijä- että syöttäjä!");
                 }
 
-                ikkuna.asetaMuutos(true);
                 luoOttelunMaalisivu(ottelu);
             }
         });
@@ -737,7 +779,7 @@ public class OtteluNakyma {
 
             }
         });
-        Label otsikkovieras = new Label("Vierasjoukkueen maalit:");
+        Label otsikkovieras = new Label("Vierasjoukkueen " + ottelu.annaVierasjoukkue() + " maalit:");
         Label eimahd2 = new Label("Vierasjoukkueen maalit on jo syötetty");
         otsikkovieras.setFont(Font.font("Papyrus", 14));
 
@@ -750,7 +792,7 @@ public class OtteluNakyma {
         Pelaaja ohjeistus32 = new Pelaaja("Valitse", " ");
         vieraspelaajalista1.add(ohjeistus32);
         Pelaaja oma2 = new Pelaaja("Oma", " maali");
-             oma2.kasvataLaskuria();
+        oma2.kasvataLaskuria();
         oma2.asetaID(oma2.annaLaskuri());
         vieraspelaajalista1.add(oma2);
 
@@ -783,10 +825,10 @@ public class OtteluNakyma {
         Pelaaja ohjeistus42 = new Pelaaja("Valitse", " ");
         vieraspelaajalista2.add(ohjeistus42);
         Pelaaja ohjeistus52 = new Pelaaja("Ei", " syöttäjää");
-        
-            ohjeistus52.kasvataLaskuria();
-       ohjeistus52.asetaID(ohjeistus52.annaLaskuri());
-        
+
+        ohjeistus52.kasvataLaskuria();
+        ohjeistus52.asetaID(ohjeistus52.annaLaskuri());
+
         vieraspelaajalista2.add(ohjeistus52);
         for (int i = 0; i < ottelu.annaVierasjoukkue().annaPelaajat().size(); i++) {
             Kokoonpano vieras = ottelu.annaVierasKokoonpano();
@@ -841,9 +883,22 @@ public class OtteluNakyma {
             @Override
             public void handle(ActionEvent e) {
 
-                muuttaja.lisaaMaali(aika.getValue(), maalintekija2.getValue(), syottaja2.getValue(), ottelu, ottelu.annaVierasjoukkue());
-                ikkuna.asetaMuutos(true);
+                if (maalintekija2.getValue() != null && syottaja2.getValue() != null) {
+                    if (maalintekija2.getValue() == syottaja2.getValue()) {
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                        tiedottaja.annaVaroitus("Maalintekijä ja syöttäjä ei voi olla sama pelaaja!");
+                    } else {
+                        muuttaja.lisaaMaali(aika.getValue(), maalintekija2.getValue(), syottaja2.getValue(), ottelu, ottelu.annaVierasjoukkue());
+                        ikkuna.asetaMuutos(true);
+                    }
+
+                } else {
+                    Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVaroitus("Anna sekä maalintekijä- että syöttäjä!");
+                }
+
                 luoOttelunMaalisivu(ottelu);
+
             }
         });
 

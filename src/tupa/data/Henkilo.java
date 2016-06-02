@@ -59,11 +59,19 @@ public class Henkilo extends Kohde implements Comparable<Henkilo> {
     }
 
     public int compareTo(Henkilo henkilo) {
-        int tulos = sukunimi.compareTo(henkilo.annaSukuNimi());
-        if (tulos != 0) {
+        int tulos = 0;
+        if (henkilo.annaSukuNimi() != null && sukunimi != null) {
+            tulos = sukunimi.compareTo(henkilo.annaSukuNimi());
+            if (tulos != 0) {
+                return tulos;
+            }
+            if (henkilo.annaEtuNimi() != null && etunimi != null) {
+                tulos = etunimi.compareTo(henkilo.annaEtuNimi());
+
+            }
+            return tulos;
+        } else {
             return tulos;
         }
-        tulos = etunimi.compareTo(henkilo.annaEtuNimi());
-        return tulos;
     }
 }

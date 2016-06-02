@@ -588,6 +588,7 @@ public class Muuttaja {
 
     public void lisaaKokoonpano(Pelaaja[] pelaajat, String[] roolit, Joukkue joukkue, Ottelu ottelu) {
 
+  
         for (int i = 0; i < pelaajat.length; i++) {
 
             if (roolit[i].equals("Kokoonpanossa")) {
