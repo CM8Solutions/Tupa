@@ -7,4 +7,4 @@ Tulevia muutoksia versioon 2.0:
 	* mahdollisuus muodostaa turnauksia, joissa joukkueet jaetaan ensin lohkoihin ja lohkosijoitusten perusteella muodostetaan sijoitusottelut
 	* unohtuneen tunnuksen/sähköpostin automaattinen palautus
 	* tietoturvaominaisuuksien parannuksia
-	* käyttäjäkokemusten perusteella tehtyjä yleisiä korjaustoimenpiteitä
+	* käyttäjäkokemusten perusteella tehtyjä yleisiä korjaustoimenpiteitä sekä toiminnallisuuksiin että käyttöliittymän ulkoasuun liittyen

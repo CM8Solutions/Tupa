@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -26,6 +27,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import tupa.Tupa;
 import tupa.data.Henkilo;
 import tupa.data.Ottelu;
@@ -106,6 +108,16 @@ public class Avaus {
         scene.getStylesheets().add("css/tyylit.css");
 
         tehtavastage.setScene(scene);
+
+        tehtavastage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            public void handle(WindowEvent we) {
+
+                we.consume();
+
+            }
+        });
+
         tehtavastage.show();
 
         Task tehtava = new Task<Void>() {
@@ -573,6 +585,7 @@ public class Avaus {
                 return null;
             }
         };
+
         tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
@@ -587,8 +600,13 @@ public class Avaus {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        Thread th = new Thread(tehtava);
-        th.start();
+        try {
+            Thread th = new Thread(tehtava);
+            th.start();
+        } catch (IllegalStateException e) {
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaIlmoitus("" + e);
+        }
 
     }
 

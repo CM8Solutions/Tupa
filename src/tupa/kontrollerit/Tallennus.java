@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -23,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import tupa.Tupa;
 import tupa.data.Kohde;
 import tupa.data.Turnaus;
@@ -95,6 +97,15 @@ public class Tallennus {
         scene.getStylesheets().add("css/tyylit.css");
 
         tehtavastage.setScene(scene);
+        tehtavastage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            public void handle(WindowEvent we) {
+
+                we.consume();
+
+            }
+        });
+
         tehtavastage.show();
 
         Task tehtava = new Task<Void>() {
@@ -397,7 +408,15 @@ public class Tallennus {
                     }
                 }
 
-                if (!jatko) {
+                return null;
+            }
+        };
+
+        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+
+                if (avaus) {
 
                     ikkuna.annaKohteet().clear();
                     ikkuna.annaTuomaritk().clear();
@@ -418,17 +437,6 @@ public class Tallennus {
                     parentSarjat.getChildren().clear();
                     parentTuomarit.getChildren().clear();
 
-                }
-
-                return null;
-            }
-        };
-        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t) {
-
-                if (avaus) {
-
                     PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                     nakyma.luoEtusivuTyhja();
                     //sitten vasta avaukseen
@@ -441,9 +449,27 @@ public class Tallennus {
                     }
                     ikkuna.asetaAloitus(false);
                 } else if (uusi) {
+                    ikkuna.annaKohteet().clear();
+                    ikkuna.annaTuomaritk().clear();
+                    ikkuna.annaSarjatk().clear();
 
-                    Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
-                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnaus, ikkuna);
+                    Turnaus turnaus = new Turnaus();
+                    turnaus.asetaNimi("Uusi turnaus");
+                    turnaus.kasvataLaskuria();
+                    turnaus.asetaID(turnaus.annaLaskuri());
+                    turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+                    Kohde uusiTurnaus = (Kohde) turnaus;
+                    ikkuna.asetaTurnaus(uusiTurnaus);
+                    ikkuna.annaKohteet().add(uusiTurnaus);
+
+                    //vielä pitää tyhjentää puu
+                    TreeItem<Kohde> parentSarjat = ikkuna.annaRootSarjat();
+                    TreeItem<Kohde> parentTuomarit = ikkuna.annaRootTuomarit();
+                    parentSarjat.getChildren().clear();
+                    parentTuomarit.getChildren().clear();
+
+                    Turnaus turnausu = (Turnaus) ikkuna.annaTurnaus();
+                    LaskuriPaivittaja paivittaja = new LaskuriPaivittaja(turnausu, ikkuna);
                     paivittaja.paivitaLaskurit();
                     PaaNakyma nakyma = ikkuna.annaPaaNakyma();
                     nakyma.luoEtusivu();
@@ -454,6 +480,9 @@ public class Tallennus {
 
                 //päivitetään tilanne, että tallennus on suoritettu
                 ikkuna.asetaMuutos(false);
+                if (!jatko && !avaus && !uusi) {
+                    Platform.exit();
+                }
 
                 tehtavastage.hide();
             }
@@ -461,8 +490,13 @@ public class Tallennus {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
-        Thread th = new Thread(tehtava);
-        th.start();
+        try {
+            Thread th = new Thread(tehtava);
+            th.start();
+        } catch (IllegalStateException e) {
+            Tiedottaja tiedottaja = new Tiedottaja();
+            tiedottaja.annaIlmoitus("" + e);
+        }
 
     }
 

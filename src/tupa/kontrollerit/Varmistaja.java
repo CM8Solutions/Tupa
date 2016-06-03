@@ -114,7 +114,7 @@ public class Varmistaja {
 
                 Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
                 tarkistaja.tarkistaTurnaustiedot(false, false, false);
-                Platform.exit();
+
             }
         });
         peruuta.setOnAction(new EventHandler<ActionEvent>() {
@@ -373,6 +373,8 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 muuttaja.poistaOttelu(ottelu);
+                Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
+                tiedottaja.kirjoitaLoki("Ottelu " + ottelu.toString() + " poistettu sarjasta " + sarja);
                 sarjanakyma = nakyma.annaSarjanakyma();
                 sarjanakyma.luoOtteluLuetteloMuokkaus(sarja);
                 stageV.close();

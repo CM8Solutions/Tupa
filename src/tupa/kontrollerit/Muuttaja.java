@@ -117,11 +117,11 @@ public class Muuttaja {
         //yleiseen tietokantaan:
         if (arvo instanceof Sarja) {
             ikkuna.annaSarjatk().add((Sarja) arvo);
-            tiedottaja.kirjoitaLoki("Sarja " + arvo.toString() + " lisätty.");
+            tiedottaja.kirjoitaLoki("Sarja " + arvo.toString() + " lisätty turnaukseen " + ((Sarja) arvo).annaTurnaus().toString() + ".");
 
         } else if (arvo instanceof Tuomari) {
             ikkuna.annaTuomaritk().add((Tuomari) arvo);
-            tiedottaja.kirjoitaLoki("Tuomari " + arvo.toString() + " lisätty.");
+            tiedottaja.kirjoitaLoki("Tuomari " + arvo.toString() + " lisätty turnaukseen " + ((Tuomari) arvo).annaTurnaus().toString() + ".");
         }
 
         ikkuna.annaKohteet().add(arvo);
@@ -221,7 +221,7 @@ public class Muuttaja {
 
                 if (ikkuna.annaSarjatk().get(i).annaID() == arvo.annaID()) {
                     ikkuna.annaSarjatk().remove(i);
-                    tiedottaja.kirjoitaLoki("Sarja " + arvo.toString() + " poistettu.");
+                    tiedottaja.kirjoitaLoki("Sarja " + arvo.toString() + " poistettu turnauksesta " + ikkuna.annaTurnaus().toString() + ".");
 
                 }
 
@@ -232,7 +232,7 @@ public class Muuttaja {
 
                 if (ikkuna.annaTuomaritk().get(i).annaID() == arvo.annaID()) {
                     ikkuna.annaTuomaritk().remove(i);
-                    tiedottaja.kirjoitaLoki("Tuomari " + arvo.toString() + " poistettu.");
+                    tiedottaja.kirjoitaLoki("Tuomari " + arvo.toString() + " poistettu turnauksesta " + ikkuna.annaTurnaus().toString() + ".");
 
                 }
 
@@ -377,7 +377,7 @@ public class Muuttaja {
         joukkue1.annaOttelut().remove(ottelu);
         joukkue2.annaOttelut().remove(ottelu);
         sarja.annaOttelut().remove(ottelu);
-        tiedottaja.kirjoitaLoki("Ottelu " + ottelu.toString() + " poistettu.");
+
         ikkuna.asetaMuutos(true);
 
     }
@@ -393,7 +393,7 @@ public class Muuttaja {
         ikkuna.annaKohteet().add((Kohde) joukkue);
 
         joukkue.asetaSarja(sarja);
-        tiedottaja.kirjoitaLoki("Joukkue " + joukkue.toString() + " lisätty.");
+        tiedottaja.kirjoitaLoki("Joukkue " + joukkue.toString() + " lisätty sarjaan " + sarja + ".");
         ikkuna.asetaMuutos(true);
 
     }
@@ -403,7 +403,7 @@ public class Muuttaja {
         ikkuna.annaKohteet().remove((Kohde) pelaaja);
 
         joukkue.annaPelaajat().remove(pelaaja);
-        tiedottaja.kirjoitaLoki("Pelaaja " + pelaaja.toString() + " poistettu.");
+        tiedottaja.kirjoitaLoki("Pelaaja " + pelaaja.toString() + " poistettu joukkueesta " + joukkue + ".");
         ikkuna.asetaMuutos(true);
     }
 
@@ -411,7 +411,7 @@ public class Muuttaja {
 
         ikkuna.annaKohteet().remove((Kohde) toimari);
         joukkue.annaToimarit().remove(toimari);
-        tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu.");
+        tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " poistettu joukkueesta " + joukkue + ".");
         ikkuna.asetaMuutos(true);
     }
 
@@ -426,7 +426,7 @@ public class Muuttaja {
         ikkuna.annaKohteet().remove(joukkue);
 
         sarja.annaJoukkueet().remove(joukkue);
-        tiedottaja.kirjoitaLoki("Joukkue " + joukkue.toString() + " poistettu.");
+        tiedottaja.kirjoitaLoki("Joukkue " + joukkue.toString() + " poistettu sarjasta " + sarja + ".");
         ikkuna.asetaMuutos(true);
 
     }
@@ -444,7 +444,7 @@ public class Muuttaja {
         joukkue.annaPelaajat().add(pelaaja);
         ikkuna.annaPelaajatk().add(pelaaja);
         ikkuna.annaKohteet().add((Kohde) pelaaja);
-        tiedottaja.kirjoitaLoki("Pelaaja " + pelaaja.toString() + " lisätty.");
+        tiedottaja.kirjoitaLoki("Pelaaja " + pelaaja.toString() + " lisätty joukkueeseen " + joukkue + ".");
         ikkuna.asetaMuutos(true);
 
     }
@@ -526,7 +526,7 @@ public class Muuttaja {
                 }
             }
         }
-        tiedottaja.kirjoitaLoki("Ottelu " + ottelu.toString() + " lisätty.");
+        tiedottaja.kirjoitaLoki("Ottelu " + ottelu.toString() + " lisätty sarjaan " + sarja + ".");
         sarja.annaOttelut().add(ottelu);
         ikkuna.asetaMuutos(true);
 
@@ -546,7 +546,7 @@ public class Muuttaja {
 
         ikkuna.annaToimaritk().add(toimari);
         ikkuna.annaKohteet().add((Kohde) toimari);
-        tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " lisätty.");
+        tiedottaja.kirjoitaLoki("Toimihenkilö " + toimari.toString() + " lisätty joukkueeseen " + joukkue + ".");
 
         ikkuna.asetaMuutos(true);
 
@@ -582,11 +582,12 @@ public class Muuttaja {
             ikkuna.annaKohteet().add(uusisyottaja);
             maali.asetaTiedot(aika, maalintekija, uusisyottaja);
         }
-
+        tiedottaja.kirjoitaLoki("Ottelun " + ottelu.toString() + " maalitilastoa päivitetty. ");
     }
 
     public void lisaaTulos(int kotimaalit, int vierasmaalit, Ottelu ottelu) {
         ottelu.asetaTulos(kotimaalit, vierasmaalit);
+        tiedottaja.kirjoitaLoki("Ottelun " + ottelu.toString() + " tulosta päivitetty. ");
     }
 
     public void lisaaKokoonpano(Pelaaja[] pelaajat, String[] roolit, Joukkue joukkue, Ottelu ottelu) {
@@ -642,7 +643,7 @@ public class Muuttaja {
         palkki.getChildren().addAll(otsikko, edistyminen);
 
         Stage tehtavastage = new Stage(StageStyle.UTILITY);
-        Scene scene = new Scene(palkki);
+        Scene scene = new Scene(palkki, 300, 100);
 
         scene.getStylesheets().add("css/tyylit.css");
 
@@ -947,9 +948,11 @@ public class Muuttaja {
                 tehtavastage.hide();
             }
         });
+
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
+
         Thread th = new Thread(tehtava);
         th.start();
 
@@ -966,7 +969,7 @@ public class Muuttaja {
         }
 
         sarja.annaOttelut().clear();
-
+        tiedottaja.kirjoitaLoki("Kaikki ottelut poistettu sarjasta " + sarja.toString() + ".");
     }
 
     public void poistaKaikkiJoukkueet(List<Joukkue> joukkueet, Sarja sarja) {
@@ -984,117 +987,31 @@ public class Muuttaja {
 
     void poistaKaikkiPelaajat(List<Pelaaja> poistettavat, Joukkue joukkue) {
 
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setOffsetX(5);
-        dropShadow.setOffsetY(5);
+        while (!joukkue.annaPelaajat().isEmpty()) {
+            for (int i = 0; i < poistettavat.size(); i++) {
+                poistaPelaaja(poistettavat.get(i), joukkue);
 
-        Label otsikko = new Label("Poistetaan kaikki joukkueen pelaajat..");
-        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
-        otsikko.setEffect(dropShadow);
-
-        ProgressBar edistyminen = new ProgressBar();
-        edistyminen.setPrefWidth(200);
-        edistyminen.setPrefHeight(30);
-
-        VBox palkki = new VBox();
-        palkki.setPadding(new Insets(10));
-        palkki.setSpacing(10);
-        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
-        palkki.getChildren().addAll(otsikko, edistyminen);
-
-        Stage tehtavastage = new Stage(StageStyle.UTILITY);
-        Scene scene = new Scene(palkki);
-
-        scene.getStylesheets().add("css/tyylit.css");
-
-        tehtavastage.setScene(scene);
-        tehtavastage.show();
-
-        Task tehtava = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-
-                while (!joukkue.annaPelaajat().isEmpty()) {
-                    for (int i = 0; i < poistettavat.size(); i++) {
-                        poistaPelaaja(poistettavat.get(i), joukkue);
-
-                    }
-                }
-                joukkue.annaPelaajat().clear();
-
-                return null;
             }
-        };
-        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t) {
-                tiedottaja.kirjoitaLoki("Kaikki pelaajat poistettu joukkueesta " + joukkue.toString() + ".");
-                ikkuna.asetaMuutos(true);
-                tehtavastage.hide();
-            }
-        });
-        edistyminen.progressProperty().bind(tehtava.progressProperty());
+        }
+        joukkue.annaPelaajat().clear();
 
-        tehtavastage.show();
-        Thread th = new Thread(tehtava);
-        th.start();
+        tiedottaja.kirjoitaLoki("Kaikki pelaajat poistettu joukkueesta " + joukkue.toString() + ".");
+        ikkuna.asetaMuutos(true);
 
     }
 
     public void poistaKaikkiToimarit(List<Toimihenkilo> poistettavat, Joukkue joukkue) {
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setOffsetX(5);
-        dropShadow.setOffsetY(5);
 
-        Label otsikko = new Label("Poistetaan kaikki joukkueen toimihenkilöt..");
-        otsikko.setFont(Font.font("Papyrus", FontWeight.BOLD, 16));
-        otsikko.setEffect(dropShadow);
+        while (!joukkue.annaToimarit().isEmpty()) {
+            for (int i = 0; i < poistettavat.size(); i++) {
+                poistaToimari(poistettavat.get(i), joukkue);
 
-        ProgressBar edistyminen = new ProgressBar();
-        edistyminen.setPrefWidth(200);
-        edistyminen.setPrefHeight(30);
-
-        VBox palkki = new VBox();
-        palkki.setPadding(new Insets(10));
-        palkki.setSpacing(10);
-        palkki.setStyle("-fx-background-color:  linear-gradient(to bottom, #00ff00, 	#ccffcc)");
-        palkki.getChildren().addAll(otsikko, edistyminen);
-
-        Stage tehtavastage = new Stage(StageStyle.UTILITY);
-        Scene scene = new Scene(palkki);
-
-        scene.getStylesheets().add("css/tyylit.css");
-
-        tehtavastage.setScene(scene);
-        tehtavastage.show();
-
-        Task tehtava = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                while (!joukkue.annaToimarit().isEmpty()) {
-                    for (int i = 0; i < poistettavat.size(); i++) {
-                        poistaToimari(poistettavat.get(i), joukkue);
-
-                    }
-                }
-                joukkue.annaToimarit().clear();
-                return null;
             }
-        };
-        tehtava.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent t) {
-                tiedottaja.kirjoitaLoki("Kaikki toimihenkilöt poistettu joukkueesta " + joukkue.toString() + ".");
-                ikkuna.asetaMuutos(true);
+        }
+        joukkue.annaToimarit().clear();
 
-                tehtavastage.hide();
-            }
-        });
-        edistyminen.progressProperty().bind(tehtava.progressProperty());
-
-        tehtavastage.show();
-        Thread th = new Thread(tehtava);
-        th.start();
+        tiedottaja.kirjoitaLoki("Kaikki toimihenkilöt poistettu joukkueesta " + joukkue.toString() + ".");
+        ikkuna.asetaMuutos(true);
 
     }
 
@@ -1134,6 +1051,7 @@ public class Muuttaja {
             }
         }
         toimari.asetaHallinta(0);
+        tiedottaja.kirjoitaLoki("Toimihenkilön " + toimari.toString() + " ylläpito-oikeudet poistettu.");
     }
 
     public void poistaTurnaus(Turnaus turnaus) {
@@ -1286,7 +1204,7 @@ public class Muuttaja {
             public void handle(WorkerStateEvent t) {
 
                 Tiedottaja tiedottaja = new Tiedottaja(ikkuna);
-                tiedottaja.annaIlmoitus("Turnaus poistettu");
+                tiedottaja.annaIlmoitus("Turnaus " + turnaus.toString() + " poistettu.");
                 ikkuna.asetaAloitus(true);
 
                 tehtavastage.hide();
@@ -1295,6 +1213,7 @@ public class Muuttaja {
         edistyminen.progressProperty().bind(tehtava.progressProperty());
 
         tehtavastage.show();
+
         Thread th = new Thread(tehtava);
         th.start();
 
