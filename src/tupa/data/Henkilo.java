@@ -1,14 +1,16 @@
 package tupa.data;
-
 /**
- *
+ * Luokkien Pelaaja, Toimihenkilo ja Tuomari yliluokka.
+ * 
  * @author Marianne
+ * @see Pelaaja
+ * @see Toimihenkilo
+ * @see Tuomari
  */
 public class Henkilo extends Kohde implements Comparable<Henkilo> {
 
-    // 1-64 kirjainta, vain isot ja pienet kirjaimet, yks tai useampi tavuviiva
-    private String etunimi;
-    // 1-64 kirjainta, vain isot ja pienet kirjaimet, yks tai useampi tavuviiva    
+
+    private String etunimi;  
     private String sukunimi;
 
     public Henkilo() {

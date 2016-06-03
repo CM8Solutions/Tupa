@@ -9,8 +9,10 @@ import javafx.scene.control.TableCell;
 import tupa.data.Toimihenkilo;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan toimihenkilötaulukon toimihenkilön poistomahdollisuuden.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class PoistoSoluToimari extends TableCell<Record, Boolean> {
 

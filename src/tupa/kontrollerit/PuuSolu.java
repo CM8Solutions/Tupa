@@ -1,9 +1,5 @@
 package tupa.kontrollerit;
 
-/**
- *
- * @author Marianne
- */
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +12,14 @@ import tupa.data.Tuomari;
 import tupa.nakymat.SarjaNakyma;
 import tupa.nakymat.TuomariNakyma;
 import tupa.Tupa;
+
+/**
+ * Luokka, joka hoitaa vasemman puolen puuvalikon ominaisuuden, jonka avulla käyttäjä voi klikata tiettyä sarjaa tai tuomaria, tai niiden pääotsikoita, hiiren oikealla painikkeella.
+ * 
+ * @author Marianne
+ * @see PuuSoluTehdas
+ */
+
 
 public class PuuSolu extends TreeCell<Kohde> {
 

@@ -9,8 +9,10 @@ import javafx.scene.control.TableCell;
 import tupa.data.Joukkue;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan joukkuetaulukon joukkueen poistomahdollisuuden.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class PoistoSoluJoukkue extends TableCell<Record, Boolean> {
 

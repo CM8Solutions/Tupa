@@ -20,7 +20,8 @@ import tupa.kontrollerit.LinkkiLabel;
 import tupa.data.Kohde;
 
 /**
- *
+ * Luokka, joka muodostaa eri näkymissä olevia pysyviä osia.
+ * 
  * @author Marianne
  */
 public class Pysyvat {

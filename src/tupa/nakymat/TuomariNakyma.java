@@ -24,7 +24,8 @@ import tupa.data.Tuomari;
 import tupa.data.Kohde;
 
 /**
- *
+ * Luokka, joka muodostaa erilaisia tuomariin liittyviä näkymiä.
+ * 
  * @author Marianne
  */
 public class TuomariNakyma {

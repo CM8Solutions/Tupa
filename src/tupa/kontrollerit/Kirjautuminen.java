@@ -42,7 +42,8 @@ import tupa.nakymat.ToimariNakyma;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka muodostaa erilaisia kirjautumiseen/salasanaan liittyviä näkymiä ja niihin liittyviä toiminnallisuuksia.
+ * 
  * @author Marianne
  */
 public class Kirjautuminen {

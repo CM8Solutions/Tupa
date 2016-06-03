@@ -1,6 +1,3 @@
-/*
-Erilaisia taulukoita muodostava luokka
- */
 package tupa.kontrollerit;
 
 import com.sun.prism.impl.Disposer.Record;
@@ -51,7 +48,8 @@ import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Eri näkymiin taulukoita muodostava luokka.
+ * 
  * @author Marianne
  */
 public class Taulukko {

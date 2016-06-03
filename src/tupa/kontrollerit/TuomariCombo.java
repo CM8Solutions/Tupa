@@ -14,8 +14,10 @@ import tupa.data.Tuomari;
 import tupa.data.Sarja;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan ottelutaulukon soluja, joissa voi muokata ottelun tuomareita.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class TuomariCombo extends TableCell<Ottelu, Tuomari> {
 

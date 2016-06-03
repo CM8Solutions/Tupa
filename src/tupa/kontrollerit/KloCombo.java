@@ -12,8 +12,10 @@ import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi muokata ottelun ajankohtaa (tunteja).
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class KloCombo extends TableCell<Ottelu, String> {
 

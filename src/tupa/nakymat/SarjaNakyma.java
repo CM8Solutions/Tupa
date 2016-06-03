@@ -36,7 +36,8 @@ import tupa.data.Joukkue;
 import tupa.data.Turnaus;
 
 /**
- *
+ * Luokka, joka muodostaa erilaisia sarjaan liittyviä näkymiä.
+ * 
  * @author Marianne
  */
 public class SarjaNakyma {

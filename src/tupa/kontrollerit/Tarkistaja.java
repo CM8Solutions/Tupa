@@ -12,7 +12,8 @@ import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka hoitaa tarvittavien tietojen tarkistamisen.
+ * 
  * @author Marianne
  */
 public class Tarkistaja {

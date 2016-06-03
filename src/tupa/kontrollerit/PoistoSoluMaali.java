@@ -10,8 +10,10 @@ import tupa.data.Maali;
 import tupa.nakymat.OtteluNakyma;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan maalitaulukon maalin poistomahdollisuuden.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class PoistoSoluMaali extends TableCell<Record, Boolean> {
 

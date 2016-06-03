@@ -7,8 +7,10 @@ import javafx.scene.control.TextField;
 import tupa.data.Ottelu;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi ottelun pelipaikkaa.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 class MuokkausSoluOttelu extends TableCell<Ottelu, String> {
 

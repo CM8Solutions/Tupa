@@ -10,9 +10,12 @@ import tupa.data.Turnaus;
 import tupa.Tupa;
 
 /**
- *
+ * Luokka, joka muodostaa vasemman puolen puuvalikon.
+ * 
  * @author Marianne
+ * @see Puurakenne
  */
+
 public class PuuTehdas {
 
     private List<Sarja> sarjatk;

@@ -12,8 +12,10 @@ import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi muokata ottelun kierrosta.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 class ComboBoxOttelu extends TableCell<Ottelu, Integer> {
 

@@ -9,7 +9,8 @@ import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka muodostaa aloitustilanteen turnauksen.
+ * 
  * @author Marianne
  */
 public class Aloitus {

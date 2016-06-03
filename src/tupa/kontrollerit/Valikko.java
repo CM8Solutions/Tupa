@@ -26,7 +26,8 @@ import tupa.data.Kohde;
 import tupa.data.Turnaus;
 
 /**
- *
+ * Luokka, joka muodostaa yläpalkin valikon.
+ * 
  * @author Marianne
  */
 public class Valikko implements EventHandler<ActionEvent> {

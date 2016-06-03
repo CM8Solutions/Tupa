@@ -1,6 +1,3 @@
-/*
-Luokka, joka muodostaa päänäkymät
- */
 package tupa.nakymat;
 
 import java.sql.Connection;
@@ -38,7 +35,8 @@ import tupa.data.Tuomari;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka muodostaa päänäkymät.
+ * 
  * @author Marianne
  */
 public class PaaNakyma {

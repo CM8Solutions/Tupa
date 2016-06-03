@@ -37,9 +37,11 @@ import tupa.nakymat.PaaNakyma;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka muodostaa käynnistyksen yhteydessä avautuvan kirjautumisnäkymän ja siihen liittyvän toiminnallisuuden.
+ * 
  * @author Marianne
  */
+
 public class KayttajanKirjautuminen extends Stage {
 
     private Yhteys yhteys = new Yhteys();

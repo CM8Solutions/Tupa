@@ -1,6 +1,3 @@
-/*
-Luokka, joka lisää ja poistaa eri kohteita
- */
 package tupa.kontrollerit;
 
 import java.sql.Connection;
@@ -44,7 +41,8 @@ import tupa.data.TuomarinRooli;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka lisää ja poistaa eri olioita, sekä muodostaa automaattisen otteluluettolon.
+ * 
  * @author Marianne
  */
 public class Muuttaja {

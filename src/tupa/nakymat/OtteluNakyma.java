@@ -35,13 +35,12 @@ import tupa.kontrollerit.Opastus;
 import tupa.data.Kokoonpano;
 import tupa.data.Ottelu;
 import tupa.data.Kohde;
-
 import tupa.data.Pelaaja;
-
 import tupa.data.Joukkue;
 
 /**
- *
+ * Luokka, joka muodostaa erilaisia otteluun liittyviä näkymiä.
+ * 
  * @author Marianne
  */
 public class OtteluNakyma {

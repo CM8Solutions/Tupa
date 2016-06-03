@@ -8,7 +8,8 @@ import tupa.Tupa;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka avaa luettelon tietokannassa olevista turnauksista, näkymä aukeaa uuteen ikkunaan.
+ * 
  * @author Marianne
  */
 public class AvausTaulukko {
@@ -31,8 +32,7 @@ public class AvausTaulukko {
 
     public TableView annaTurnausTaulukko() {
 
-        //avaa luettelon tietokannassa olevista turnauksista (NIMI + LUOMISPVM)
-        //AUKEE UUTEEN IKKUNAAN
+
         try {
             con = yhteys.annaYhteys();
             st = con.createStatement();

@@ -1,6 +1,3 @@
-/*
-Pääohjelmaluokka
- */
 package tupa;
 
 import java.sql.SQLException;
@@ -41,7 +38,8 @@ import tupa.nakymat.PaaNakyma;
 import tupa.nakymat.Pysyvat;
 
 /**
- *
+ * Pääohjelmaluokka.
+ * 
  * @author Marianne
  */
 public class Tupa extends Application {

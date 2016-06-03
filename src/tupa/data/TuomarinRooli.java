@@ -1,6 +1,3 @@
-/*
-Tämä on assosiaatioluokka luokkien Tuomari ja Ottelu välillä
- */
 package tupa.data;
 
 import java.io.Serializable;
@@ -8,7 +5,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- *
+ * Assosiaatioluokka luokkien Tuomari ja Ottelu välillä.
+ * 
  * @author Marianne
  */
 public class TuomarinRooli implements Serializable {

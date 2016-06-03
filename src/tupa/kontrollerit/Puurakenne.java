@@ -15,8 +15,10 @@ import tupa.nakymat.SarjaNakyma;
 import tupa.nakymat.TuomariNakyma;
 
 /**
- *
+ * Luokka, joka muodostaa vasemman puolen puuvalikon.
+ * 
  * @author Marianne
+ * @see PuuTehdas
  */
 public class Puurakenne {
 

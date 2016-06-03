@@ -14,8 +14,10 @@ import tupa.data.Joukkue;
 import tupa.data.Sarja;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi muokata ottelun koti-/vierasjoukkuetta.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class JoukkueCombo extends TableCell<Ottelu, Joukkue> {
 

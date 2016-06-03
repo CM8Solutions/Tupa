@@ -18,7 +18,8 @@ import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka päivittää tietoja tietokannassa olevista tupaid-attribuuteista (olion ID-attribuutti).
+ * 
  * @author Marianne
  */
 public class LaskuriPaivittaja {

@@ -38,7 +38,8 @@ import tupa.nakymat.ToimariNakyma;
 import tupa.nakymat.TuomariNakyma;
 
 /**
- *
+ * Luokka, joka hoitaa erilaiset käyttäjän tekemien toimintojen varmistukset.
+ * 
  * @author Marianne
  */
 public class Varmistaja {

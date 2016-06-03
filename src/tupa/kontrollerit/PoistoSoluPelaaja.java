@@ -9,8 +9,10 @@ import javafx.scene.control.TableCell;
 import tupa.data.Pelaaja;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan pelaajataulukon pelaajan poistomahdollisuuden.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class PoistoSoluPelaaja extends TableCell<Record, Boolean> {
 

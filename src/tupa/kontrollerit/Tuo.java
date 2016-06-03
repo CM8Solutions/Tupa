@@ -25,7 +25,8 @@ import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka hoitaa valitun tuomarin tietojen tuonnin tiedosta.
+ * 
  * @author Marianne
  */
 public class Tuo {

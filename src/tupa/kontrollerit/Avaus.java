@@ -45,7 +45,8 @@ import tupa.nakymat.PaaNakyma;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka turnauksen avauksen, eli hakee tiedot tietokannasta ja muodostaa tietojen perusteella vaaditut oliot.
+ * 
  * @author Marianne
  */
 public class Avaus {

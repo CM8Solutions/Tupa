@@ -26,7 +26,8 @@ import tupa.data.Joukkue;
 import tupa.data.Pelaaja;
 
 /**
- *
+ * Luokka, joka muodostaa erilaisia pelaajaan liittyviä näkymiä.
+ * 
  * @author Marianne
  */
 public class PelaajaNakyma {

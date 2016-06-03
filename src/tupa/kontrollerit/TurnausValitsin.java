@@ -40,8 +40,10 @@ import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
 /**
- *
+ * Luokka, joka muodostaa näkymän, joissa voi valita sen turnauksen, jonka haluaa avata.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class TurnausValitsin {
 

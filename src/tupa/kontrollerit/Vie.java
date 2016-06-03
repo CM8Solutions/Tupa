@@ -22,7 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- *
+ * Luokka, joka hoitaa valitun tuomarin tietojen viennin tietokannasta tiedostoon.
+ * 
  * @author Marianne
  */
 public class Vie {

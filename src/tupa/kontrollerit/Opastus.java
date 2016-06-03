@@ -7,7 +7,8 @@ import javafx.scene.control.Alert.AlertType;
 import tupa.Tupa;
 
 /**
- *
+ * Luokka, joka muodostaa eri näkymissä !-painikkeet takana olevat ohjeet (ponnahdusikkuna).
+ * 
  * @author Marianne
  */
 public class Opastus {

@@ -11,8 +11,12 @@ import tupa.Tupa;
 import tupa.data.Turnaus;
 
 /**
- *
+ * Luokka, joka muodostaa Valikon "Avaa"-vaihtoehdon takana olevan turnaustaulukon turnauksen poistomahdollisuuden.
+ * 
  * @author Marianne
+ * @see Valikko
+ * @see TurnausValitsin
+ * @see Taulukko
  */
 public class PoistoSoluTurnaus extends TableCell<Record, Boolean> {
 

@@ -9,8 +9,10 @@ import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
 
 /**
- *
+ * Luokka, joka muodostaa muokattavan ottelutaulukon ottelun poistomahdollisuuden.
+ * 
  * @author Marianne
+ * @see Taulukko
  */
 public class PoistoSoluOttelu extends TableCell<Record, Boolean> {
 
