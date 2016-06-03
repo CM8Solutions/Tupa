@@ -1902,7 +1902,7 @@ public class Taulukko {
         return taulukko;
     }
 
-    public TableView luoOttelunMaaliTaulukkoMuokattava(Ottelu ottelu) {
+    public TableView luoOttelunMaaliTaulukkoMuokattava(Ottelu ottelu, Tupa ikkuna) {
         taulukko.setPlaceholder(new Label("Ei merkittyjä maalintekijöitä/syöttäjiä."));
         taulukko.setId("ei-klikattava");
 
@@ -1969,7 +1969,7 @@ public class Taulukko {
             public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
                 OtteluNakyma ottelunakyma = nakyma.annaOttelunakyma();
 
-                return new PoistoSoluMaali(data, ottelunakyma);
+                return new PoistoSoluMaali(data, ottelunakyma, ikkuna);
             }
 
         });

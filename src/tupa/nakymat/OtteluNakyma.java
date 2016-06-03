@@ -591,7 +591,7 @@ public class OtteluNakyma {
 
         Taulukko taulukontekija2 = new Taulukko(nakyma, varmistaja);
 
-        TableView maalitaulu = taulukontekija2.luoOttelunMaaliTaulukkoMuokattava(ottelu);
+        TableView maalitaulu = taulukontekija2.luoOttelunMaaliTaulukkoMuokattava(ottelu, ikkuna);
         maalitaulu.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         HBox rivi5 = new HBox();
@@ -727,7 +727,11 @@ public class OtteluNakyma {
             public void handle(ActionEvent e) {
 
                 if (maalintekija1.getValue() != null && syottaja1.getValue() != null) {
-                    if (maalintekija1.getValue() == syottaja1.getValue()) {
+                    if(maalintekija1.getValue().annaEtuNimi().equals("Valitse") || syottaja1.getValue().annaEtuNimi().equals("Valitse") ){
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVaroitus("Anna sekä maalintekijä- että syöttäjä!");
+                    }
+                    else if (maalintekija1.getValue() == syottaja1.getValue()) {
                         Tiedottaja tiedottaja = new Tiedottaja();
                         tiedottaja.annaVaroitus("Maalintekijä ja syöttäjä ei voi olla sama pelaaja!");
                     } else {
@@ -735,11 +739,7 @@ public class OtteluNakyma {
                         ikkuna.asetaMuutos(true);
                     }
 
-                } else {
-                    Tiedottaja tiedottaja = new Tiedottaja();
-                    tiedottaja.annaVaroitus("Anna sekä maalintekijä- että syöttäjä!");
-                }
-
+                } 
                 luoOttelunMaalisivu(ottelu);
             }
         });
@@ -882,18 +882,19 @@ public class OtteluNakyma {
             public void handle(ActionEvent e) {
 
                 if (maalintekija2.getValue() != null && syottaja2.getValue() != null) {
-                    if (maalintekija2.getValue() == syottaja2.getValue()) {
+                     if(maalintekija2.getValue().annaEtuNimi().equals("Valitse") || syottaja2.getValue().annaEtuNimi().equals("Valitse") ){
+                        Tiedottaja tiedottaja = new Tiedottaja();
+                    tiedottaja.annaVaroitus("Anna sekä maalintekijä- että syöttäjä!");
+                    }
+                     else if (maalintekija2.getValue() == syottaja2.getValue()) {
                         Tiedottaja tiedottaja = new Tiedottaja();
                         tiedottaja.annaVaroitus("Maalintekijä ja syöttäjä ei voi olla sama pelaaja!");
                     } else {
-                        muuttaja.lisaaMaali(aika.getValue(), maalintekija2.getValue(), syottaja2.getValue(), ottelu, ottelu.annaVierasjoukkue());
+                        muuttaja.lisaaMaali(aika2.getValue(), maalintekija2.getValue(), syottaja2.getValue(), ottelu, ottelu.annaVierasjoukkue());
                         ikkuna.asetaMuutos(true);
                     }
 
-                } else {
-                    Tiedottaja tiedottaja = new Tiedottaja();
-                    tiedottaja.annaVaroitus("Anna sekä maalintekijä- että syöttäjä!");
-                }
+                } 
 
                 luoOttelunMaalisivu(ottelu);
 

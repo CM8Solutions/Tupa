@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+import tupa.Tupa;
 import tupa.data.Maali;
 import tupa.nakymat.OtteluNakyma;
 
@@ -23,7 +24,7 @@ public class PoistoSoluMaali extends TableCell<Record, Boolean> {
 
     }
 
-    public PoistoSoluMaali(ObservableList<Maali> data, OtteluNakyma nakyma) {
+    public PoistoSoluMaali(ObservableList<Maali> data, OtteluNakyma nakyma, Tupa ikkuna) {
 
         cellButton.setId("button-poisto");
         cellButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -38,7 +39,7 @@ public class PoistoSoluMaali extends TableCell<Record, Boolean> {
                 if (maali.annaSyottaja() != null) {
                     maali.annaSyottaja().annaMaaliLista().remove(maali);
                 }
-
+                ikkuna.asetaMuutos(true);
                 maali.annaOttelu().annaMaalit().remove(maali);
                 nakyma.luoOttelunMaalisivu(maali.annaOttelu());
             }
