@@ -28,7 +28,7 @@ public class Yhteys {
                 yhteys = DriverManager.getConnection(url + dbName, userName, password);
             } catch (SQLException ex) {
                 Tiedottaja tiedottaja = new Tiedottaja();
-                tiedottaja.annaVirhe("" + ex);
+                tiedottaja.annaVirhe("Tarkista internetyhteys!");
             }
         } catch (ClassNotFoundException ex) {
 
