@@ -80,11 +80,9 @@ public class Muuttaja {
             // tallennetaan turnaus, johon kuuluu
             Sarja sarja = (Sarja) arvo;
             for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
-                if (ikkuna.annaKohteet().get(i) instanceof Turnaus) {
 
-                    sarja.asetaTurnaus((Turnaus) ikkuna.annaKohteet().get(i));
-                    break;
-                }
+                Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+                sarja.asetaTurnaus(turnaus);
 
             }
             sarja.kasvataLaskuria();
@@ -96,13 +94,11 @@ public class Muuttaja {
             // tallennetaan turnaus, johon kuuluu
             Tuomari tuomari = (Tuomari) arvo;
             for (int i = 0; i < ikkuna.annaKohteet().size(); i++) {
-                if (ikkuna.annaKohteet().get(i) instanceof Turnaus) {
 
-                    Turnaus turnaus = (Turnaus) ikkuna.annaKohteet().get(i);
-                    tuomari.asetaTurnaus(turnaus);
-                    tuomari.annaKaikkiTurnaukset().add(turnaus);
-                    break;
-                }
+                Turnaus turnaus = (Turnaus) ikkuna.annaTurnaus();
+                tuomari.asetaTurnaus(turnaus);
+
+                tuomari.annaKaikkiTurnaukset().add(turnaus);
 
             }
 
@@ -120,6 +116,7 @@ public class Muuttaja {
 
         } else if (arvo instanceof Tuomari) {
             ikkuna.annaTuomaritk().add((Tuomari) arvo);
+
             tiedottaja.kirjoitaLoki("Tuomari " + arvo.toString() + " lisätty turnaukseen " + ((Tuomari) arvo).annaTurnaus().toString() + ".");
         }
 
