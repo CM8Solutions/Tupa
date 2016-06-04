@@ -961,19 +961,8 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 if (ikkuna.muutettu()) {
-                    Tallennus tallentaja = new Tallennus(ikkuna);
-                    try {
-                        tallentaja.suoritaTallennus(true, false, false);
-                    } catch (InstantiationException ex) {
-                        Tiedottaja tiedottaja = new Tiedottaja();
-                        tiedottaja.annaVirhe("" + ex);
-                    } catch (SQLException ex) {
-                        Tiedottaja tiedottaja = new Tiedottaja();
-                        tiedottaja.annaVirhe("" + ex);
-                    } catch (IllegalAccessException ex) {
-                        Tiedottaja tiedottaja = new Tiedottaja();
-                        tiedottaja.annaVirhe("" + ex);
-                    }
+                   Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                    tarkistaja.tarkistaTurnaustiedot(true, false, false);
                 }
 
                 Vie vieja = new Vie();

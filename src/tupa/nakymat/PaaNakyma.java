@@ -33,6 +33,7 @@ import tupa.data.Sarja;
 import tupa.data.Kohde;
 import tupa.data.Tuomari;
 import tupa.data.Yhteys;
+import tupa.kontrollerit.Tarkistaja;
 
 /**
  * Luokka, joka muodostaa päänäkymät.
@@ -378,20 +379,8 @@ public class PaaNakyma {
         Haku haku = new Haku((Turnaus) ikkuna.annaTurnaus(), this);
 
         if (ikkuna.muutettu()) {
-            Tallennus tallennus = new Tallennus(ikkuna);
-
-            try {
-                tallennus.suoritaTallennus(true, false, false);
-            } catch (InstantiationException ex) {
-                Tiedottaja tiedottaja = new Tiedottaja();
-                tiedottaja.annaVirhe("" + ex);
-            } catch (SQLException ex) {
-                Tiedottaja tiedottaja = new Tiedottaja();
-                tiedottaja.annaVirhe("" + ex);
-            } catch (IllegalAccessException ex) {
-                Tiedottaja tiedottaja = new Tiedottaja();
-                tiedottaja.annaVirhe("" + ex);
-            }
+        Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                    tarkistaja.tarkistaTurnaustiedot(true, false, false);
         }
         tulos = haku.luoHakuTulos(hakusana);
 

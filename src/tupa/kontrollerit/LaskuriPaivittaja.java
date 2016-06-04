@@ -81,7 +81,7 @@ public class LaskuriPaivittaja {
             turnaus.asetaLaskuri(maara0);
             int turnaus_id = turnaus.annaID();
 
-            sql = "SELECT MAX(tupaid) AS arvo FROM sarja WHERE sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM sarja";
 
             ResultSet s = st.executeQuery(sql);
 
@@ -94,7 +94,7 @@ public class LaskuriPaivittaja {
             Sarja sarja = new Sarja();
             sarja.asetaLaskuri(maara);
 
-            sql = "SELECT MAX(tupaid) AS arvo FROM tuomari WHERE tuomari.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM tuomari";
 
             ResultSet tu = st2.executeQuery(sql);
 
@@ -106,7 +106,7 @@ public class LaskuriPaivittaja {
             Tuomari tuomari = new Tuomari();
             tuomari.asetaLaskuri(maara2);
 
-            sql = "SELECT MAX(joukkue.tupaid) AS arvo FROM sarja, joukkue WHERE joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM joukkue";
 
             ResultSet j = st3.executeQuery(sql);
 
@@ -118,7 +118,7 @@ public class LaskuriPaivittaja {
             Joukkue joukkue = new Joukkue();
             joukkue.asetaLaskuri(maara3);
 
-            sql = "SELECT MAX(pelaaja.tupaid) AS arvo FROM sarja, joukkue, pelaaja WHERE pelaaja.joukkue_id = joukkue.tupaid AND joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM pelaaja";
 
             ResultSet p = st4.executeQuery(sql);
 
@@ -130,7 +130,7 @@ public class LaskuriPaivittaja {
             Pelaaja pelaaja = new Pelaaja();
             pelaaja.asetaLaskuri(maara4);
 
-            sql = "SELECT MAX(toimari.tupaid) AS arvo FROM sarja, joukkue, toimari WHERE toimari.joukkue_id = joukkue.tupaid AND joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM toimari";
 
             ResultSet to = st5.executeQuery(sql);
 
@@ -142,7 +142,7 @@ public class LaskuriPaivittaja {
             Toimihenkilo toimari = new Toimihenkilo();
             toimari.asetaLaskuri(maara5);
 
-            sql = "SELECT MAX(ottelu.tupaid) AS arvo FROM sarja, joukkue, ottelu WHERE ottelu.kotijoukkue_id = joukkue.tupaid AND joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM ottelu";
 
             ResultSet o = st6.executeQuery(sql);
 
@@ -154,7 +154,7 @@ public class LaskuriPaivittaja {
             Ottelu ottelu = new Ottelu();
             ottelu.asetaLaskuri(maara6);
 
-            sql = "SELECT MAX(maali.tupaid) AS arvo FROM sarja, joukkue, ottelu, maali WHERE maali.ottelu_id = ottelu.tupaid AND ottelu.kotijoukkue_id = joukkue.tupaid AND joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM maali";
 
             ResultSet m = st7.executeQuery(sql);
 
@@ -166,7 +166,7 @@ public class LaskuriPaivittaja {
             Maali maali = new Maali();
             maali.asetaLaskuri(maara7);
 
-            sql = "SELECT MAX(kokoonpano.tupaid) AS arvo FROM sarja, joukkue, kokoonpano WHERE kokoonpano.joukkue_id = joukkue.tupaid AND joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM kokoonpano";
 
             ResultSet k = st8.executeQuery(sql);
 
@@ -177,7 +177,7 @@ public class LaskuriPaivittaja {
             Kokoonpano kokoonpano = new Kokoonpano();
             kokoonpano.asetaLaskuri(maara8);
 
-            sql = "SELECT MAX(tuomarinrooli.tupaid) AS arvo FROM sarja, joukkue, ottelu, tuomarinrooli WHERE tuomarinrooli.ottelu_id = ottelu.tupaid AND ottelu.kotijoukkue_id = joukkue.tupaid AND joukkue.sarja_id = sarja.tupaid AND sarja.turnaus_id = '" + turnaus_id + "'";
+            sql = "SELECT MAX(tupaid) AS arvo FROM tuomarinrooli";
 
             ResultSet tr = st9.executeQuery(sql);
 

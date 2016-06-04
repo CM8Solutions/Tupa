@@ -301,8 +301,9 @@ public class Valikko implements EventHandler<ActionEvent> {
                 if (!ikkuna.annaAloitus()) {
 
                     if (ikkuna.muutettu()) {
-                        Tallennus tallentaja = new Tallennus();
-                        tallentaja.suoritaTallennus(true, false, false);
+                        
+                       Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                    tarkistaja.tarkistaTurnaustiedot(true, false, false);
 
                     }
 
