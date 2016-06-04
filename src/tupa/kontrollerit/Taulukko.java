@@ -2070,12 +2070,14 @@ public class Taulukko {
             con = yhteys.annaYhteys();
             st = con.createStatement();
             st2 = con.createStatement();
-            //ylläpitäjille (ei yleinen) näytetään vain omat turnaukset
+
             sql = "SELECT DISTINCT tuomari.etunimi as etunimi, tuomari.sukunimi as sukunimi, tuomari.tupaid as tid, tuomari.tuomari_id as tuid FROM turnaus, kayttajan_turnaus, tuomari WHERE turnaus.tupaid = kayttajan_turnaus.turnaus_id AND kayttajan_turnaus.kayttaja_id = '" + kayttaja_id + "' AND tuomari.turnaus_id = turnaus.tupaid AND tuomari.turnaus_id <> '" + turnaus_id_nykyinen + "' AND tuomari.viety_tiedostoon = 1";
 
             ResultSet tuomarit_tk = st.executeQuery(sql);
-            boolean onjo = false;
+
             while (tuomarit_tk.next()) {
+                boolean onjo = false;
+
                 String etunimi = tuomarit_tk.getString("etunimi");
                 String sukunimi = tuomarit_tk.getString("sukunimi");
 
@@ -2106,6 +2108,7 @@ public class Taulukko {
 
                 for (int i = 0; i < turnaus_nykyinen.annaTuomarit().size(); i++) {
                     if (turnaus_nykyinen.annaTuomarit().get(i).annaID() == id) {
+
                         onjo = true;
                     }
                 }
