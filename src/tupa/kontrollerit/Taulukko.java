@@ -487,11 +487,14 @@ public class Taulukko {
             public void handle(TableColumn.CellEditEvent<Ottelu, Joukkue> t) {
 
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-
+                Joukkue uusi = t.getNewValue();
+                Joukkue vanha = t.getOldValue();
                 if (tarkistaja.kotijoukkueOK(t.getNewValue(), ottelu)) {
 
                     ((Ottelu) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).asetaKotijoukkue(t.getNewValue());
+                    vanha.annaOttelut().remove(ottelu);
+                    uusi.annaOttelut().add(ottelu);
                     ikkuna = nakyma.annaIkkuna();
                     ikkuna.asetaMuutos(true);
                 }
@@ -508,11 +511,14 @@ public class Taulukko {
             @Override
             public void handle(TableColumn.CellEditEvent<Ottelu, Joukkue> t) {
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-
+                 Joukkue uusi = t.getNewValue();
+                Joukkue vanha = t.getOldValue();
                 if (tarkistaja.vierasjoukkueOK(t.getNewValue(), ottelu)) {
 
                     ((Ottelu) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).asetaVierasjoukkue(t.getNewValue());
+                     vanha.annaOttelut().remove(ottelu);
+                    uusi.annaOttelut().add(ottelu);
                     ikkuna = nakyma.annaIkkuna();
                     ikkuna.asetaMuutos(true);
                 }
@@ -1671,18 +1677,16 @@ public class Taulukko {
         taulukko.getColumns().addAll(id, ottelu, ajankohta, paikka, tuomarit, tulos);
         taulukko.setItems(data);
 
-//        id.setPrefWidth(50);
-// paiva.setMinWidth(70);
-//  kello.setMinWidth(70);
+
         ottelu.setMinWidth(200);
         paikka.setMinWidth(200);
         erotuomari.setMinWidth(150);
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
-//        tulos.setPrefWidth(50);
-        paiva.setSortType(TableColumn.SortType.ASCENDING);
-        taulukko.getSortOrder().add(paiva);
-        taulukko.getSortOrder().add(kello);
+
+        id.setSortType(TableColumn.SortType.ASCENDING);
+        taulukko.getSortOrder().add(id);
+      
 
         taulukko.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             ottelunakyma = nakyma.annaOttelunakyma();
