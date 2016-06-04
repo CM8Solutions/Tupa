@@ -49,7 +49,7 @@ import tupa.data.Yhteys;
 
 /**
  * Eri näkymiin taulukoita muodostava luokka.
- * 
+ *
  * @author Marianne
  */
 public class Taulukko {
@@ -353,12 +353,11 @@ public class Taulukko {
             @Override
             public void handle(TableColumn.CellEditEvent<Ottelu, String> t) {
 
-                if (!tarkistaja.onTyhja(t.getNewValue())) {
-                    ((Ottelu) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).asetaPaikka(t.getNewValue());
-                    ikkuna = nakyma.annaIkkuna();
-                    ikkuna.asetaMuutos(true);
-                }
+                ((Ottelu) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).asetaPaikka(t.getNewValue());
+                ikkuna = nakyma.annaIkkuna();
+                ikkuna.asetaMuutos(true);
+
                 sarjanakyma = nakyma.annaSarjanakyma();
                 sarjanakyma.luoOtteluLuetteloMuokkaus(sarja);
             }
@@ -511,13 +510,13 @@ public class Taulukko {
             @Override
             public void handle(TableColumn.CellEditEvent<Ottelu, Joukkue> t) {
                 Ottelu ottelu = ((Ottelu) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                 Joukkue uusi = t.getNewValue();
+                Joukkue uusi = t.getNewValue();
                 Joukkue vanha = t.getOldValue();
                 if (tarkistaja.vierasjoukkueOK(t.getNewValue(), ottelu)) {
 
                     ((Ottelu) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).asetaVierasjoukkue(t.getNewValue());
-                     vanha.annaOttelut().remove(ottelu);
+                    vanha.annaOttelut().remove(ottelu);
                     uusi.annaOttelut().add(ottelu);
                     ikkuna = nakyma.annaIkkuna();
                     ikkuna.asetaMuutos(true);
@@ -1462,13 +1461,11 @@ public class Taulukko {
             @Override
             public void handle(TableColumn.CellEditEvent<Pelaaja, String> t) {
 
-                if (tarkistaja.nimiOK(t.getNewValue())) {
-                    ((Pelaaja) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())).asetaPelipaikka(t.getNewValue());
+                ((Pelaaja) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).asetaPelipaikka(t.getNewValue());
 
-                    ikkuna = nakyma.annaIkkuna();
-                    ikkuna.asetaMuutos(true);
-                }
+                ikkuna = nakyma.annaIkkuna();
+                ikkuna.asetaMuutos(true);
 
                 joukkuenakyma = nakyma.annaJoukkuenakyma();
                 joukkuenakyma.luoJoukkueenPelaajaLisays(joukkue);
@@ -1677,7 +1674,6 @@ public class Taulukko {
         taulukko.getColumns().addAll(id, ottelu, ajankohta, paikka, tuomarit, tulos);
         taulukko.setItems(data);
 
-
         ottelu.setMinWidth(200);
         paikka.setMinWidth(200);
         erotuomari.setMinWidth(150);
@@ -1686,7 +1682,6 @@ public class Taulukko {
 
         id.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSortOrder().add(id);
-      
 
         taulukko.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             ottelunakyma = nakyma.annaOttelunakyma();

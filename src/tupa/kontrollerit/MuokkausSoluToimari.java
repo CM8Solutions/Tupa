@@ -7,8 +7,9 @@ import javafx.scene.control.TextField;
 import tupa.data.Toimihenkilo;
 
 /**
- * Luokka, joka muodostaa muokattavan toimihenkilötaulukon sen solun, jossa voi muokata toimihenkilön nimeä/roolia/puhelinnumeroa/sähköpostiosoitetta.
- * 
+ * Luokka, joka muodostaa muokattavan toimihenkilötaulukon sen solun, jossa voi
+ * muokata toimihenkilön nimeä/roolia/puhelinnumeroa/sähköpostiosoitetta.
+ *
  * @author Marianne
  * @see Taulukko
  */

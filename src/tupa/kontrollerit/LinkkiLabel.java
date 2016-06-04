@@ -12,8 +12,9 @@ import tupa.nakymat.JoukkueNakyma;
 import tupa.nakymat.PaaNakyma;
 
 /**
- * Label-luokan aliluokka, joka hoitaa erilaisten klikattavien Label-olioiden takana olevan toiminnallisuuden.
- * 
+ * Label-luokan aliluokka, joka hoitaa erilaisten klikattavien Label-olioiden
+ * takana olevan toiminnallisuuden.
+ *
  * @author Marianne
  */
 public class LinkkiLabel extends Label implements EventHandler<MouseEvent> {

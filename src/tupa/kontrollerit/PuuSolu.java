@@ -14,13 +14,13 @@ import tupa.nakymat.TuomariNakyma;
 import tupa.Tupa;
 
 /**
- * Luokka, joka hoitaa vasemman puolen puuvalikon ominaisuuden, jonka avulla käyttäjä voi klikata tiettyä sarjaa tai tuomaria, tai niiden pääotsikoita, hiiren oikealla painikkeella.
- * 
+ * Luokka, joka hoitaa vasemman puolen puuvalikon ominaisuuden, jonka avulla
+ * käyttäjä voi klikata tiettyä sarjaa tai tuomaria, tai niiden pääotsikoita,
+ * hiiren oikealla painikkeella.
+ *
  * @author Marianne
  * @see PuuSoluTehdas
  */
-
-
 public class PuuSolu extends TreeCell<Kohde> {
 
     private Tupa ikkuna;

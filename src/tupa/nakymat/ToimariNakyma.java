@@ -24,7 +24,7 @@ import tupa.kontrollerit.Kirjautuminen;
 
 /**
  * Luokka, joka muodostaa erilaisia toimihenkilöön liittyviä näkymiä.
- * 
+ *
  * @author Marianne
  */
 public class ToimariNakyma {

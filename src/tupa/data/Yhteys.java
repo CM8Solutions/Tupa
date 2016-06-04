@@ -7,7 +7,7 @@ import tupa.kontrollerit.Tiedottaja;
 
 /**
  * Luokka, joka hoitaa yhteyden tietokantaan.
- * 
+ *
  * @author Marianne
  */
 public class Yhteys {

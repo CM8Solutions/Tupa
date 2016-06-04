@@ -7,8 +7,9 @@ import javafx.scene.control.TextField;
 import tupa.data.Ottelu;
 
 /**
- * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi ottelun pelipaikkaa.
- * 
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi
+ * ottelun pelipaikkaa.
+ *
  * @author Marianne
  * @see Taulukko
  */
@@ -60,13 +61,15 @@ class MuokkausSoluOttelu extends TableCell<Ottelu, String> {
     private void createTextField() {
         textField = new TextField(getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
-        textField.setOnAction((e) -> commitEdit(textField.getText()));
-            textField.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-                if (!newValue) {
-                   
+        textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0,
+                    Boolean arg1, Boolean arg2) {
+                if (!arg2) {
                     commitEdit(textField.getText());
                 }
-            });
+            }
+        });
     }
 
     private String getString() {

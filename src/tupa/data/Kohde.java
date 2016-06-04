@@ -1,9 +1,10 @@
 package tupa.data;
 
 import java.io.Serializable;
+
 /**
  * Luokkien Henkilo, Joukkue, Sarja ja Turnaus yliluokka.
- * 
+ *
  * @author Marianne
  * @see Henkilo
  * @see Joukkue

@@ -11,8 +11,9 @@ import javafx.scene.control.Alert.AlertType;
 import tupa.Tupa;
 
 /**
- * Luokka, joka hoitaa käyttäjän tekemien toimintojen aiheuttamat tarpeelliset tiedotukset (ponnahdusikkunat ja alapalkin ListView).
- * 
+ * Luokka, joka hoitaa käyttäjän tekemien toimintojen aiheuttamat tarpeelliset
+ * tiedotukset (ponnahdusikkunat ja alapalkin ListView).
+ *
  * @author Marianne
  */
 public class Tiedottaja {

@@ -7,13 +7,13 @@ import tupa.data.Kohde;
 import tupa.Tupa;
 
 /**
- * Luokka, joka liittyy vasemman puolen puuvalikon ominaisuuteen, jonka avulla käyttäjä voi klikata tiettyä sarjaa tai tuomaria, tai niiden pääotsikoita, hiiren oikealla painikkeella.
- * 
+ * Luokka, joka liittyy vasemman puolen puuvalikon ominaisuuteen, jonka avulla
+ * käyttäjä voi klikata tiettyä sarjaa tai tuomaria, tai niiden pääotsikoita,
+ * hiiren oikealla painikkeella.
+ *
  * @author Marianne
  * @see PuuSolu
  */
-
-
 public class PuuSoluTehdas implements Callback<TreeView<Kohde>, TreeCell<Kohde>> {
 
     private Tupa ikkuna;

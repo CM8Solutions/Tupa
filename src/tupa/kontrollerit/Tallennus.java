@@ -42,7 +42,7 @@ import tupa.data.Yhteys;
 
 /**
  * Luokka, joka hoitaa tarvittavien tietojen tallentamisen tietokantaan.
- * 
+ *
  * @author Marianne
  */
 public class Tallennus {

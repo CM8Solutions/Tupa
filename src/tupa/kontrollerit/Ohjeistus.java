@@ -23,8 +23,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Luokka, joka muodostaa yläpalkin valikon Ohje- ja Tietoa-valintavaihtoehtojen takana olevat osiot (ponnahdusikkunat).
- * 
+ * Luokka, joka muodostaa yläpalkin valikon Ohje- ja Tietoa-valintavaihtoehtojen
+ * takana olevat osiot (ponnahdusikkunat).
+ *
  * @author Marianne
  * @see Valikko
  */

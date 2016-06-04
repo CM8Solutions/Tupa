@@ -12,7 +12,7 @@ import tupa.nakymat.OtteluNakyma;
 
 /**
  * Luokka, joka muodostaa muokattavan maalitaulukon maalin poistomahdollisuuden.
- * 
+ *
  * @author Marianne
  * @see Taulukko
  */

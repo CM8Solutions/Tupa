@@ -1,7 +1,8 @@
 package tupa.data;
+
 /**
  * Luokkien Pelaaja, Toimihenkilo ja Tuomari yliluokka.
- * 
+ *
  * @author Marianne
  * @see Pelaaja
  * @see Toimihenkilo
@@ -9,8 +10,7 @@ package tupa.data;
  */
 public class Henkilo extends Kohde implements Comparable<Henkilo> {
 
-
-    private String etunimi;  
+    private String etunimi;
     private String sukunimi;
 
     public Henkilo() {

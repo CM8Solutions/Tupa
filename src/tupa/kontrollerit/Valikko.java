@@ -27,7 +27,7 @@ import tupa.data.Turnaus;
 
 /**
  * Luokka, joka muodostaa yläpalkin valikon.
- * 
+ *
  * @author Marianne
  */
 public class Valikko implements EventHandler<ActionEvent> {
@@ -301,9 +301,9 @@ public class Valikko implements EventHandler<ActionEvent> {
                 if (!ikkuna.annaAloitus()) {
 
                     if (ikkuna.muutettu()) {
-                        
-                       Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-                    tarkistaja.tarkistaTurnaustiedot(true, false, false);
+
+                        Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                        tarkistaja.tarkistaTurnaustiedot(true, false, false);
 
                     }
 

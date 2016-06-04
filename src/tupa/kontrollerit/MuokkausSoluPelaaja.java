@@ -7,8 +7,9 @@ import javafx.scene.control.TextField;
 import tupa.data.Pelaaja;
 
 /**
- * Luokka, joka muodostaa muokattavan pelaajataulukon sen solun, jossa voi muokata pelaajan nimeä/pelipaikkaa.
- * 
+ * Luokka, joka muodostaa muokattavan pelaajataulukon sen solun, jossa voi
+ * muokata pelaajan nimeä/pelipaikkaa.
+ *
  * @author Marianne
  * @see Taulukko
  */

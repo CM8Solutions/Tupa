@@ -9,8 +9,9 @@ import javafx.scene.control.TableCell;
 import tupa.data.Toimihenkilo;
 
 /**
- * Luokka, joka muodostaa muokattavan toimihenkilötaulukon toimihenkilön poistomahdollisuuden.
- * 
+ * Luokka, joka muodostaa muokattavan toimihenkilötaulukon toimihenkilön
+ * poistomahdollisuuden.
+ *
  * @author Marianne
  * @see Taulukko
  */

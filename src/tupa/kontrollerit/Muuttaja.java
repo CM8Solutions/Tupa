@@ -41,8 +41,9 @@ import tupa.data.TuomarinRooli;
 import tupa.data.Yhteys;
 
 /**
- * Luokka, joka lisää ja poistaa eri olioita, sekä muodostaa automaattisen otteluluettolon.
- * 
+ * Luokka, joka lisää ja poistaa eri olioita, sekä muodostaa automaattisen
+ * otteluluettolon.
+ *
  * @author Marianne
  */
 public class Muuttaja {

@@ -16,7 +16,7 @@ import tupa.nakymat.TuomariNakyma;
 
 /**
  * Luokka, joka muodostaa vasemman puolen puuvalikon.
- * 
+ *
  * @author Marianne
  * @see PuuTehdas
  */

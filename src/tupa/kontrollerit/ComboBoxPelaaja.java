@@ -12,8 +12,9 @@ import javafx.scene.control.TableCell;
 import tupa.data.Pelaaja;
 
 /**
- * Luokka, joka muodostaa muokattavan pelaajataulukon sen solun, jossa voi muokata pelaajan pelinumeroa.
- * 
+ * Luokka, joka muodostaa muokattavan pelaajataulukon sen solun, jossa voi
+ * muokata pelaajan pelinumeroa.
+ *
  * @author Marianne
  * @see Taulukko
  */

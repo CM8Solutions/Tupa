@@ -37,7 +37,7 @@ import tupa.kontrollerit.Tarkistaja;
 
 /**
  * Luokka, joka muodostaa päänäkymät.
- * 
+ *
  * @author Marianne
  */
 public class PaaNakyma {
@@ -379,8 +379,8 @@ public class PaaNakyma {
         Haku haku = new Haku((Turnaus) ikkuna.annaTurnaus(), this);
 
         if (ikkuna.muutettu()) {
-        Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
-                    tarkistaja.tarkistaTurnaustiedot(true, false, false);
+            Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+            tarkistaja.tarkistaTurnaustiedot(true, false, false);
         }
         tulos = haku.luoHakuTulos(hakusana);
 

@@ -6,7 +6,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  * Assosiaatioluokka luokkien Tuomari ja Ottelu välillä.
- * 
+ *
  * @author Marianne
  */
 public class TuomarinRooli implements Serializable {

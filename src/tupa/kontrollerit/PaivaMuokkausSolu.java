@@ -10,8 +10,9 @@ import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
 
 /**
- * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi muokata ottelun ajankohtaa (päivämäärää).
- * 
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi
+ * muokata ottelun ajankohtaa (päivämäärää).
+ *
  * @author Marianne
  * @see Taulukko
  */

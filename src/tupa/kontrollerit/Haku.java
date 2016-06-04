@@ -32,7 +32,7 @@ import tupa.data.Yhteys;
 
 /**
  * Luokka, joka hoitaa etusivulla olevan hakutoiminnon.
- * 
+ *
  * @author Marianne
  * @see PaaNakyma
  */

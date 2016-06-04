@@ -7,8 +7,9 @@ import javafx.scene.control.TextField;
 import tupa.data.Joukkue;
 
 /**
- * Luokka, joka muodostaa muokattavan joukkuetaulukon sen solun, jossa voi muokata joukkueen nimeä.
- * 
+ * Luokka, joka muodostaa muokattavan joukkuetaulukon sen solun, jossa voi
+ * muokata joukkueen nimeä.
+ *
  * @author Marianne
  * @see Taulukko
  */

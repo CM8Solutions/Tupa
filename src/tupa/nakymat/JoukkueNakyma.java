@@ -30,7 +30,7 @@ import tupa.data.Kohde;
 
 /**
  * Luokka, joka muodostaa erilaisia joukkueeseen liittyviä näkymiä.
- * 
+ *
  * @author Marianne
  */
 public class JoukkueNakyma {

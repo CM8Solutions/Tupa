@@ -39,7 +39,7 @@ import tupa.nakymat.Pysyvat;
 
 /**
  * Pääohjelmaluokka.
- * 
+ *
  * @author Marianne
  */
 public class Tupa extends Application {

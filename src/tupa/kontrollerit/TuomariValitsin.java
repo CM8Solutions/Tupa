@@ -21,8 +21,9 @@ import tupa.Tupa;
 import tupa.data.Tuomari;
 
 /**
- * Luokka, joka muodostaa näkymät, joissa voi valita sen tuomarin, jonka haluaa viedä tiedostoon/tuoda tiedostosta.
- * 
+ * Luokka, joka muodostaa näkymät, joissa voi valita sen tuomarin, jonka haluaa
+ * viedä tiedostoon/tuoda tiedostosta.
+ *
  * @author Marianne
  * @see Taulukko
  */

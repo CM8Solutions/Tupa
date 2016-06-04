@@ -12,8 +12,9 @@ import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
 
 /**
- * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi muokata ottelun kierrosta.
- * 
+ * Luokka, joka muodostaa muokattavan ottelutaulukon sen solun, jossa voi
+ * muokata ottelun kierrosta.
+ *
  * @author Marianne
  * @see Taulukko
  */

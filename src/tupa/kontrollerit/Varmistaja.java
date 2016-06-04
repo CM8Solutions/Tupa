@@ -39,7 +39,7 @@ import tupa.nakymat.TuomariNakyma;
 
 /**
  * Luokka, joka hoitaa erilaiset käyttäjän tekemien toimintojen varmistukset.
- * 
+ *
  * @author Marianne
  */
 public class Varmistaja {
@@ -961,7 +961,7 @@ public class Varmistaja {
             public void handle(ActionEvent event) {
 
                 if (ikkuna.muutettu()) {
-                   Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
+                    Tarkistaja tarkistaja = new Tarkistaja(ikkuna, (Turnaus) ikkuna.annaTurnaus());
                     tarkistaja.tarkistaTurnaustiedot(true, false, false);
                 }
 
