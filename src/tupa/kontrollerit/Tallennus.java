@@ -285,8 +285,8 @@ public class Tallennus {
                                         String tulos = ottelu.annaTulos();
 
                                         String nimi = ottelu.toString();
-                                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-       
+                                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
                                         String paiva = ottelu.getDate().format(formatter);
                                         String kello = ottelu.annaKello();
                                         String kellotunnit = ottelu.annaKellotunnit();
@@ -430,8 +430,8 @@ public class Tallennus {
                     turnaus.asetaNimi("Uusi turnaus");
                     turnaus.kasvataLaskuria();
                     turnaus.asetaID(turnaus.annaLaskuri());
-                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-       
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
                     turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
                     Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
@@ -463,7 +463,7 @@ public class Tallennus {
                     turnaus.asetaNimi("Uusi turnaus");
                     turnaus.kasvataLaskuria();
                     turnaus.asetaID(turnaus.annaLaskuri());
-                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
                     turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
                     Kohde uusiTurnaus = (Kohde) turnaus;

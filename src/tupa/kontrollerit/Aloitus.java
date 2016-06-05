@@ -31,7 +31,7 @@ public class Aloitus {
         turnaus.asetaID(0);
 
         turnaus.asetaNimi("Uusi turnaus");
-         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
         return turnaus;
     }

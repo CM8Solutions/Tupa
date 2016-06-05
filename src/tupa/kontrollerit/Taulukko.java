@@ -1680,12 +1680,10 @@ public class Taulukko {
         avustava1.setMinWidth(150);
         avustava2.setMinWidth(150);
 
-      
-
         taulukko.getSortOrder().add(paiva);
         taulukko.getSortOrder().add(kello);
- paiva.setSortType(TableColumn.SortType.ASCENDING);
-  kello.setSortType(TableColumn.SortType.ASCENDING);
+        paiva.setSortType(TableColumn.SortType.ASCENDING);
+        kello.setSortType(TableColumn.SortType.ASCENDING);
         taulukko.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             ottelunakyma = nakyma.annaOttelunakyma();
             ottelunakyma.luoOttelusivu((Ottelu) newSelection);

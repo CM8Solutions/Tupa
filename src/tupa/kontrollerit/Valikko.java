@@ -190,8 +190,8 @@ public class Valikko implements EventHandler<ActionEvent> {
                         turnaus.kasvataLaskuria();
                         turnaus.asetaID(turnaus.annaLaskuri());
                         turnaus.asetaNimi("Uusi turnaus");
-                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-       
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
                         turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
                         Kohde uusiTurnaus = (Kohde) turnaus;
                         ikkuna.asetaTurnaus(uusiTurnaus);

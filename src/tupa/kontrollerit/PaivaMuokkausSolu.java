@@ -56,8 +56,8 @@ class PaivaMuokkausSolu extends TableCell<Ottelu, Date> {
             setText(null);
             setGraphic(datePicker);
         } else {
-             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-   
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
             setText(getDate().format(formatter));
             setGraphic(null);
         }

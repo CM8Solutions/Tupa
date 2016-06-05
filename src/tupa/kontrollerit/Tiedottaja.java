@@ -30,8 +30,8 @@ public class Tiedottaja {
     }
 
     public void kirjoitaLoki(String msg) {
- DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-   
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
         String paiva = LocalDate.now().format(formatter);
         Date tanaan = new Date();
 
