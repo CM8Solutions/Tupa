@@ -79,8 +79,9 @@ public class Turnaus extends Kohde {
     }
 
     public void asetaTaulukkoluomispvmstring() {
-
-        this.taulukkoluomispvmstring = new SimpleStringProperty(getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        this.taulukkoluomispvmstring = new SimpleStringProperty(getDate().format(formatter));
+      
     }
 
     public ObjectProperty taulukkoluomispvmadateProperty() {

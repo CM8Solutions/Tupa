@@ -10,6 +10,7 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -284,7 +285,9 @@ public class Tallennus {
                                         String tulos = ottelu.annaTulos();
 
                                         String nimi = ottelu.toString();
-                                        String paiva = ottelu.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+                                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+       
+                                        String paiva = ottelu.getDate().format(formatter);
                                         String kello = ottelu.annaKello();
                                         String kellotunnit = ottelu.annaKellotunnit();
                                         String kellominuutit = ottelu.annaKellominuutit();
@@ -427,7 +430,9 @@ public class Tallennus {
                     turnaus.asetaNimi("Uusi turnaus");
                     turnaus.kasvataLaskuria();
                     turnaus.asetaID(turnaus.annaLaskuri());
-                    turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+       
+                    turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
                     Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
                     ikkuna.annaKohteet().add(uusiTurnaus);
@@ -458,7 +463,9 @@ public class Tallennus {
                     turnaus.asetaNimi("Uusi turnaus");
                     turnaus.kasvataLaskuria();
                     turnaus.asetaID(turnaus.annaLaskuri());
-                    turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+                    turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
                     Kohde uusiTurnaus = (Kohde) turnaus;
                     ikkuna.asetaTurnaus(uusiTurnaus);
                     ikkuna.annaKohteet().add(uusiTurnaus);

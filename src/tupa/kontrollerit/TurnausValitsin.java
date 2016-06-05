@@ -118,7 +118,7 @@ public class TurnausValitsin {
 
                     turnaus.asetaLuomispvm(luomispvm);
                     turnaus.asetaTaulukkonimi();
-                    DateFormat muoto = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+                    DateFormat muoto = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
                     Date paiva_date = muoto.parse(luomispvm);
 
                     turnaus.asetaLuomispvmDate(paiva_date);
@@ -144,7 +144,7 @@ public class TurnausValitsin {
 
                     turnaus.asetaLuomispvm(luomispvm);
                     turnaus.asetaTaulukkonimi();
-                    DateFormat muoto = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+                    DateFormat muoto = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
                     Date paiva_date = muoto.parse(luomispvm);
 
                     turnaus.asetaLuomispvmDate(paiva_date);

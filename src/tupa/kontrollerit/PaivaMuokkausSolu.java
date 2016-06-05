@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import tupa.data.Ottelu;
@@ -55,7 +56,9 @@ class PaivaMuokkausSolu extends TableCell<Ottelu, Date> {
             setText(null);
             setGraphic(datePicker);
         } else {
-            setText(getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+   
+            setText(getDate().format(formatter));
             setGraphic(null);
         }
     }

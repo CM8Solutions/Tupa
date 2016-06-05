@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -29,8 +30,9 @@ public class Tiedottaja {
     }
 
     public void kirjoitaLoki(String msg) {
-
-        String paiva = LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+   
+        String paiva = LocalDate.now().format(formatter);
         Date tanaan = new Date();
 
         String aika = tanaan.getHours() + ":" + tanaan.getMinutes();

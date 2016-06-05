@@ -5,6 +5,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import javafx.beans.property.SimpleStringProperty;
 import tupa.data.Turnaus;
 import tupa.data.Yhteys;
 
@@ -30,7 +31,8 @@ public class Aloitus {
         turnaus.asetaID(0);
 
         turnaus.asetaNimi("Uusi turnaus");
-        turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
         return turnaus;
     }
 

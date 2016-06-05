@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -309,7 +308,7 @@ public class Avaus {
                             ottelu.asetaPaikka(paikka);
                             ottelu.asetaTunnit(kellotunnit);
                             ottelu.asetaMinuutit(kellominuutit);
-                            DateFormat muoto = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+                            DateFormat muoto = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
                             Date paiva_date = muoto.parse(paiva);
 
                             ottelu.asetaPaivaDate(paiva_date);

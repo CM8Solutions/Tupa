@@ -7,6 +7,7 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -220,7 +221,9 @@ public class Varmistaja {
                 turnaus.kasvataLaskuria();
                 turnaus.asetaID(turnaus.annaLaskuri());
                 turnaus.asetaNimi("Uusi turnaus");
-                turnaus.asetaLuomispvm(LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+   
+                turnaus.asetaLuomispvm(LocalDate.now().format(formatter));
                 Kohde uusiTurnaus = (Kohde) turnaus;
                 ikkuna.asetaTurnaus(uusiTurnaus);
                 ikkuna.annaKohteet().add(uusiTurnaus);

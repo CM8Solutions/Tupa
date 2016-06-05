@@ -329,7 +329,10 @@ public class Ottelu implements Serializable {
     }
 
     public void asetaTaulukkopaivastring() {
-        this.taulukkopaivastring = new SimpleStringProperty(getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        this.taulukkopaivastring = new SimpleStringProperty(getDate().format(formatter));
+//        this.taulukkopaivastring = new SimpleStringProperty(getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+
     }
 
     public StringProperty taulukkopaivastringProperty() {
