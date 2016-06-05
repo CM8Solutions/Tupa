@@ -453,7 +453,7 @@ public class OtteluNakyma {
         int i = 0;
         for (Henkilo pelaaja : pelaajat) {
             int kohta = i;
-            System.out.println(pelaaja);
+
             Pelaaja haettu = (Pelaaja) pelaaja;
             pelaajataulukko[kohta] = haettu;
 
